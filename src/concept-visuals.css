@@ -1,0 +1,23 @@
+/* Illustration layers never own input or scientific state. */
+.illustrated-fan{position:relative;display:block;width:100%;height:130px;aspect-ratio:1;pointer-events:none}
+.fan-housing-art{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;z-index:2}
+.fan-rotor-art{position:absolute;left:18%;top:7%;width:64%;height:70%;object-fit:fill;z-index:1}
+.device-powered .fan-rotor-art,.illustrated-fan.device-powered .fan-rotor-art{animation:spin 1.3s linear infinite}
+.design-target .illustrated-fan{height:100%}
+.target-windmill.device-powered{filter:drop-shadow(0 0 8px #62baa7);animation:device-work .9s ease-in-out infinite}
+@keyframes device-work{50%{transform:translateY(-2px)}}
+@media(max-width:1050px){.pipe-end .illustrated-fan{height:105px}}
+@media(max-height:680px){.pipe-end .illustrated-fan{height:90px}}
+.pipe-figure{position:relative;display:block;width:100%;height:100%;aspect-ratio:1;pointer-events:none;isolation:isolate}
+.pipe-rotation,.pipe-flow-overlay{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.pipe-material{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;pointer-events:none;user-select:none}
+.pipe-material-elbow{inset:0 auto auto 24%;width:76%;height:72%}
+.pipe-flow-overlay .pipe-water{fill:none;stroke:#227f82;stroke-width:5;stroke-linecap:round;stroke-dasharray:5 12;opacity:0}
+.has-flow .pipe-flow-overlay .pipe-water{opacity:1;stroke:#167f87;animation:air-dash .8s linear infinite}
+.pipe-cell{padding:2px;overflow:hidden}
+.pipe-number{z-index:2;background:#fff9e6df;border-radius:6px;padding:1px 4px;line-height:1.2}
+.part-card .pipe-figure{flex:none}
+.core-apparatus{width:min(100%,600px);height:auto;max-height:65dvh;object-fit:contain;filter:drop-shadow(0 20px 24px #103f4655);pointer-events:none}
+.core-apparatus.core-active{animation:core-power-glow 2.2s ease-in-out infinite}
+@keyframes core-power-glow{50%{filter:drop-shadow(0 10px 32px #a5efcfbb)}}
+@media(prefers-reduced-motion:reduce){.has-flow .pipe-flow-overlay .pipe-water,.core-apparatus.core-active,.device-powered .fan-rotor-art,.target-windmill.device-powered{animation:none}.core-apparatus.core-active{filter:drop-shadow(0 0 20px #a5efcf99)}}

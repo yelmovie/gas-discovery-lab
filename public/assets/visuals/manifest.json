@@ -1,0 +1,114 @@
+{
+  "generated": "2026-10-28",
+  "method": "Built-in image_gen; individual assets; transparency preserved; resize/WebP export",
+  "assets": [
+    {
+      "file": "balloon-car.webp",
+      "url": "/assets/visuals/balloon-car.webp",
+      "bytes": 46846,
+      "width": 720,
+      "height": 480,
+      "alpha": true,
+      "sha256": "ea27f7dda7f166e265fdda2531db2501b19a555aef162be7f6c38ecb7f93bf2d"
+    },
+    {
+      "file": "air-core.webp",
+      "url": "/assets/visuals/air-core.webp",
+      "bytes": 140606,
+      "width": 900,
+      "height": 643,
+      "alpha": true,
+      "sha256": "4470a2d59e2183d8138ae7b9a4dd4a0f4463675d817581c402ad5c626d66d7e4"
+    },
+    {
+      "file": "oxygen-support-v1.webp",
+      "url": "/assets/visuals/oxygen-support-v1.webp",
+      "bytes": 45188,
+      "width": 520,
+      "height": 520,
+      "alpha": true,
+      "sha256": "c356d5b334ae8592852e51ecb55190c8a825934c27d6edc0ac45e56e4daa4912"
+    },
+    {
+      "file": "co2-extinguisher-v1.webp",
+      "url": "/assets/visuals/co2-extinguisher-v1.webp",
+      "bytes": 26726,
+      "width": 347,
+      "height": 520,
+      "alpha": true,
+      "sha256": "6931639600646454d50870d418a12b23866fb54f8e0510d8bee5a26b9eae2180"
+    },
+    {
+      "file": "pressure-chamber-v1.webp",
+      "url": "/assets/visuals/pressure-chamber-v1.webp",
+      "bytes": 56230,
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "sha256": "3ec2a55d7b5bea828351d635b0c59894da714e2a7a43613d7ca4b3cb1122f2c6"
+    },
+    {
+      "file": "pressure-plunger-v1.webp",
+      "url": "/assets/visuals/pressure-plunger-v1.webp",
+      "bytes": 32126,
+      "width": 512,
+      "height": 768,
+      "alpha": true,
+      "sha256": "fdc621b81c8de083aaffc1858f97bcfc87b84037280b48bdb34f951516770248"
+    },
+    {
+      "file": "pipe-straight-v1.webp",
+      "url": "/assets/visuals/pipe-straight-v1.webp",
+      "bytes": 25726,
+      "width": 512,
+      "height": 512,
+      "alpha": true,
+      "sha256": "4fed4e6c51e87c115b6559e9e287f8cd9e74c75e2494011e83336f19267b37d0"
+    },
+    {
+      "file": "pipe-elbow-v1.webp",
+      "url": "/assets/visuals/pipe-elbow-v1.webp",
+      "bytes": 35076,
+      "width": 512,
+      "height": 512,
+      "alpha": true,
+      "sha256": "bdc7dd18f7e5b72dc41ad1fbc5b6acfaeae2f10bf38e796080ff89f4e500b598"
+    },
+    {
+      "file": "pipe-blocked-v1.webp",
+      "url": "/assets/visuals/pipe-blocked-v1.webp",
+      "bytes": 19996,
+      "width": 512,
+      "height": 512,
+      "alpha": true,
+      "sha256": "791cd985892fed9f5d6e3607daf308be3bb6a3430d49d5451ca1d7407fdf86e3"
+    },
+    {
+      "file": "empty-bottle-v1.webp",
+      "url": "/assets/visuals/empty-bottle-v1.webp",
+      "bytes": 69044,
+      "width": 512,
+      "height": 614,
+      "alpha": true,
+      "sha256": "c89857995b91e5ce866303f4db11c393426b5528ad7a32db19a22c67ab0159e5"
+    },
+    {
+      "file": "fan-housing-v1.webp",
+      "url": "/assets/visuals/fan-housing-v1.webp",
+      "bytes": 80006,
+      "width": 512,
+      "height": 512,
+      "alpha": true,
+      "sha256": "689b5f3e37d3a96bb9d440dd835129312f8bb8f3f49eab0ecce08e238d885402"
+    },
+    {
+      "file": "fan-rotor-v1.webp",
+      "url": "/assets/visuals/fan-rotor-v1.webp",
+      "bytes": 47632,
+      "width": 512,
+      "height": 512,
+      "alpha": true,
+      "sha256": "b40c75cb52e4d42ba1aba6cc8e4960c2d99f897becd6be50afd46f574d1de23d"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+ "version":1,"width":1672,"height":941,"radius":9,"spawn":{"x":827,"y":484},
+ "plaza":[[610,407],[730,377],[969,377],[1083,423],[1061,515],[960,565],[715,565],[589,524]],
+ "nodes":{"center":[827,484],"north":[821,379],"core":[821,334],"nw":[626,416],"flow":[374,355],"ne":[1054,416],"weight":[1319,354],"sw":[594,564],"climate":[383,682],"west":[503,699],"southwest":[588,847],"south":[821,868],"engineering":[821,837],"southeast":[1067,828],"east":[1155,709],"delivery":[1297,684],"se":[1064,554]},
+ "edges":[["center","north",42],["north","core",28],["center","nw",42],["nw","flow",32],["center","ne",42],["ne","weight",33],["center","sw",42],["sw","climate",33],["climate","west",31],["west","southwest",32],["southwest","south",34],["south","engineering",30],["south","southeast",34],["southeast","east",31],["east","delivery",32],["delivery","se",34],["se","center",44],["sw","west",35],["se","east",35]],
+ "buildings":[
+  {"id":"flow","entry":"flow","label":[342,218],"return":[430,381]},
+  {"id":"weight","entry":"weight","label":[1320,218],"return":[1263,370]},
+  {"id":"climate","entry":"climate","label":[345,525],"return":[429,698]},
+  {"id":"delivery","entry":"delivery","label":[1360,535],"return":[1238,696]},
+  {"id":"engineering","entry":"engineering","label":[820,710],"return":[821,869]},
+  {"id":"core","entry":"core","label":[820,164],"return":[821,380]}
+ ],
+ "notes":"Coordinates authored after visually inspecting village.png. Five research facilities plus the separate final control tower. Roads avoid the river and workshop roof."
+}

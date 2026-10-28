@@ -1,0 +1,20 @@
+/* Generated educational apparatus; labels and interactions stay in DOM. */
+.design-target.target-car,.design-target.target-core{width:clamp(104px,10vw,164px);height:clamp(90px,9vw,150px);position:relative;align-self:center}
+.design-target .generated-target{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none;user-select:none;filter:drop-shadow(0 5px 3px #153e4228)}
+.design-target.target-core.core-active{animation:core-apparatus-power 2s ease-in-out infinite}
+.target-car.car-moving{animation:generated-car-journey 2.4s ease-in-out infinite}
+@keyframes core-apparatus-power{50%{filter:drop-shadow(0 0 9px #7dcabd95)}}
+@keyframes generated-car-journey{0%{transform:translateX(-8px);opacity:0}12%{opacity:1}80%{transform:translateX(15px);opacity:1}94%,100%{transform:translateX(15px);opacity:0}}
+.car-air-running::after{content:'';position:absolute;right:22%;width:18%;top:48%;height:6px;pointer-events:none;background:repeating-linear-gradient(90deg,#338f95 0 8px,transparent 8px 18px);background-size:36px 100%;animation:car-exhaust .6s linear infinite;opacity:.65}
+@keyframes car-exhaust{to{background-position:-36px 0}}
+@media(max-width:1050px){
+ .design-target.target-car,.design-target.target-core{width:94px;height:90px}
+ .engineering-layout .design-slots{min-width:0}
+}
+@media(max-height:680px){
+ .design-target.target-car,.design-target.target-core{width:86px;height:80px}
+}
+@media(prefers-reduced-motion:reduce){
+ .design-target.target-core.core-active,.target-car.car-moving,.car-air-running::after{animation:none;opacity:1}
+ .design-target.target-core.core-active{filter:drop-shadow(0 0 7px #7dcabd95)}
+}

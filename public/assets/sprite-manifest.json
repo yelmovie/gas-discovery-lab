@@ -1,0 +1,323 @@
+{
+  "generated": "2026-10-21",
+  "atlas": {
+    "student": {
+      "width": 1274,
+      "height": 1234,
+      "frames": [
+        {
+          "left": 0,
+          "top": 0,
+          "width": 318,
+          "height": 308,
+          "pivotX": 228.5,
+          "pivotY": 289
+        },
+        {
+          "left": 318,
+          "top": 0,
+          "width": 319,
+          "height": 308,
+          "pivotX": 174,
+          "pivotY": 289
+        },
+        {
+          "left": 637,
+          "top": 0,
+          "width": 318,
+          "height": 308,
+          "pivotX": 134,
+          "pivotY": 290
+        },
+        {
+          "left": 955,
+          "top": 0,
+          "width": 319,
+          "height": 308,
+          "pivotX": 102,
+          "pivotY": 289
+        },
+        {
+          "left": 0,
+          "top": 308,
+          "width": 318,
+          "height": 309,
+          "pivotX": 223.5,
+          "pivotY": 308
+        },
+        {
+          "left": 318,
+          "top": 308,
+          "width": 319,
+          "height": 309,
+          "pivotX": 174.5,
+          "pivotY": 279
+        },
+        {
+          "left": 637,
+          "top": 308,
+          "width": 318,
+          "height": 309,
+          "pivotX": 131,
+          "pivotY": 279
+        },
+        {
+          "left": 955,
+          "top": 308,
+          "width": 319,
+          "height": 309,
+          "pivotX": 104.5,
+          "pivotY": 279
+        },
+        {
+          "left": 0,
+          "top": 617,
+          "width": 318,
+          "height": 308,
+          "pivotX": 221,
+          "pivotY": 280
+        },
+        {
+          "left": 318,
+          "top": 617,
+          "width": 319,
+          "height": 308,
+          "pivotX": 180.5,
+          "pivotY": 307
+        },
+        {
+          "left": 637,
+          "top": 617,
+          "width": 318,
+          "height": 308,
+          "pivotX": 140.5,
+          "pivotY": 307
+        },
+        {
+          "left": 955,
+          "top": 617,
+          "width": 319,
+          "height": 308,
+          "pivotX": 111,
+          "pivotY": 281
+        },
+        {
+          "left": 0,
+          "top": 925,
+          "width": 318,
+          "height": 309,
+          "pivotX": 225.5,
+          "pivotY": 285
+        },
+        {
+          "left": 318,
+          "top": 925,
+          "width": 319,
+          "height": 309,
+          "pivotX": 178,
+          "pivotY": 284
+        },
+        {
+          "left": 637,
+          "top": 925,
+          "width": 318,
+          "height": 309,
+          "pivotX": 136.5,
+          "pivotY": 286
+        },
+        {
+          "left": 955,
+          "top": 925,
+          "width": 319,
+          "height": 309,
+          "pivotX": 102.5,
+          "pivotY": 284
+        }
+      ]
+    },
+    "air": {
+      "width": 1262,
+      "height": 1246,
+      "frames": [
+        {
+          "left": 0,
+          "top": 0,
+          "width": 315,
+          "height": 311,
+          "pivotX": 204.5,
+          "pivotY": 305
+        },
+        {
+          "left": 315,
+          "top": 0,
+          "width": 316,
+          "height": 311,
+          "pivotX": 171.5,
+          "pivotY": 305
+        },
+        {
+          "left": 631,
+          "top": 0,
+          "width": 315,
+          "height": 311,
+          "pivotX": 168.5,
+          "pivotY": 305
+        },
+        {
+          "left": 946,
+          "top": 0,
+          "width": 316,
+          "height": 311,
+          "pivotX": 138.5,
+          "pivotY": 305
+        },
+        {
+          "left": 0,
+          "top": 311,
+          "width": 315,
+          "height": 312,
+          "pivotX": 195,
+          "pivotY": 311
+        },
+        {
+          "left": 315,
+          "top": 311,
+          "width": 316,
+          "height": 312,
+          "pivotX": 184.5,
+          "pivotY": 311
+        },
+        {
+          "left": 631,
+          "top": 311,
+          "width": 315,
+          "height": 312,
+          "pivotX": 168.5,
+          "pivotY": 311
+        },
+        {
+          "left": 946,
+          "top": 311,
+          "width": 316,
+          "height": 312,
+          "pivotX": 157,
+          "pivotY": 311
+        },
+        {
+          "left": 0,
+          "top": 623,
+          "width": 315,
+          "height": 311,
+          "pivotX": 173.5,
+          "pivotY": 310
+        },
+        {
+          "left": 315,
+          "top": 623,
+          "width": 316,
+          "height": 311,
+          "pivotX": 145,
+          "pivotY": 310
+        },
+        {
+          "left": 631,
+          "top": 623,
+          "width": 315,
+          "height": 311,
+          "pivotX": 132.5,
+          "pivotY": 310
+        },
+        {
+          "left": 946,
+          "top": 623,
+          "width": 316,
+          "height": 311,
+          "pivotX": 122.5,
+          "pivotY": 310
+        },
+        {
+          "left": 0,
+          "top": 934,
+          "width": 315,
+          "height": 312,
+          "pivotX": 177,
+          "pivotY": 267
+        },
+        {
+          "left": 315,
+          "top": 934,
+          "width": 316,
+          "height": 312,
+          "pivotX": 165.5,
+          "pivotY": 265
+        },
+        {
+          "left": 631,
+          "top": 934,
+          "width": 315,
+          "height": 312,
+          "pivotX": 154.5,
+          "pivotY": 268
+        },
+        {
+          "left": 946,
+          "top": 934,
+          "width": 316,
+          "height": 312,
+          "pivotX": 133,
+          "pivotY": 268
+        }
+      ]
+    }
+  },
+  "props": {
+    "pump": {
+      "width": 362,
+      "height": 362
+    },
+    "fan": {
+      "width": 362,
+      "height": 362
+    },
+    "jar": {
+      "width": 362,
+      "height": 362
+    },
+    "scale": {
+      "width": 362,
+      "height": 362
+    },
+    "bottle": {
+      "width": 362,
+      "height": 362
+    },
+    "piston": {
+      "width": 362,
+      "height": 362
+    },
+    "balloon": {
+      "width": 362,
+      "height": 362
+    },
+    "nozzle": {
+      "width": 362,
+      "height": 362
+    },
+    "packet": {
+      "width": 362,
+      "height": 362
+    },
+    "soda": {
+      "width": 362,
+      "height": 362
+    },
+    "windmill": {
+      "width": 362,
+      "height": 362
+    },
+    "toolbox": {
+      "width": 362,
+      "height": 362
+    }
+  }
+}

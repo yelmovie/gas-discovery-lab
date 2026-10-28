@@ -1,0 +1,107 @@
+[
+  {
+    "source": "delivery-prompts.json",
+    "details": {
+      "generatedAt": "2026-10-28",
+      "mode": "built-in image_gen",
+      "assets": [
+        {
+          "id": "oxygen-support-v1",
+          "original": "asset-bank/original/oxygen-support-v1.png",
+          "web": "public/assets/visuals/oxygen-support-v1.webp",
+          "prompt": "Use case: scientific-educational. Asset type: one isolated transparent-background object illustration for a Korean elementary science game about uses of gases. Create one coherent compact oxygen breathing support apparatus: a short upright cream-white oxygen cylinder with a teal shoulder, a simple brass regulator valve, one flexible soft teal hose leading to a clearly recognizable pale blue breathing mask resting beside the cylinder. One connected apparatus, not a collection of separate assets. No person. No medical procedure. Style: polished friendly 3D educational game prop with clean rounded forms, controlled glossy highlights and soft material shading; match a cream, deep teal, brass laboratory world for ages 9–12, not babyish, not photorealistic. Frontal three-quarter view, entire object visible and centered, occupy roughly 80% of square frame with generous clear margins. The hose visibly connects the regulator to the mask. Keep the silhouette simple and legible at 120px. Truly transparent background. No floor, no scene, no shadows outside the object, no text, no letters, no numbers, no O2 symbol, no logo, no watermark, no labels, no UI, no collage, no other equipment."
+        },
+        {
+          "id": "co2-extinguisher-v1",
+          "original": "asset-bank/original/co2-extinguisher-v1.png",
+          "web": "public/assets/visuals/co2-extinguisher-v1.webp",
+          "prompt": "Use case: scientific-educational. Asset type: one isolated transparent-background object illustration for a Korean elementary science game about uses of gases. Create one recognizable carbon-dioxide fire extinguisher as a single complete prop: upright compact red metal cylinder, black squeeze handle and safety pin at the top, a short black hose connected to a broad black discharge horn held neatly alongside the cylinder. Use the characteristic broad CO2 discharge horn, not a narrow water-spray nozzle. The extinguisher is inactive, safely standing, no discharge, no fire, no smoke, no person. Style: polished friendly 3D educational game prop with clean rounded forms, controlled glossy highlights, subtle brass fasteners and warm cream reflections, matching a deep teal/brass/cream laboratory game world for ages 9–12. Not babyish, not photorealistic. Frontal three-quarter view, entire object centered, clear silhouette readable at 120px, generous margins, truly transparent background. One asset only. No scene, no floor, no shadows outside the object, no text, no letters, no numbers, no chemical symbols, no logo, no watermark, no label sticker, no UI, no collage."
+        }
+      ]
+    }
+  },
+  {
+    "source": "engineering-generation.json",
+    "details": {
+      "date": "2026-10-28",
+      "mode": "built-in image_gen",
+      "postprocess": "Resize and WebP encoding only; alpha preserved, original PNG retained.",
+      "assets": [
+        {
+          "id": "balloon-car",
+          "original": "asset-bank/original/balloon-car.png",
+          "runtime": "public/assets/visuals/balloon-car.webp",
+          "width": 720,
+          "height": 480,
+          "bytes": 46846,
+          "prompt": "Use case: scientific-educational. Asset type: one standalone transparent game prop for an upper-elementary science web game. Create ONE polished 3D-style illustrated balloon-powered toy car, the whole car centered with generous empty transparent padding. Three-quarter side view, front of car points RIGHT, rear and air outlet point LEFT. A single inflated red balloon is securely mounted on the small cream-colored chassis, its neck clearly attached to a short brass-colored tube opening horizontally toward the LEFT rear, so the physical construction explains air escaping backward while car travels forward. Exactly four practical small wheels, teal rubber rims and brass hubs; two near wheels clearly visible, far wheels partially visible as perspective allows. Cream enamel body, deep teal details, brushed warm brass fittings. Friendly science apparatus, premium casual educational illustration, rounded but believable construction, clean edges, soft studio light, coherent material shading. Not photographic, not babyish, no faces, no characters, no sparks, no smoke, no arrows, no written labels, no UI, no logos, no watermark. No ground, no backdrop, no panel, no border. Do not add a fan, rocket engine, motor, or unrelated machinery. Output only this single car prop on true transparent background. Landscape-ish silhouette suitable for display at small sizes; everything fully within frame."
+        },
+        {
+          "id": "air-core",
+          "original": "asset-bank/original/air-core.png",
+          "runtime": "public/assets/visuals/air-core.webp",
+          "width": 900,
+          "height": 643,
+          "bytes": 140606,
+          "prompt": "Use case: scientific-educational. Asset type: ONE standalone central air-distribution core machine prop for a polished upper-elementary science adventure game. Create a single self-contained air turbine and manifold device, clearly physical technology, with a large circular brass turbine face in the center, deep teal housing, cream enamel supports, two chunky connected teal air pipes entering at the sides near the lower base, visible brass hose couplings and simple small mechanical details. The central rotor has six broad teal blades around a gold brass hub, framed by a circular brass safety rim; rotor face is nearly front-facing and easy to identify separately. The base and pipes must look heavy and stationary. Three-quarter view only VERY slight, near-frontal symmetric silhouette. Existing art direction: refined casual 3D-rendered educational game prop, rounded useful shapes, softly lit teal enamel, warm brass, cream panels, crisp high-quality materials, friendly yet suitable for ages 9-12. The machine is an air-driven village power core, NOT a fantasy magical portal, no magic runes, no glowing crystals, no sparks. Full object centered, entire base/pipe fittings within frame, generous transparent margins. No separate accessories, no collage, no labels, no numbers, no words, no arrows, no UI, no logo, no watermark. No ground, no background scene, no cast shadow beyond the object, no colored aura. TRUE transparent background outside the single machine. The core must read clearly at 350px high, with an attractive strong silhouette and a visibly separate rotor face."
+        }
+      ]
+    }
+  },
+  {
+    "source": "pressure-assets-prompts.json",
+    "details": {
+      "generated": "2026-10-28",
+      "tool": "built-in image_gen",
+      "assets": [
+        {
+          "id": "pressure-chamber-v1",
+          "original": "asset-bank/original/pressure-chamber-v1.png",
+          "web": "/assets/visuals/pressure-chamber-v1.webp",
+          "prompt": "Use case: scientific-educational. Asset type: a single isolated mechanical component for a Korean elementary science interactive air-compression experiment. Create ONE front-facing orthographic 3D illustrated transparent cylindrical laboratory chamber housing, without any piston, rod, handle or lid inside. Tall upright clear glass cylinder with a solid closed bottom, thick subtly reflective clear glass side walls and a softly rounded dark teal circular base with restrained warm brass trim. The top is open with a small teal rim; the hollow interior must remain visually empty, clean and easy to overlay with animated gas particles. Symmetrical, camera exactly straight on, very slight view of top ellipse only. Premium friendly stylized 3D education-game prop, polished teal enamel, cream highlights, restrained brass accents, soft studio light, crisp large readable silhouette, not photorealistic. Full object centered with generous 10% transparent margins. Transparent alpha background, no floor or cast shadow outside object. No text, labels, digits, symbols, gauges, UI, arrows, water, liquid, gas coloring, decorative objects, collage or multiple views. This is one chamber component only."
+        },
+        {
+          "id": "pressure-plunger-v1",
+          "original": "asset-bank/original/pressure-plunger-v1.png",
+          "web": "/assets/visuals/pressure-plunger-v1.webp",
+          "prompt": "Use case: scientific-educational. Asset type: one isolated movable piston plunger component for a children's science air-compression experiment. Create ONE front-facing orthographic mechanical plunger assembly, a short polished steel vertical rod, a rounded dark-teal horizontal T handle at its top, and a wide flat horizontal circular piston disk at its bottom with a thin warm-brass edge and a dark teal rubber seal. The disk is shown as a shallow ellipse from just above, its diameter about twice the handle width; rod length about the disk diameter. The shaft is centered and vertical, disk and handle horizontal and symmetrical. Premium friendly stylized 3D educational game prop, polished teal enamel, brushed steel, warm brass trim, soft studio highlights, clean crisp silhouette matching a tall clear glass laboratory chamber. Full component centered with 12% margin. Actual transparent alpha background, no floor, no ambient glow, no shadows outside the object, no glass vessel, no cylinder housing, no chamber, no liquid. No labels, numerals, words, UI, icons, arrows, collage, sheet, or multiple objects."
+        }
+      ]
+    }
+  },
+  {
+    "source": "continuation-generation-prompts.json",
+    "details": {
+      "date": "2026-10-28",
+      "mode": "built-in image_gen",
+      "rootGeneratedPipeSpecifications": [
+        {
+          "id": "pipe-straight-v1",
+          "brief": "Single isolated front-view transparent pneumatic straight pipe, brass/cream coupling rings at left and right, pale teal glass, horizontal through exact canvas centre; square canvas, transparent alpha, no text or extra objects."
+        },
+        {
+          "id": "pipe-elbow-v1",
+          "brief": "Single isolated front-view 90-degree transparent elbow pipe, top and right ports; brass/cream coupling rings and pale teal glass; square canvas, transparent alpha, no text or extra objects."
+        },
+        {
+          "id": "pipe-blocked-v1",
+          "brief": "Single isolated horizontal glass air tube, left end open, right end fully closed with a visible solid brass stopper; cream/brass/teal illustrated style, transparent alpha, no text."
+        }
+      ],
+      "continuationPrompts": [
+        {
+          "id": "empty-bottle",
+          "prompt": "Use case: scientific-educational. Asset: ONE empty glass laboratory bottle for a balloon-on-bottle temperature experiment. Genuinely transparent background, single object fully visible with generous margin, no collage. Front view, short narrow vertical OPEN neck and wide rounded cylindrical clear glass body, thick flat glass bottom. Entire bottle is empty and transparent, very faint blue-green glass edges, warm ivory highlights, polished friendly 3D educational game illustration, same visual style as a teal-and-brass science lab prop. No stopper, no lid, NO BALLOON, no hose, no tube, no liquid, no particles, no numbers, no writing, no labels, no platform, no shadow plane. Bottle body occupies bottom 80 percent of composition and centered neck visible at top. Bottle mouth at upper center suitable for a separate inflatable balloon to fit over it. Clear scientific silhouette, refined upper-elementary game style, not photorealistic."
+        },
+        {
+          "id": "fan-housing",
+          "prompt": "Edit this exact isolated educational fan image. Keep the same front-facing view, shape, full silhouette, brass circular guard and protective spokes, brass center hub, cream and teal pedestal, dimensions and placement, lighting and polished illustrated style. Remove ONLY the five large teal fan blades from inside the circular guard, leaving that internal region transparent behind the guard and center hub so a separate rotating rotor can be placed behind it by code. The stand and brass guard must be completely unchanged. Truly transparent background including gaps inside the guard. No labels, text, new objects, grid, or background."
+        },
+        {
+          "id": "fan-rotor",
+          "prompt": "Use case: scientific-educational. ONE isolated five-blade fan rotor only, front facing, exactly circular symmetric silhouette, blades radiating from small round brass central hub. Five rounded broad teal enamel blades, polished warm brass hub, soft dimensional highlights and friendly three-dimensional educational game illustration. Rotor occupies 84 percent of square canvas, centered, equal transparent margin on every side. NO outer ring, no guard, no protective grille, no stand, no pedestal, no wires, no background, no labels, no text, no numbers, no other objects. Genuinely transparent alpha. This will rotate as a separate layer inside a fixed brass fan housing. Refined teal/brass/cream science-game aesthetic, not photorealistic."
+        }
+      ]
+    }
+  }
+]

@@ -1,0 +1,17 @@
+/* Illustrated apparatus; volume and particle positions remain tied to the model. */
+.thermal-apparatus{position:relative;width:240px;height:100%;pointer-events:none}
+.thermal-bottle{position:absolute;left:32%;bottom:2%;width:36%;height:53%;object-fit:fill;pointer-events:none}
+.thermal-balloon{position:absolute;left:23%;bottom:50%;width:54%;height:41%;transform:scale(var(--thermal-scale,1));transform-origin:50% 94%;transition:transform .35s ease-out;pointer-events:none}
+.thermal-balloon-art{display:block;width:100%;height:100%;object-fit:fill}
+.temperature .thermal-balloon .gas-particles{left:10%;top:8%;width:74%;height:73%;transform:none;clip-path:ellipse(50% 50%);opacity:.75}
+.thermal-balloon .gas-particles i{width:5px;height:5px;background:#ffedd3;animation:thermal-particle-drift 2s ease-in-out var(--delay) infinite alternate}
+@keyframes thermal-particle-drift{to{transform:translate(2px,-2px)}}
+.pressure .pressure-apparatus{position:relative;height:100%;width:min(100%,320px);pointer-events:none;isolation:isolate}
+.pressure-chamber-art{position:absolute;left:20%;top:24%;width:60%;height:74%;object-fit:fill;pointer-events:none;z-index:1}
+.pressure-plunger-art{position:absolute;left:34.5%;top:var(--plunger-top,.52%);width:31%;height:44%;object-fit:fill;pointer-events:none;z-index:3;transition:top .28s ease-out}
+.pressure .piston-air-space{position:absolute;left:36.5%;bottom:16%;width:27%;height:var(--chamber-air-height,43%);z-index:2;overflow:hidden;background:#83c9cb24;border-radius:0 0 12% 12%;transition:height .28s ease-out;pointer-events:none}
+.pressure .piston-air-space .gas-particles{inset:0;width:100%;height:100%;transform:none;opacity:.8}
+.pressure .space-label{bottom:8px;right:8px;font-size:var(--text-small);padding:4px 8px;max-width:45%;text-align:center;line-height:1.25}
+@media(min-width:1600px) and (min-height:850px){.pressure .pressure-apparatus{width:380px}}
+@media(max-height:680px){.pressure .pressure-apparatus{width:230px}.pressure .space-label{max-width:35%;font-size:18px}}
+@media(prefers-reduced-motion:reduce){.pressure-plunger-art,.pressure .piston-air-space,.thermal-balloon{transition:none}.thermal-balloon .gas-particles i{animation:none}}

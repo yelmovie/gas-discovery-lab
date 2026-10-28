@@ -1,0 +1,58 @@
+import {STAGES} from './data.js';
+import {isStageOpen,completeStage} from './model.js';
+import {canStand,findPath,movePoint,distance,validateMap} from './navigation.js';
+import {html,button,announce,openDialog,portrait} from './ui.js';
+import {icon} from './icons.js';
+import {sound} from './audio.js';
+const imageCache=new Map();
+export function loadImage(src){if(!imageCache.has(src))imageCache.set(src,new Promise((resolve,reject)=>{const image=new Image();image.onload=()=>resolve(image);image.onerror=()=>{imageCache.delete(src);reject(Error(src));};image.src=src;}));return imageCache.get(src);}
+export async function mountMap(host,ctx){
+ host.innerHTML='<div class="map-loading"><span class="boot-orbit"></span><p>마을로 가는 길을 준비해요…</p></div>';
+ let map,background,student,air,atlas;
+ try{[map,background,student,air,atlas]=await Promise.all([fetch('/assets/world-map.json').then(r=>{if(!r.ok)throw Error('지도');return r.json();}).then(validateMap),loadImage('/assets/village.webp'),loadImage('/assets/student-walk.webp'),loadImage('/assets/soli.svg'),fetch('/assets/sprite-manifest.json').then(r=>r.json())]);if(background.naturalWidth!==map.width||background.naturalHeight!==map.height)throw Error('배경 크기');}
+ catch{if(ctx.signal.aborted)return;host.replaceChildren(html('<div class="load-error lab-panel"><h2>마을 그림을 불러오지 못했어요</h2><p>탐구 기록은 그대로예요.</p></div>'));host.firstChild.append(button('다시 불러오기',()=>mountMap(host,ctx)));return;}
+ if(ctx.signal.aborted)return;
+ host.innerHTML=`<canvas class="map-canvas" tabindex="0" aria-label="자연 속 연구 마을. 길이나 시설 이름을 누르면 걸어가요. 방향키와 WASD로 이동하고 Enter로 입장해요."></canvas><div class="map-labels"></div><div class="map-dpad" role="group" aria-label="이동 방향"><button data-dir="up" aria-label="위로 이동">${icon('arrow')}</button><button data-dir="left" aria-label="왼쪽으로 이동">${icon('arrow')}</button><button data-dir="down" aria-label="아래로 이동">${icon('arrow')}</button><button data-dir="right" aria-label="오른쪽으로 이동">${icon('arrow')}</button></div><button class="map-next button gold"></button><button class="map-companion" aria-label="함께 걷는 바람여우 솔이에게 힌트 받기"><span>···</span></button><div class="map-speech" hidden></div>`;
+ const canvas=host.querySelector('canvas'),g=canvas.getContext('2d'),next=host.querySelector('.map-next'),speech=host.querySelector('.map-speech');
+ const returnBuilding=map.buildings.find(b=>b.id===ctx.returnFrom);let position=returnBuilding?{x:returnBuilding.return[0],y:returnBuilding.return[1]}:{...map.spawn};if(!canStand(map,position))position={...map.spawn};
+ let follower={x:position.x-34,y:position.y+17},trail=[{...position}],path=[],goal=null,dir=0,walking=false,time=0,lastTime=0,frame=0,width=0,height=0,scale=1,cam={x:0,y:0},ready=false,entered=false;
+ const held=new Set(),reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const labels=new Map();const completed=()=>STAGES.filter(s=>completeStage(ctx.save,s.id)).length;
+ const allDone=()=>completed()===5;
+ const nextId=()=>STAGES.find(s=>!completeStage(ctx.save,s.id))?.id||'core';
+ function hint(text){speech.textContent=text;speech.hidden=false;announce(text);}
+ function routeTo(id){const b=map.buildings.find(b=>b.id===id);const [x,y]=map.nodes[b.entry];const result=findPath(map,position,{x,y});if(!result){hint('그곳까지 갈 길을 찾지 못했어요. 흙길이나 다른 입구를 눌러 보아요.');return;}held.clear();path=result;goal=id;speech.hidden=true;sound();if(reduced){position={x,y};path=[];tryEnter(id);}canvas.focus({preventScroll:true});}
+ function tryEnter(id){if(entered)return;const index=STAGES.findIndex(s=>s.id===id);const allowed=id==='core'?(allDone()||ctx.save.settings.adminUnlockAll):isStageOpen(ctx.save,index);
+  if(!allowed){const previous=id==='core'?'다섯 연구시설의 의뢰':STAGES[index-1].name+'의 의뢰';hint(`먼저 ${previous}를 마쳐 주세요. 솔이와 함께 다음 시설부터 가 볼까요?`);goal=null;return;}
+  entered=true;ctx.enter(id);
+ }
+ map.buildings.forEach(b=>{const index=STAGES.findIndex(s=>s.id===b.id),stage=STAGES[index],done=stage?completeStage(ctx.save,b.id):ctx.save.finaleCompleted,open=stage?isStageOpen(ctx.save,index):allDone()||ctx.save.settings.adminUnlockAll;const label=button(`<span>${done?icon('check'):open?icon('leaf'):icon('lock')}</span><span>${stage?.name||'중앙 공기 코어'}</span>`,()=>routeTo(b.id),`building-label ${done?'restored':open?'open':'locked'} ${b.id===nextId()?'current':''}`);label.setAttribute('aria-label',`${stage?.name||'중앙 공기 코어'} · ${done?'복구됨':open?'탐구 가능':'아직 잠김'} · 걸어가기`);host.querySelector('.map-labels').append(label);labels.set(b.id,label);});
+ next.innerHTML=`${ctx.save.finaleCompleted?'마을 다시 둘러보기':STAGES.find(s=>s.id===nextId())?.name+'로 가기'} ${icon('arrow')}`;if(nextId()==='core'&&!ctx.save.finaleCompleted)next.innerHTML=`중앙 코어로 가기 ${icon('arrow')}`;next.onclick=()=>routeTo(nextId());
+ host.querySelector('.map-companion').onclick=()=>{if(!speech.hidden){speech.hidden=true;return;}hint(ctx.save.finaleCompleted?'마을이 다시 움직여요! 시설에 들어가 다른 방법으로도 탐구해 보아요.':`다음은 ${STAGES.find(s=>s.id===nextId())?.name||'중앙 공기 코어'}예요. 시설 이름이나 흙길을 누르면 같이 걸어가요. 방향키로도 걸을 수 있어요.`);};
+ const onKey=e=>{if(document.querySelector('dialog[open]'))return;const keys={ArrowUp:'up',KeyW:'up',ArrowDown:'down',KeyS:'down',ArrowLeft:'left',KeyA:'left',ArrowRight:'right',KeyD:'right'};if(keys[e.code]){e.preventDefault();path=[];goal=null;if(e.type==='keydown')held.add(e.code);else held.delete(e.code);}if(e.code==='Enter'&&e.type==='keydown'){const b=map.buildings.find(b=>distance(position,{x:map.nodes[b.entry][0],y:map.nodes[b.entry][1]})<48);if(b)tryEnter(b.id);}};
+ window.addEventListener('keydown',onKey,{signal:ctx.signal});window.addEventListener('keyup',onKey,{signal:ctx.signal});
+ window.addEventListener('blur',()=>held.clear(),{signal:ctx.signal});document.addEventListener('visibilitychange',()=>{held.clear();lastTime=0;},{signal:ctx.signal});
+ host.querySelectorAll('[data-dir]').forEach(b=>{b.onpointerdown=e=>{e.preventDefault();path=[];goal=null;held.clear();held.add(b.dataset.dir);b.setPointerCapture(e.pointerId);};b.onpointerup=()=>held.clear();b.onpointercancel=()=>held.clear();b.onlostpointercapture=()=>held.clear();b.onkeydown=e=>{if(['Enter','Space'].includes(e.code)){e.preventDefault();held.add(b.dataset.dir);}};b.onkeyup=()=>held.clear();});
+ canvas.addEventListener('pointerdown',e=>{const rect=canvas.getBoundingClientRect(),target={x:(e.clientX-rect.left+cam.x)/scale,y:(e.clientY-rect.top+cam.y)/scale};const result=findPath(map,position,target);if(result){path=result;goal=null;held.clear();speech.hidden=true;if(reduced){position=result.at(-1);path=[];}}else hint('그곳은 걸을 수 없어요. 밝은 흙길이나 시설 이름을 눌러 주세요.');canvas.focus({preventScroll:true});},{signal:ctx.signal});
+ function resize(){width=host.clientWidth;height=host.clientHeight;const dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);g.setTransform(dpr,0,0,dpr,0,0);scale=Math.max(width/map.width,height/map.height)*(width<1000?1.22:1.3);ready=false;}
+ const ro=new ResizeObserver(resize);ro.observe(host);resize();
+ function sprite(img,name,p,isWalking,row){if(name==='soli'){const h=63*scale,w=h*160/180,x=p.x*scale-cam.x-w/2,y=p.y*scale-cam.y-h+(isWalking&&!reduced?Math.sin(time*15)*3:0);g.save();if(row===1){g.translate(x+w,y);g.scale(-1,1);g.drawImage(img,0,0,w,h);}else g.drawImage(img,x,y,w,h);g.restore();return;}const frames=atlas.atlas[name].frames;const f=frames[row*4+(isWalking&&!reduced?Math.floor(time*8)%4:0)];const worldHeight=name==='student'?91:75;const factor=worldHeight/f.pivotY;const x=p.x*scale-cam.x-f.pivotX*factor*scale,y=p.y*scale-cam.y-f.pivotY*factor*scale;g.drawImage(img,f.left,f.top,f.width,f.height,x,y,f.width*factor*scale,f.height*factor*scale);}
+ function draw(now){if(ctx.signal.aborted)return;const dt=lastTime?Math.min((now-lastTime)/1000,.04):0;lastTime=now;time+=dt;
+  const paused=Boolean(document.querySelector('dialog[open]'))||document.hidden;
+  if(paused){held.clear();walking=false;}else{
+   const before={...position};let dx=0,dy=0;for(const code of held){if(['ArrowUp','KeyW','up'].includes(code))dy--;if(['ArrowDown','KeyS','down'].includes(code))dy++;if(['ArrowLeft','KeyA','left'].includes(code))dx--;if(['ArrowRight','KeyD','right'].includes(code))dx++;}
+   if(dx||dy){const length=Math.hypot(dx,dy);position=movePoint(map,position,dx/length*185*dt,dy/length*185*dt);}
+   else if(path.length){const target=path[0],d=distance(position,target);if(d<5){position={...target};path.shift();}else position=movePoint(map,position,(target.x-position.x)/d*185*dt,(target.y-position.y)/d*185*dt);}
+   walking=distance(before,position)>.05;if(walking){const dx=position.x-before.x,dy=position.y-before.y;dir=Math.abs(dx)>Math.abs(dy)?dx>0?2:1:dy>0?0:3;if(distance(trail.at(-1),position)>5)trail.push({...position});if(trail.length>80)trail.shift();let d=0,target=trail[0];for(let i=trail.length-1;i>0;i--){d+=distance(trail[i],trail[i-1]);if(d>59){target=trail[i-1];break;}}follower={...target};}
+   if(goal&&!path.length){const b=map.buildings.find(b=>b.id===goal);if(distance(position,{x:map.nodes[b.entry][0],y:map.nodes[b.entry][1]})<35)tryEnter(goal);}
+   if(!goal&&walking)for(const b of map.buildings){const at={x:map.nodes[b.entry][0],y:map.nodes[b.entry][1]};if(distance(before,at)>26&&distance(position,at)<=26){tryEnter(b.id);break;}}
+  }
+  const tx=Math.max(0,Math.min(map.width*scale-width,position.x*scale-width*.5)),ty=Math.max(0,Math.min(map.height*scale-height,position.y*scale-height*.57));cam.x=ready?cam.x+(tx-cam.x)*Math.min(1,dt*8):tx;cam.y=ready?cam.y+(ty-cam.y)*Math.min(1,dt*8):ty;ready=true;
+  g.clearRect(0,0,width,height);g.imageSmoothingEnabled=false;g.drawImage(background,-cam.x,-cam.y,map.width*scale,map.height*scale);g.fillStyle=`rgba(15,43,47,${.22*(1-completed()/6)})`;g.fillRect(0,0,width,height);
+  for(const b of map.buildings){const done=b.id==='core'?ctx.save.finaleCompleted:completeStage(ctx.save,b.id);if(done||b.id===nextId()){const [x,y]=map.nodes[b.entry];g.beginPath();g.ellipse(x*scale-cam.x,y*scale-cam.y,34*scale,12*scale,0,0,Math.PI*2);g.fillStyle=done?'rgba(171,230,152,.55)':'rgba(255,220,112,.65)';g.fill();}const label=labels.get(b.id);label.style.left=`${b.label[0]*scale-cam.x}px`;label.style.top=`${Math.max(82,b.label[1]*scale-cam.y)}px`;}
+  for(const item of [{p:position,img:student,name:'student'},{p:follower,img:air,name:'soli'}].sort((a,b)=>a.p.y-b.p.y))sprite(item.img,item.name,item.p,walking,dir);
+  const companion=host.querySelector('.map-companion');const sx=follower.x*scale-cam.x,sy=follower.y*scale-cam.y;companion.style.left=`${sx}px`;companion.style.top=`${sy-77*scale}px`;speech.style.left=`${Math.max(18,Math.min(width-340,sx+35))}px`;speech.style.top=`${Math.max(85,Math.min(height-190,sy-145))}px`;
+  frame=requestAnimationFrame(draw);
+ }
+ frame=requestAnimationFrame(draw);ctx.signal.addEventListener('abort',()=>{cancelAnimationFrame(frame);ro.disconnect();held.clear();},{once:true});
+}

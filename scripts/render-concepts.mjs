@@ -1,0 +1,47 @@
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import {createRequire} from 'node:module';
+import {spawn,execFileSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
+const require=createRequire(import.meta.url),sharp=require(process.env.SHARP_MODULE||'sharp');
+const root=path.resolve(import.meta.dirname,'..'),out=path.join(root,'public/assets/concepts');
+await fs.mkdir(out,{recursive:true});process.env.TEMP=process.env.TMP=path.join(root,'.tmp');
+const ffmpeg=process.env.FFMPEG||'ffmpeg',fps=24,seconds=9,W=1280,H=720;
+execFileSync(ffmpeg,['-version'],{stdio:'pipe'});
+const C={ink:'#143f43',teal:'#6cddd0',gold:'#f5daa1',cream:'#fff4d9',coral:'#efad87',blue:'#95ccec'};
+const ease=t=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t);};
+const rect=(x,y,w,h,fill,rx=20,stroke='none')=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="${fill}" stroke="${stroke}" stroke-width="5"/>`;
+const circle=(x,y,r,fill)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${fill}"/>`;
+const line=(x,y,xx,yy,color=C.gold,width=12)=>`<path d="M${x} ${y}L${xx} ${yy}" stroke="${color}" stroke-width="${width}" stroke-linecap="round" fill="none"/>`;
+const arrow=(x,y,xx,yy,color=C.gold)=>{const a=Math.atan2(yy-y,xx-x);return line(x,y,xx,yy,color,12)+`<path d="M${xx-24*Math.cos(a-.6)} ${yy-24*Math.sin(a-.6)}L${xx} ${yy}L${xx-24*Math.cos(a+.6)} ${yy-24*Math.sin(a+.6)}" stroke="${color}" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none"/>`;};
+const group=(x,y,body,extra='')=>`<g transform="translate(${x} ${y})" ${extra}>${body}</g>`;
+const dots=(x,y,w,h,t,n=18,color=C.teal)=>Array.from({length:n},(_,i)=>{const u=((i*.618+t*.045)%1),v=((i*.382+t*.08)%1);return circle(x+12+u*(w-24),y+12+v*(h-24),6,color);}).join('');
+const fan=(x,y,t)=>group(x,y,`<g transform="rotate(${t*220})">${[0,120,240].map(a=>`<path d="M0 0Q-55-75 2-106Q65-87 24-20Z" fill="${C.teal}" stroke="${C.cream}" stroke-width="4" transform="rotate(${a})"/>`).join('')}</g>${circle(0,0,20,C.gold)}`);
+const jar=(x,y,t,amount=18)=>rect(x,y,180,210,'#1f5c64',25,C.blue)+rect(x-6,y-12,192,30,C.gold,8)+dots(x+6,y+32,168,165,t,amount);
+const gasOrb=(x,y,color=C.teal,r=65)=>circle(x,y,r,color)+circle(x-17,y-19,r*.18,'#ffffff88');
+const tick=(x,y)=>`<path d="M${x-24} ${y}l18 18 35-43" fill="none" stroke="${C.teal}" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>`;
+const flask=(x,y,t)=>group(x,y,`<path d="M-30-140V-50L-95 90Q-106 120-70 122H70Q106 120 95 90L30-50V-140Z" fill="#286978" stroke="${C.blue}" stroke-width="7"/>${line(-42,-140,42,-140,C.gold,14)}${dots(-65,-10,130,115,t,18)}`);
+const balloon=(x,y,r,t,color=C.coral)=>group(x,y,`<ellipse rx="${r*.83}" ry="${r}" fill="${color}" stroke="${C.cream}" stroke-width="5"/>${line(0,r,0,r+45,C.cream,4)}${dots(-r*.6,-r*.7,r*1.2,r*1.35,t,18,C.ink)}`);
+function flow(t){const p=ease((t-2)/3);return rect(180,270,800,100,'#286870',30,C.gold)+rect(210,300,740,40,C.ink,15)+rect(125,230,100,175,C.teal,18)+line(175,150,175,230,C.gold,18)+line(125,150,225,150,C.gold,18)+Array.from({length:11},(_,i)=>{const x=220+((t*160+i*65)%730);return circle(x,320,7,C.teal);}).join('')+arrow(320,430,800,430)+fan(1050,320,Math.max(0,t-4)*p)+tick(1050,540);}
+function weight(t){const amount=t<3?8: t<6?8+Math.round(ease((t-3)/2)*12):20-Math.round(ease((t-6)/2)*12);return jar(270,220,t,8)+jar(820,220,t,amount)+rect(210,460,300,65,C.cream,15)+rect(760,460,300,65,C.cream,15)+line(360,540,360,595)+line(910,540,910,595)+rect(200,587,320,12,C.gold,3)+rect(750,587,320,12,C.gold,3)+arrow(535,330,710,330)+Array.from({length:amount},(_,i)=>rect(785+(i%10)*23,475+Math.floor(i/10)*20,16,12,C.ink,3)).join('')+circle(360,492,13,C.teal);}
+function temperature(t){const warm=t<6?ease((t-2.5)/2):1-ease((t-6)/2),r=93+warm*54;return balloon(640,310,r,t)+rect(430,530,420,40,'#286870',12)+rect(430,530,90+warm*330,40,warm>.5?C.coral:C.blue,12)+circle(310,340,48,warm>.5?C.coral:C.blue)+Array.from({length:8},(_,i)=>{const a=i*Math.PI/4;return line(310+62*Math.cos(a),340+62*Math.sin(a),310+84*Math.cos(a),340+84*Math.sin(a),warm>.5?C.coral:C.blue,8);}).join('')+arrow(940,450,940,450-150*warm-20,C.coral)+tick(640,625);}
+function pressure(t){const press=t<6?ease((t-2)/2.5):1-ease((t-6)/2),y=235+120*press,h=300-120*press;return rect(445,170,390,390,'#205d68',26,C.blue)+rect(455,y,370,h,'#316e79',8)+dots(465,y+20,350,h-30,t,24)+line(640,80,640,y,C.gold,24)+rect(520,62,240,25,C.gold,10)+rect(450,y,380,25,C.cream,8)+arrow(940,150,940,190+120*press,C.coral)+rect(420,555,440,25,C.gold,8)+tick(640,650);}
+function nitrogen(t){const p=ease((t-2)/2);return rect(460,200,350,330,'#286870',35,C.gold)+line(480,225,790,225,C.gold,8)+line(480,505,790,505,C.gold,8)+Array.from({length:9},(_,i)=>group(510+(i%3)*95,290+Math.floor(i/3)*72,`<ellipse rx="28" ry="19" fill="${C.gold}" transform="rotate(${i*21})"/>`)).join('')+Array.from({length:12},(_,i)=>{const a=i*Math.PI/6+t*.08;return gasOrb(635+Math.cos(a)*225,365+Math.sin(a)*230,C.teal,12*p+2);}).join('')+`<path d="M635 155L875 230V395Q855 570 635 610Q415 570 395 395V230Z" fill="none" stroke="${C.teal}" opacity="${p}" stroke-width="8"/>`+tick(970,360);}
+function oxygen(t){const breath=(Math.sin((t-2)*2)+1)/2;return group(640,345,`<path d="M-15-130V-55Q-100-170-150-50Q-225 110-70 140Q-20 130-15 45V-55M15-130V-55Q100-170 150-50Q225 110 70 140Q20 130 15 45V-55" fill="${C.coral}" stroke="${C.cream}" stroke-width="7" transform="scale(${.94+breath*.08})"/>${line(0,-160,0,-55,C.cream,17)}`)+Array.from({length:6},(_,i)=>gasOrb(240+((t*60+i*75)%280),230+i*35,C.teal,14)).join('')+arrow(260,500,510,500)+tick(1000,340);}
+function carbon(t){return flask(640,365,t)+rect(580,170-Math.min(1,ease((t-2.5)/1))*70,120,28,C.gold,8)+Array.from({length:18},(_,i)=>{const y=460-((Math.max(0,t-3)*70+i*17)%350);return circle(605+(i%5)*17+Math.sin(t+i)*7,y,5+i%4,C.teal);}).join('')+arrow(920,440,920,260,C.teal)+tick(1030,350);}
+function extinguisher(t){const p=ease((t-3)/2);return rect(240,270,130,240,C.coral,28,C.cream)+line(305,270,305,210,C.gold,15)+`<path d="M305 210H410Q470 210 470 290" fill="none" stroke="${C.gold}" stroke-width="15"/>`+Array.from({length:22},(_,i)=>{const u=((i*.17+t*.22)%1);return circle(470+u*410,290+u*(i%2?90:-90),5+u*12,C.teal);}).join('')+`<path d="M790 500Q705 440 765 375Q758 420 800 380Q840 340 815 300Q930 400 870 470L850 500Z" fill="${C.coral}" opacity="${1-p}"/>`+rect(720,510,220,16,C.gold,3)+(p>.9?tick(820,390):'');}
+function engineering(t){return jar(150,240,t,12)+rect(330,330,450,55,'#286870',18,C.gold)+rect(485,300,55,115,C.gold,8)+line(512,270,512,300,C.teal,12)+line(480,270,545,270,C.teal,12)+`<path d="M780 330l110-30v115l-110-30Z" fill="${C.gold}"/>`+Array.from({length:8},(_,i)=>circle(350+((t*125+i*72)%620),357+(i%2)*10,6,C.teal)).join('')+fan(1040,355,Math.max(0,t-3))+arrow(420,510,850,510);}
+function car(t){const p=ease((t-3)/4),x=420+360*p;return line(140,540,1140,540,'#397478',6)+group(x,460,rect(-100,-40,240,60,C.gold,18)+circle(-40,40,30,C.cream)+circle(95,40,30,C.cream)+balloon(0,-130,70-25*p,t)+line(-35,-75,-100,-40,C.teal,12))+arrow(220,345,130,345,C.teal)+arrow(810,430,1060,430,C.gold)+Array.from({length:7},(_,i)=>circle(x-130-((t*70+i*19)%170),430+i%3*8,6,C.teal)).join('');}
+const clips={flow,weight,temperature,pressure,nitrogen,oxygen,carbon,extinguisher,engineering,car};
+function frame(fn,t){return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}"><defs><radialGradient id="bg"><stop stop-color="#235f63"/><stop offset="1" stop-color="#102f38"/></radialGradient></defs>${rect(0,0,W,H,'url(#bg)',0)}${Array.from({length:13},(_,i)=>circle(90+i*95,90+(i%3)*200,3,'#ffffff18')).join('')}${rect(70,90,1140,560,'#ffffff06',35,'#6cddd025')}${fn(t)}</svg>`;}
+function encoder(file,args){const p=spawn(ffmpeg,['-hide_banner','-loglevel','error','-y','-f','rawvideo','-pix_fmt','rgba','-s',`${W}x${H}`,'-r',String(fps),'-i','-',...args,'-pix_fmt','yuv420p','-an',file],{stdio:['pipe','inherit','inherit']});const done=new Promise((ok,no)=>{p.on('error',no);p.on('close',c=>c===0?ok():no(Error('FFmpeg exited '+c)));});p.stdin.on('error',()=>{});return {write:b=>new Promise((ok,no)=>{if(p.stdin.destroyed)return no(Error('encoder closed'));p.stdin.write(b)?ok():p.stdin.once('drain',ok);}),end:()=>{p.stdin.end();return done;}};}
+const manifest=[];
+for(const [id,fn] of Object.entries(clips)){
+ const mp4=encoder(path.join(out,id+'.mp4'),['-c:v','libx264','-crf','23','-preset','fast','-movflags','+faststart']);
+ const webm=encoder(path.join(out,id+'.webm'),['-c:v','libvpx-vp9','-crf','33','-b:v','0','-row-mt','1','-deadline','good','-cpu-used','5']);
+ for(let f=0;f<fps*seconds;f++){const b=await sharp(Buffer.from(frame(fn,f/fps))).ensureAlpha().raw().toBuffer();await Promise.all([mp4.write(b),webm.write(b)]);}
+ await Promise.all([mp4.end(),webm.end()]);await sharp(Buffer.from(frame(fn,seconds-1/fps))).webp({quality:86}).toFile(path.join(out,id+'.webp'));
+ for(const ext of ['mp4','webm','webp']){const b=await fs.readFile(path.join(out,id+'.'+ext));manifest.push({file:`${id}.${ext}`,bytes:b.length,sha256:createHash('sha256').update(b).digest('hex'),...(ext==='webp'?{}:{seconds,width:W,height:H,fps})});}
+ console.log('Rendered',id);
+}
+await fs.writeFile(path.join(out,'manifest.json'),JSON.stringify({method:'Original SVG motion graphics → sharp → FFmpeg',generated:'2026-10-22',files:manifest},null,2));

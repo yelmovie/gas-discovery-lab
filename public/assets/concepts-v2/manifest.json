@@ -1,0 +1,236 @@
+{
+  "method": "Generated transparent illustrations + model-driven SVG motion → sharp → FFmpeg",
+  "generated": "2026-10-28",
+  "files": [
+    {
+      "file": "flow.mp4",
+      "bytes": 295686,
+      "sha256": "5279363b559e4d93c17a9eab0f6c3908ef18274543b4eddce4b91c5cb3c6b289",
+      "seconds": 9,
+      "width": 1280,
+      "height": 720,
+      "fps": 24
+    },
+    {
+      "file": "flow.webm",
+      "bytes": 398544,
+      "sha256": "8827dab1c22a249f9f378c00c1941ed2234f23cc20a0d8772b7e3f3ebffc3cc4",
+      "seconds": 9,
+      "width": 1280,
+      "height": 720,
+      "fps": 24
+    },
+    {
+      "file": "flow.webp",
+      "bytes": 28386,
+      "sha256": "018991340bd2a37ed78bbc9d535112a3414a9e789f9c4c2e096ff948f8d1cfaa"
+    },
+    {
+      "file": "weight.mp4",
+      "bytes": 62780,
+      "sha256": "6b27429a8e9c94589c89c15d1e8bdcdbcf28c0056ee7f6366126589c136ac51a",
+      "seconds": 9,
+      "width": 1280,
+      "height": 720,
+      "fps": 24
+    },
+    {
+      "file": "weight.webm",
+      "bytes": 87171,
+      "sha256": "190b9f88bf8c99480ffe53c3de90499f0193264a214eba1318d8b983424b56d6",
+      "seconds": 9,
+      "width": 1280,
+      "height": 720,
+      "fps": 24
+    },
+    {
+      "file": "weight.webp",
+      "bytes": 21266,
+      "sha256": "70e8149b75d515b7aca917478b7036c289e79856aba668761da0ae82be6e9c6b"
+    },
+    {
+      "file": "temperature.mp4",
+      "bytes": 59894,
+      "sha256": "c19bdfdb757e0181565bc1718fb9c4fbb1a1295ff07f9ededf815eb081ba9e26",
+      "seconds": 9,
+      "width": 1280,
+      "height": 720,
+      "fps": 24
+    },
+    {
+      "file": "temperature.webm",
+      "bytes": 66578,
+      "sha256": "987ab6ac6f647db4358c74fd2db1af9665bb9cd92ae102156b56d0f91335c405",
+      "seconds": 9,
+      "width": 1280,
+      "height": 720,
+      "fps": 24
+    },
+    {
+      "file": "temperature.webp",
+      "bytes": 12044,
+      "sha256": "dd72ed2ddaf139bd732765a4cc012acac9f336bdc0bdf3897a97646d6365857f"
+    },
+    {
+      "file": "pressure.mp4",
+      "bytes": 90309,
+      "sha256": "d7bc48421f0bd4aa00d3de9ba86599cb0f6111b5ed218a47a19c06347f6845f1",
+      "seconds": 9,
+      "width": 1280,
+      "height": 720,
+      "fps": 24
+    },
+    {
+      "file": "pressure.webm",
+      "bytes": 102662,
+      "sha256": "2a46f971f5e414d9e6b3af7c00f3e0d4445ffd144e1eecf7fb88602466d00e64",
+      "seconds": 9,
+      "width": 1280,
+      "height": 720,
+      "fps": 24
+    },
+    {
+      "file": "pressure.webp",
+      "bytes": 18228,
+      "sha256": "2ebb62264bbba6b68c2eb2e799738113f1a0f1624fa24cb52111d534a50b445b"
+    },
+    {
+      "file": "nitrogen.mp4",
+      "bytes": 73257,
+      "sha256": "7ec502736377c34402426d7fe897689cd070789ea87789cf47a6ea5cdff7122d",
+      "seconds": 9,
+      "width": 1280,
+      "height": 720,
+      "fps": 24
+    },
+    {
+      "file": "nitrogen.webm",
+      "bytes": 75578,
+      "sha256": "8b82974eaba4c8ddef4667b2f9c220c7fb9dc4509a922b0a6044f7d119a04181",
+      "seconds": 9,
+      "width": 1280,
+      "height": 720,
+      "fps": 24
+    },
+    {
+      "file": "nitrogen.webp",
+      "bytes": 19324,
+      "sha256": "cbbcb5050702b2ea10acb37b0f14747459adffb31801e1990d6ff25a00e79350"
+    },
+    {
+      "file": "oxygen.mp4",
+      "bytes": 149761,
+      "sha256": "3db5d2ef9a4d70c923781fbffbff238cdb2d6dbe43cbbb984beaa6a75e836029",
+      "seconds": 9,
+      "width": 1280,
+      "height": 720,
+      "fps": 24
+    },
+    {
+      "file": "oxygen.webm",
+      "bytes": 127155,
+      "sha256": "4373496dc094af2250b1a26ee32ac7555e70b3d21bcad0acd809e3b33c9d13a6",
+      "seconds": 9,
+      "width": 1280,
+      "height": 720,
+      "fps": 24
+    },
+    {
+      "file": "oxygen.webp",
+      "bytes": 19556,
+      "sha256": "47421224187acbbfd4cf33fdee5320e143d522b8c22090c764ec9fb5867056d1"
+    },
+    {
+      "file": "carbon.mp4",
+      "bytes": 88532,
+      "sha256": "cb653c5a57c51c821542a8a1e46fb68a17435ddb73ebdfe95b62c821131e81d7",
+      "seconds": 9,
+      "width": 1280,
+      "height": 720,
+      "fps": 24
+    },
+    {
+      "file": "carbon.webm",
+      "bytes": 104593,
+      "sha256": "8166883a6607ae617a61470abdf2eb53d11d6a2ccdb3acc76ac6925693b14152",
+      "seconds": 9,
+      "width": 1280,
+      "height": 720,
+      "fps": 24
+    },
+    {
+      "file": "carbon.webp",
+      "bytes": 18650,
+      "sha256": "e13ec6d8c035d65fe18bdd7d91e3e2cc3c57ae126bde51cc3c6fe8b8e7c75e27"
+    },
+    {
+      "file": "extinguisher.mp4",
+      "bytes": 45569,
+      "sha256": "5b5bd8f5ee0aa78f56a0fa81445282ef85c4daa2689464679a7458f8144de67b",
+      "seconds": 9,
+      "width": 1280,
+      "height": 720,
+      "fps": 24
+    },
+    {
+      "file": "extinguisher.webm",
+      "bytes": 50031,
+      "sha256": "df4c39672e4d33a0add433a9088fe7285f30541bd02d1643d0a80c4c08a233be",
+      "seconds": 9,
+      "width": 1280,
+      "height": 720,
+      "fps": 24
+    },
+    {
+      "file": "extinguisher.webp",
+      "bytes": 15870,
+      "sha256": "4d082c25aec756ae046dbc167662d4e472af51df4f97000c894ee373d022f12d"
+    },
+    {
+      "file": "engineering.mp4",
+      "bytes": 318441,
+      "sha256": "8eb71bb8ddc3375882d1f45759ba5655d669346a582f0f399978c7a7facff545",
+      "seconds": 9,
+      "width": 1280,
+      "height": 720,
+      "fps": 24
+    },
+    {
+      "file": "engineering.webm",
+      "bytes": 432225,
+      "sha256": "7d93379786c4810049d628bee4a982881fb6c6d3eea0261536de281388de9260",
+      "seconds": 9,
+      "width": 1280,
+      "height": 720,
+      "fps": 24
+    },
+    {
+      "file": "engineering.webp",
+      "bytes": 29906,
+      "sha256": "0ac710e8846a8bb50f296af3bdd1c880e6101087f4187d94bd06caa8820a477c"
+    },
+    {
+      "file": "car.mp4",
+      "bytes": 95758,
+      "sha256": "1f73b4b47d08b7d15249aadcb5ae5766aba533bccf8e83f2db24d48222c8a14f",
+      "seconds": 9,
+      "width": 1280,
+      "height": 720,
+      "fps": 24
+    },
+    {
+      "file": "car.webm",
+      "bytes": 84114,
+      "sha256": "33aab9745f85e20ad583139fdd3b5fb3a7f1f74d449f346eaad9ad5f69606cbf",
+      "seconds": 9,
+      "width": 1280,
+      "height": 720,
+      "fps": 24
+    },
+    {
+      "file": "car.webp",
+      "bytes": 16728,
+      "sha256": "5d049cc03db378ff208c868f64c34ae1ce847302ad26d3610bd65889ee4cf7c9"
+    }
+  ]
+}

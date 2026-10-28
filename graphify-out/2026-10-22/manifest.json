@@ -1,0 +1,896 @@
+{
+  "docs/review/file-moves.json": {
+    "mtime": 1791982958.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "4ba4141cd428611fcb93f8b884054eb9",
+    "semantic_hash": ""
+  },
+  "docs/review/image-metadata.json": {
+    "mtime": 1791982856.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "c52fa3613e25af4d9dec24bfd3278459",
+    "semantic_hash": ""
+  },
+  "package.json": {
+    "mtime": 1792676776.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "f8aeb4fd57bbd331d390b6e130738b17",
+    "semantic_hash": ""
+  },
+  "public/assets/concepts/manifest.json": {
+    "mtime": 1792676782.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "12a757d5dba43d78990ce1f9bfa6cd10",
+    "semantic_hash": ""
+  },
+  "public/assets/sprite-manifest.json": {
+    "mtime": 1792590764.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "96aa651a1cf406a29adffa560fa48756",
+    "semantic_hash": ""
+  },
+  "public/assets/world-map.json": {
+    "mtime": 1792591226.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "fe02d96f8676e46bee4667723d73bfa5",
+    "semantic_hash": ""
+  },
+  "scripts/build.mjs": {
+    "mtime": 1792678302.0,
+    "seen": 1792678356.861629,
+    "ast_hash": "26be7eb76edaa0622f490d0ddff084e1",
+    "semantic_hash": ""
+  },
+  "scripts/prepare-assets.mjs": {
+    "mtime": 1792590754.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "af516776eae5624ee888cb5753eed71b",
+    "semantic_hash": ""
+  },
+  "scripts/render-concepts.mjs": {
+    "mtime": 1792676684.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "b9d10e48b5a22b9f7dd084843667f58f",
+    "semantic_hash": ""
+  },
+  "scripts/serve.mjs": {
+    "mtime": 1792678302.0,
+    "seen": 1792678356.861629,
+    "ast_hash": "234044173e309a90cad46ad36f2d008b",
+    "semantic_hash": ""
+  },
+  "src/activities/climate.js": {
+    "mtime": 1792676870.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "c72dc809af3349ac1e55ee3b1d3d96ae",
+    "semantic_hash": ""
+  },
+  "src/activities/delivery.js": {
+    "mtime": 1792677426.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "f5b955ad8cd69a9e7d273d8519de096a",
+    "semantic_hash": ""
+  },
+  "src/activities/engineering.js": {
+    "mtime": 1792678246.0,
+    "seen": 1792678356.861629,
+    "ast_hash": "a64278b0923946654cb711cb8e6914f8",
+    "semantic_hash": ""
+  },
+  "src/activities/flow.js": {
+    "mtime": 1792676870.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "1b0cebec9e3ea6f3747afc731aef3cad",
+    "semantic_hash": ""
+  },
+  "src/activities/weight.js": {
+    "mtime": 1792676870.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "125acbbcae65c35b482704dfe231274f",
+    "semantic_hash": ""
+  },
+  "src/audio.js": {
+    "mtime": 1792677036.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "2ab1f50becdb2da0dcf956fd85f852a7",
+    "semantic_hash": ""
+  },
+  "src/concepts.js": {
+    "mtime": 1792677356.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "92b35c2af9679cd56e6dc8b192ec2002",
+    "semantic_hash": ""
+  },
+  "src/data.js": {
+    "mtime": 1792676776.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "8d4c97d52da28d9e4bcc47b993ede5bc",
+    "semantic_hash": ""
+  },
+  "src/icons.js": {
+    "mtime": 1792590954.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "44148b3147907cd4ab35e7dd473cce59",
+    "semantic_hash": ""
+  },
+  "src/main.js": {
+    "mtime": 1792677356.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "ce75c5632b16ddec67d291fb59acd053",
+    "semantic_hash": ""
+  },
+  "src/map.js": {
+    "mtime": 1792676776.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "25d4cad48044cff81c879cd348d515ec",
+    "semantic_hash": ""
+  },
+  "src/model.js": {
+    "mtime": 1792625024.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "1037f949e21558330f710bab69c913d2",
+    "semantic_hash": ""
+  },
+  "src/navigation.js": {
+    "mtime": 1792591228.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "a35c48d4ae21d4cdd4e6d1da32d19a44",
+    "semantic_hash": ""
+  },
+  "src/offline.js": {
+    "mtime": 1792591436.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "cef0137ca0e44cea13398e1552ec1052",
+    "semantic_hash": ""
+  },
+  "src/settings.js": {
+    "mtime": 1792591436.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "00bf8aeb1a170196fb5af4f3aa7bb544",
+    "semantic_hash": ""
+  },
+  "src/settingsContent.js": {
+    "mtime": 1792677176.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "b25bb01b08fb6773d25593d5a89c9a45",
+    "semantic_hash": ""
+  },
+  "src/state.js": {
+    "mtime": 1792625054.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "7812eb66a870d04849ae25ac9b77533b",
+    "semantic_hash": ""
+  },
+  "src/touch.js": {
+    "mtime": 1792678026.0,
+    "seen": 1792678356.861629,
+    "ast_hash": "737f05c643558a262380e27af99e0173",
+    "semantic_hash": ""
+  },
+  "src/ui.js": {
+    "mtime": 1792677358.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "7cd0ab105400fe7c7c21c6c97ad03830",
+    "semantic_hash": ""
+  },
+  "tests/model.test.mjs": {
+    "mtime": 1792591788.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "2003dad223b68fad31cd07958f04fe67",
+    "semantic_hash": ""
+  },
+  "README.md": {
+    "mtime": 1791983724.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "f9d8b0caafed6658ffa74348754834c2",
+    "semantic_hash": ""
+  },
+  "assets/CREDITS.md": {
+    "mtime": 1792677134.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "3fdf1329e2ae7071945135e1954f1b20",
+    "semantic_hash": ""
+  },
+  "docs/PRD.md": {
+    "mtime": 1791983718.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "b0c3e7d79a488e4c32f49835a9844d01",
+    "semantic_hash": ""
+  },
+  "docs/TRD.md": {
+    "mtime": 1791983720.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "d3a2a75d7ae4a5a3fedbb4929998fc65",
+    "semantic_hash": ""
+  },
+  "docs/planning/3D-ASSET-PROMPTS.md": {
+    "mtime": 1791983722.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "3d45b44dcb8ab54ee3ffeac11a0b8e50",
+    "semantic_hash": ""
+  },
+  "docs/planning/SCENARIO.md": {
+    "mtime": 1791983714.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "72d5889af25239ba95b9632e36b35e59",
+    "semantic_hash": ""
+  },
+  "docs/review/ASSET-INDEX.md": {
+    "mtime": 1791983304.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "c2e16cb871e0b8778cd741e997aa4a94",
+    "semantic_hash": ""
+  },
+  "docs/review/CONCEPT-STORYBOARD.md": {
+    "mtime": 1792677134.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "172a28e01e6a4b14d10f2e3362b3deb3",
+    "semantic_hash": ""
+  },
+  "index.html": {
+    "mtime": 1792677014.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "22b78d8f8e221713c0193a63c606fb39",
+    "semantic_hash": ""
+  },
+  "public/assets/CREDITS.md": {
+    "mtime": 1792677134.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "3fdf1329e2ae7071945135e1954f1b20",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/Kenney-CC0.txt": {
+    "mtime": 1581350382.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "f169d6b86b70da383f3420976e83d8ad",
+    "semantic_hash": ""
+  },
+  "public/assets/fonts/Jua-OFL.txt": {
+    "mtime": 1790083846.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "f276c88b9e1a4cdbda701459db0a49a7",
+    "semantic_hash": ""
+  },
+  "references/design/gas-city-operation_deep-design_v2.md": {
+    "mtime": 1791388722.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "62b104f2ae54dc4f335161318f9ecaca",
+    "semantic_hash": ""
+  },
+  "assets/references/backgrounds/chatgpt_generated_21.png": {
+    "mtime": 1791388630.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "6766516878a7a3230d9f69b5f66b84c9",
+    "semantic_hash": ""
+  },
+  "assets/references/backgrounds/chatgpt_generated_22.png": {
+    "mtime": 1791388630.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "eacf4af1c1c73d636eb631d1a680a863",
+    "semantic_hash": ""
+  },
+  "assets/references/backgrounds/chatgpt_generated_23.png": {
+    "mtime": 1791388632.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "a7ec0dfae827e81e8a5f7a0d202be3c6",
+    "semantic_hash": ""
+  },
+  "assets/references/backgrounds/chatgpt_generated_24.png": {
+    "mtime": 1791388632.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "76991b5617bb6a95995c63b8ea98ca56",
+    "semantic_hash": ""
+  },
+  "assets/references/backgrounds/chatgpt_generated_25.png": {
+    "mtime": 1791388632.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "f4a7cdb88f0322f42ffb83344d8fec3d",
+    "semantic_hash": ""
+  },
+  "assets/references/backgrounds/chatgpt_generated_26.png": {
+    "mtime": 1791388634.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "cff5e0249851bd24e777841a45d8508b",
+    "semantic_hash": ""
+  },
+  "assets/references/backgrounds/chatgpt_generated_27.png": {
+    "mtime": 1791388634.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "42714fe30e67ff168de7a2b8b888e70b",
+    "semantic_hash": ""
+  },
+  "assets/references/backgrounds/chatgpt_generated_28.png": {
+    "mtime": 1791388636.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "841e6f495449f6cd3f83fb6b3f06fe2b",
+    "semantic_hash": ""
+  },
+  "assets/references/backgrounds/chatgpt_generated_29.png": {
+    "mtime": 1791388642.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "de8438c11af3fa43009af61435da8bb8",
+    "semantic_hash": ""
+  },
+  "assets/references/backgrounds/chatgpt_generated_30.png": {
+    "mtime": 1791388644.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "c264e0f6a5b166e6025cac59aa88c3d4",
+    "semantic_hash": ""
+  },
+  "assets/references/branding/chatgpt_generated_31.png": {
+    "mtime": 1791388644.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "51432a67de19505b63840bda42a21bd0",
+    "semantic_hash": ""
+  },
+  "assets/references/characters/chatgpt_generated_32.png": {
+    "mtime": 1791388644.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "7ac7934c97a78fcefc67240e5f3ab438",
+    "semantic_hash": ""
+  },
+  "assets/references/characters/chatgpt_generated_33.png": {
+    "mtime": 1791388646.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "0562c0fcc921a5263cbeace55a19275e",
+    "semantic_hash": ""
+  },
+  "assets/references/characters/chatgpt_generated_34.png": {
+    "mtime": 1791388646.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "978a17f9ac4ac8d87355f13c1321be42",
+    "semantic_hash": ""
+  },
+  "assets/references/screens/chatgpt_generated_01.png": {
+    "mtime": 1791388616.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "efab916f742692da22a6a48339072406",
+    "semantic_hash": ""
+  },
+  "assets/references/screens/chatgpt_generated_02.png": {
+    "mtime": 1791388616.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "9bff70f053a02b88462d30eef93645bb",
+    "semantic_hash": ""
+  },
+  "assets/references/screens/chatgpt_generated_03.png": {
+    "mtime": 1791388618.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "5b4487c2c1fb13ca2ee5750ba26914f5",
+    "semantic_hash": ""
+  },
+  "assets/references/screens/chatgpt_generated_04.png": {
+    "mtime": 1791388618.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "419208090b0538fe0f764bcd1c3c2ca2",
+    "semantic_hash": ""
+  },
+  "assets/references/screens/chatgpt_generated_05.png": {
+    "mtime": 1791388618.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "517920e39b8ecdb3e5d125f85f99587c",
+    "semantic_hash": ""
+  },
+  "assets/references/screens/chatgpt_generated_06.png": {
+    "mtime": 1791388620.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "bb75a0e470383fc7e046cdd63afb0934",
+    "semantic_hash": ""
+  },
+  "assets/references/screens/chatgpt_generated_07.png": {
+    "mtime": 1791388620.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "24b77f56e06eb45bc04c72df23f6425a",
+    "semantic_hash": ""
+  },
+  "assets/references/screens/chatgpt_generated_08.png": {
+    "mtime": 1791388620.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "375d694bc2bbe6c61ca83cab40ad8f70",
+    "semantic_hash": ""
+  },
+  "assets/references/screens/chatgpt_generated_09.png": {
+    "mtime": 1791388622.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "be7b55e6b9a34bce9015f0376dfc0b3f",
+    "semantic_hash": ""
+  },
+  "assets/references/screens/chatgpt_generated_10.png": {
+    "mtime": 1791388622.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "45444e9e0da74a83bdc8d77b51605b22",
+    "semantic_hash": ""
+  },
+  "assets/references/screens/chatgpt_generated_11.png": {
+    "mtime": 1791388624.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "cbd89af599283c57c626c8670a7b78a4",
+    "semantic_hash": ""
+  },
+  "assets/references/screens/chatgpt_generated_12.png": {
+    "mtime": 1791388624.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "c4ab20f18cc843bf52be11b4a9bdc412",
+    "semantic_hash": ""
+  },
+  "assets/references/screens/chatgpt_generated_13.png": {
+    "mtime": 1791388624.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "cafe350d04371873a0f9db73dc8e2e98",
+    "semantic_hash": ""
+  },
+  "assets/references/screens/chatgpt_generated_14.png": {
+    "mtime": 1791388626.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "57bace29c872d6934aa389f3edc536ae",
+    "semantic_hash": ""
+  },
+  "assets/references/screens/chatgpt_generated_15.png": {
+    "mtime": 1791388626.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "b7757028ea3c54fbf7c23b4f9d7cdcdc",
+    "semantic_hash": ""
+  },
+  "assets/references/screens/chatgpt_generated_16.png": {
+    "mtime": 1791388626.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "c572df9b48ee3827d978845e67b5e73c",
+    "semantic_hash": ""
+  },
+  "assets/references/screens/chatgpt_generated_17.png": {
+    "mtime": 1791388628.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "0deb493554819b45ab14b13eb05b68c8",
+    "semantic_hash": ""
+  },
+  "assets/references/screens/chatgpt_generated_18.png": {
+    "mtime": 1791388628.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "dceb93b259a81608a41ff123f672011a",
+    "semantic_hash": ""
+  },
+  "assets/references/screens/chatgpt_generated_19.png": {
+    "mtime": 1791388628.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "44e20740c3521a01572356113dad1909",
+    "semantic_hash": ""
+  },
+  "assets/references/screens/chatgpt_generated_20.png": {
+    "mtime": 1791388630.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "3602c349c2f85ad1072ee941b42b9abc",
+    "semantic_hash": ""
+  },
+  "docs/review/contact-sheet-1.png": {
+    "mtime": 1791982864.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "707bd00812d0ce7adcea345f8d1b81d3",
+    "semantic_hash": ""
+  },
+  "docs/review/contact-sheet-2.png": {
+    "mtime": 1791982868.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "21bc4941c60d4e3afd0ffc43a69a9674",
+    "semantic_hash": ""
+  },
+  "docs/review/contact-sheet-3.png": {
+    "mtime": 1791982872.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "f1a9c0d091c2df8267671a10725b3187",
+    "semantic_hash": ""
+  },
+  "public/assets/air-portrait.webp": {
+    "mtime": 1792590760.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "56fc1c2fb453c1a953e95b506e677060",
+    "semantic_hash": ""
+  },
+  "public/assets/air-walk.webp": {
+    "mtime": 1792590758.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "d80ff3f545aa72ede9c7e88fe1faff86",
+    "semantic_hash": ""
+  },
+  "public/assets/app-icon.svg": {
+    "mtime": 1792591438.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "ff723658eff6aebb4d814e56d5520571",
+    "semantic_hash": ""
+  },
+  "public/assets/climate.webp": {
+    "mtime": 1792590758.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "7baccd1b151671def9e148366ae1596f",
+    "semantic_hash": ""
+  },
+  "public/assets/concepts/car.webp": {
+    "mtime": 1792676782.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "0a2f505f88bb5cc280927d1930c211bc",
+    "semantic_hash": ""
+  },
+  "public/assets/concepts/carbon.webp": {
+    "mtime": 1792676758.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "6799ab95ef407e907c627b36698abb3d",
+    "semantic_hash": ""
+  },
+  "public/assets/concepts/engineering.webp": {
+    "mtime": 1792676774.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "9e0fd72aba6e31ccc7d1a8bfe43d9add",
+    "semantic_hash": ""
+  },
+  "public/assets/concepts/extinguisher.webp": {
+    "mtime": 1792676764.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "6310c7b0a7747dbed5389c75bc4cb738",
+    "semantic_hash": ""
+  },
+  "public/assets/concepts/flow.webp": {
+    "mtime": 1792676696.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "d1e5f6ae2f734ed64ff07a1f701017e2",
+    "semantic_hash": ""
+  },
+  "public/assets/concepts/nitrogen.webp": {
+    "mtime": 1792676740.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "ab9fad6415f7fd8ac125ebabdffe8432",
+    "semantic_hash": ""
+  },
+  "public/assets/concepts/oxygen.webp": {
+    "mtime": 1792676750.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "887a1716233905e9e066ecd5fd2841c7",
+    "semantic_hash": ""
+  },
+  "public/assets/concepts/pressure.webp": {
+    "mtime": 1792676728.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "dc9e101bde53cd71dcbe215ad301efa3",
+    "semantic_hash": ""
+  },
+  "public/assets/concepts/temperature.webp": {
+    "mtime": 1792676714.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "82593e04dfe6358a75c4f468914337b5",
+    "semantic_hash": ""
+  },
+  "public/assets/concepts/weight.webp": {
+    "mtime": 1792676704.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "83c629bf99e619d5eb843cdb8b565678",
+    "semantic_hash": ""
+  },
+  "public/assets/delivery.webp": {
+    "mtime": 1792590760.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "bd00ad21a1ba764339fce537ada3444e",
+    "semantic_hash": ""
+  },
+  "public/assets/ending.webp": {
+    "mtime": 1792590760.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "acfc6f5567472c5761a8c7a020326d69",
+    "semantic_hash": ""
+  },
+  "public/assets/engineering.webp": {
+    "mtime": 1792590760.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "4d0dee59e9dd49afcd2a5946133fe474",
+    "semantic_hash": ""
+  },
+  "public/assets/flow.webp": {
+    "mtime": 1792590758.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "99e7f39c2e6b79f93acd64a2beadd3cf",
+    "semantic_hash": ""
+  },
+  "public/assets/logo.webp": {
+    "mtime": 1792590758.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "db91bea8a4b56c598992bec73c2380dd",
+    "semantic_hash": ""
+  },
+  "public/assets/lumi-portrait.webp": {
+    "mtime": 1792590760.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "6e73696fa797332dfb4147b926198773",
+    "semantic_hash": ""
+  },
+  "public/assets/popo-portrait.webp": {
+    "mtime": 1792590760.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "1a43e5f7a73551e7ef81037f89132e2e",
+    "semantic_hash": ""
+  },
+  "public/assets/prop-balloon.webp": {
+    "mtime": 1792590762.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "9a39d7828ff12922d26106d0da72afca",
+    "semantic_hash": ""
+  },
+  "public/assets/prop-bottle.webp": {
+    "mtime": 1792590762.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "554ca0d3358bbc589b77c33867620f04",
+    "semantic_hash": ""
+  },
+  "public/assets/prop-fan.webp": {
+    "mtime": 1792590762.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "b3f8a01f862c6ca3a7bb7a18a655ff37",
+    "semantic_hash": ""
+  },
+  "public/assets/prop-jar.webp": {
+    "mtime": 1792590762.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "cb3136c22bb5c13252b580fde9c0595f",
+    "semantic_hash": ""
+  },
+  "public/assets/prop-nozzle.webp": {
+    "mtime": 1792590762.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "b13186d84b960bf956ec5d5b98d85528",
+    "semantic_hash": ""
+  },
+  "public/assets/prop-packet.webp": {
+    "mtime": 1792590762.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "4d3d0d1449e5085848a732949a271862",
+    "semantic_hash": ""
+  },
+  "public/assets/prop-piston.webp": {
+    "mtime": 1792590762.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "3a5d42ef8320c5df880c2572eb5fe39a",
+    "semantic_hash": ""
+  },
+  "public/assets/prop-pump.webp": {
+    "mtime": 1792590760.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "6b5b4f8b8e44753fa3e998739c9df96f",
+    "semantic_hash": ""
+  },
+  "public/assets/prop-scale.webp": {
+    "mtime": 1792590762.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "5d7da592ec067f7a302fb7d523ba2e13",
+    "semantic_hash": ""
+  },
+  "public/assets/prop-soda.webp": {
+    "mtime": 1792590764.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "cbacff867272bf3f1e4aee061c64a501",
+    "semantic_hash": ""
+  },
+  "public/assets/prop-toolbox.webp": {
+    "mtime": 1792590764.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "5020cb807975959598d335f54ada2398",
+    "semantic_hash": ""
+  },
+  "public/assets/prop-windmill.webp": {
+    "mtime": 1792590764.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "d1a154caa3b7f7e5b043e9bc498e3f10",
+    "semantic_hash": ""
+  },
+  "public/assets/soli.svg": {
+    "mtime": 1792676602.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "2fef23a6a0460083f6be42835896ee19",
+    "semantic_hash": ""
+  },
+  "public/assets/student-walk.webp": {
+    "mtime": 1792590756.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "290f2ab51508e33365baf695df32d75c",
+    "semantic_hash": ""
+  },
+  "public/assets/title.webp": {
+    "mtime": 1792590758.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "992cc12a506f6080f4f87eff000d6d5a",
+    "semantic_hash": ""
+  },
+  "public/assets/village.webp": {
+    "mtime": 1792590756.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "2ecddaccc6e8f0b92830b6727939c6ca",
+    "semantic_hash": ""
+  },
+  "public/assets/weight.webp": {
+    "mtime": 1792590758.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "43711300b1c487c099cdb6cf7a74acda",
+    "semantic_hash": ""
+  },
+  "references/generated/air-walk.png": {
+    "mtime": 1792590596.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "f22ffacc2ef03303ce09b812efd43887",
+    "semantic_hash": ""
+  },
+  "references/generated/lab-props.png": {
+    "mtime": 1792590648.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "8f1f5151459e5f0097f0a934f47f0956",
+    "semantic_hash": ""
+  },
+  "references/generated/student-walk.png": {
+    "mtime": 1792590540.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "f9dd78c0f7b971e96faac183014329b3",
+    "semantic_hash": ""
+  },
+  "references/generated/village.png": {
+    "mtime": 1792590486.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "bdd16ff10678119444daa51199851574",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/award.mp3": {
+    "mtime": 1792677016.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "e9ff018920fed295f328ecc1e7713350",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/connect.mp3": {
+    "mtime": 1792677016.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "4715b97ce4dcdc65f3f1b1282ab39c9b",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/hint.mp3": {
+    "mtime": 1792677016.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "922ca8cbdbd7301fdb9a3bc01f26f94d",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/pump.mp3": {
+    "mtime": 1792677016.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "5987ba1b93bf0fa036f1eba45cb47219",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/rotate.mp3": {
+    "mtime": 1792677016.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "46303fec5e9be3acb864ff4e1a48729a",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/success.mp3": {
+    "mtime": 1792677016.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "51e9af44db7f040826f7f5611e70d793",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/tap.mp3": {
+    "mtime": 1792677016.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "a75c8f338b7afd967938885e4b0e14d8",
+    "semantic_hash": ""
+  },
+  "public/assets/concepts/car.mp4": {
+    "mtime": 1792676782.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "7022d38d23ede807f32a6930818668cc",
+    "semantic_hash": ""
+  },
+  "public/assets/concepts/car.webm": {
+    "mtime": 1792676782.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "98d9b05e3104419444900700b8c27365",
+    "semantic_hash": ""
+  },
+  "public/assets/concepts/carbon.mp4": {
+    "mtime": 1792676756.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "77c1adba26b65b0b4d3981974d1e5b0d",
+    "semantic_hash": ""
+  },
+  "public/assets/concepts/carbon.webm": {
+    "mtime": 1792676756.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "c9bcf6b6c6301c55b4734284cdbc8167",
+    "semantic_hash": ""
+  },
+  "public/assets/concepts/engineering.mp4": {
+    "mtime": 1792676772.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "23efa893c85a3e6b5ca8ae21b704f70f",
+    "semantic_hash": ""
+  },
+  "public/assets/concepts/engineering.webm": {
+    "mtime": 1792676774.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "16818262c1696015976a08075776decd",
+    "semantic_hash": ""
+  },
+  "public/assets/concepts/extinguisher.mp4": {
+    "mtime": 1792676764.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "e9f77f98c8491bd9a5f5416aa0d7107d",
+    "semantic_hash": ""
+  },
+  "public/assets/concepts/extinguisher.webm": {
+    "mtime": 1792676764.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "9e5bc5ac1d4989186b96b82b5d9c5eee",
+    "semantic_hash": ""
+  },
+  "public/assets/concepts/flow.mp4": {
+    "mtime": 1792676696.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "2e2be0577f499f3e083be9a0da5e3dbb",
+    "semantic_hash": ""
+  },
+  "public/assets/concepts/flow.webm": {
+    "mtime": 1792676696.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "5a75f90e87bcd2094f0ab21d38f67c57",
+    "semantic_hash": ""
+  },
+  "public/assets/concepts/nitrogen.mp4": {
+    "mtime": 1792676738.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "1d8598c1f17628828137bbd4c8b0090b",
+    "semantic_hash": ""
+  },
+  "public/assets/concepts/nitrogen.webm": {
+    "mtime": 1792676740.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "dd15995e0b7ddc019cdca5c757a2feb4",
+    "semantic_hash": ""
+  },
+  "public/assets/concepts/oxygen.mp4": {
+    "mtime": 1792676748.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "a1ab12db1f23be6c1e2220c78e22e46f",
+    "semantic_hash": ""
+  },
+  "public/assets/concepts/oxygen.webm": {
+    "mtime": 1792676750.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "93755ea682ea90dff20b8cc66eaf82ee",
+    "semantic_hash": ""
+  },
+  "public/assets/concepts/pressure.mp4": {
+    "mtime": 1792676726.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "317693b81a543020d44e38377c7fba45",
+    "semantic_hash": ""
+  },
+  "public/assets/concepts/pressure.webm": {
+    "mtime": 1792676726.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "fecdf97f108cbb35e35f4b4ccbda047a",
+    "semantic_hash": ""
+  },
+  "public/assets/concepts/temperature.mp4": {
+    "mtime": 1792676714.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "f9b97c30cf8bc0b5cbeb80afd439438a",
+    "semantic_hash": ""
+  },
+  "public/assets/concepts/temperature.webm": {
+    "mtime": 1792676714.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "f30fcab8f48e9b27b07e23490bff2e78",
+    "semantic_hash": ""
+  },
+  "public/assets/concepts/weight.mp4": {
+    "mtime": 1792676704.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "200b6b64f7c1980e22ffd8a807f12a75",
+    "semantic_hash": ""
+  },
+  "public/assets/concepts/weight.webm": {
+    "mtime": 1792676704.0,
+    "seen": 1792677524.5741053,
+    "ast_hash": "2ca04d7a5a74fd891bd29106ffa7b94f",
+    "semantic_hash": ""
+  }
+}
