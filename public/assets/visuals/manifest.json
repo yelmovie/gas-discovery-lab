@@ -109,6 +109,20 @@
       "height": 512,
       "alpha": true,
       "sha256": "b40c75cb52e4d42ba1aba6cc8e4960c2d99f897becd6be50afd46f574d1de23d"
+    },
+    {
+      "file": "air-jar-v2.webp",
+      "url": "/assets/visuals/air-jar-v2.webp",
+      "bytes": 62016,
+      "width": 640,
+      "height": 728,
+      "alpha": true,
+      "sha256": "ebb19db3f9fd515db97a242d02638f7810af39b34573f877eb2e2516464598e2",
+      "generated": "2026-11-08",
+      "tool": "built-in image_gen",
+      "model": "not disclosed by tool",
+      "original": "output/overnight-20261108/air-jar-v2.png",
+      "usage": "Fixed-size airtight container in all four weight investigations; no visible gas particles"
     }
   ]
 }

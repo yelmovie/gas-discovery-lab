@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import {STAGES} from '../src/data.js';
-import {PIPE_PATTERNS,tracePipe,createPipePuzzle,massFor,compareMeasurements,volumeFor,validVolumePair,validateDelivery,validateDevice,isStageOpen,completeStage} from '../src/model.js';
+import {PIPE_PATTERNS,tracePipe,createPipePuzzle,massFor,compareMeasurements,volumeFor,validVolumePair,validateDelivery,validateDevice,isStageOpen,completeStage,teacherRoute} from '../src/model.js';
 import {freshSave,validateSave,loadSave} from '../src/state.js';
 import {validateMap,findPath,canStand,lineClear,movePoint,distance} from '../src/navigation.js';
 test('20 substantive tasks have unique ids and standards',()=>{const tasks=STAGES.flatMap(s=>s.tasks);assert.equal(tasks.length,20);assert.equal(new Set(tasks.map(t=>t.id)).size,20);assert.ok(STAGES.every(s=>s.standard&&s.tasks.length===4));});
@@ -18,3 +18,9 @@ const map=validateMap(JSON.parse(await fs.readFile(new URL('../public/assets/wor
 for(const b of map.buildings)test(`walkable route from spawn to ${b.id} and safe return position`,()=>{const [x,y]=map.nodes[b.entry];assert.ok(canStand(map,{x:b.return[0],y:b.return[1]}));const path=findPath(map,map.spawn,{x,y});assert.ok(path&&path.length);let previous=map.spawn;for(const step of path){assert.ok(lineClear(map,previous,step));previous=step;}assert.ok(distance(previous,{x,y})<1);});
 test('river and roof are blocked, and long movement cannot cross a wall',()=>{assert.equal(canStand(map,{x:110,y:610}),false);assert.equal(canStand(map,{x:820,y:700}),false);const start=map.spawn;const moved=movePoint(map,start,-2000,0);assert.ok(canStand(map,moved));assert.ok(moved.x>150);});
 test('all map geometry errors produce a load failure',()=>{assert.throws(()=>validateMap({...map,width:100}));assert.throws(()=>validateMap({...map,buildings:map.buildings.slice(1)}));});
+test('teacher shortcuts walk every step and facility in order',()=>{const r=(stageId,index)=>index===undefined?{screen:'stage',stageId}:{screen:'activity',stageId,index};const first=STAGES[0].id,second=STAGES[1].id,last=STAGES.at(-1).id;
+ assert.deepEqual(teacherRoute(r(first),'next'),r(first,0));assert.deepEqual(teacherRoute(r(first,2),'next'),r(first,3));assert.deepEqual(teacherRoute(r(first,3),'next'),r(second));
+ assert.deepEqual(teacherRoute(r(second),'prev'),r(first,3));assert.deepEqual(teacherRoute(r(first),'prev'),{screen:'map'});
+ assert.deepEqual(teacherRoute(r(first,2),'nextStage'),r(second));assert.deepEqual(teacherRoute(r(second,1),'prevStage'),r(first));assert.deepEqual(teacherRoute(r(first,1),'prevStage'),r(first));
+ assert.deepEqual(teacherRoute(r(last,3),'next'),{screen:'finale'});assert.deepEqual(teacherRoute(r(last),'nextStage'),{screen:'finale'});assert.deepEqual(teacherRoute({screen:'finale'},'prev'),r(last,3));assert.deepEqual(teacherRoute({screen:'map'},'next'),r(first));
+ let steps=0,route={screen:'map'};while(route.screen!=='finale'&&steps<40){route=teacherRoute(route,'next');steps++;}assert.equal(steps,STAGES.length*5+1);});

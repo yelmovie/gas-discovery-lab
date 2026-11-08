@@ -8,7 +8,7 @@ for(const [width,height] of [[1280,800],[906,755],[1920,1080],[1024,768],[1440,9
  console.log('Checking layout',width,height);
  const isolated=await b.newContext({storageState:{cookies:[],origins:[]},viewport:{width,height}}),p=await isolated.newPage();p.on('pageerror',e=>errors.push(e.message));
  await p.goto('http://127.0.0.1:4176');
- assert.equal(await p.evaluate(()=>localStorage.length),0,'Layout QA must use isolated empty storage');await p.evaluate(async()=>{const {store}=await import('/src/state.js');const s=store.save;s.introSeen=true;s.settings.adminUnlockAll=true;s.settings.music=false;s.settings.sfx=false;localStorage.setItem('gas-city-adventure-v1',JSON.stringify(s));});
+ assert.equal(await p.evaluate(()=>localStorage.length),0,'Layout QA must use isolated empty storage');await p.evaluate(async()=>{const {store}=await import('/src/state.js');const s=store.save;s.introSeen=true;const {STAGES}=await import('/src/data.js');for(const stage of STAGES)s.evidence[stage.id]=stage.tasks.map(t=>({taskId:t.id,summary:'격리된 화면 검증용 기록',details:{}}));s.settings.music=false;s.settings.sfx=false;localStorage.setItem('gas-city-adventure-v1',JSON.stringify(s));});
  await p.reload();
  for(const route of ['home','map','stage/flow','stage/weight','stage/climate','stage/delivery','stage/engineering',...['flow','weight','climate','delivery','engineering'].flatMap(s=>[0,1,2,3].map(i=>`stage/${s}/${i}`)),'finale']){
   await p.goto('http://127.0.0.1:4176/#'+route);await p.locator('.boot').waitFor({state:'detached'});await p.locator(route.startsWith('stage/')?route.split('/').length===3?'.activity-screen':'.stage-screen':`.${route}-screen`).waitFor();await p.waitForTimeout(route==='map'?900:100);

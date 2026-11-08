@@ -1,20 +1,63 @@
-/* Generated educational apparatus; labels and interactions stay in DOM. */
-.design-target.target-car,.design-target.target-core{width:clamp(104px,10vw,164px);height:clamp(90px,9vw,150px);position:relative;align-self:center}
-.design-target .generated-target{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none;user-select:none;filter:drop-shadow(0 5px 3px #153e4228)}
-.design-target.target-core.core-active{animation:core-apparatus-power 2s ease-in-out infinite}
-.target-car.car-moving{animation:generated-car-journey 2.4s ease-in-out infinite}
+/* The assembly stays large; all six optional parts remain within reach. */
+.engineering-layout .workbench-panel{display:grid;grid-template-rows:minmax(0,1fr) auto;gap:clamp(7px,1.2dvh,16px);height:100%;min-height:0;justify-content:stretch}
+.engineering-layout .assembly-scene{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,1fr);align-items:stretch;gap:clamp(6px,1vw,18px);height:100%;min-height:0;min-width:0;flex:none;padding:clamp(7px,1vw,18px);border:1px solid #c6d8ce;border-bottom:4px solid #a7b9aa;border-radius:16px;background:linear-gradient(#edf5ed,#dce9dd);position:relative;isolation:isolate}
+.engineering-layout .design-slots{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(6px,1vw,16px);height:100%;min-height:0;min-width:0;flex:none}
+.engineering-layout .design-slot{display:grid;grid-template-rows:auto minmax(0,1fr);align-items:stretch;justify-content:stretch;position:relative;min-width:0;min-height:0;gap:clamp(4px,1dvh,12px);padding:clamp(5px,.7vw,12px);background:#fffdf1;border:2px dashed #a9bcae;border-radius:12px;font-size:clamp(14px,1.5vw,26px);line-height:1.2;text-align:center}
+.engineering-layout .design-slot.filled{border-style:solid;border-color:#5a9081;background:#f8fff5;box-shadow:0 3px 0 #aec5b7}
+.engineering-layout .design-slot:not(:last-child)::after{content:'›';position:absolute;left:100%;top:48%;width:clamp(6px,1vw,16px);color:#397c72;font:clamp(18px,2vw,32px)/1 var(--font-display);text-align:center;pointer-events:none}
+.engineering-layout .slot-caption{display:flex;align-items:center;justify-content:center;gap:clamp(3px,.4vw,7px);min-width:0;min-height:0;font-size:clamp(14px,1.4vw,25px);line-height:1.2}
+.engineering-layout .slot-caption>span:last-child{min-width:0;word-break:keep-all;overflow-wrap:anywhere}
+.engineering-layout .slot-order{display:inline-grid;place-items:center;width:clamp(18px,1.8vw,30px);height:clamp(18px,1.8vw,30px);flex:none;border-radius:50%;background:#e3ece1;border:1px solid #aac2ad;font:clamp(14px,1.1vw,20px)/1 var(--font-display);color:#215b52}
+.engineering-layout .slot-art{display:grid;place-items:center;height:100%;min-height:0;min-width:0;width:100%}
+.engineering-layout .slot-art>.prop,.engineering-layout .slot-art>.part-diagram{display:block;width:100%;height:100%;min-height:0;min-width:0;object-fit:contain;margin:0}
+.engineering-layout .slot-plus{display:grid;place-items:center;width:100%;height:100%;min-height:0;color:#9aaea0;font:clamp(32px,6vw,80px)/1 var(--font-display)}
+.engineering-layout .design-destination{display:grid;grid-template-columns:clamp(14px,1.6vw,28px) minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto;align-items:center;gap:5px;min-height:0;min-width:0}
+.engineering-layout .output-path{grid-column:1;grid-row:1;display:grid;place-items:center;color:#407a70;min-height:0;min-width:0}
+.engineering-layout .output-path .icon{display:block;width:clamp(14px,1.6vw,28px);height:clamp(14px,1.6vw,28px);color:inherit}
+.engineering-layout .assembly-scene[data-direction=backward] .output-path .icon{transform:rotate(180deg)}
+.engineering-layout .assembly-scene[data-valve=closed] .output-path{color:#8a978b}
+.engineering-layout .design-target{grid-column:2;grid-row:1;position:relative;display:grid;place-items:center;width:100%;height:100%;min-height:0;min-width:0;overflow:visible;align-self:stretch;flex:none}
+.engineering-layout .design-target>.prop,.engineering-layout .design-target .generated-target{display:block;width:100%;height:100%;min-height:0;min-width:0;object-fit:contain;pointer-events:none;user-select:none;filter:drop-shadow(0 4px 3px #153e4228)}
+.engineering-layout .design-target .illustrated-fan{width:100%;height:auto;max-height:100%;aspect-ratio:1}
+.engineering-layout .target-caption{grid-column:1/-1;grid-row:2;display:block;max-width:100%;text-align:center;font:clamp(14px,1.3vw,23px)/1.2 var(--font-display);color:#275f56;word-break:keep-all}
+.engineering-layout .engineering-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(7px,1vw,14px)}
+.engineering-layout .engineering-controls .button{display:flex;justify-content:center;align-items:center;min-width:0;min-height:44px;padding:8px;font-size:clamp(14px,1.4vw,25px)}
+.engineering-layout .control-state{font-family:var(--font-display);font-size:inherit;line-height:1.2}
+.engineering-layout .valve-control[aria-pressed=true]{background:#dfefdf;border-color:#628b6c;color:#275b3c}
+.engineering-layout .test-panel{display:grid;grid-template-rows:minmax(0,1fr) auto;justify-content:stretch;gap:clamp(7px,1.2dvh,16px);height:100%;min-height:0}
+.engineering-layout .parts-tray{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(2,minmax(44px,1fr));gap:clamp(7px,1vw,14px);height:100%;min-height:0;min-width:0;padding:0}
+.engineering-layout .part-card{position:relative;display:grid;grid-template-rows:minmax(0,1fr) auto;align-items:center;justify-items:center;justify-content:stretch;gap:clamp(4px,.7dvh,10px);min-width:0;min-height:44px;padding:clamp(5px,.8vw,14px);border:2px solid #b8baa1;background:#fffdf0;box-shadow:0 3px 0 #acb09a;border-radius:12px;cursor:grab}
+.engineering-layout .part-card .prop,.engineering-layout .part-card .part-diagram{display:block;flex:none;width:100%;height:100%;min-height:0;min-width:0;object-fit:contain;margin:0}
+.engineering-layout .part-card>span:last-child{min-width:0;margin:0;font:clamp(14px,1.3vw,24px)/1.2 var(--font-display);word-break:keep-all;overflow-wrap:anywhere;text-align:center}
+.engineering-layout .part-card.selected{background:#e2f1e4;border-color:#47806b;box-shadow:0 3px 0 #477661}
+.engineering-layout .part-card.selected::after{content:'✓';position:absolute;right:3px;top:2px;color:#245c46;font-size:clamp(14px,1.1vw,20px);line-height:1}
+.engineering-layout .device-actions{display:flex;gap:clamp(7px,1vw,14px);min-width:0}
+.engineering-layout .device-actions .button{flex:1;min-width:0;min-height:44px;padding:8px;font-size:clamp(14px,1.3vw,24px);gap:6px}
+.engineering-layout .device-actions .icon{width:clamp(17px,1.6vw,28px);height:clamp(17px,1.6vw,28px);flex:none}
+.engineering-layout .air-running::after,.engineering-layout .car-air-running::after{display:none}
+.engineering-layout .air-running .output-path .icon,.engineering-layout .car-air-running .output-path .icon,.engineering-layout .assembly-scene[data-playback=flow] .output-path .icon{color:#127c76;filter:drop-shadow(0 0 3px #9edbbd)}
+.engineering-layout .assembly-scene[data-playback=flow] .output-path{animation:assembly-air-pulse calc(.7s / var(--playback-rate,1)) linear infinite}
+.engineering-layout .target-core.core-active{animation:core-apparatus-power calc(2s / var(--playback-rate,1)) ease-in-out infinite}
+.engineering-layout .target-car.car-moving{animation:generated-car-journey calc(2.4s / var(--playback-rate,1)) ease-in-out infinite}
 @keyframes core-apparatus-power{50%{filter:drop-shadow(0 0 9px #7dcabd95)}}
-@keyframes generated-car-journey{0%{transform:translateX(-8px);opacity:0}12%{opacity:1}80%{transform:translateX(15px);opacity:1}94%,100%{transform:translateX(15px);opacity:0}}
-.car-air-running::after{content:'';position:absolute;right:22%;width:18%;top:48%;height:6px;pointer-events:none;background:repeating-linear-gradient(90deg,#338f95 0 8px,transparent 8px 18px);background-size:36px 100%;animation:car-exhaust .6s linear infinite;opacity:.65}
-@keyframes car-exhaust{to{background-position:-36px 0}}
-@media(max-width:1050px){
- .design-target.target-car,.design-target.target-core{width:94px;height:90px}
- .engineering-layout .design-slots{min-width:0}
+@keyframes generated-car-journey{0%,100%{transform:translateX(-4px)}70%{transform:translateX(7px)}}
+@keyframes assembly-air-pulse{50%{opacity:.4}}
+@media(max-height:520px){
+ .engineering-layout .part-card{grid-template-columns:minmax(18px,.6fr) minmax(0,1fr);grid-template-rows:minmax(0,1fr);gap:4px;padding:5px}
+ .engineering-layout .part-card>span:last-child{font-size:14px}
+ .engineering-layout .design-slot{padding:5px;gap:4px}
+ .engineering-layout .slot-caption{font-size:14px}
+ .engineering-layout .slot-order{width:18px;height:18px;font-size:14px}
+ .engineering-layout .device-actions .button{font-size:14px;padding:6px;gap:4px}
+ .engineering-layout .engineering-controls .button{font-size:14px;padding:6px}
 }
-@media(max-height:680px){
- .design-target.target-car,.design-target.target-core{width:86px;height:80px}
+@media(min-width:1500px) and (min-height:850px){
+ .engineering-layout .slot-order{font-size:20px}
+ .engineering-layout .slot-caption{font-size:25px}
+ .engineering-layout .target-caption{font-size:23px}
+ .engineering-layout .part-card>span:last-child{font-size:24px}
 }
 @media(prefers-reduced-motion:reduce){
- .design-target.target-core.core-active,.target-car.car-moving,.car-air-running::after{animation:none;opacity:1}
- .design-target.target-core.core-active{filter:drop-shadow(0 0 7px #7dcabd95)}
+ .engineering-layout .target-core.core-active,.engineering-layout .target-car.car-moving,.engineering-layout .assembly-scene[data-playback=flow] .output-path{animation:none}
+ .engineering-layout .target-core.core-active{filter:drop-shadow(0 0 7px #7dcabd95)}
 }

@@ -63,3 +63,15 @@ export function validateDevice(design,task){
 }
 export function completeStage(save,id){const stage=STAGES.find(s=>s.id===id);if(!stage)return false;const ids=new Set((save.evidence?.[id]||[]).map(e=>e.taskId));return stage.tasks.every(t=>ids.has(t.id));}
 export function isStageOpen(save,index){if(!Number.isInteger(index)||index<0||index>=STAGES.length)return false;return save.settings?.adminUnlockAll===true||index===0||completeStage(save,STAGES[index-1].id);}
+// Teacher shortcuts: map → (facility intro → 4 tasks) × 5 → finale, one flat path.
+export function teacherRoute(route,move){
+ const path=[{screen:'map'},...STAGES.flatMap(s=>[{screen:'stage',stageId:s.id},...s.tasks.map((t,index)=>({screen:'activity',stageId:s.id,index}))]),{screen:'finale'}];
+ const at=Math.max(0,path.findIndex(p=>p.screen===route.screen&&p.stageId===route.stageId&&(p.index===undefined||p.index===route.index)));
+ const stageAt=i=>STAGES.findIndex(s=>s.id===path[i].stageId);
+ if(move==='next')return path[Math.min(path.length-1,at+1)];
+ if(move==='prev')return path[Math.max(0,at-1)];
+ const stage=stageAt(at);
+ if(move==='nextStage')return stage+1<STAGES.length?{screen:'stage',stageId:STAGES[stage+1].id}:{screen:'finale'};
+ if(move==='prevStage'){if(path[at].screen==='finale')return {screen:'stage',stageId:STAGES.at(-1).id};if(stage<0)return path[0];return {screen:'stage',stageId:STAGES[Math.max(0,stage-1)].id};}
+ return route;
+}

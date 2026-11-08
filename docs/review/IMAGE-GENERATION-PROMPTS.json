@@ -103,5 +103,28 @@
         }
       ]
     }
+  },
+  {
+    "source": "title-v2",
+    "details": {
+      "generatedAt": "2026-10-30",
+      "mode": "Figma AI generate_image (gpt-image-2.5)",
+      "assets": [
+        {
+          "id": "air-fox-v2",
+          "original": "asset-bank/original/air-fox-v2.png",
+          "web": "public/assets/air-portrait.webp",
+          "note": "흰 배경을 가장자리부터 지워 투명 처리하고 높이 1100px WebP로 변환",
+          "prompt": "Full-body character illustration of a cute young fox inventor mascot for a Korean elementary science adventure game, ages 9-12. Bright orange fox with cream-white muzzle, chest and tail tip, big warm amber eyes, friendly confident smile, waving, holding a small brass air-pressure gauge. Teal-and-brass aviator goggles, cream explorer vest with teal trim and brass gear badge, light blue shirt, brown belt and satchel, cream shorts, teal boots with brass caps. Polished friendly 3D game character render, cream, deep teal and brass palette. Plain white background, no text."
+        },
+        {
+          "id": "title-v2",
+          "original": "asset-bank/original/title-v2.png",
+          "web": "public/assets/title.webp",
+          "note": "1600×900 WebP",
+          "prompt": "Wide 16:9 title-screen key art for a Korean elementary science game about air and gases: a research village in nature with forest, river, stone bridge, cream-and-teal domed science buildings, brass pipes, glass tubes with glowing air bubbles, windmills and a central air-core tower with a glowing glass sphere; golden morning light; calmer left side for the logo; sunny path in the lower right; no characters, no text."
+        }
+      ]
+    }
   }
 ]

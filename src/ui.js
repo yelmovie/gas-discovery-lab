@@ -5,7 +5,7 @@ export function html(markup){const t=document.createElement('template');t.innerH
 export function button(text,fn,cls='button primary'){const b=html(`<button type="button" class="${cls}">${text}</button>`);b.addEventListener('click',fn);return b;}
 export function announce(text){const live=document.querySelector('#live');if(live){live.textContent='';requestAnimationFrame(()=>live.textContent=text);}}
 export function message(container,text,kind='hint'){container.innerHTML=`<div class="feedback ${kind}" role="status">${icon(kind==='success'?'check':'flask')}<span>${escapeHTML(text)}</span></div>`;announce(text);}
-export function prop(name,cls='',alt=''){return `<img class="prop ${cls}" src="/assets/prop-${name}.webp" alt="${alt}" draggable="false">`;}
+export function prop(name,cls='',alt=''){return `<img class="prop ${cls}" src="${name==='jar'?'/assets/visuals/air-jar-v2.webp':`/assets/prop-${name}.webp`}" alt="${alt}" draggable="false">`;}
 export function portrait(npc,cls=''){return `<img class="npc-portrait ${cls}" src="/assets/${npc}-portrait.webp" alt="${{air:'여우 발명가 에어',lumi:'고양이 연구원 루미',popo:'다람쥐 관제원 포포'}[npc]}" draggable="false">`;}
 export function openDialog(title,body,{wide=false,footer,close=true,onClose}={}){
  const focus=document.activeElement;

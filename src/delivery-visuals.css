@@ -1,28 +1,48 @@
-/* The gas's use is shown with a real learning prop; controls remain DOM elements. */
-.gas-use-card,.gas-use-result{display:grid;grid-template-columns:minmax(90px,.75fr) minmax(0,1.5fr);align-items:center;gap:16px;min-width:0}
-.gas-use-image{display:block;width:100%;height:clamp(125px,12vw,185px);object-fit:contain;pointer-events:none;user-select:none;filter:drop-shadow(0 5px 4px #184d4b12)}
-.gas-use-copy{min-width:0;text-align:left}
-.gas-information .gas-use-copy h3{font-size:clamp(22px,1.8vw,30px);line-height:1.25;margin:0 0 8px}
-.gas-use-copy p{font-size:var(--classroom-body);line-height:1.4;margin:0;color:var(--teal-800)}
-.gas-information .gas-use-copy ul{font-size:var(--classroom-body);line-height:1.4;margin:0;padding-left:1em}
-.gas-information .gas-use-copy li+li{margin-top:6px}
-.gas-use-complete{display:flex;align-items:center;gap:6px;color:var(--teal-800);font:var(--text-small)/1.25 var(--font-display);margin-bottom:8px}
-.gas-use-complete .icon{flex:none;width:20px;height:20px}
-.gas-use-result .gas-use-image{animation:delivery-prop-arrive .4s ease-out}
-.facility-object .prop{width:100%;height:100%;object-fit:contain}
-@keyframes delivery-prop-arrive{from{opacity:.3;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-@media(max-width:1050px){
- .gas-use-card,.gas-use-result{grid-template-columns:minmax(80px,.65fr) minmax(0,1.4fr);gap:12px}
- .gas-use-image{height:145px}
- .gas-information .gas-use-copy h3{font-size:22px}
- .gas-use-copy p,.gas-information .gas-use-copy ul{font-size:20px}
+/* Observation and choices share the viewport; no fixed-height illustration stacks. */
+.delivery-layout .research-panel{display:grid;grid-template-rows:clamp(48px,9dvh,112px) minmax(0,1fr) auto;gap:clamp(6px,1.2dvh,14px);height:100%;min-height:0;justify-content:stretch}
+.delivery-layout .gas-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(5px,.8vw,12px);height:100%;min-height:0;align-items:stretch}
+.delivery-layout .gas-card{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:minmax(0,1fr);align-items:center;justify-content:center;min-width:0;min-height:44px;gap:clamp(4px,.8vw,12px);padding:6px;border:2px solid #b7bba4;border-radius:13px;background:linear-gradient(#fffef6,#f5f2de);box-shadow:0 3px 0 #b0b59c;position:relative}
+.delivery-layout .gas-card strong{font:clamp(14px,1.7vw,28px)/1.2 var(--font-display);word-break:keep-all;overflow-wrap:anywhere;text-align:center;min-width:0}
+.delivery-layout .gas-card.selected{border-color:#367967;box-shadow:0 3px 0 #356956,inset 0 0 0 1px #367967;background:#e2f0e1}
+.delivery-layout .gas-card.is-observing{outline:3px dashed #bc8b38;outline-offset:-5px}
+.delivery-layout .gas-read-state{display:none}
+.delivery-layout .gas-orb{display:grid;place-items:center;flex:none;width:clamp(26px,6dvh,68px);height:clamp(26px,6dvh,68px);border:3px solid #ffffffab;box-shadow:inset 0 -4px 0 #173a2e26,0 2px 5px #283e3420;font:clamp(14px,1.8vw,29px)/1 var(--font-display)}
+.delivery-layout .gas-color-note{font-size:clamp(14px,1.1vw,20px);line-height:1.2;color:#5d6c5e;margin:0;text-align:center}
+.delivery-layout .gas-information{padding:clamp(7px,1vw,18px);height:100%;min-width:0;min-height:0;background:linear-gradient(135deg,#f0f5e8,#e6efdf);border:1px solid #becdb8;border-radius:16px}
+.delivery-layout .gas-use-card,.delivery-layout .gas-use-result{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.3fr);align-items:center;gap:clamp(7px,1.2vw,20px);height:100%;min-width:0;min-height:0}
+.delivery-layout .gas-use-visual{height:100%;min-width:0;min-height:0;display:grid;grid-template-rows:minmax(0,1fr) auto;gap:4px;justify-items:center}
+.delivery-layout .gas-use-visual>span{font:clamp(14px,1.2vw,22px)/1.2 var(--font-display);color:#3d6657;word-break:keep-all;text-align:center;max-width:100%}
+.delivery-layout .gas-use-image{display:block;width:100%;height:100%;min-width:0;min-height:0;object-fit:contain;pointer-events:none;user-select:none;filter:drop-shadow(0 4px 3px #184d4b12)}
+.delivery-layout .awaiting-gas{grid-template-columns:minmax(0,1fr)}
+.delivery-layout .awaiting-gas .gas-use-copy{display:none}
+.delivery-layout .gas-use-copy{min-width:0;min-height:0;text-align:left;overflow-wrap:anywhere;word-break:keep-all}
+.delivery-layout .gas-information .gas-use-copy h3{font-size:clamp(18px,1.8vw,32px);line-height:1.2;margin:0 0 clamp(5px,1dvh,12px);color:#285e50}
+.delivery-layout .gas-use-copy p,.delivery-layout .gas-information .gas-use-copy ul{font-size:clamp(14px,1.45vw,26px);line-height:1.35;margin:0;color:var(--teal-800)}
+.delivery-layout .gas-information .gas-use-copy ul{padding-left:1em}
+.delivery-layout .gas-information .gas-use-copy li+li{margin-top:clamp(4px,1dvh,14px)}
+.delivery-layout .gas-use-complete{display:flex;align-items:center;gap:6px;color:var(--teal-800);font:clamp(14px,1.2vw,22px)/1.2 var(--font-display);margin-bottom:8px}
+.delivery-layout .gas-use-complete .icon,.delivery-layout .gas-use-link .icon{flex:none;width:clamp(16px,1.5vw,26px);height:clamp(16px,1.5vw,26px)}
+.delivery-layout .gas-use-link{display:flex;align-items:center;gap:7px;margin-top:clamp(6px,1.2dvh,16px);padding-top:clamp(5px,1dvh,12px);border-top:1px solid #b7cdb3;color:#2c6251;font:clamp(14px,1.4vw,25px)/1.25 var(--font-display)}
+.delivery-layout .gas-use-link strong{font-weight:400;min-width:0}
+.delivery-layout .facility-panel{display:grid;grid-template-rows:minmax(0,1fr) auto;align-content:stretch;justify-content:stretch;gap:clamp(6px,1dvh,14px);height:100%;min-height:0}
+.delivery-layout .reason-slot,.delivery-layout .reason-slot .choice-group{height:100%;min-height:0;min-width:0}
+.delivery-layout .reason-slot .choice-group{display:grid;grid-template-rows:repeat(3,minmax(44px,1fr));gap:clamp(6px,1dvh,14px)}
+.delivery-layout .reason-slot .choice{display:flex;align-items:center;min-width:0;min-height:44px;white-space:normal;word-break:keep-all;overflow-wrap:anywhere;font-size:clamp(14px,1.5vw,27px);line-height:1.3;padding:clamp(6px,1vw,15px);text-align:left}
+.delivery-layout .reason-slot .radio-dot{flex:0 0 clamp(15px,1.6vw,25px);width:clamp(15px,1.6vw,25px);height:clamp(15px,1.6vw,25px)}
+.delivery-layout .supply-port{display:flex;align-items:center;justify-content:center;gap:8px;min-width:0;min-height:0;padding:7px 10px;margin:0;background:#edf3e8;border:2px dashed #91ad95;border-radius:12px;font:clamp(14px,1.3vw,23px)/1.2 var(--font-display)}
+.delivery-layout .supply-port>.icon{width:clamp(18px,1.6vw,28px);height:clamp(18px,1.6vw,28px);flex:none}
+.delivery-layout .supply-port>span{min-width:0;word-break:keep-all;overflow-wrap:anywhere}
+.delivery-layout .supply-port.ready{border-style:solid;border-color:#6f9a80;background:#e1ecde}
+.delivery-layout .supply-port.connected{border-color:#639455;background:#deedcf}
+@media(max-height:440px){
+ .delivery-layout .supply-port{display:none}
+ .delivery-layout .facility-panel{grid-template-rows:minmax(0,1fr)}
+ .delivery-layout .gas-information .gas-use-copy h3{font-size:16px;margin-bottom:4px}
+ .delivery-layout .gas-use-complete{margin-bottom:4px}
+ .delivery-layout .gas-use-link{margin-top:5px;padding-top:4px}
 }
-@media(max-height:680px){
- .gas-use-card,.gas-use-result{gap:10px}
- .gas-use-image{height:128px}
- .gas-information .gas-use-copy h3{font-size:22px;margin-bottom:6px}
- .gas-use-copy p,.gas-information .gas-use-copy ul{font-size:20px;line-height:1.3}
- .gas-information .gas-use-copy li+li{margin-top:4px}
- .gas-use-complete{font-size:18px;margin-bottom:6px}
+@media(min-width:1500px) and (min-height:850px){
+ .delivery-layout .gas-card strong{font-size:28px}
+ .delivery-layout .gas-color-note{font-size:20px}
+ .delivery-layout .gas-use-visual>span,.delivery-layout .gas-use-complete{font-size:22px}
 }
-@media(prefers-reduced-motion:reduce){.gas-use-result .gas-use-image{animation:none}}

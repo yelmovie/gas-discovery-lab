@@ -1,17 +1,68 @@
-/* Illustrated apparatus; volume and particle positions remain tied to the model. */
-.thermal-apparatus{position:relative;width:240px;height:100%;pointer-events:none}
-.thermal-bottle{position:absolute;left:32%;bottom:2%;width:36%;height:53%;object-fit:fill;pointer-events:none}
-.thermal-balloon{position:absolute;left:23%;bottom:50%;width:54%;height:41%;transform:scale(var(--thermal-scale,1));transform-origin:50% 94%;transition:transform .35s ease-out;pointer-events:none}
+/* One screen: the apparatus takes all space left above its condition control. */
+.climate-layout{height:100%;min-height:0;align-items:stretch}
+.climate-layout .climate-panel{display:grid;grid-template-rows:minmax(0,1fr) auto;gap:8px;height:100%;min-height:0}
+.climate-layout .climate-scene{height:auto;min-height:0;flex:initial;border:1px solid #b5cbc9;background:linear-gradient(180deg,#e9f3f1 0%,#f8fbf4 82%,#dce6d9 83%,#eef1e7 100%);box-shadow:inset 0 0 0 5px #ffffff5c;isolation:isolate}
+.climate-layout .climate-scene.temperature[data-condition="0"]{background:linear-gradient(180deg,#d5e9f4,#f2f8fb 82%,#d6e6e6 83%,#e9f0ed)}
+.climate-layout .climate-scene.temperature[data-condition="2"]{background:linear-gradient(180deg,#fae5c9,#fff7e8 82%,#e8ddc2 83%,#f4eddd)}
+.climate-layout .climate-scene.pressure{background:linear-gradient(180deg,#e3eef0,#f5f9f7 82%,#dae3dd 83%,#eaf0e7)}
+.climate-scene-head{position:absolute;left:10px;right:10px;top:7px;display:flex;align-items:center;justify-content:space-between;gap:6px;z-index:4;pointer-events:none;line-height:1.3;font-size:clamp(14px,1.2vw,22px)}
+.climate-scene-head .condition-pill{position:static;flex:none;padding:3px 8px;border:1px solid #9dbdb6;border-radius:9px;background:#fffef7;color:#245d59;font-size:inherit;line-height:1.25;white-space:nowrap}
+.climate-constants{color:#3c625d;font-size:clamp(14px,1vw,20px);line-height:1.3;text-align:right;word-break:keep-all}
+.climate-layout .volume-visual{inset:36px 6px 5px;container-type:size}
+/* Container units preserve the image proportions at any available height. */
+.thermal-apparatus{position:relative;width:min(94cqw,calc(98cqh * 1.05));height:min(98cqh,calc(94cqw / 1.05));pointer-events:none}
+.thermal-bottle{position:absolute;left:32%;bottom:1%;width:36%;height:53%;object-fit:fill;pointer-events:none}
+.thermal-balloon{position:absolute;left:23%;bottom:50%;width:54%;height:41%;transform:scale(var(--thermal-scale,1));transform-origin:50% 94%;transition:transform var(--climate-motion,350ms) ease-out;pointer-events:none}
 .thermal-balloon-art{display:block;width:100%;height:100%;object-fit:fill}
-.temperature .thermal-balloon .gas-particles{left:10%;top:8%;width:74%;height:73%;transform:none;clip-path:ellipse(50% 50%);opacity:.75}
-.thermal-balloon .gas-particles i{width:5px;height:5px;background:#ffedd3;animation:thermal-particle-drift 2s ease-in-out var(--delay) infinite alternate}
-@keyframes thermal-particle-drift{to{transform:translate(2px,-2px)}}
-.pressure .pressure-apparatus{position:relative;height:100%;width:min(100%,320px);pointer-events:none;isolation:isolate}
+.pressure .pressure-apparatus{position:relative;width:min(96cqw,calc(98cqh * 1.35));height:min(98cqh,calc(96cqw / 1.35));pointer-events:none;isolation:isolate}
 .pressure-chamber-art{position:absolute;left:20%;top:24%;width:60%;height:74%;object-fit:fill;pointer-events:none;z-index:1}
-.pressure-plunger-art{position:absolute;left:34.5%;top:var(--plunger-top,.52%);width:31%;height:44%;object-fit:fill;pointer-events:none;z-index:3;transition:top .28s ease-out}
-.pressure .piston-air-space{position:absolute;left:36.5%;bottom:16%;width:27%;height:var(--chamber-air-height,43%);z-index:2;overflow:hidden;background:#83c9cb24;border-radius:0 0 12% 12%;transition:height .28s ease-out;pointer-events:none}
-.pressure .piston-air-space .gas-particles{inset:0;width:100%;height:100%;transform:none;opacity:.8}
-.pressure .space-label{bottom:8px;right:8px;font-size:var(--text-small);padding:4px 8px;max-width:45%;text-align:center;line-height:1.25}
-@media(min-width:1600px) and (min-height:850px){.pressure .pressure-apparatus{width:380px}}
-@media(max-height:680px){.pressure .pressure-apparatus{width:230px}.pressure .space-label{max-width:35%;font-size:18px}}
-@media(prefers-reduced-motion:reduce){.pressure-plunger-art,.pressure .piston-air-space,.thermal-balloon{transition:none}.thermal-balloon .gas-particles i{animation:none}}
+.pressure-plunger-art{position:absolute;left:34.5%;top:var(--plunger-top,.52%);width:31%;height:44%;object-fit:fill;pointer-events:none;z-index:3;transition:top var(--climate-motion,350ms) ease-out}
+.pressure .piston-air-space{position:absolute;left:36.5%;bottom:16%;width:27%;height:var(--chamber-air-height,43%);z-index:2;overflow:hidden;background:linear-gradient(90deg,#4faeb83b,#b4e4dd40,#4faeb83b);border-radius:0 0 12% 12%;transition:height var(--climate-motion,350ms) ease-out;pointer-events:none}
+.climate-controls{display:grid;grid-template-rows:auto 44px;gap:0;min-width:0}
+.climate-layout .range-labels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;text-align:center;font-size:clamp(14px,1.2vw,20px);line-height:1.3}
+.climate-layout .range-labels span{padding:2px 3px;border:1px solid transparent;border-radius:8px;word-break:keep-all}
+.climate-layout .range-labels span.active{color:#1d635f;background:#e0f0e8;border-color:#8bbcb0;font-weight:600}
+.climate-layout .condition-slider{height:44px;min-height:44px;margin:0;width:100%;accent-color:#267e82}
+/* Two short horizontal bars leave the full question and both choices visible. */
+.climate-layout .comparison-panel{display:grid;grid-template-rows:auto minmax(0,1fr);gap:10px;height:100%;min-height:0}
+.climate-layout .volume-records{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:8px;margin:0;border:1px solid #d4ddce;background:#f0f4eb}
+.climate-layout .volume-record{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto 12px;gap:5px 6px;min-width:0;align-content:center;text-align:left;font-size:clamp(14px,1.1vw,20px);line-height:1.25}
+.climate-layout .volume-record>div.record-stage{grid-column:1;grid-row:1;font-family:var(--font-display);color:#49625a}
+.climate-layout .volume-record .record-condition{grid-column:2;grid-row:1;font-size:inherit;font-weight:600;word-break:keep-all;text-align:right}
+.climate-layout .volume-record .comparison-track{grid-column:1 / -1;grid-row:2;position:relative;isolation:isolate;height:12px;width:100%;margin:0;padding:0;border:1px solid #bccbc5;border-radius:5px;background:repeating-linear-gradient(to right,transparent 0 17px,#c9d5cd80 17px 18px);display:block}
+.climate-layout .comparison-track .comparison-baseline{position:absolute;top:-3px;bottom:-3px;width:0;border-left:2px dashed #718f84;z-index:2}
+.climate-layout .comparison-track>i{position:relative;display:block;height:100%;padding:0;background:linear-gradient(90deg,#49a69c,#8bc6b9);border:0;border-radius:4px;min-height:0;transition:width var(--climate-motion,350ms) ease-out}
+.climate-layout .volume-record.awaiting .comparison-track>i{width:0}
+.climate-layout .transfer-slot{min-height:0;display:flex;flex-direction:column;justify-content:center;gap:10px}
+.climate-layout .climate-awaiting{font-size:clamp(18px,1.6vw,28px);line-height:1.4;color:#4a6a60;text-align:center;margin:0}
+.climate-layout .transfer-question{flex:none}
+.climate-layout .transfer-question h3{font-size:clamp(18px,1.55vw,28px);line-height:1.3;margin:0;overflow-wrap:anywhere}
+.climate-layout .choice-group{gap:8px;flex:none}
+.climate-layout .choice{min-width:0;min-height:44px;font-size:clamp(16px,1.35vw,24px);padding:8px 10px;line-height:1.3}
+.climate-layout .choice .radio-dot{flex:none}
+.climate-layout .activity-feedback:empty{display:none}
+@media(max-height:600px){
+ .climate-layout .climate-panel{gap:4px}
+ .climate-scene-head{top:5px;left:7px;right:7px}
+ .climate-scene-head .condition-pill{padding:2px 5px}
+ .climate-layout .volume-visual{inset:31px 3px 3px}
+ .climate-layout .comparison-panel{gap:7px}
+ .climate-layout .volume-records{gap:8px;padding:5px}
+ .climate-layout .volume-record{grid-template-rows:auto 8px;gap:4px;font-size:14px}
+ .climate-layout .volume-record .comparison-track{height:8px}
+ .climate-layout .transfer-slot{gap:6px}
+ .climate-layout .transfer-question h3{font-size:16px;line-height:1.25}
+ .climate-layout .choice-group{gap:6px}
+ .climate-layout .choice{font-size:14px;min-height:44px;padding:6px 8px;line-height:1.25}
+}
+@media(max-width:600px) and (orientation:portrait){
+ .climate-layout .climate-panel{gap:4px}
+ .climate-layout .comparison-panel{gap:8px}
+ .climate-layout .volume-records{padding:6px;gap:10px}
+ .climate-layout .transfer-slot{gap:8px}
+ .climate-layout .transfer-question h3{font-size:18px;line-height:1.25}
+ .climate-layout .choice{font-size:16px;padding:7px 9px;min-height:44px;line-height:1.25}
+}
+@media(prefers-reduced-motion:reduce){
+ .climate-layout .pressure-plunger-art,.climate-layout .piston-air-space,.climate-layout .thermal-balloon,.climate-layout .comparison-track>i{transition:none}
+}

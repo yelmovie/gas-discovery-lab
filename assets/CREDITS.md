@@ -26,3 +26,8 @@ Kenney, **Interface Sounds 1.0** — https://kenney.nl/assets/interface-sounds
 배경·학생·연구원·실험 소품: 사용자 제공 이미지 및 기존 프로젝트의 AI 생성 에셋. 제목용 Jua: Woowahan Brothers / Google Fonts, SIL Open Font License 1.1(`public/assets/fonts/`의 라이선스 참조).
 
 외부 CC0 음원과 OFL 글꼴에는 각 공개 라이선스가 적용된다. 자체 제작 자료의 저작권 고지가 이를 제한하지 않는다.
+
+## 메인 키아트와 여우 에어 (2026-10-30)
+
+- `public/assets/title.webp`, `public/assets/air-portrait.webp`: Figma AI 이미지 생성(gpt-image-2.5)으로 이번 프로젝트용 새로 제작. 원본 PNG는 `asset-bank/original/`(배포 제외), 프롬프트는 `docs/review/IMAGE-GENERATION-PROMPTS.json`의 `title-v2` 항목.
+- 여우 이미지는 흰 배경을 가장자리부터 지워 투명 처리했어. 실존 캐릭터·브랜드를 참고하지 않은 자체 디자인이야.
