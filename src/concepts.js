@@ -1,3 +1,4 @@
+import {bindConceptFocus,emphasizeConcept} from './concept-focus.js';
 import {html,button,openDialog,escapeHTML} from './ui.js';
 import {quietAudio,sound} from './audio.js';
 import {icon} from './icons.js';
@@ -24,13 +25,14 @@ export function openConcept(stage,task,{nextLabel='활동으로 돌아가기',on
  const clip=conceptFor(stage,task),asset=ext=>`/assets/concepts-v2/${clip.id}.${ext}`;
  const body=html(`<section class="concept-player"><div class="concept-frame"><video playsinline muted preload="metadata" poster="${asset('webp')}" aria-label="${escapeHTML(clip.title)}"></video><img class="concept-end" src="${asset('webp')}" alt="${escapeHTML(clip.title)}의 마지막 장면" hidden><button class="button primary concept-play">${icon('arrow')} 영상 재생</button></div><div class="concept-caption" role="status" aria-live="polite"></div><div class="concept-meta"><span>${escapeHTML(reward||'직접 발견한 과학 · 9초')}</span><span class="concept-dots" aria-hidden="true"><i></i><i></i><i></i></span></div><div class="concept-fallback" hidden></div></section>`);
  const footer=html('<div class="concept-actions"></div>');let closed=false,failed=false,bufferTimer=0,last=-1,visiblePlaying=false;
+ let releaseFocus=()=>{};
  const video=body.querySelector('video'),play=body.querySelector('.concept-play'),end=body.querySelector('.concept-end'),caption=body.querySelector('.concept-caption'),fallback=body.querySelector('.concept-fallback');
  const dialog=openDialog(clip.title,body,{wide:true,footer,onClose:cleanup});dialog.classList.add('concept-dialog');
  const replay=button('다시 보기',()=>{if(failed){failed=false;fallback.hidden=true;load();}else{video.currentTime=0;start();}},'button secondary');
  const next=button(`${nextLabel} ${icon('arrow')}`,()=>{dialog.close();onNext();});footer.append(replay,next);
  function cue(index){if(index===last)return;last=index;caption.textContent=clip.cues[index];body.querySelectorAll('.concept-dots i').forEach((d,i)=>d.classList.toggle('on',i===index));}
  function update(){cue(Math.min(2,Math.floor(video.currentTime/3)));}
- function fail(){if(closed||failed)return;failed=true;clearTimeout(bufferTimer);video.pause();end.hidden=false;play.hidden=true;fallback.hidden=false;fallback.innerHTML=`<p>영상 대신 핵심 장면을 살펴봐요.</p><ol>${clip.cues.map(c=>`<li>${escapeHTML(c)}</li>`).join('')}</ol>`;cue(2);quietAudio(false);}
+ function fail(){if(closed||failed)return;failed=true;releaseFocus();clearTimeout(bufferTimer);video.pause();end.hidden=false;play.hidden=true;fallback.hidden=false;fallback.innerHTML=`<p>영상 대신 핵심 장면을 살펴봐요.</p><ol>${clip.cues.map(c=>`<li>${emphasizeConcept(c,words)}</li>`).join('')}</ol>`;cue(2);quietAudio(false);}
  function arm(){clearTimeout(bufferTimer);bufferTimer=setTimeout(fail,6000);}
  async function start(){if(closed||failed)return;end.hidden=true;try{await video.play();if(closed){video.pause();return;}play.hidden=true;play.textContent='잠깐 멈추기';quietAudio(true);}catch{if(!closed){play.hidden=false;play.textContent='영상 재생';quietAudio(false);}}}
  play.onclick=()=>video.paused?start():(video.pause(),play.textContent='이어서 보기',quietAudio(false));
@@ -40,8 +42,12 @@ export function openConcept(stage,task,{nextLabel='활동으로 돌아가기',on
  video.addEventListener('timeupdate',update);video.addEventListener('seeked',update);video.addEventListener('ended',()=>{clearTimeout(bufferTimer);end.hidden=false;play.hidden=true;cue(2);quietAudio(false);next.focus({preventScroll:true});sound('success');});
  function visibility(){if(document.hidden){visiblePlaying=!video.paused;video.pause();clearTimeout(bufferTimer);}else if(visiblePlaying){visiblePlaying=false;start();}}
  document.addEventListener('visibilitychange',visibility);
- function cleanup(){closed=true;clearTimeout(bufferTimer);video.pause();video.removeAttribute('src');video.load();document.removeEventListener('visibilitychange',visibility);signal?.removeEventListener('abort',dismiss);quietAudio(false);}
+ function cleanup(){releaseFocus();closed=true;clearTimeout(bufferTimer);video.pause();video.removeAttribute('src');video.load();document.removeEventListener('visibilitychange',visibility);signal?.removeEventListener('abort',dismiss);quietAudio(false);}
  function dismiss(){dialog.close();}signal?.addEventListener('abort',dismiss,{once:true});
- function load(){autoStarted=false;last=-1;cue(0);play.hidden=false;video.src=asset(video.canPlayType('video/webm; codecs="vp9"')?'webm':'mp4');arm();}
- load();return dialog;
+ function load(){autoStarted=false;last=-1;cue(0);play.hidden=false;video.src=asset(video.canPlayType('video/webm; codecs="vp9"')?'webm':'mp4');arm();releaseFocus();releaseFocus=bindConceptFocus(body,video,{steps:labels.map((term,i)=>({at:i*3,term})),terms:words,caption,anchor:body.querySelector('.concept-frame')});}
+ const words={flow:['공기','관','이동'],weight:['0점','공기','무게'],temperature:['기체의 양','따뜻','부피','차갑'],pressure:['기체의 양','온도','힘','부피'],nitrogen:['질소','반응'],oxygen:['산소','호흡'],carbon:['이산화탄소','녹아','기포'],extinguisher:['이산화탄소','불이 타는 것을 돕지','실제 소화기 실험은 하지'],engineering:['공급부','관','노즐','방향'],car:['공기','뒤로','자동차','앞으로']}[clip.id];
+ const labels={flow:['공기 보내기','관을 따라 이동','팬 돌리기'],weight:['영점 맞추기','공기 넣기','기체의 무게'],temperature:['같은 양','따뜻할 때','차가울 때'],pressure:['같은 양','누르는 힘','부피 변화'],nitrogen:['질소 넣기','쉽게 반응하지 않음','식품 포장'],oxygen:['공기의 성분','산소와 호흡','산소의 이용'],carbon:['물에 녹은 기체','빠져나오는 기체','기포 관찰'],extinguisher:['기체의 성질','소화기에 이용','안전하게 살펴보기'],engineering:['길 연결','밸브 열기','방향 시험'],car:['출구를 뒤로','공기는 뒤로','자동차는 앞으로']}[clip.id];
+ load();
+ video.addEventListener('pause',()=>quietAudio(false));
+ return dialog;
 }
