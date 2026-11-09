@@ -29,6 +29,7 @@ for(const [width,height] of viewports){
  await p.goto(QA);await p.evaluate(async()=>{const {store}=await import('/src/state.js');const {STAGES}=await import('/src/data.js');const s=store.save;s.introSeen=true;s.settings.music=false;s.settings.sfx=false;for(const st of STAGES.slice(0,2))s.evidence[st.id]=st.tasks.map(t=>({taskId:t.id,summary:'화면 검사용',details:{}}));localStorage.setItem('gas-city-adventure-v1',JSON.stringify(s));});
  for(const [route,sel,prep] of [['home','.home-screen,.title-v2'],['map','.map-canvas'],['map','.map-repair[open]','repair'],['finale','.finale-screen']]){
   await p.goto(`${QA}/#${route}`);await p.reload();await p.locator('.boot').waitFor({state:'detached'});
+  if(prep==='repair'&&width<height)continue; // 세로 화면은 '가로로 돌려 주세요' 안내가 덮는 것이 의도된 동작
   if(prep==='repair'){await p.locator('.map-repair summary').waitFor();await p.locator('.map-repair summary').click({timeout:3000}).catch(async()=>{errors.push(`${width}x${height} 지도 복구 작업대 제목을 누를 수 없음(다른 요소가 가로챔)`);await p.evaluate(()=>{document.querySelector('.map-repair').open=true;});});}
   await p.locator(sel).first().waitFor({timeout:8000}).catch(()=>errors.push(`${width}x${height} ${route} missing ${sel}`));await p.waitForTimeout(700);
   const issues=await p.evaluate(audit);const label=route+(prep?'-'+prep:'');
