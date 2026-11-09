@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>공기로 장치를 움직이려면?</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+/* 기체 도시 대작전 개념영상 공용 부품 — "실험 노트" 판형. 앱 색(청록·크림·금색)과 Jua 글꼴을 쓴다. */
+@font-face{font-family:'Jua';src:url('assets/fonts/jua-korean-400.woff2') format('woff2');unicode-range:U+1100-11FF,U+3130-318F,U+AC00-D7AF,U+3000-303F,U+FF00-FFEF}
+@font-face{font-family:'Jua';src:url('assets/fonts/jua-latin-400.woff2') format('woff2');unicode-range:U+0000-024F,U+2000-206F,U+2070-209F,U+2190-21FF}
+:root{--ink:#143f43;--teal:#1f6f6c;--teal-soft:#d6ebe4;--cream:#fffdf3;--paper:#f8f3e3;--line:#dbe6dc;--gold:#c98a1c;--gold-soft:#f7cf7c;--warm:#e58a4e;--cool:#4f8fb3}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:var(--paper)}
+#root{position:relative;width:100%;height:100%;overflow:hidden;font-family:'Jua',sans-serif;color:var(--ink)}
+.paper{position:absolute;inset:0;background-color:var(--paper);background-image:linear-gradient(var(--line) 2px,transparent 2px),linear-gradient(90deg,var(--line) 2px,transparent 2px);background-size:60px 60px;background-position:-2px -2px}
+.paper-edge{position:absolute;left:0;top:0;bottom:0;width:70px;background:#efe6cc;border-right:4px solid #e2d3aa}
+.paper-edge i{position:absolute;left:22px;width:26px;height:26px;border-radius:50%;background:var(--paper);border:3px solid #d8c792}
+#cam{position:absolute;inset:0;transform-origin:0 0}
+.obj{position:absolute;display:block}
+.obj img,img.obj{width:100%;height:100%;object-fit:contain}
+.shadow{position:absolute;height:26px;border-radius:50%;background:#1f4a4318}
+.question{position:absolute;left:150px;top:96px;display:flex;align-items:center;gap:22px;font-size:64px;line-height:1.1;color:var(--ink)}
+.question b{display:grid;place-items:center;width:84px;height:84px;border-radius:50%;background:var(--gold-soft);border:5px solid var(--gold);font-size:56px;font-weight:400;color:#6b4a0c}
+.question .w{display:inline-block;white-space:pre}
+.tag{position:absolute;transform:translate(-50%,-100%);padding:12px 26px 14px;border-radius:18px;background:#fff;border:5px solid var(--teal);font-size:44px;line-height:1.1;white-space:nowrap;color:var(--ink);box-shadow:0 6px 0 #1f6f6c33}
+.tag::after{content:'';position:absolute;left:50%;bottom:-22px;margin-left:-14px;border:14px solid transparent;border-top:14px solid var(--teal);border-bottom:0;height:0}
+.tag.down{transform:translate(-50%,0)}.tag.down::after{bottom:auto;top:-22px;border-top:0;border-bottom:14px solid var(--teal)}
+.tag.gold{border-color:var(--gold)}.tag.gold::after{border-top-color:var(--gold)}.tag.gold.down::after{border-bottom-color:var(--gold)}
+.note{position:absolute;padding:18px 30px;border-radius:20px;background:var(--cream);border:4px dashed var(--teal);font-size:46px;line-height:1.25;color:var(--ink)}
+.conclusion{position:absolute;left:50%;top:858px;transform:translateX(-50%);padding:22px 56px 26px;border-radius:28px;background:var(--cream);border:6px solid var(--teal);font-size:62px;line-height:1.1;white-space:nowrap;color:var(--ink);box-shadow:0 10px 0 #1f6f6c2e}
+.conclusion em{font-style:normal;color:#9a5a10}
+.soli{position:absolute;left:1560px;top:700px;width:250px;height:250px;transform-origin:50% 100%}
+.soli img{width:100%;height:100%;object-fit:contain}
+.flow{position:absolute;inset:0;width:1920px;height:1080px;overflow:visible}
+.flow path{fill:none;stroke-linecap:round}
+.readout{position:absolute;display:grid;place-items:center;border-radius:20px;background:#163f42;color:#d9fbe8;font-size:66px;letter-spacing:2px;border:6px solid #2b6e69}
+.readout span{position:absolute}
+
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="12" data-width="1920" data-height="1080">
+      <div id="cam">
+      <div class="paper" style="inset:-700px" data-layout-allow-overflow></div>
+      <div class="shadow" style="left:170px;top:680px;width:260px"></div><div class="shadow" style="left:1390px;top:690px;width:260px"></div>
+      <div class="obj" id="pump" style="left:130px;top:360px;width:340px;height:340px;"><img src="assets/prop-pump.webp" alt=""></div>
+      <div class="obj" id="pipe" style="left:420px;top:200px;width:640px;height:640px;"><img src="assets/pipe-straight-v1.webp" alt=""></div>
+      <div class="obj" id="nozzle" style="left:1000px;top:430px;width:180px;height:180px;"><img src="assets/prop-nozzle.webp" alt="" style="width:100%;height:100%;object-fit:contain;transform:scaleX(-1)"></div>
+      <div class="obj" id="valve" style="left:600px;top:475px;width:90px;height:90px;z-index:2"><svg viewBox="0 0 100 100" width="90" height="90"><circle cx="50" cy="50" r="40" fill="#2e9291" stroke="#dcf8ef" stroke-width="9"/><path d="M50 11v78M11 50h78" stroke="#dcf8ef" stroke-width="9"/><circle cx="50" cy="50" r="12" fill="#edb749"/></svg></div>
+      <div class="obj" id="rotor" style="left:1398px;top:347px;width:243px;height:266px;z-index:2"><img src="assets/fan-rotor-v1.webp" alt=""></div>
+      <div class="obj" id="housing" style="left:1330px;top:320px;width:380px;height:380px;"><img src="assets/fan-housing-v1.webp" alt=""></div>
+      <svg class="flow" viewBox="0 0 1920 1080"><path id="p1" d="M490 520 L1050 520" stroke="#2a8f8a" stroke-width="16" stroke-dasharray="34 30" opacity="0"/><path id="p2" d="M1185 520 L1340 505" stroke="#2a8f8a" stroke-width="16" stroke-dasharray="34 30" opacity="0"/><path id="p2-head" d="M1306 478 L1344 505 L1310 536" stroke="#2a8f8a" stroke-width="16" stroke-linejoin="round" opacity="0"/><path id="p3" d="M1180 505 L1350 420" stroke="#2a8f8a" stroke-width="16" stroke-dasharray="34 30" opacity="0"/><path id="p3-head" d="M1310 410 L1352 420 L1330 456" stroke="#2a8f8a" stroke-width="16" stroke-linejoin="round" opacity="0"/></svg>
+      <div class="anchor" id="tag0" style="position:absolute;left:760px;top:440px;width:0;height:0;opacity:0;z-index:5"><div class="tag">길 연결</div></div>
+      <div class="anchor" id="tag1" style="position:absolute;left:645px;top:460px;width:0;height:0;opacity:0;z-index:5"><div class="tag gold">밸브 열기</div></div>
+      <div class="anchor" id="tag2" style="position:absolute;left:1090px;top:420px;width:0;height:0;opacity:0;z-index:5"><div class="tag">방향 시험</div></div>
+      
+      </div>
+      <div class="paper-edge"><i style="top:150px"></i><i style="top:330px"></i><i style="top:510px"></i><i style="top:690px"></i><i style="top:870px"></i></div>
+      <div class="question" id="q"><b>?</b><span><span class="w">공기로 </span><span class="w">장치를 </span><span class="w">움직이려면? </span></span></div>
+      <div id="conclusion" style="position:absolute;left:0;top:0;width:1920px;height:1080px;opacity:0"><div class="conclusion">공기 길을 이으면 <em>장치</em>가 움직여요</div></div>
+      <div class="soli" id="soli" style="opacity:0"><img src="assets/soli.svg" alt=""></div>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo('#q .w',{opacity:0,filter:'blur(6px)'},{opacity:1,filter:'blur(0px)',duration:.16,stagger:.08,ease:'power4.out'},.15);
+      tl.fromTo("#q b",{"scale":0.6,"opacity":0},{"scale":1,"opacity":1,"duration":0.45,"ease":"back.out(1.7)"},0.1);
+      tl.fromTo("#tag0",{"opacity":0,"y":14},{"opacity":1,"y":0,"duration":0.4,"ease":"expo.out"},1.1);
+      tl.fromTo("#tag0",{"opacity":1},{"opacity":0,"duration":0.18,"ease":"power2.in","immediateRender":false},3.75);
+      tl.fromTo("#tag1",{"opacity":0,"y":14},{"opacity":1,"y":0,"duration":0.4,"ease":"expo.out"},5.1);
+      tl.fromTo("#tag1",{"opacity":1},{"opacity":0,"duration":0.18,"ease":"power2.in","immediateRender":false},7.75);
+      tl.fromTo("#tag2",{"opacity":0,"y":14},{"opacity":1,"y":0,"duration":0.4,"ease":"expo.out"},9.1);
+      tl.fromTo("#p1",{"opacity":0},{"opacity":1,"duration":0.3,"ease":"power1.out"},4.7);
+      tl.fromTo('#p1',{strokeDashoffset:0},{"strokeDashoffset":-1606,"duration":7.3,"ease":"none"},4.7);
+      tl.fromTo("#p2",{"opacity":0},{"opacity":1,"duration":0.3,"ease":"power1.out"},4.9);
+      tl.fromTo('#p2',{strokeDashoffset:0},{"strokeDashoffset":-748,"duration":3.4000000000000004,"ease":"none"},4.9);
+      tl.fromTo("#p2-head",{"opacity":0},{"opacity":1,"duration":0.3,"ease":"power1.out"},5.1000000000000005);
+      tl.fromTo("#p2",{"opacity":1},{"opacity":0,"duration":0.25,"ease":"power2.in","immediateRender":false},8.2);
+      tl.fromTo("#p2-head",{"opacity":1},{"opacity":0,"duration":0.25,"ease":"power2.in","immediateRender":false},8.2);
+      tl.fromTo("#p3",{"opacity":0},{"opacity":1,"duration":0.3,"ease":"power1.out"},9.1);
+      tl.fromTo('#p3',{strokeDashoffset:0},{"strokeDashoffset":-638,"duration":2.9000000000000004,"ease":"none"},9.1);
+      tl.fromTo("#p3-head",{"opacity":0},{"opacity":1,"duration":0.3,"ease":"power1.out"},9.299999999999999);
+      tl.fromTo("#pipe",{"y":70,"opacity":0},{"y":0,"opacity":1,"duration":0.7,"ease":"expo.out"},1);
+      tl.fromTo("#nozzle",{"x":90,"opacity":0},{"x":0,"opacity":1,"duration":0.7,"ease":"expo.out"},1.5);
+      tl.fromTo("#valve",{"rotation":0},{"rotation":90,"duration":0.5,"ease":"power2.inOut"},4.2);
+      tl.fromTo("#rotor",{"rotation":0},{"rotation":130,"duration":1.1,"ease":"power2.in"},5.5);
+      tl.fromTo("#rotor",{"rotation":130},{"rotation":2074,"duration":5.4,"ease":"none","immediateRender":false},6.6);
+      tl.fromTo("#nozzle",{"rotation":0},{"rotation":-24,"duration":0.6,"ease":"power2.inOut","immediateRender":false},8.3);
+      tl.fromTo("#cam",{"x":0,"y":0,"scale":1},{"x":-325,"y":-94,"scale":1.2,"duration":0.75,"ease":"power2.inOut"},4.9);
+      tl.fromTo("#cam",{"x":-325,"y":-94,"scale":1.2},{"x":0,"y":0,"scale":1,"duration":0.6,"ease":"power2.inOut","immediateRender":false},7.65);
+      tl.fromTo("#conclusion",{"opacity":0,"y":24},{"opacity":1,"y":0,"duration":0.55,"ease":"expo.out"},9);
+      tl.fromTo("#q",{"opacity":1},{"opacity":0.55,"duration":0.4,"ease":"power1.out"},9);
+      tl.fromTo("#soli",{"opacity":0,"scale":0.55,"y":40},{"opacity":1,"scale":1,"y":0,"duration":0.6,"ease":"back.out(1.6)"},9.35);
+      tl.fromTo("#soli",{"rotation":0},{"rotation":-7,"duration":0.22,"ease":"power2.out","immediateRender":false},10.1);
+      tl.fromTo("#soli",{"rotation":-7},{"rotation":0,"duration":0.4,"ease":"back.out(2)","immediateRender":false},10.32);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

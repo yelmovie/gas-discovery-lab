@@ -4,3 +4,6 @@ dist/
 asset-bank/original/
 *.log
 .DS_Store
+
+# HyperFrames 작업 캐시(스냅숏·검사 보고서)
+.hyperframes/

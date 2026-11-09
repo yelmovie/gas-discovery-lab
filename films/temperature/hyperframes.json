@@ -1,0 +1,9 @@
+{
+  "paths": {
+    "assets": "assets"
+  },
+  "media": {
+    "autoProxy": true
+  },
+  "authoringSkill": "hyperframes"
+}

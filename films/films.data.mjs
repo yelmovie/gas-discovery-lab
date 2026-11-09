@@ -1,0 +1,101 @@
+// 개념영상 10편의 데이터. 그림은 게임 안의 실제 소품(public/assets)만 쓰고, 없는 것(탱크·물통·눈금판)만 코드로 그린다.
+// 장면 0·1·2는 앱 자막 3개(src/concept-clips.js)와 같은 순서·같은 시각(cueAt)으로 나뉜다. 입자 모형은 넣지 않는다.
+const fan=(x,y,s)=>[{id:'housing',src:'fan-housing-v1.webp',x,y,w:s,h:s},{id:'rotor',src:'fan-rotor-v1.webp',x:Math.round(x+s*.18),y:Math.round(y+s*.07),w:Math.round(s*.64),h:Math.round(s*.70),style:'z-index:2'}].reverse();
+const spin=(at,until,start=0)=>[{sel:'#rotor',at,dur:1.1,from:{rotation:start},to:{rotation:start+130},ease:'power2.in'},{sel:'#rotor',at:at+1.1,dur:until-at-1.1,from:{rotation:start+130},to:{rotation:start+130+(until-at-1.1)*360},ease:'none'}];
+const swap=(out,inn,at)=>[{sel:out,at,dur:.15,from:{opacity:1},to:{opacity:0},ease:'power1.in'},{sel:inn,at:at+.08,dur:.25,from:{opacity:0},to:{opacity:1},ease:'power1.out'}];
+
+export const films=[
+{id:'flow',question:'공기로 팬을 돌릴 수 있을까?',conclusion:'이동하는 <em>공기</em>가 팬을 밀어 돌려요',
+ objects:[{id:'pump',src:'prop-pump.webp',x:150,y:360,w:380,h:380},{id:'pipe',src:'pipe-straight-v1.webp',x:470,y:150,w:800,h:800},...fan(1230,300,420)],
+ shadows:[{x:190,y:720,w:300},{x:1290,y:700,w:300}],
+ flows:[{id:'f0',d:'M545 550 L800 550',window:[2.0,4.4],out:4.3},{id:'f1',d:'M545 550 L1240 550',head:'M1205 518 L1244 550 L1205 582',window:[4.2,12]}],
+ actions:[{sel:'#pump',at:1.7,dur:.3,from:{scaleY:1,transformOrigin:'50% 100%'},to:{scaleY:.94},ease:'power2.in'},{sel:'#pump',at:2.0,dur:.45,from:{scaleY:.94,transformOrigin:'50% 100%'},to:{scaleY:1},ease:'back.out(2)'},...spin(7.0,12)],
+ tags:[{beat:0,x:340,y:370},{beat:1,x:880,y:480},{beat:2,x:1440,y:300,gold:true}],
+ zoom:{x:1050,y:540,scale:1.22}},
+
+{id:'weight',question:'공기에도 무게가 있을까?',conclusion:'기체에도 <em>무게</em>가 있어요',
+ objects:[{id:'scale',src:'prop-scale.webp',x:680,y:280,w:560,h:560},{id:'jar',src:'air-jar-v2.webp',x:810,y:226,w:300,h:341,style:'opacity:0'},{id:'pump',src:'prop-pump.webp',x:210,y:250,w:340,h:340},
+  {id:'readout',x:1330,y:360,w:380,h:150,html:'<div class="readout" style="width:100%;height:100%"><span id="r0">0.0 g</span><span id="r1" style="opacity:0">151.6 g</span><span id="r2" style="opacity:0">154.8 g</span><span id="r3" style="opacity:0">150.0 g</span></div>'}],
+ shadows:[{x:250,y:570,w:260}],
+ flows:[{id:'fin',d:'M520 332 C 680 220, 840 170, 952 208',head:'M915 186 L955 210 L920 240',window:[4.3,7.7],out:7.6},{id:'fout',d:'M972 202 C 1010 130, 1090 110, 1180 116',head:'M1146 90 L1184 116 L1146 142',color:'#c98a1c',window:[8.3,10.8],out:10.7}],
+ actions:[{sel:'#jar',at:1.2,dur:.8,from:{y:-240,opacity:0},to:{y:0,opacity:1},ease:'power3.out'},...swap('#r0','#r1',2.1),...swap('#r1','#r2',6.0),...swap('#r2','#r3',9.6)],
+ tags:[{beat:0,x:1520,y:350},{beat:1,x:1520,y:350,gold:true},{beat:2,x:1520,y:350,gold:true}],
+ zoom:{x:1150,y:420,scale:1.18}},
+
+{id:'temperature',question:'따뜻해지면 기체의 부피는?',conclusion:'따뜻하면 <em>부피</em>가 커지고, 차가우면 작아져요',
+ objects:[{id:'bottle',src:'empty-bottle-v1.webp',x:810,y:420,w:300,h:360},{id:'balloon',src:'prop-balloon.webp',x:810,y:166,w:300,h:300,style:'z-index:1'},
+  {id:'warm',x:560,y:610,w:800,h:230,style:'opacity:0;z-index:3',html:'<svg viewBox="0 0 800 230" width="800" height="230"><rect x="10" y="40" width="780" height="180" rx="40" fill="#f2a877" fill-opacity=".72" stroke="#c4683a" stroke-width="8"/><path d="M60 70 q40 -20 80 0 t80 0 t80 0" stroke="#fff" stroke-width="7" fill="none" opacity=".7"/></svg>'},
+  {id:'cool',x:560,y:610,w:800,h:230,style:'opacity:0;z-index:3',html:'<svg viewBox="0 0 800 230" width="800" height="230"><rect x="10" y="40" width="780" height="180" rx="40" fill="#8fc3df" fill-opacity=".75" stroke="#3f7fa6" stroke-width="8"/><path d="M60 70 q40 -20 80 0 t80 0 t80 0" stroke="#fff" stroke-width="7" fill="none" opacity=".7"/></svg>'}],
+ actions:[{sel:'#balloon',at:0,dur:.01,from:{scale:.5,transformOrigin:'50% 96%'},to:{scale:.5}},{sel:'#warm',at:4.15,dur:.6,from:{opacity:0,y:50},to:{opacity:1,y:0},ease:'expo.out'},{sel:'#balloon',at:4.8,dur:2.6,from:{scale:.5},to:{scale:.86},ease:'power1.inOut'},
+  {sel:'#cool',at:8.1,dur:.5,from:{opacity:0},to:{opacity:1},ease:'power1.inOut'},{sel:'#warm',at:8.15,dur:.5,from:{opacity:1},to:{opacity:0},ease:'power1.inOut'},{sel:'#balloon',at:8.6,dur:2.2,from:{scale:.86},to:{scale:.5},ease:'power1.inOut'}],
+ tags:[{beat:0,x:960,y:300},{beat:1,x:1250,y:640,gold:true},{beat:2,x:1250,y:640}],
+ zoom:{x:960,y:380,scale:1.18}},
+
+{id:'pressure',question:'세게 누르면 공기의 부피는?',conclusion:'세게 누르면 <em>부피</em>가 줄어요',
+ objects:[{id:'air',x:1246,y:560,w:168,h:202,html:'<div style="width:100%;height:100%;background:#7cc6bf;opacity:.55;border-radius:4px"></div>'},{id:'chamber',src:'pressure-chamber-v1.webp',x:1180,y:380,w:300,h:450,style:'z-index:1'},{id:'plunger',src:'pressure-plunger-v1.webp',x:1180,y:155,w:300,h:450,style:'z-index:2'},
+  {id:'press',x:1290,y:20,w:80,h:120,style:'opacity:0;z-index:3',html:'<svg viewBox="0 0 80 120" width="80" height="120"><path d="M40 6 V100 M12 72 L40 106 L68 72" stroke="#c98a1c" stroke-width="14" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'}],
+ notes:[{id:'n0',x:260,y:420,at:1.6,out:3.7,html:'공기가 새지 않아요<br>기체의 양은 같아요'}],
+ actions:[{sel:'#press',at:4.3,dur:.4,from:{opacity:0,y:-20},to:{opacity:1,y:0},ease:'expo.out'},{sel:'#plunger',at:4.7,dur:1.8,from:{y:0},to:{y:77},ease:'power2.inOut'},{sel:'#press',at:4.7,dur:1.8,from:{y:0},to:{y:77},ease:'power2.inOut'},{sel:'#air',at:4.7,dur:1.8,from:{scaleY:1,transformOrigin:'50% 100%'},to:{scaleY:.62},ease:'power2.inOut'},
+  {sel:'#press',at:8.1,dur:.25,from:{opacity:1},to:{opacity:0},ease:'power1.in'},{sel:'#plunger',at:8.3,dur:1.8,from:{y:77},to:{y:0},ease:'power2.inOut'},{sel:'#air',at:8.3,dur:1.8,from:{scaleY:.62,transformOrigin:'50% 100%'},to:{scaleY:1},ease:'power2.inOut'}],
+ tags:[{beat:0,x:1080,y:640},{beat:1,x:1500,y:170,gold:true},{beat:2,x:1080,y:640}],
+ zoom:{x:1330,y:420,scale:1.15}},
+
+{id:'nitrogen',question:'과자 봉지에 왜 질소를 넣을까?',conclusion:'쉽게 반응하지 않는 <em>질소</em>로 과자를 지켜요',
+ objects:[{id:'tank',x:300,y:380,w:220,h:420,html:'<svg viewBox="0 0 220 420" width="220" height="420"><rect x="30" y="60" width="160" height="350" rx="70" fill="#1f6f6c" stroke="#123f3d" stroke-width="8"/><rect x="88" y="14" width="44" height="54" rx="10" fill="#c98a1c" stroke="#7a520c" stroke-width="6"/><text x="110" y="270" text-anchor="middle" font-family="Jua" font-size="74" fill="#fff">N₂</text></svg>'},
+  {id:'packet',src:'prop-packet.webp',x:1000,y:300,w:460,h:460},
+  {id:'shield',x:960,y:250,w:540,h:560,style:'z-index:2',html:'<svg viewBox="0 0 540 560" width="540" height="560"><path id="shieldpath" d="M270 20 L510 110 V280 Q495 470 270 540 Q45 470 30 280 V110 Z" fill="none" stroke="#2a8f8a" stroke-width="12" stroke-dasharray="1700" stroke-dashoffset="1700" stroke-linejoin="round"/></svg>'}],
+ shadows:[{x:330,y:790,w:160},{x:1060,y:745,w:340}],
+ flows:[{id:'hose',d:'M410 390 C 560 250, 860 250, 1080 430',head:'M1040 408 L1084 434 L1048 466',window:[1.5,4.4],out:4.3}],
+ notes:[{id:'n1',x:560,y:520,at:4.6,out:7.7,html:'질소는 다른 물질과<br>쉽게 반응하지 않아요'}],
+ actions:[{sel:'#packet',at:1.9,dur:1.6,from:{scale:.92},to:{scale:1},ease:'power2.out'},{sel:'#shieldpath',at:8.4,dur:1.2,from:{strokeDashoffset:1700},to:{strokeDashoffset:0},ease:'power2.inOut'}],
+ tags:[{beat:0,x:740,y:290},{beat:1,x:410,y:370,gold:true},{beat:2,x:1230,y:250}],
+ zoom:{x:560,y:560,scale:1.15}},
+
+{id:'oxygen',question:'숨 쉬는 데 필요한 기체는?',conclusion:'<em>산소</em>는 호흡에 필요해요',
+ objects:[{id:'jar',src:'prop-jar.webp',x:250,y:330,w:420,h:420},
+  {id:'bar',x:760,y:330,w:800,h:120,html:'<div style="display:flex;width:100%;height:100%;border:6px solid #143f43;border-radius:22px;overflow:hidden;font-size:46px"><div style="flex:0 0 76%;display:grid;place-items:center;background:#d6ebe4">질소</div><div id="o2seg" style="flex:0 0 20%;display:grid;place-items:center;background:#f7cf7c;border-left:6px solid #143f43">산소</div><div style="flex:1;background:#c9c3b3;border-left:6px solid #143f43"></div></div>'},
+  {id:'other',x:1380,y:466,w:240,h:60,html:'<div style="font-size:36px;color:#3d5a57;text-align:right">그 밖의 기체 ▲</div>'},
+  {id:'support',src:'oxygen-support-v1.webp',x:860,y:510,w:340,h:340,style:'opacity:0'}],
+ shadows:[{x:310,y:740,w:300}],
+ flows:[{id:'o2',d:'M1440 470 C 1420 600, 1150 560, 965 528',head:'M1000 500 L962 527 L1002 552',color:'#c98a1c',window:[5.0,12]}],
+ actions:[{sel:'#bar',at:.9,dur:1.3,from:{scaleX:0,transformOrigin:'0% 50%'},to:{scaleX:1},ease:'power3.out'},{sel:'#other',at:2.0,dur:.4,from:{opacity:0},to:{opacity:1},ease:'power1.out'},{sel:'#support',at:4.2,dur:.7,from:{opacity:0,y:30},to:{opacity:1,y:0},ease:'expo.out'},{sel:'#o2seg',at:4.4,dur:.5,from:{backgroundColor:'#f7cf7c'},to:{backgroundColor:'#f2b43c'},ease:'power1.inOut'}],
+ tags:[{beat:0,x:460,y:330},{beat:1,x:1440,y:320,gold:true},{beat:2,x:1300,y:690}],
+ zoom:{x:1150,y:540,scale:1.15}},
+
+{id:'carbon',question:'탄산음료의 기포는 무엇일까?',conclusion:'녹아 있던 <em>이산화탄소</em>가 기포로 나와요',
+ objects:[{id:'soda',src:'prop-soda.webp',x:730,y:300,w:460,h:460},{id:'lid',x:830,y:300,w:260,h:52,style:'z-index:2',html:'<div style="width:100%;height:100%;border-radius:16px 16px 10px 10px;background:#1f6f6c;border:5px solid #123f3d"></div>'},
+  {id:'bubbles',x:850,y:380,w:220,h:330,style:'z-index:1',html:'<svg viewBox="0 0 220 330" width="220" height="330">'+[[40,300,14],[80,320,11],[115,290,16],[150,312,12],[185,300,11],[60,250,10],[130,262,12],[170,244,10],[70,300,13],[120,310,15],[165,296,12]].map(([x,y,r],i)=>`<circle class="bb" id="bb${i}" cx="${x}" cy="${y}" r="${r}" fill="#ffffff" fill-opacity=".85" stroke="#3f7fa6" stroke-width="5" opacity="0"/>`).join('')+'</svg>'}],
+ shadows:[{x:820,y:742,w:280}],
+ actions:[{sel:'#lid',at:4.2,dur:.7,from:{y:0,rotation:0,opacity:1},to:{y:-150,rotation:-16,opacity:0},ease:'power3.out'},
+  ...[0,1,2,3,4,5,6,7].map(i=>({sel:'#bb'+i,at:4.6+i*.22,dur:1.6,from:{y:0,opacity:1},to:{y:-300,opacity:0},ease:'power1.in',repeat:true})),
+  // 마지막 장면(포스터)에도 기포가 보이도록 세 개는 올라가다 멈춘다.
+  ...[8,9,10].map(i=>({sel:'#bb'+i,at:9.6+(i-8)*.35,dur:1.5,from:{y:0,opacity:0},to:{y:-120-(i-8)*40,opacity:1},ease:'power2.out'}))],
+ tags:[{beat:0,x:960,y:290},{beat:1,x:1290,y:420,gold:true},{beat:2,x:1290,y:560}],
+ zoom:{x:960,y:500,scale:1.22}},
+
+{id:'extinguisher',question:'소화기에 이산화탄소를 쓰는 까닭은?',conclusion:'성질에 맞게 <em>기체</em>를 골라 써요',
+ objects:[{id:'ext',src:'co2-extinguisher-v1.webp',x:600,y:270,w:380,h:570}],
+ shadows:[{x:660,y:822,w:260}],
+ notes:[{id:'n1',x:1080,y:360,at:1.6,html:'<b style="font-weight:400;color:#1f6f6c">이산화탄소</b>는<br>불이 타는 것을 돕지 않아요 <svg width="60" height="50" viewBox="0 0 60 50" style="vertical-align:middle"><path id="chk" d="M6 26 L24 42 L54 8" fill="none" stroke="#c98a1c" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="80" stroke-dashoffset="80"/></svg>'},
+  {id:'n2',x:1080,y:600,at:8.4,html:'실제 소화기 실험은 하지 않아요'}],
+ actions:[{sel:'#chk',at:5.0,dur:.6,from:{strokeDashoffset:80},to:{strokeDashoffset:0},ease:'power2.out'},{sel:'#ext',at:4.3,dur:.6,from:{x:0},to:{x:60},ease:'power2.inOut'}],
+ tags:[{beat:0,x:1330,y:350},{beat:1,x:850,y:280,gold:true},{beat:2,x:1300,y:705,down:true}],
+ zoom:{x:960,y:450,scale:1.12}},
+
+{id:'engineering',question:'공기로 장치를 움직이려면?',conclusion:'공기 길을 이으면 <em>장치</em>가 움직여요',
+ objects:[{id:'pump',src:'prop-pump.webp',x:130,y:360,w:340,h:340},{id:'pipe',src:'pipe-straight-v1.webp',x:420,y:200,w:640,h:640},{id:'nozzle',x:1000,y:430,w:180,h:180,html:'<img src="assets/prop-nozzle.webp" alt="" style="width:100%;height:100%;object-fit:contain;transform:scaleX(-1)">'},
+  {id:'valve',x:600,y:475,w:90,h:90,style:'z-index:2',html:'<svg viewBox="0 0 100 100" width="90" height="90"><circle cx="50" cy="50" r="40" fill="#2e9291" stroke="#dcf8ef" stroke-width="9"/><path d="M50 11v78M11 50h78" stroke="#dcf8ef" stroke-width="9"/><circle cx="50" cy="50" r="12" fill="#edb749"/></svg>'},...fan(1330,320,380)],
+ shadows:[{x:170,y:680,w:260},{x:1390,y:690,w:260}],
+ flows:[{id:'p1',d:'M490 520 L1050 520',window:[4.7,12]},{id:'p2',d:'M1185 520 L1340 505',head:'M1306 478 L1344 505 L1310 536',window:[4.9,8.3],out:8.2},{id:'p3',d:'M1180 505 L1350 420',head:'M1310 410 L1352 420 L1330 456',window:[9.1,12]}],
+ actions:[{sel:'#pipe',at:1.0,dur:.7,from:{y:70,opacity:0},to:{y:0,opacity:1},ease:'expo.out'},{sel:'#nozzle',at:1.5,dur:.7,from:{x:90,opacity:0},to:{x:0,opacity:1},ease:'expo.out'},{sel:'#valve',at:4.2,dur:.5,from:{rotation:0},to:{rotation:90},ease:'power2.inOut'},...spin(5.5,12),{sel:'#nozzle',at:8.3,dur:.6,from:{rotation:0},to:{rotation:-24},ease:'power2.inOut'}],
+ tags:[{beat:0,x:760,y:440},{beat:1,x:645,y:460,gold:true},{beat:2,x:1090,y:420}],
+ zoom:{x:1150,y:520,scale:1.2}},
+
+{id:'car',question:'풍선 자동차는 왜 앞으로 갈까?',conclusion:'공기는 뒤로, <em>자동차</em>는 앞으로',
+ objects:[{id:'road',x:90,y:700,w:1760,h:20,html:'<div style="width:100%;height:8px;margin-top:6px;border-radius:4px;background:repeating-linear-gradient(90deg,#b9a77a 0 60px,transparent 60px 100px)"></div>'},
+  {id:'car',x:420,y:380,w:480,h:320,style:'z-index:2',html:'<img src="assets/balloon-car.webp" alt="" style="width:100%;height:100%;object-fit:contain"><svg style="position:absolute;left:-260px;top:0;overflow:visible" width="280" height="320" viewBox="0 0 280 320"><path id="carflow" d="M272 184 L40 184 M272 160 L80 140 M272 206 L80 226" stroke="#2a8f8a" stroke-width="14" stroke-linecap="round" fill="none" stroke-dasharray="30 26" opacity="0"/></svg>'},
+  {id:'fwd',x:1180,y:740,w:320,h:80,style:'opacity:0',html:'<svg viewBox="0 0 320 80" width="320" height="80"><path d="M10 40 H290 M250 10 L296 40 L250 70" stroke="#c98a1c" stroke-width="14" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'}],
+ actions:[{sel:'#carflow',at:4.3,dur:.3,from:{opacity:0},to:{opacity:1},ease:'power1.out'},{sel:'#carflow',at:4.3,dur:7.7,from:{strokeDashoffset:0},to:{strokeDashoffset:1700},ease:'none'},{sel:'#car',at:8.2,dur:1.9,from:{x:0},to:{x:600},ease:'power2.inOut'},{sel:'#fwd',at:8.4,dur:.5,from:{opacity:0,x:-30},to:{opacity:1,x:0},ease:'expo.out'}],
+ tags:[{beat:0,x:440,y:520},{beat:1,x:250,y:520,gold:true},{beat:2,x:1260,y:370,delay:1.6}],
+ zoom:{x:440,y:560,scale:1.22}}
+];

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>풍선 자동차는 왜 앞으로 갈까?</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+/* 기체 도시 대작전 개념영상 공용 부품 — "실험 노트" 판형. 앱 색(청록·크림·금색)과 Jua 글꼴을 쓴다. */
+@font-face{font-family:'Jua';src:url('assets/fonts/jua-korean-400.woff2') format('woff2');unicode-range:U+1100-11FF,U+3130-318F,U+AC00-D7AF,U+3000-303F,U+FF00-FFEF}
+@font-face{font-family:'Jua';src:url('assets/fonts/jua-latin-400.woff2') format('woff2');unicode-range:U+0000-024F,U+2000-206F,U+2070-209F,U+2190-21FF}
+:root{--ink:#143f43;--teal:#1f6f6c;--teal-soft:#d6ebe4;--cream:#fffdf3;--paper:#f8f3e3;--line:#dbe6dc;--gold:#c98a1c;--gold-soft:#f7cf7c;--warm:#e58a4e;--cool:#4f8fb3}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:var(--paper)}
+#root{position:relative;width:100%;height:100%;overflow:hidden;font-family:'Jua',sans-serif;color:var(--ink)}
+.paper{position:absolute;inset:0;background-color:var(--paper);background-image:linear-gradient(var(--line) 2px,transparent 2px),linear-gradient(90deg,var(--line) 2px,transparent 2px);background-size:60px 60px;background-position:-2px -2px}
+.paper-edge{position:absolute;left:0;top:0;bottom:0;width:70px;background:#efe6cc;border-right:4px solid #e2d3aa}
+.paper-edge i{position:absolute;left:22px;width:26px;height:26px;border-radius:50%;background:var(--paper);border:3px solid #d8c792}
+#cam{position:absolute;inset:0;transform-origin:0 0}
+.obj{position:absolute;display:block}
+.obj img,img.obj{width:100%;height:100%;object-fit:contain}
+.shadow{position:absolute;height:26px;border-radius:50%;background:#1f4a4318}
+.question{position:absolute;left:150px;top:96px;display:flex;align-items:center;gap:22px;font-size:64px;line-height:1.1;color:var(--ink)}
+.question b{display:grid;place-items:center;width:84px;height:84px;border-radius:50%;background:var(--gold-soft);border:5px solid var(--gold);font-size:56px;font-weight:400;color:#6b4a0c}
+.question .w{display:inline-block;white-space:pre}
+.tag{position:absolute;transform:translate(-50%,-100%);padding:12px 26px 14px;border-radius:18px;background:#fff;border:5px solid var(--teal);font-size:44px;line-height:1.1;white-space:nowrap;color:var(--ink);box-shadow:0 6px 0 #1f6f6c33}
+.tag::after{content:'';position:absolute;left:50%;bottom:-22px;margin-left:-14px;border:14px solid transparent;border-top:14px solid var(--teal);border-bottom:0;height:0}
+.tag.down{transform:translate(-50%,0)}.tag.down::after{bottom:auto;top:-22px;border-top:0;border-bottom:14px solid var(--teal)}
+.tag.gold{border-color:var(--gold)}.tag.gold::after{border-top-color:var(--gold)}.tag.gold.down::after{border-bottom-color:var(--gold)}
+.note{position:absolute;padding:18px 30px;border-radius:20px;background:var(--cream);border:4px dashed var(--teal);font-size:46px;line-height:1.25;color:var(--ink)}
+.conclusion{position:absolute;left:50%;top:858px;transform:translateX(-50%);padding:22px 56px 26px;border-radius:28px;background:var(--cream);border:6px solid var(--teal);font-size:62px;line-height:1.1;white-space:nowrap;color:var(--ink);box-shadow:0 10px 0 #1f6f6c2e}
+.conclusion em{font-style:normal;color:#9a5a10}
+.soli{position:absolute;left:1560px;top:700px;width:250px;height:250px;transform-origin:50% 100%}
+.soli img{width:100%;height:100%;object-fit:contain}
+.flow{position:absolute;inset:0;width:1920px;height:1080px;overflow:visible}
+.flow path{fill:none;stroke-linecap:round}
+.readout{position:absolute;display:grid;place-items:center;border-radius:20px;background:#163f42;color:#d9fbe8;font-size:66px;letter-spacing:2px;border:6px solid #2b6e69}
+.readout span{position:absolute}
+
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="12" data-width="1920" data-height="1080">
+      <div id="cam">
+      <div class="paper" style="inset:-700px" data-layout-allow-overflow></div>
+      
+      <div class="obj" id="road" style="left:90px;top:700px;width:1760px;height:20px;"><div style="width:100%;height:8px;margin-top:6px;border-radius:4px;background:repeating-linear-gradient(90deg,#b9a77a 0 60px,transparent 60px 100px)"></div></div>
+      <div class="obj" id="car" style="left:420px;top:380px;width:480px;height:320px;z-index:2"><img src="assets/balloon-car.webp" alt="" style="width:100%;height:100%;object-fit:contain"><svg style="position:absolute;left:-260px;top:0;overflow:visible" width="280" height="320" viewBox="0 0 280 320"><path id="carflow" d="M272 184 L40 184 M272 160 L80 140 M272 206 L80 226" stroke="#2a8f8a" stroke-width="14" stroke-linecap="round" fill="none" stroke-dasharray="30 26" opacity="0"/></svg></div>
+      <div class="obj" id="fwd" style="left:1180px;top:740px;width:320px;height:80px;opacity:0"><svg viewBox="0 0 320 80" width="320" height="80"><path d="M10 40 H290 M250 10 L296 40 L250 70" stroke="#c98a1c" stroke-width="14" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <svg class="flow" viewBox="0 0 1920 1080"></svg>
+      <div class="anchor" id="tag0" style="position:absolute;left:440px;top:520px;width:0;height:0;opacity:0;z-index:5"><div class="tag">출구를 뒤로</div></div>
+      <div class="anchor" id="tag1" style="position:absolute;left:250px;top:520px;width:0;height:0;opacity:0;z-index:5"><div class="tag gold">공기는 뒤로</div></div>
+      <div class="anchor" id="tag2" style="position:absolute;left:1260px;top:370px;width:0;height:0;opacity:0;z-index:5"><div class="tag">자동차는 앞으로</div></div>
+      
+      </div>
+      <div class="paper-edge"><i style="top:150px"></i><i style="top:330px"></i><i style="top:510px"></i><i style="top:690px"></i><i style="top:870px"></i></div>
+      <div class="question" id="q"><b>?</b><span><span class="w">풍선 </span><span class="w">자동차는 </span><span class="w">왜 </span><span class="w">앞으로 </span><span class="w">갈까? </span></span></div>
+      <div id="conclusion" style="position:absolute;left:0;top:0;width:1920px;height:1080px;opacity:0"><div class="conclusion">공기는 뒤로, <em>자동차</em>는 앞으로</div></div>
+      <div class="soli" id="soli" style="opacity:0"><img src="assets/soli.svg" alt=""></div>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo('#q .w',{opacity:0,filter:'blur(6px)'},{opacity:1,filter:'blur(0px)',duration:.16,stagger:.08,ease:'power4.out'},.15);
+      tl.fromTo("#q b",{"scale":0.6,"opacity":0},{"scale":1,"opacity":1,"duration":0.45,"ease":"back.out(1.7)"},0.1);
+      tl.fromTo("#tag0",{"opacity":0,"y":14},{"opacity":1,"y":0,"duration":0.4,"ease":"expo.out"},1.1);
+      tl.fromTo("#tag0",{"opacity":1},{"opacity":0,"duration":0.18,"ease":"power2.in","immediateRender":false},3.75);
+      tl.fromTo("#tag1",{"opacity":0,"y":14},{"opacity":1,"y":0,"duration":0.4,"ease":"expo.out"},5.1);
+      tl.fromTo("#tag1",{"opacity":1},{"opacity":0,"duration":0.18,"ease":"power2.in","immediateRender":false},7.75);
+      tl.fromTo("#tag2",{"opacity":0,"y":14},{"opacity":1,"y":0,"duration":0.4,"ease":"expo.out"},9.6);
+      tl.fromTo("#carflow",{"opacity":0},{"opacity":1,"duration":0.3,"ease":"power1.out"},4.3);
+      tl.fromTo("#carflow",{"strokeDashoffset":0},{"strokeDashoffset":1700,"duration":7.7,"ease":"none","immediateRender":false},4.3);
+      tl.fromTo("#car",{"x":0},{"x":600,"duration":1.9,"ease":"power2.inOut"},8.2);
+      tl.fromTo("#fwd",{"opacity":0,"x":-30},{"opacity":1,"x":0,"duration":0.5,"ease":"expo.out"},8.4);
+      tl.fromTo("#cam",{"x":0,"y":0,"scale":1},{"x":163,"y":-133,"scale":1.22,"duration":0.75,"ease":"power2.inOut"},4.9);
+      tl.fromTo("#cam",{"x":163,"y":-133,"scale":1.22},{"x":0,"y":0,"scale":1,"duration":0.6,"ease":"power2.inOut","immediateRender":false},7.65);
+      tl.fromTo("#conclusion",{"opacity":0,"y":24},{"opacity":1,"y":0,"duration":0.55,"ease":"expo.out"},9);
+      tl.fromTo("#q",{"opacity":1},{"opacity":0.55,"duration":0.4,"ease":"power1.out"},9);
+      tl.fromTo("#soli",{"opacity":0,"scale":0.55,"y":40},{"opacity":1,"scale":1,"y":0,"duration":0.6,"ease":"back.out(1.6)"},9.35);
+      tl.fromTo("#soli",{"rotation":0},{"rotation":-7,"duration":0.22,"ease":"power2.out","immediateRender":false},10.1);
+      tl.fromTo("#soli",{"rotation":-7},{"rotation":0,"duration":0.4,"ease":"back.out(2)","immediateRender":false},10.32);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
