@@ -48,7 +48,7 @@ export function mountExperimentPlayer(screen,{signal,onInstruction,onTargets}){
   const player=createPlayback({signal,onChange:({state,speed,step})=>{
     screen.dataset.playback=state;screen.style.setProperty('--playback-rate',String(speed));
     toggle.setAttribute('aria-pressed',String(state==='running'));
-    const label=state==='running'?'일시정지':state==='paused'?'이어서 재생':state==='finished'||state==='waiting'?'다시 관찰':'자동재생';
+    const label=state==='running'?'직접 해보기':state==='paused'?'이어서 재생':state==='finished'||state==='waiting'?'다시 관찰':'자동재생';
     toggle.innerHTML=`${icon(state==='running'?'pause':'play')}<span>${label}</span>`;
     toggle.disabled=['complete','aborted'].includes(state);select.disabled=toggle.disabled;
     if(state==='running'&&step){if(step.label)onInstruction(step.label);if(step.target)onTargets(step.target);}

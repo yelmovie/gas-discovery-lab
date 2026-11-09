@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {execFileSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
 const root=path.resolve(import.meta.dirname,'..');
 const target=path.join(root,'dist');
 const pkg=JSON.parse(await fs.readFile(path.join(root,'package.json'),'utf8'));
@@ -10,13 +11,23 @@ await fs.cp(path.join(root,'public'),target,{recursive:true});
 await fs.cp(path.join(root,'src'),path.join(target,'src'),{recursive:true});
 await fs.copyFile(path.join(root,'index.html'),path.join(target,'index.html'));
 const files=[];
-async function walk(dir){for(const e of await fs.readdir(dir,{withFileTypes:true})){const f=path.join(dir,e.name);if(e.isDirectory())await walk(f);else if(!['sw.js','offline-manifest.json'].includes(e.name)&&!e.name.startsWith('._'))files.push('/'+path.relative(target,f).replaceAll('\\','/'));}}
+async function walk(dir){for(const e of await fs.readdir(dir,{withFileTypes:true})){const f=path.join(dir,e.name);if(e.isDirectory())await walk(f);else if(!['sw.js','offline-manifest.json','_headers'].includes(e.name)&&!e.name.startsWith('._'))files.push('/'+path.relative(target,f).replaceAll('\\','/'));}}
 await walk(target);
-await fs.writeFile(path.join(target,'offline-manifest.json'),JSON.stringify({version:pkg.version,files}));
-await fs.writeFile(path.join(target,'sw.js'),`const CACHE='gas-city-${pkg.version}';
-self.addEventListener('install',e=>{self.skipWaiting();});
-self.addEventListener('activate',e=>{e.waitUntil((async()=>{for(const k of await caches.keys())if(k.startsWith('gas-city-')&&k!==CACHE)await caches.delete(k);await self.clients.claim();})());});
-self.addEventListener('message',e=>{if(e.data?.type==='CACHE_ALL')e.waitUntil((async()=>{try{const m=await fetch('/offline-manifest.json').then(r=>r.json());const c=await caches.open(CACHE);let done=0;for(const f of m.files){const r=await fetch(f);if(!r.ok)throw Error(f);await c.put(f,r);done++;e.source?.postMessage({type:'CACHE_PROGRESS',done,total:m.files.length});}e.source?.postMessage({type:'CACHE_READY'});}catch{e.source?.postMessage({type:'CACHE_ERROR'});}})());});
+files.sort();
+// Change the worker whenever shipped asset bytes change, even without a version bump.
+const hash=createHash('sha256');
+for(const file of files)hash.update(file).update('\0').update(await fs.readFile(path.join(target,file.slice(1)))).update('\0');
+const revision=hash.digest('hex').slice(0,16);
+await fs.writeFile(path.join(target,'offline-manifest.json'),JSON.stringify({version:pkg.version,revision,files}));
+await fs.writeFile(path.join(target,'sw.js'),`const CACHE='gas-city-assets-${revision}';
+const FILES=${JSON.stringify(files)};
+const isAppCache=k=>k==='gas-city-1.3.0'||k==='gas-city-1.3.1'||/^gas-city-assets-[a-f0-9]{16}$/.test(k);
+async function cacheAssets(source){const c=await caches.open(CACHE);let done=0;for(const f of FILES){const r=await fetch(f,{cache:'reload'});if(!r.ok||r.status!==200)throw Error(f);await c.put(f,r);source?.postMessage({type:'CACHE_PROGRESS',done:++done,total:FILES.length});}}
+// Keep the previous offline release active until its replacement is fully cached.
+// A first opt-in still uses CACHE_ALL so the existing progress UI remains responsive.
+self.addEventListener('install',e=>{e.waitUntil((async()=>{if(self.registration.active||(await caches.keys()).some(isAppCache))await cacheAssets();await self.skipWaiting();})());});
+self.addEventListener('activate',e=>{e.waitUntil((async()=>{for(const k of await caches.keys())if(isAppCache(k)&&k!==CACHE)await caches.delete(k);await self.clients.claim();})());});
+self.addEventListener('message',e=>{if(e.data?.type==='CACHE_ALL')e.waitUntil((async()=>{try{await cacheAssets(e.source);e.source?.postMessage({type:'CACHE_READY'});}catch{e.source?.postMessage({type:'CACHE_ERROR'});}})());});
 async function ranged(request,response){const range=request.headers.get('range');if(!range||response.status!==200)return response;const m=/^bytes=(\\d*)-(\\d*)$/.exec(range);if(!m)return response;const bytes=await response.arrayBuffer(),start=m[1]?Number(m[1]):Math.max(0,bytes.byteLength-Number(m[2])),end=m[1]&&m[2]?Math.min(Number(m[2]),bytes.byteLength-1):bytes.byteLength-1;if(start>=bytes.byteLength||start<0||end<start)return new Response(null,{status:416,headers:{'Content-Range':'bytes */'+bytes.byteLength}});const headers=new Headers(response.headers);headers.set('Content-Range','bytes '+start+'-'+end+'/'+bytes.byteLength);headers.set('Content-Length',String(end-start+1));headers.set('Accept-Ranges','bytes');return new Response(bytes.slice(start,end+1),{status:206,headers});}
 self.addEventListener('fetch',e=>{if(e.request.method!=='GET'||new URL(e.request.url).origin!==self.location.origin)return;e.respondWith((async()=>{const c=await caches.open(CACHE);const cached=await c.match(e.request);if(cached)return ranged(e.request,cached);try{const headers=new Headers(e.request.headers);headers.delete('range');const r=await fetch(new Request(e.request,{headers}));if(r.ok&&r.status===200)await c.put(e.request,r.clone());return ranged(e.request,r);}catch{if(e.request.mode==='navigate')return await c.match('/index.html')||Response.error();return Response.error();}})());});`);
 async function syntax(dir){for(const e of await fs.readdir(dir,{withFileTypes:true})){const f=path.join(dir,e.name);if(e.isDirectory())await syntax(f);else if(f.endsWith('.js')&&!e.name.startsWith('._'))execFileSync(process.execPath,['--check',f],{stdio:'pipe'});}}
