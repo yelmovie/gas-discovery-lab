@@ -1,9 +1,10 @@
 import { APP, STAGES } from './data.js';
 import {completeStage} from './model.js';
-export const freshSave=()=>({version:1,introSeen:false,evidence:Object.fromEntries(STAGES.map(s=>[s.id,[]])),drafts:{},finaleCompleted:false,ability:'실험 기록을 비교해 설명할 수 있어요.',nickname:'',settings:{music:true,sfx:true,musicVolume:35,adminUnlockAll:false}});
+export const freshSave=()=>({version:1,mapRepairs:[],introSeen:false,evidence:Object.fromEntries(STAGES.map(s=>[s.id,[]])),drafts:{},finaleCompleted:false,ability:'실험 기록을 비교해 설명할 수 있어요.',nickname:'',settings:{music:true,sfx:true,musicVolume:35,adminUnlockAll:false}});
 export function validateSave(value){
  if(!value||typeof value!=='object'||value.version!==1)throw Error('저장 형식이 달라요.');
  const clean=freshSave();clean.introSeen=value.introSeen===true;
+ clean.mapRepairs=Array.isArray(value.mapRepairs)?[...new Set(value.mapRepairs.filter(n=>Number.isInteger(n)&&n>=0&&n<5))]:[];
  for(const stage of STAGES){const seen=new Set();for(const e of Array.isArray(value.evidence?.[stage.id])?value.evidence[stage.id]:[]){if(e&&stage.tasks.some(t=>t.id===e.taskId)&&!seen.has(e.taskId)&&typeof e.summary==='string'){clean.evidence[stage.id].push({taskId:e.taskId,summary:e.summary.slice(0,600),details:typeof e.details==='object'&&e.details?e.details:{},date:typeof e.date==='string'?e.date:'',...(e.firstObservation&&typeof e.firstObservation.summary==='string'?{firstObservation:{summary:e.firstObservation.summary.slice(0,600),details:e.firstObservation.details||{},date:e.firstObservation.date||''}}:{})});seen.add(e.taskId);}}}
  clean.settings.music=value.settings?.music!==false;clean.settings.sfx=value.settings?.sfx!==false;
  const volume=value.settings?.musicVolume;clean.settings.musicVolume=Number.isFinite(volume)?Math.min(100,Math.max(0,volume)):35;
