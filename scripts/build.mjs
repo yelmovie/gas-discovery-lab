@@ -5,9 +5,13 @@ import {createHash} from 'node:crypto';
 const root=path.resolve(import.meta.dirname,'..');
 const target=path.join(root,'dist');
 const pkg=JSON.parse(await fs.readFile(path.join(root,'package.json'),'utf8'));
+// Start clean so removed assets never linger in dist or in the offline manifest.
+await fs.rm(target,{recursive:true,force:true});
 await fs.mkdir(target,{recursive:true});
 // Copy an explicit allowlist: source references, scripts, tests and private files never ship.
-await fs.cp(path.join(root,'public'),target,{recursive:true});
+// public/assets/concepts is the retired first set of concept clips (no code references it); concepts-v2 ships.
+const retired=path.join(root,'public','assets','concepts');
+await fs.cp(path.join(root,'public'),target,{recursive:true,filter:src=>src!==retired&&!src.startsWith(retired+path.sep)&&!path.basename(src).startsWith('._')});
 await fs.cp(path.join(root,'src'),path.join(target,'src'),{recursive:true});
 await fs.copyFile(path.join(root,'index.html'),path.join(target,'index.html'));
 const files=[];
