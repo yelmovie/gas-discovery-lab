@@ -5,6 +5,8 @@ export const STANDARDS = [
   ['4과15-03','일상생활에서 이용되는 기체의 종류와 성질을 조사하고, 여러 가지 기체에 대해 흥미를 느낄 수 있다.'],
   ['4과15-04','기체의 성질을 이용하여 작동시킬 수 있는 장치를 설계하고 만들 수 있다.']
 ];
+// 콘텐츠 검수 정보: 교사 검수 전이므로 needsReview는 true로 둔다(검수 후 reviewer·reviewedAt을 채운다).
+export const CONTENT_REVIEW = {needsReview:true,reviewer:null,reviewedAt:null,sources:['2022 개정 과학과 교육과정 성취기준 [4과15-01]~[4과15-04]','경기도교육청 「초등 깊이있는 수업 프레임워크 부록」 77쪽(2026-11-08 확인): 입자 모형 설명은 범위 밖'],scope:'초등 4학년 과학 「여러 가지 기체」'};
 export const STAGES = [
  {id:'flow',name:'바람 동력소',chapter:'끊어진 공기 길',short:'공기를 보내요',npc:'air',color:'teal',evidence:'공기 흐름 기록',badge:'바람길 개척자',description:'끊어진 관을 이어요. 공기를 보내 팬을 돌려요.',reward:'멈춘 풍차가 다시 돌아가요.',standard:'4과15-04',tasks:[
   {id:'flow-1',title:'멈춘 환기팬을 돌려요',goal:'관을 돌려 공기 길을 이어요.',pattern:0,why:'공기가 관을 따라 이동해 팬을 밀었어요.'},

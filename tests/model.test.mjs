@@ -24,3 +24,5 @@ test('teacher shortcuts walk every step and facility in order',()=>{const r=(sta
  assert.deepEqual(teacherRoute(r(first,2),'nextStage'),r(second));assert.deepEqual(teacherRoute(r(second,1),'prevStage'),r(first));assert.deepEqual(teacherRoute(r(first,1),'prevStage'),r(first));
  assert.deepEqual(teacherRoute(r(last,3),'next'),{screen:'finale'});assert.deepEqual(teacherRoute(r(last),'nextStage'),{screen:'finale'});assert.deepEqual(teacherRoute({screen:'finale'},'prev'),r(last,3));assert.deepEqual(teacherRoute({screen:'map'},'next'),r(first));
  let steps=0,route={screen:'map'};while(route.screen!=='finale'&&steps<40){route=teacherRoute(route,'next');steps++;}assert.equal(steps,STAGES.length*5+1);});
+import {CONTENT_REVIEW,STANDARDS as REVIEW_STANDARDS} from '../src/data.js';
+test('content carries review metadata and every stage standard is a listed code',()=>{assert.equal(typeof CONTENT_REVIEW.needsReview,'boolean');assert.ok(CONTENT_REVIEW.sources.length>0);const codes=new Set(REVIEW_STANDARDS.map(s=>s[0]));for(const stage of STAGES)assert.ok(codes.has(stage.standard),stage.id);});
