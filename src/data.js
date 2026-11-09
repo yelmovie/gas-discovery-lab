@@ -38,9 +38,9 @@ export const STAGES = [
  ]}
 ];
 export const GASES = [
- {id:'nitrogen',name:'질소',symbol:'N₂',color:'#478b83',use:'식품 포장',facts:['다른 물질과 쉽게 반응하지 않아요.','과자 봉지 등 식품 포장에 이용돼요.']},
- {id:'oxygen',name:'산소',symbol:'O₂',color:'#5281ac',use:'호흡 지원',facts:['사람의 호흡에 필요해요.','불이 타는 것을 도와요.']},
- {id:'carbon',name:'이산화탄소',symbol:'CO₂',color:'#ac7857',use:'탄산음료 · 일부 소화기',facts:['물에 녹아 탄산음료를 만들어요.','불이 타는 것을 돕지 않아요.']}
+ {id:'nitrogen',name:'질소',symbol:'N₂',color:'#417f78',use:'식품 포장',facts:['다른 물질과 쉽게 반응하지 않아요.','과자 봉지 등 식품 포장에 이용돼요.']},
+ {id:'oxygen',name:'산소',symbol:'O₂',color:'#4d79a1',use:'호흡 지원',facts:['사람의 호흡에 필요해요.','불이 타는 것을 도와요.']},
+ {id:'carbon',name:'이산화탄소',symbol:'CO₂',color:'#996a4d',use:'탄산음료 · 일부 소화기',facts:['물에 녹아 탄산음료를 만들어요.','불이 타는 것을 돕지 않아요.']}
 ];
 export const STORY = [
  {title:'마을의 바람이 멈췄어요',text:'공기 코어가 멈추자 연구시설도 하나둘 멈췄어요. 여우 에어와 함께 고장 난 마을을 살펴볼까요?',image:'title',npc:'air'},

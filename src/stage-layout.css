@@ -143,3 +143,5 @@
 }
 @media(prefers-reduced-motion:reduce){.activity-screen *,.activity-screen *::before,.activity-screen *::after{animation:none!important;transition:none!important}}
 @media print{.activity-screen{display:none}}
+/* viewport-fit=cover인 노치·둥근 모서리 기기에서 가장자리 버튼이 시스템 영역과 겹치지 않게 한다(일반 화면에서는 0). */
+.global-controls{padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) 0 env(safe-area-inset-left,0px)}.map-controls{margin:0 0 env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)}.map-next-card{margin:0 env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) 0}
