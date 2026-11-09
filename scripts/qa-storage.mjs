@@ -1,3 +1,4 @@
+const QA=process.env.QA_URL||'http://127.0.0.1:4176';
 import {createRequire} from 'node:module';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
@@ -5,7 +6,7 @@ const {chromium}=createRequire(import.meta.url)(process.env.PLAYWRIGHT_MODULE||'
 const browser=await chromium.launch({channel:'chrome',headless:true});
 const context=await browser.newContext({viewport:{width:1024,height:768},storageState:{cookies:[],origins:[]}});
 const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
-await page.goto('http://127.0.0.1:4176');
+await page.goto(QA);
 await page.locator('.home-screen').waitFor();
 const loading=await page.evaluate(()=>({navigation:performance.getEntriesByType('navigation')[0].toJSON(),transferred:performance.getEntriesByType('resource').reduce((n,e)=>n+e.transferSize,0)}));
 await page.getByRole('button',{name:'설정',exact:true}).click();

@@ -1,3 +1,4 @@
+const QA=process.env.QA_URL||'http://127.0.0.1:4176';
 import {createRequire} from 'node:module';
 import fs from 'node:fs/promises';
 import assert from 'node:assert/strict';
@@ -9,7 +10,7 @@ const b=await chromium.launch({channel:'chrome',headless:true,args:[`--disk-cach
 const c=await b.newContext({viewport:{width:1024,height:600},storageState:{cookies:[],origins:[]},hasTouch:true,reducedMotion:'reduce'}),p=await c.newPage(),errors=[],report=[];
 p.on('pageerror',e=>errors.push(e.message));
 await c.addInitScript(evidence=>{if(!localStorage.getItem('gas-city-adventure-v1'))localStorage.setItem('gas-city-adventure-v1',JSON.stringify({version:1,introSeen:true,evidence,drafts:{},settings:{music:false,sfx:false}}));},Object.fromEntries(STAGES.map(s=>[s.id,s.tasks.map(t=>({taskId:t.id,summary:'격리된 자동재생 검증',details:{},date:'before'}))])));
-async function open(stage,i){await p.goto(`http://127.0.0.1:4176/#stage/${stage}/${i}`);await p.locator('.activity-screen').waitFor();}
+async function open(stage,i){await p.goto(`${QA}/#stage/${stage}/${i}`);await p.locator('.activity-screen').waitFor();}
 async function play(){await p.getByRole('combobox',{name:'자동재생 속도'}).selectOption('2');await p.locator('.autoplay-button').tap();}
 async function settled(){await p.waitForFunction(()=>['finished','waiting','error'].includes(document.querySelector('.activity-screen')?.dataset.playback));assert.notEqual(await p.locator('.activity-screen').getAttribute('data-playback'),'error');}
 async function evidence(task){return p.evaluate(async t=>(await import('/src/state.js')).store.save.evidence[t.id.split('-')[0]].find(x=>x.taskId===t.id),task);}
