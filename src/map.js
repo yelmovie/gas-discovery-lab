@@ -1,3 +1,4 @@
+import { narration, voiceForText } from './game-voices.js';
 import {mountRepair} from './map-repair.js';
 import {STAGES} from './data.js';
 import {isStageOpen,completeStage} from './model.js';
@@ -22,8 +23,8 @@ export async function mountMap(host,ctx){
  const labels=new Map();const completed=()=>STAGES.filter(s=>completeStage(ctx.save,s.id)).length;
  const allDone=()=>completed()===5;
  const nextId=()=>STAGES.find(s=>!completeStage(ctx.save,s.id))?.id||'core';
- function hint(text){speech.textContent=text;speech.hidden=false;announce(text);}
- function routeTo(id){const b=map.buildings.find(b=>b.id===id);const [x,y]=map.nodes[b.entry];const result=findPath(map,position,{x,y});if(!result){hint('그곳까지 갈 길을 찾지 못했어요. 흙길이나 다른 입구를 눌러 보아요.');return;}held.clear();path=result;goal=id;speech.hidden=true;free=null;syncTools();sound();if(reduced){position={x,y};path=[];tryEnter(id);}canvas.focus({preventScroll:true});}
+ function hint(text){speech.textContent=text;speech.hidden=false;announce(text);voiceForText(speech,text,ctx.signal);}
+ function routeTo(id){const b=map.buildings.find(b=>b.id===id);const [x,y]=map.nodes[b.entry];const result=findPath(map,position,{x,y});if(!result){hint('그곳까지 갈 길을 찾지 못했어요. 흙길이나 다른 입구를 눌러 보아요.');return;}held.clear();path=result;goal=id;speech.hidden=true;narration.stop();free=null;syncTools();sound();if(reduced){position={x,y};path=[];tryEnter(id);}canvas.focus({preventScroll:true});}
  function tryEnter(id){if(entered)return;const index=STAGES.findIndex(s=>s.id===id);const allowed=id==='core'?(allDone()||ctx.save.settings.adminUnlockAll):isStageOpen(ctx.save,index);
   if(!allowed){const previous=id==='core'?'다섯 연구시설의 의뢰':STAGES[index-1].name+'의 의뢰';hint(`먼저 ${previous}를 마쳐 주세요. 솔이와 함께 다음 시설부터 가 볼까요?`);goal=null;return;}
   entered=true;ctx.enter(id);
@@ -41,15 +42,15 @@ export async function mountMap(host,ctx){
  handButton.onclick=()=>{hand=!hand;if(hand){path=[];goal=null;held.clear();}sound();syncTools();announce(hand?'손 모드예요. 지도를 끌어서 둘러봐요.':'걷기 모드예요. 길을 누르면 걸어가요.');};
  overviewButton.onclick=()=>{overview=!overview;free=null;resize();sound();syncTools();};
  recenter.onclick=()=>{free=null;syncTools();canvas.focus({preventScroll:true});};
- host.querySelector('.map-companion').onclick=()=>{if(!speech.hidden){speech.hidden=true;return;}hint(ctx.save.finaleCompleted?'마을이 다시 움직여요! 시설에 들어가 다른 방법으로도 탐구해 보아요.':`다음은 ${STAGES.find(s=>s.id===nextId())?.name||'중앙 공기 코어'}예요. 시설 이름이나 흙길을 누르면 같이 걸어가요. 방향키로도 걸을 수 있어요.`);};
+ host.querySelector('.map-companion').onclick=()=>{if(!speech.hidden){speech.hidden=true;narration.stop();return;}hint(ctx.save.finaleCompleted?'마을이 다시 움직여요! 시설에 들어가 다른 방법으로도 탐구해 보아요.':`다음은 ${STAGES.find(s=>s.id===nextId())?.name||'중앙 공기 코어'}예요. 시설 이름이나 흙길을 누르면 같이 걸어가요. 방향키로도 걸을 수 있어요.`);};
  const onKey=e=>{if(document.querySelector('dialog[open]')||e.target.closest?.('button,input,textarea,select'))return;const keys={ArrowUp:'up',KeyW:'up',ArrowDown:'down',KeyS:'down',ArrowLeft:'left',KeyA:'left',ArrowRight:'right',KeyD:'right'};if(keys[e.code]){e.preventDefault();if(hand){if(e.type==='keydown'){const v={up:[0,-48],down:[0,48],left:[-48,0],right:[48,0]}[keys[e.code]];free={x:cam.x+v[0],y:cam.y+v[1]};syncTools();}return;}path=[];goal=null;if(free){free=null;syncTools();}if(e.type==='keydown')held.add(e.code);else held.delete(e.code);}if(e.code==='Enter'&&e.type==='keydown'){const b=map.buildings.find(b=>distance(position,{x:map.nodes[b.entry][0],y:map.nodes[b.entry][1]})<48);if(b)tryEnter(b.id);}};
  window.addEventListener('keydown',onKey,{signal:ctx.signal});window.addEventListener('keyup',onKey,{signal:ctx.signal});
  window.addEventListener('blur',()=>held.clear(),{signal:ctx.signal});document.addEventListener('visibilitychange',()=>{held.clear();lastTime=0;},{signal:ctx.signal});
  host.querySelectorAll('[data-dir]').forEach(b=>{b.onpointerdown=e=>{e.preventDefault();path=[];goal=null;held.clear();if(free){free=null;syncTools();}held.add(b.dataset.dir);b.setPointerCapture(e.pointerId);};b.onpointerup=()=>held.clear();b.onpointercancel=()=>held.clear();b.onlostpointercapture=()=>held.clear();b.onkeydown=e=>{if(['Enter','Space'].includes(e.code)){e.preventDefault();held.add(b.dataset.dir);}};b.onkeyup=()=>held.clear();});
  // A short tap walks there; a drag (or any press in hand mode) moves the camera instead.
- function walkTo(e){const rect=canvas.getBoundingClientRect(),target={x:(e.clientX-rect.left+cam.x)/scale,y:(e.clientY-rect.top+cam.y)/scale};const result=findPath(map,position,target);if(result){path=result;goal=null;held.clear();speech.hidden=true;free=null;syncTools();if(reduced){position=result.at(-1);path=[];}}else hint('그곳은 걸을 수 없어요. 밝은 흙길이나 시설 이름을 눌러 주세요.');canvas.focus({preventScroll:true});}
+ function walkTo(e){const rect=canvas.getBoundingClientRect(),target={x:(e.clientX-rect.left+cam.x)/scale,y:(e.clientY-rect.top+cam.y)/scale};const result=findPath(map,position,target);if(result){path=result;goal=null;held.clear();speech.hidden=true;narration.stop();free=null;syncTools();if(reduced){position=result.at(-1);path=[];}}else hint('그곳은 걸을 수 없어요. 밝은 흙길이나 시설 이름을 눌러 주세요.');canvas.focus({preventScroll:true});}
  canvas.addEventListener('pointerdown',e=>{if(e.button>0)return;grab={id:e.pointerId,x:e.clientX,y:e.clientY,cx:cam.x,cy:cam.y};dragged=false;},{signal:ctx.signal});
- canvas.addEventListener('pointermove',e=>{if(grab?.id!==e.pointerId)return;const dx=e.clientX-grab.x,dy=e.clientY-grab.y;if(!dragged&&Math.hypot(dx,dy)<8)return;if(!dragged){dragged=true;canvas.setPointerCapture(e.pointerId);canvas.classList.add('grabbing');speech.hidden=true;}free={x:grab.cx-dx,y:grab.cy-dy};syncTools();},{signal:ctx.signal});
+ canvas.addEventListener('pointermove',e=>{if(grab?.id!==e.pointerId)return;const dx=e.clientX-grab.x,dy=e.clientY-grab.y;if(!dragged&&Math.hypot(dx,dy)<8)return;if(!dragged){dragged=true;canvas.setPointerCapture(e.pointerId);canvas.classList.add('grabbing');speech.hidden=true;narration.stop();}free={x:grab.cx-dx,y:grab.cy-dy};syncTools();},{signal:ctx.signal});
  const letGo=e=>{if(grab?.id!==e.pointerId)return;const tap=!dragged&&e.type==='pointerup';grab=null;dragged=false;canvas.classList.remove('grabbing');if(tap&&!hand)walkTo(e);else if(tap)canvas.focus({preventScroll:true});};
  canvas.addEventListener('pointerup',letGo,{signal:ctx.signal});canvas.addEventListener('pointercancel',letGo,{signal:ctx.signal});canvas.addEventListener('lostpointercapture',letGo,{signal:ctx.signal});
  function resize(){width=host.clientWidth;height=host.clientHeight;const dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);g.setTransform(dpr,0,0,dpr,0,0);scale=overview?Math.min(width/map.width,height/map.height):Math.max(width/map.width,height/map.height)*(width<1000?1.5:1.62);ready=false;}

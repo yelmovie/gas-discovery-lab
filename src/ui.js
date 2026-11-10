@@ -8,6 +8,7 @@ export function message(container,text,kind='hint'){container.innerHTML=`<div cl
 export function prop(name,cls='',alt=''){return `<img class="prop ${cls}" src="${name==='jar'?'/assets/visuals/air-jar-v2.webp':`/assets/prop-${name}.webp`}" alt="${alt}" draggable="false">`;}
 export function portrait(npc,cls=''){return `<img class="npc-portrait ${cls}" src="/assets/${npc}-portrait.webp" alt="${{air:'여우 발명가 에어',lumi:'고양이 연구원 루미',popo:'다람쥐 관제원 포포'}[npc]}" draggable="false">`;}
 export function openDialog(title,body,{wide=false,footer,close=true,onClose}={}){
+ document.dispatchEvent(new Event('gas-dialog-open'));
  const focus=document.activeElement;
  const d=html(`<dialog class="dialog ${wide?'wide':''}" aria-label="${escapeHTML(title)}"><div class="dialog-head"><h2>${escapeHTML(title)}</h2>${close?`<button class="icon-button close-dialog" aria-label="닫기">${icon('close')}</button>`:''}</div><div class="dialog-body"></div><div class="dialog-foot"></div></dialog>`);
  d.querySelector('.dialog-body').append(typeof body==='string'?html(`<div>${body}</div>`):body);

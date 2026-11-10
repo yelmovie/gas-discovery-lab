@@ -1,0 +1,66 @@
+{
+  "verified": [
+    "welcome",
+    "title-buddy",
+    "story-1",
+    "story-2",
+    "story-3",
+    "map-next-flow",
+    "stage-flow",
+    "reward-flow",
+    "map-next-weight",
+    "stage-weight",
+    "reward-weight",
+    "map-next-climate",
+    "stage-climate",
+    "retry-climate-1",
+    "retry-climate-2",
+    "retry-climate-3",
+    "retry-climate-4",
+    "reward-climate",
+    "map-next-delivery",
+    "stage-delivery",
+    "retry-delivery-gas",
+    "retry-delivery-reason",
+    "reward-delivery",
+    "map-next-engineering",
+    "stage-engineering",
+    "reward-engineering",
+    "map-next-core",
+    "finale-ready",
+    "finale-charged",
+    "ending-1",
+    "ending-2",
+    "ending-3",
+    "map-done"
+  ],
+  "errors": [],
+  "playbackRate": 4,
+  "humanListening": false,
+  "tests": {
+    "unit": {
+      "passed": 60,
+      "failed": 0
+    },
+    "responsive": {
+      "cases": 196,
+      "failures": 0,
+      "viewports": [
+        "1366x768",
+        "1024x768",
+        "740x360",
+        "390x844"
+      ]
+    },
+    "learnerTasks": 20,
+    "experimentPlaybackTasks": 20,
+    "media": {
+      "hashChecks": 30,
+      "fullVideoDecodes": 20,
+      "effects": 7
+    }
+  },
+  "manifestSha256": "2cc6f977cdda31b91f5d20fbc77423313b6861cc38c08828fc35f53280a50eb3",
+  "fontFilesChanged": false,
+  "stylesheetFilesChanged": false
+}

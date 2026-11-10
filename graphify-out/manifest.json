@@ -90,9 +90,9 @@
     "semantic_hash": ""
   },
   "src/audio.js": {
-    "mtime": 1794255616.11,
-    "seen": 1794302965.014731,
-    "ast_hash": "63260f2607843d7d1dc7635c91def2b8",
+    "mtime": 1794309076.22,
+    "seen": 1794309279.983016,
+    "ast_hash": "8545804d3f17399fafdadab020bcc800",
     "semantic_hash": ""
   },
   "src/concepts.js": {
@@ -114,15 +114,15 @@
     "semantic_hash": ""
   },
   "src/main.js": {
-    "mtime": 1794257865.39,
-    "seen": 1794302965.0147352,
-    "ast_hash": "c46f07424b7e81fb6333a47d68826078",
+    "mtime": 1794309351.88,
+    "seen": 1794310068.1542232,
+    "ast_hash": "fc43856e603744912b5e5f8b6b9b42da",
     "semantic_hash": ""
   },
   "src/map.js": {
-    "mtime": 1794255616.15,
-    "seen": 1794302965.014736,
-    "ast_hash": "0cefbf44d00621d4005cff69b94413e6",
+    "mtime": 1794309076.25,
+    "seen": 1794309279.983021,
+    "ast_hash": "ca23dd42e7315a0d8377c3185435f23e",
     "semantic_hash": ""
   },
   "src/model.js": {
@@ -168,9 +168,9 @@
     "semantic_hash": ""
   },
   "src/ui.js": {
-    "mtime": 1794255616.19,
-    "seen": 1794302965.014741,
-    "ast_hash": "adb4b66b865457f85ad1d7f2131c61b7",
+    "mtime": 1794309076.25,
+    "seen": 1794309279.983027,
+    "ast_hash": "e7810694c7632fc8598b25ee77cc0ef8",
     "semantic_hash": ""
   },
   "tests/model.test.mjs": {
@@ -1277,12 +1277,6 @@
     "ast_hash": "469324e2f241af15884ab3f2fe886264",
     "semantic_hash": ""
   },
-  "._index.html": {
-    "mtime": 1794302465.88,
-    "seen": 1794302965.01475,
-    "ast_hash": "b405bcbe19d63bcc40bd5186aa6e3b23",
-    "semantic_hash": ""
-  },
   "docs/reviews/NPC-VOICE-20261108.md": {
     "mtime": 1794255613.61,
     "seen": 1794302965.0147579,
@@ -1467,12 +1461,6 @@
     "mtime": 1794255614.2,
     "seen": 1794302965.014714,
     "ast_hash": "d3eb0faa6e0ff7467c19ff034e83503e",
-    "semantic_hash": ""
-  },
-  "scripts/._build.mjs": {
-    "mtime": 1794302598.85,
-    "seen": 1794302965.014718,
-    "ast_hash": "b405bcbe19d63bcc40bd5186aa6e3b23",
     "semantic_hash": ""
   },
   "scripts/qa-screens.mjs": {
@@ -1847,40 +1835,262 @@
     "ast_hash": "42fa1f1e43591186dfe0b3f3fd5d5a5d",
     "semantic_hash": ""
   },
-  "src/._settingsContent.js": {
-    "mtime": 1794302598.85,
-    "seen": 1794302965.0147269,
-    "ast_hash": "b405bcbe19d63bcc40bd5186aa6e3b23",
-    "semantic_hash": ""
-  },
-  "tests/._font-assets.test.mjs": {
-    "mtime": 1794302598.87,
-    "seen": 1794302965.014743,
-    "ast_hash": "b405bcbe19d63bcc40bd5186aa6e3b23",
-    "semantic_hash": ""
-  },
   "tests/font-assets.test.mjs": {
     "mtime": 1794302598.87,
     "seen": 1794302965.014745,
     "ast_hash": "7cf8b8514a8935773f03017f7cb87061",
     "semantic_hash": ""
   },
-  "public/assets/._CREDITS.md": {
-    "mtime": 1794302465.88,
-    "seen": 1794302965.014776,
-    "ast_hash": "b405bcbe19d63bcc40bd5186aa6e3b23",
-    "semantic_hash": ""
-  },
-  "public/assets/fonts/._NanumSquareNeo-OFL.txt": {
-    "mtime": 1794302465.87,
-    "seen": 1794302965.0147772,
-    "ast_hash": "b405bcbe19d63bcc40bd5186aa6e3b23",
-    "semantic_hash": ""
-  },
   "public/assets/fonts/NanumSquareNeo-OFL.txt": {
     "mtime": 1794302465.87,
     "seen": 1794302965.0147781,
     "ast_hash": "1ae5bd1c99c2bc60e05bfa0fd877820e",
+    "semantic_hash": ""
+  },
+  "scripts/qa-voices.mjs": {
+    "mtime": 1794309652.41,
+    "seen": 1794310068.154211,
+    "ast_hash": "5fe9e17d7019a22e3f6179a1a1783a0c",
+    "semantic_hash": ""
+  },
+  "src/game-voices.js": {
+    "mtime": 1794309112.57,
+    "seen": 1794309279.983019,
+    "ast_hash": "efc0941efcef2fa6f48758b175b254ff",
+    "semantic_hash": ""
+  },
+  "src/narration.js": {
+    "mtime": 1794309076.21,
+    "seen": 1794309279.983022,
+    "ast_hash": "b1dac70c981749584ed502de855455e8",
+    "semantic_hash": ""
+  },
+  "src/voice-lines.js": {
+    "mtime": 1794309076.21,
+    "seen": 1794309279.983028,
+    "ast_hash": "9a074b7b6fa245dc89c036622205690a",
+    "semantic_hash": ""
+  },
+  "tests/narration.test.mjs": {
+    "mtime": 1794309112.56,
+    "seen": 1794309279.983032,
+    "ast_hash": "339a2169ba7a1a83bd7b3fb587ab05e3",
+    "semantic_hash": ""
+  },
+  "docs/reviews/PLAY-REVIEW-20261110.md": {
+    "mtime": 1794304103.5,
+    "seen": 1794309279.9830441,
+    "ast_hash": "b3c6952006cb8801bb88114605ab029b",
+    "semantic_hash": ""
+  },
+  "docs/VOICE-PROVENANCE-20261110.json": {
+    "mtime": 1794309993.31,
+    "seen": 1794310068.154172,
+    "ast_hash": "889c4ae2fe29b64ae0951530c9ddc692",
+    "semantic_hash": ""
+  },
+  "docs/VOICE-INTEGRATION-20261110.md": {
+    "mtime": 1794309962.46,
+    "seen": 1794310068.1542451,
+    "ast_hash": "bc923aa0f760a3db301516f5d6407bf3",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/ending-1.mp3": {
+    "mtime": 1794309993.29,
+    "seen": 1794310068.154351,
+    "ast_hash": "ac73ed88cfec46bec2cdfadd3005d199",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/ending-2.mp3": {
+    "mtime": 1794309993.3,
+    "seen": 1794310068.154351,
+    "ast_hash": "c85268758973bc73a459b117c7e17a80",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/ending-3.mp3": {
+    "mtime": 1794309993.31,
+    "seen": 1794310068.1543522,
+    "ast_hash": "fe11424e4de6537eb4363bde5e6a457e",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/finale-charged.mp3": {
+    "mtime": 1794309993.29,
+    "seen": 1794310068.154353,
+    "ast_hash": "133d9ede317d748ea16ad6072454bdf0",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/finale-ready.mp3": {
+    "mtime": 1794309993.28,
+    "seen": 1794310068.154353,
+    "ast_hash": "a14ee531e16d70801dd84451a70808f3",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/map-done.mp3": {
+    "mtime": 1794309993.28,
+    "seen": 1794310068.1543539,
+    "ast_hash": "4b8ed3bc3a52f5a38e575d548b1a493b",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/map-next-climate.mp3": {
+    "mtime": 1794309993.25,
+    "seen": 1794310068.1543539,
+    "ast_hash": "af3af93d8a35a1a3e62752a58ac84f8e",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/map-next-core.mp3": {
+    "mtime": 1794309993.27,
+    "seen": 1794310068.154355,
+    "ast_hash": "8758ff9a2b6f23a9c125a2d2f7f44480",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/map-next-delivery.mp3": {
+    "mtime": 1794309993.26,
+    "seen": 1794310068.154355,
+    "ast_hash": "74d3be0ae30880ed324fa4851a4a5577",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/map-next-engineering.mp3": {
+    "mtime": 1794309993.26,
+    "seen": 1794310068.154356,
+    "ast_hash": "e4e14836c3322c3744986300a0658add",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/map-next-flow.mp3": {
+    "mtime": 1794309993.24,
+    "seen": 1794310068.154356,
+    "ast_hash": "a60670fdc5ce011cfdf9ab07dcdd657e",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/map-next-weight.mp3": {
+    "mtime": 1794309993.24,
+    "seen": 1794310068.154356,
+    "ast_hash": "167c34fd6a109f44d596fbbd93d7a00c",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/retry-climate-1.mp3": {
+    "mtime": 1794309993.2,
+    "seen": 1794310068.154357,
+    "ast_hash": "514cf07d9e48c11540323319709422bf",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/retry-climate-2.mp3": {
+    "mtime": 1794309993.21,
+    "seen": 1794310068.154357,
+    "ast_hash": "fe2863eb727477fc819ef9a9d427eca6",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/retry-climate-3.mp3": {
+    "mtime": 1794309993.21,
+    "seen": 1794310068.154358,
+    "ast_hash": "01820eaec625e738201c425d84656339",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/retry-climate-4.mp3": {
+    "mtime": 1794309993.22,
+    "seen": 1794310068.154358,
+    "ast_hash": "4f523c32cc8053117e67148cd30939bd",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/retry-delivery-gas.mp3": {
+    "mtime": 1794309993.22,
+    "seen": 1794310068.154359,
+    "ast_hash": "f8b0b9848a42e2418c919788e6482b84",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/retry-delivery-reason.mp3": {
+    "mtime": 1794309993.23,
+    "seen": 1794310068.154359,
+    "ast_hash": "166f12445436a25ed2162f93dac62f0f",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/reward-climate.mp3": {
+    "mtime": 1794309993.18,
+    "seen": 1794310068.15436,
+    "ast_hash": "bff280c82629ec883660eb658b240e1b",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/reward-delivery.mp3": {
+    "mtime": 1794309993.19,
+    "seen": 1794310068.15436,
+    "ast_hash": "9b7afab0d57ef8d758458665b4298c69",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/reward-engineering.mp3": {
+    "mtime": 1794309993.19,
+    "seen": 1794310068.154361,
+    "ast_hash": "fb39916f95cdcf339cafef6618a07249",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/reward-flow.mp3": {
+    "mtime": 1794309993.17,
+    "seen": 1794310068.154361,
+    "ast_hash": "356ea77a78c079fed2f6c5c8e5d6c7dd",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/reward-weight.mp3": {
+    "mtime": 1794309993.18,
+    "seen": 1794310068.1543622,
+    "ast_hash": "139ff8ef3a1442852350ea8fa03e6784",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/stage-climate.mp3": {
+    "mtime": 1794309993.16,
+    "seen": 1794310068.1543622,
+    "ast_hash": "f7f36f9320cd81df2aa2d50a913a556c",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/stage-delivery.mp3": {
+    "mtime": 1794309993.16,
+    "seen": 1794310068.1543622,
+    "ast_hash": "a651e56f528801aeb103f8a09e6f512e",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/stage-engineering.mp3": {
+    "mtime": 1794309993.17,
+    "seen": 1794310068.154363,
+    "ast_hash": "e078116ac7dba3924fad36a3f5e530e1",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/stage-flow.mp3": {
+    "mtime": 1794309993.14,
+    "seen": 1794310068.1543648,
+    "ast_hash": "a55445688d62d1de85ecd923e21a2533",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/stage-weight.mp3": {
+    "mtime": 1794309993.15,
+    "seen": 1794310068.154366,
+    "ast_hash": "888b0b037c9fccc2a315e09554c8a5f4",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/story-1.mp3": {
+    "mtime": 1794309993.13,
+    "seen": 1794310068.154366,
+    "ast_hash": "1e67aa3fbaf1c90f0efc2bc911cdb432",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/story-2.mp3": {
+    "mtime": 1794309993.13,
+    "seen": 1794310068.154367,
+    "ast_hash": "9ca24a4bdb1faef9b1b5970fe3ff8238",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/story-3.mp3": {
+    "mtime": 1794309993.14,
+    "seen": 1794310068.154367,
+    "ast_hash": "e615f184dd14ec3c23bdeab3acfdd35e",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/title-buddy.mp3": {
+    "mtime": 1794309993.12,
+    "seen": 1794310068.154368,
+    "ast_hash": "3cee451eb4c1cfa9657a7dd7e22762ec",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/welcome.mp3": {
+    "mtime": 1794309993.11,
+    "seen": 1794310068.154368,
+    "ast_hash": "257ed6528778a00d0d9683dc0b78c69a",
     "semantic_hash": ""
   }
 }
