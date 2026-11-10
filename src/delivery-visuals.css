@@ -6,7 +6,7 @@
 .delivery-layout .gas-card.selected{border-color:#367967;box-shadow:0 3px 0 #356956,inset 0 0 0 1px #367967;background:#e2f0e1}
 .delivery-layout .gas-card.is-observing{outline:3px dashed #bc8b38;outline-offset:-5px}
 .delivery-layout .gas-read-state{display:none}
-.delivery-layout .gas-orb{display:grid;place-items:center;flex:none;width:clamp(26px,6dvh,68px);height:clamp(26px,6dvh,68px);border:3px solid #ffffffab;box-shadow:inset 0 -4px 0 #173a2e26,0 2px 5px #283e3420;font:clamp(14px,1.8vw,29px)/1 var(--font-display)}
+.delivery-layout .gas-orb{display:grid;place-items:center;flex:none;width:auto;min-width:clamp(26px,6dvh,68px);padding:0 .18em;height:clamp(26px,6dvh,68px);border:3px solid #ffffffab;box-shadow:inset 0 -4px 0 #173a2e26,0 2px 5px #283e3420;font:clamp(14px,1.8vw,29px)/1 var(--font-display)}
 .delivery-layout .gas-color-note{font-size:clamp(14px,1.1vw,20px);line-height:1.2;color:#5d6c5e;margin:0;text-align:center}
 .delivery-layout .gas-information{padding:clamp(7px,1vw,18px);height:100%;min-width:0;min-height:0;background:linear-gradient(135deg,#f0f5e8,#e6efdf);border:1px solid #becdb8;border-radius:16px}
 .delivery-layout .gas-use-card,.delivery-layout .gas-use-result{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.3fr);align-items:center;gap:clamp(7px,1.2vw,20px);height:100%;min-width:0;min-height:0}
@@ -24,7 +24,11 @@
 .delivery-layout .gas-use-complete .icon,.delivery-layout .gas-use-link .icon{flex:none;width:clamp(16px,1.5vw,26px);height:clamp(16px,1.5vw,26px)}
 .delivery-layout .gas-use-link{display:flex;align-items:center;gap:7px;margin-top:clamp(6px,1.2dvh,16px);padding-top:clamp(5px,1dvh,12px);border-top:1px solid #b7cdb3;color:#2c6251;font:clamp(14px,1.4vw,25px)/1.25 var(--font-display)}
 .delivery-layout .gas-use-link strong{font-weight:400;min-width:0}
-.delivery-layout .facility-panel{display:grid;grid-template-rows:minmax(0,1fr) auto;align-content:stretch;justify-content:stretch;gap:clamp(6px,1dvh,14px);height:100%;min-height:0}
+.delivery-layout .facility-panel{display:grid;grid-template-rows:auto minmax(0,1fr) auto;align-content:stretch;justify-content:stretch;gap:clamp(6px,1dvh,14px);height:100%;min-height:0}
+/* 시설의 부탁(무엇이 필요한지)을 성질 고르기 위에 늘 보여 준다. */
+.delivery-layout .facility-request{min-width:0;padding:clamp(6px,1dvh,14px) clamp(10px,1.2vw,18px);background:#eef5ec;border:2px solid #b9d1bc;border-radius:14px;color:var(--teal-800)}
+.delivery-layout .facility-request p{margin:0;font-size:clamp(15px,1.4vw,25px);line-height:1.35;word-break:keep-all;overflow-wrap:anywhere}
+.activity-complete .delivery-layout .facility-request{display:none}
 .delivery-layout .reason-slot,.delivery-layout .reason-slot .choice-group{height:100%;min-height:0;min-width:0}
 .delivery-layout .reason-slot .choice-group{display:grid;grid-template-rows:repeat(3,minmax(44px,1fr));gap:clamp(6px,1dvh,14px)}
 .delivery-layout .reason-slot .choice{display:flex;align-items:center;min-width:0;min-height:44px;white-space:normal;word-break:keep-all;overflow-wrap:anywhere;font-size:clamp(14px,1.5vw,27px);line-height:1.3;padding:clamp(6px,1vw,15px);text-align:left}
@@ -36,7 +40,10 @@
 .delivery-layout .supply-port.connected{border-color:#639455;background:#deedcf}
 @media(max-height:440px){
  .delivery-layout .supply-port{display:none}
- .delivery-layout .facility-panel{grid-template-rows:minmax(0,1fr)}
+ .delivery-layout .facility-panel{grid-template-rows:auto minmax(0,1fr)}
+ .delivery-layout .facility-request{padding:4px 8px}
+ .delivery-layout .facility-request p{font-size:14px}
+ .delivery-layout .gas-color-note{display:none}
  .delivery-layout .gas-information .gas-use-copy h3{font-size:16px;margin-bottom:4px}
  .delivery-layout .gas-use-complete{margin-bottom:4px}
  .delivery-layout .gas-use-link{margin-top:5px;padding-top:4px}

@@ -1,6 +1,8 @@
 import {volumeFor,validVolumePair} from '../model.js';
 import {prop,choices,escapeHTML,announce} from '../ui.js';
 import {sound} from '../audio.js';
+// 받침 유무로 '이에요/예요'를 고른다(예: 보통 온도예요, 보통 압력이에요).
+const iyeyo=word=>{const code=word.charCodeAt(word.length-1)-0xAC00;return code>=0&&code<11172&&code%28?'이에요':'예요';};
 export function mountClimate(host,task,ctx){
  const draft=ctx.draft||{},baseline=task.baseline??1;
  let condition=Number.isInteger(draft.condition)&&draft.condition>=0&&draft.condition<=2?draft.condition:baseline,records=Array.isArray(draft.records)?draft.records.filter(r=>[0,1,2].includes(r.condition)):[],completed=false,pistonPointer=null;
@@ -12,7 +14,7 @@ export function mountClimate(host,task,ctx){
  const visual=host.querySelector('.volume-visual'),feedback=host.querySelector('.activity-feedback'),slider=host.querySelector('.condition-slider'),scene=host.querySelector('.climate-scene');
  function update(){
   const ratio=volumeFor(task.mode,condition),both=validVolumePair(records,task);
-  ctx.guide?.(both?'2 · 새 상황에 적용':'1 · 조건 바꾸기',both?'두 모습을 비교하고, 새로운 상황을 골라요.':`처음은 ${labels[baseline]}이에요. ${labels[task.target]}으로 바꿔 보아요.`,[temperature?'기체의 양과 바깥 압력은 같게 두고 온도만 바꿔요.':'기체의 양과 온도는 같게 두고 바깥 압력만 바꿔요.','한 조건만 바꾸고 처음과 나중을 비교해요.','기체가 사라졌는지, 차지하는 공간이 달라졌는지 생각해 봐요.']);
+  ctx.guide?.(both?'2 · 새 상황에 적용':'1 · 조건 바꾸기',both?'두 모습을 비교하고, 새로운 상황을 골라요.':`처음은 ${labels[baseline]}${iyeyo(labels[baseline])}. ${labels[task.target]}으로 바꿔 보아요.`,[temperature?'기체의 양과 바깥 압력은 같게 두고 온도만 바꿔요.':'기체의 양과 온도는 같게 두고 바깥 압력만 바꿔요.','한 조건만 바꾸고 처음과 나중을 비교해요.','기체가 사라졌는지, 차지하는 공간이 달라졌는지 생각해 봐요.']);
   host.querySelector('.condition-pill').textContent=labels[condition];scene.dataset.condition=String(condition);scene.setAttribute('aria-valuenow',String(condition));scene.setAttribute('aria-valuetext',labels[condition]);slider.setAttribute('aria-valuetext',labels[condition]);
   scene.style.setProperty('--climate-motion',`${350/(ctx.getPlaybackSpeed?.()||1)}ms`);
   host.querySelectorAll('.range-labels span').forEach((label,i)=>{label.classList.toggle('active',i===condition);if(i===condition)label.setAttribute('aria-current','true');else label.removeAttribute('aria-current');});
@@ -46,7 +48,7 @@ export function mountClimate(host,task,ctx){
     if(completed)return;
     if(value===task.answer){
      completed=true;slider.disabled=true;scene.setAttribute('aria-disabled','true');host.querySelector('.comparison-panel').classList.add('answered');feedback.replaceChildren();ctx.guide?.('3 · 발견 완료','같은 공기가 차지하는 공간의 변화를 발견했어요.');sound('success');ctx.complete(task.why,{mode:task.mode,records,transfer:value});
-    }else{feedback.replaceChildren();ctx.guide?.('2 · 다시 생각해요','두 부피 막대를 비교하고 골라요.');announce('두 부피 막대를 다시 비교해 보아요.');sound();}
+    }else{const retry=task.retry||'두 부피 막대를 다시 비교해 보아요.';feedback.replaceChildren();ctx.guide?.('2 · 다시 생각해요',retry);announce(retry);sound('retry');}
    }));
   }
  }

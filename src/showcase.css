@@ -94,6 +94,8 @@
 /* Leave room for the optional, captioned welcome voice on tablet-height screens. */
 @media(max-height:800px){.title-v2 .title-copy:has(.npc-welcome-voice) .game-logo{width:min(100%,360px)}.title-v2 .title-copy:has(.npc-welcome-voice) .title-save-hint{margin-top:10px}.title-v2 .title-copy:has(.npc-welcome-voice) .title-lead{margin-bottom:16px}}
 @media(max-height:640px){.title-v2 .title-copy:has(.npc-welcome-voice) .game-logo{width:min(100%,260px)}.title-v2 .title-copy:has(.npc-welcome-voice) .title-tagline{margin-top:8px}.title-v2 .title-copy:has(.npc-welcome-voice) .title-kicker{margin-bottom:6px}}
+/* 폰 가로(높이 500px 이하)에서는 소개 문장을 줄여 안내 음성 버튼과 자막이 화면 안에 들어오게 한다. */
+@media(max-height:500px){.title-v2 .title-copy:has(.npc-welcome-voice) :is(.title-lead,.title-save-hint){display:none}.title-v2 .title-copy:has(.npc-welcome-voice) .game-logo{width:min(100%,220px)}.title-v2 .title-copy .npc-welcome-voice{margin:8px 0 0!important;padding:6px 10px!important}.title-v2 .title-kicker{display:none}}
 
 .map-tools .map-tool{width:48px;min-width:48px;height:48px;min-height:48px;padding:0;justify-content:center}.map-tools .map-tool:focus-visible{outline:3px solid #d5a628;outline-offset:3px}
 /* backdrop-filter를 못 쓰는 브라우저에서는 반투명 판을 거의 불투명하게 바꿔 글자 대비를 지킨다. */

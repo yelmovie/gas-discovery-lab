@@ -7,8 +7,8 @@ import {sound} from '../audio.js';
 const USE_VISUALS={
  nitrogen:{src:'/assets/prop-packet.webp',alt:'질소를 넣어 포장한 과자 봉지',caption:'식품 포장'},
  oxygen:{src:'/assets/visuals/oxygen-support-v1.webp',alt:'산소 용기에 호스와 호흡 마스크가 연결된 가상 호흡 지원 장치',caption:'호흡 지원'},
- carbon:{src:'/assets/prop-soda.webp',alt:'이산화탄소가 녹아 있는 탄산음료',caption:'탄산음료'},
- extinguisher:{src:'/assets/visuals/co2-extinguisher-v1.webp',alt:'넓은 검은 방사혼이 달린 이산화탄소 소화기',caption:'일부 소화기'}
+ carbon:{src:'/assets/prop-soda.webp',alt:'이산화 탄소가 녹아 있는 탄산음료',caption:'탄산음료'},
+ extinguisher:{src:'/assets/visuals/co2-extinguisher-v1.webp',alt:'넓은 검은 방사혼이 달린 이산화 탄소 소화기',caption:'일부 소화기'}
 };
 const useVisual=(gas,task)=>USE_VISUALS[gas==='carbon'&&task.id==='delivery-4'?'extinguisher':gas];
 const useImage=(visual,cls='gas-use-image')=>`<img class="${cls}" src="${visual.src}" alt="${escapeHTML(visual.alt)}" draggable="false">`;
@@ -17,10 +17,10 @@ export function mountDelivery(host,task,ctx){
  const reasons=[task.reason,...['다른 물질과 쉽게 반응하지 않아요.','사람의 호흡에 필요해요.','물에 녹아 탄산음료를 만들어요.','불이 타는 것을 돕지 않아요.'].filter(x=>x!==task.reason).slice(0,2)];
  // A fixed permutation prevents the first position from always being the answer.
  const orderedReasons=task.id.endsWith('2')?[reasons[1],reasons[0],reasons[2]]:task.id.endsWith('3')?[reasons[1],reasons[2],reasons[0]]:reasons;
- host.innerHTML=`<div class="delivery-layout"><section class="lab-panel research-panel"><div class="gas-cards" role="group" aria-label="조사할 기체"></div><div class="gas-information"></div><p class="gas-color-note">카드의 색은 구분용 표시예요.</p></section><aside class="lab-panel facility-panel"><div class="reason-slot" aria-label="시설에 필요한 기체의 성질"></div><div class="supply-port" role="status">${icon('flask')}<span>배송 준비</span></div><div class="activity-feedback"></div><div class="evidence-slot"></div></aside></div>`;
+ host.innerHTML=`<div class="delivery-layout"><section class="lab-panel research-panel"><div class="gas-cards" role="group" aria-label="조사할 기체"></div><div class="gas-information"></div><p class="gas-color-note">카드의 색은 구분용 표시예요.</p></section><aside class="lab-panel facility-panel"><div class="facility-request" aria-label="${escapeHTML(task.facility)}의 부탁"><p>${escapeHTML(task.goal)}</p></div><div class="reason-slot" aria-label="시설에 필요한 기체의 성질"></div><div class="supply-port" role="status">${icon('flask')}<span>배송 준비</span></div><div class="activity-feedback"></div><div class="evidence-slot"></div></aside></div>`;
  const cards=host.querySelector('.gas-cards'),information=host.querySelector('.gas-information'),feedback=host.querySelector('.activity-feedback'),port=host.querySelector('.supply-port');
  function save(){ctx.saveDraft({selected,reason,read:[...read]});}
- function chooseGas(id){if(delivered||ctx.signal.aborted)return;previewId=null;selected=id;read.add(id);sound();render();deliver();}
+ function chooseGas(id){if(delivered||ctx.signal.aborted)return;previewId=null;selected=id;read.add(id);sound();render();deliver(true);}
  for(const gas of GASES){
   const b=button(`<span class="gas-orb" style="--gas-color:${gas.color}" aria-hidden="true">${escapeHTML(gas.symbol)}</span><strong>${gas.name}</strong><span class="gas-read-state"></span>`,()=>chooseGas(gas.id),'gas-card');
   b.dataset.gas=gas.id;b.setAttribute('aria-label',`${gas.name} 조사`);
@@ -47,13 +47,13 @@ export function mountDelivery(host,task,ctx){
   port.querySelector('span').textContent=gas?`${gas.name} 선택`:'배송 준비';
   save();
  }
- host.querySelector('.reason-slot').append(choices(orderedReasons,value=>{if(delivered||ctx.signal.aborted)return;reason=value;sound();render();deliver();},{selected:reason}));
- function deliver(){
+ host.querySelector('.reason-slot').append(choices(orderedReasons,value=>{if(delivered||ctx.signal.aborted)return;reason=value;sound();render();deliver(true);},{selected:reason}));
+ function deliver(byLearner=false){
   if(delivered||ctx.signal.aborted||!selected||!reason)return;
   const result=validateDelivery(selected,reason,task);
   if(!result.ok){
    const hint=result.kind==='gas'?'성질과 쓰임을 살펴보고 기체를 바꿔요.':'조사한 성질과 비교해서 이유를 다시 골라요.';
-   ctx.guide?.('다시 살펴봐요',hint);ctx.nextAction?.(result.kind==='gas'?'.gas-card':'.reason-slot .choice');announce(hint);
+   ctx.guide?.('다시 살펴봐요',hint);ctx.nextAction?.(result.kind==='gas'?'.gas-card':'.reason-slot .choice');announce(hint);if(byLearner)sound('retry');
    return;
   }
   delivered=true;

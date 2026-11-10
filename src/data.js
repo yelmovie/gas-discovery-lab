@@ -17,20 +17,20 @@ export const STAGES = [
  {id:'weight',name:'무게 연구소',chapter:'보이지 않는 무게',short:'무게를 비교해요',npc:'lumi',color:'blue',evidence:'기체 무게 측정 기록',badge:'꼼꼼한 측정가',description:'용기는 그대로 두고 공기의 양만 바꾸어 재요.',reward:'마을의 물류 저울이 다시 작동해요.',standard:'4과15-01',tasks:[
   {id:'weight-1',title:'공기를 더 넣으면 어떨까요?',goal:'빈 저울을 맞춘 뒤, 공기를 넣기 전후를 재요.',direction:1,minDelta:1,initial:3,level:-2},
   {id:'weight-2',title:'공기를 빼면 어떨까요?',goal:'같은 용기에서 공기를 빼기 전후를 재요.',direction:-1,minDelta:1,initial:6,level:2},
-  {id:'weight-3',title:'조건이 다른 기록을 골라내요',goal:'저울을 바르게 맞추고, 비교할 수 있는 기록을 만들어요.',direction:1,minDelta:2,initial:3,level:1},
+  {id:'weight-3',title:'저울 조건부터 바르게 맞춰요',goal:'저울을 바르게 맞추고, 비교할 수 있는 기록을 만들어요.',direction:1,minDelta:2,initial:3,level:1},
   {id:'weight-4',title:'한 번 더 재도 같을까요?',goal:'다른 양의 공기로 다시 확인해요.',direction:-1,minDelta:2,initial:7,level:-1}
  ]},
  {id:'climate',name:'환경 관측소',chapter:'크기가 달라지는 공기',short:'부피 변화를 살펴요',npc:'lumi',color:'coral',evidence:'부피 변화 환경 기록',badge:'환경 탐구자',description:'한 조건씩 바꾸고 공기가 차지하는 공간을 비교해요.',reward:'온실의 온도·압력 장치가 켜져요.',standard:'4과15-02',tasks:[
-  {id:'climate-1',title:'따뜻한 곳으로 옮겨요',goal:'보통 온도에서 기록하고 따뜻하게 바꿔요.',mode:'temperature',target:2,transfer:'공기가 든 풍선을 따뜻한 곳에 두면?',answer:'공기가 차지하는 부피가 커져요.',choices:['공기가 차지하는 부피가 커져요.','공기가 차지하는 부피가 작아져요.'],why:'기체의 양이 같을 때, 따뜻해지면 부피가 커지는 모습을 관찰했어요.'},
-  {id:'climate-2',title:'차가운 곳에서는 어떨까요?',goal:'보통 온도에서 기록하고 차갑게 바꿔요.',mode:'temperature',target:0,transfer:'따뜻한 방의 풍선을 차가운 곳으로 옮기면?',answer:'풍선 속 공기의 부피가 작아져요.',choices:['풍선 속 공기의 부피가 커져요.','풍선 속 공기의 부피가 작아져요.'],why:'차갑게 했을 때 같은 공기가 차지하는 부피가 작아졌어요.'},
-  {id:'climate-3',title:'피스톤으로 눌러 보아요',goal:'누르기 전을 기록한 뒤 피스톤을 아래로 밀어요.',mode:'pressure',target:2,transfer:'공기가 새지 않는 주사기의 입구를 막고 누르면?',answer:'안에 있는 공기의 부피가 작아져요.',choices:['공기가 모두 사라져요.','안에 있는 공기의 부피가 작아져요.'],why:'공기는 사라진 것이 아니에요. 더 작은 공간을 차지하고 있어요.'},
-  {id:'climate-4',title:'높은 산의 과자 봉지',goal:'보통 압력을 기록하고 바깥 압력을 낮춰요.',mode:'pressure',target:0,transfer:'밀봉한 과자 봉지를 높은 산으로 가져가면?',answer:'바깥 압력이 낮아져 봉지가 더 부풀어요.',choices:['바깥 압력이 낮아져 봉지가 더 부풀어요.','봉지 속 기체가 없어져 봉지가 줄어들어요.'],why:'바깥 압력이 낮아지면 봉지 속 기체가 차지하는 부피가 커질 수 있어요.'}
+  {id:'climate-1',title:'따뜻한 곳으로 옮겨요',goal:'보통 온도에서 기록하고 따뜻하게 바꿔요.',mode:'temperature',target:2,transfer:'공기가 든 풍선을 따뜻한 곳에 두면?',answer:'공기가 차지하는 부피가 커져요.',choices:['공기가 차지하는 부피가 커져요.','공기가 차지하는 부피가 작아져요.'],why:'기체의 양이 같을 때, 따뜻해지면 부피가 커지는 모습을 관찰했어요.',retry:'따뜻한 곳으로 옮긴 뒤 부피 막대가 길어졌나요, 짧아졌나요? 다시 비교해 보아요.'},
+  {id:'climate-2',title:'차가운 곳에서는 어떨까요?',goal:'보통 온도에서 기록하고 차갑게 바꿔요.',mode:'temperature',target:0,transfer:'따뜻한 방의 풍선을 차가운 곳으로 옮기면?',answer:'풍선 속 공기의 부피가 작아져요.',choices:['풍선 속 공기의 부피가 커져요.','풍선 속 공기의 부피가 작아져요.'],why:'차갑게 했을 때 같은 공기가 차지하는 부피가 작아졌어요.',retry:'차가운 곳으로 옮긴 뒤 부피 막대가 길어졌나요, 짧아졌나요? 다시 비교해 보아요.'},
+  {id:'climate-3',title:'피스톤으로 눌러 보아요',goal:'누르기 전을 기록한 뒤 피스톤을 아래로 밀어요.',mode:'pressure',target:2,transfer:'공기가 새지 않는 주사기의 입구를 막고 누르면?',answer:'안에 있는 공기의 부피가 작아져요.',choices:['공기가 모두 사라져요.','안에 있는 공기의 부피가 작아져요.'],why:'공기는 사라진 것이 아니에요. 더 작은 공간을 차지하고 있어요.',retry:'입구를 막아서 공기는 빠져나가지 못해요. 눌렀을 때 공기가 차지하는 공간을 다시 살펴봐요.'},
+  {id:'climate-4',title:'높은 산의 과자 봉지',goal:'보통 압력을 기록하고 바깥 압력을 낮춰요.',mode:'pressure',target:0,transfer:'밀봉한 과자 봉지를 높은 산으로 가져가면?',answer:'바깥 압력이 낮아져 봉지가 더 부풀어요.',choices:['바깥 압력이 낮아져 봉지가 더 부풀어요.','봉지 속 기체가 없어져 봉지가 줄어들어요.'],why:'바깥 압력이 낮아지면 봉지 속 기체가 차지하는 부피가 커질 수 있어요.',retry:'밀봉한 봉지라서 기체는 빠져나가지 않아요. 바깥 압력을 낮췄을 때 부피 막대를 다시 살펴봐요.'}
  ]},
  {id:'delivery',name:'기체 배송소',chapter:'알맞은 기체를 찾아요',short:'기체를 골라 보내요',npc:'popo',color:'gold',evidence:'기체 관제 보고서',badge:'기체 해결사',description:'시설의 부탁을 읽고, 조사한 성질을 근거로 골라요.',reward:'식품·생활 시설에 다시 불이 들어와요.',standard:'4과15-03',tasks:[
   {id:'delivery-1',title:'과자 포장실의 부탁',goal:'과자가 쉽게 변하지 않도록 도와줄 기체를 찾아요.',facility:'과자 포장실',prop:'packet',gas:'nitrogen',reason:'다른 물질과 쉽게 반응하지 않아요.',why:'질소는 다른 물질과 쉽게 반응하지 않는 성질을 이용해 식품 포장에 쓰여요.'},
-  {id:'delivery-2',title:'호흡 지원실의 부탁',goal:'호흡에 필요한 기체를 공급해 주세요.',facility:'호흡 지원실',prop:'jar',gas:'oxygen',reason:'사람의 호흡에 필요해요.',why:'산소는 사람의 호흡에 필요한 기체예요. 이곳은 성질과 이용을 살피는 가상 시설이에요.'},
-  {id:'delivery-3',title:'탄산음료 공방의 부탁',goal:'물에 녹여 탄산음료를 만들 기체를 찾아요.',facility:'탄산음료 공방',prop:'soda',gas:'carbon',reason:'물에 녹아 탄산음료를 만들어요.',why:'이산화탄소가 물에 녹아 있는 탄산음료에서는 뚜껑을 열 때 기포를 볼 수 있어요.'},
-  {id:'delivery-4',title:'안전 시설의 마지막 부탁',goal:'일부 소화기에 쓰이는 기체와 성질을 찾아요.',facility:'마을 안전 시설',prop:'toolbox',gas:'carbon',reason:'불이 타는 것을 돕지 않아요.',why:'이산화탄소는 불이 타는 것을 돕지 않아 일부 소화기에 이용돼요. 실제 소화기 사용 실험은 하지 않아요.'}
+  {id:'delivery-2',title:'호흡 지원실의 부탁',goal:'숨 쉬기를 돕는 장치에 넣을 기체를 보내 주세요.',facility:'호흡 지원실',prop:'jar',gas:'oxygen',reason:'사람의 호흡에 필요해요.',why:'산소는 사람의 호흡에 필요한 기체예요. 이곳은 성질과 이용을 살피는 가상 시설이에요.'},
+  {id:'delivery-3',title:'탄산음료 공방의 부탁',goal:'톡 쏘는 탄산음료의 기포를 만들 기체를 찾아요.',facility:'탄산음료 공방',prop:'soda',gas:'carbon',reason:'물에 녹아 탄산음료를 만들어요.',why:'이산화 탄소가 물에 녹아 있는 탄산음료에서는 뚜껑을 열 때 기포를 볼 수 있어요.'},
+  {id:'delivery-4',title:'안전 시설의 마지막 부탁',goal:'일부 소화기에 쓰이는 기체와 성질을 찾아요.',facility:'마을 안전 시설',prop:'toolbox',gas:'carbon',reason:'불이 타는 것을 돕지 않아요.',why:'이산화 탄소는 불이 타는 것을 돕지 않아 일부 소화기에 이용돼요. 실제 소화기 사용 실험은 하지 않아요.'}
  ]},
  {id:'engineering',name:'공기 공작소',chapter:'나만의 복구 장치',short:'조립하고 시험해요',npc:'air',color:'teal',evidence:'공기 장치 설계도',badge:'공기 엔지니어',description:'부품을 고르고 연결해요. 시험 결과를 보고 고쳐요.',reward:'중앙 공기 코어의 연결부가 열려요.',standard:'4과15-04',tasks:[
   {id:'engineering-1',title:'공기로 작은 팬을 돌려요',goal:'공급부 → 관 → 노즐을 연결해 팬에 공기를 보내요.',target:'fan',nozzle:'forward',why:'공기를 모아 관으로 보내면 팬을 움직일 수 있어요.'},
@@ -42,7 +42,7 @@ export const STAGES = [
 export const GASES = [
  {id:'nitrogen',name:'질소',symbol:'N₂',color:'#417f78',use:'식품 포장',facts:['다른 물질과 쉽게 반응하지 않아요.','과자 봉지 등 식품 포장에 이용돼요.']},
  {id:'oxygen',name:'산소',symbol:'O₂',color:'#4d79a1',use:'호흡 지원',facts:['사람의 호흡에 필요해요.','불이 타는 것을 도와요.']},
- {id:'carbon',name:'이산화탄소',symbol:'CO₂',color:'#996a4d',use:'탄산음료 · 일부 소화기',facts:['물에 녹아 탄산음료를 만들어요.','불이 타는 것을 돕지 않아요.']}
+ {id:'carbon',name:'이산화 탄소',symbol:'CO₂',color:'#996a4d',use:'탄산음료 · 일부 소화기',facts:['물에 녹아 탄산음료를 만들어요.','불이 타는 것을 돕지 않아요.']}
 ];
 export const STORY = [
  {title:'마을의 바람이 멈췄어요',text:'공기 코어가 멈추자 연구시설도 하나둘 멈췄어요. 여우 에어와 함께 고장 난 마을을 살펴볼까요?',image:'title',npc:'air'},

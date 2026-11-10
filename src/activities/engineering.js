@@ -67,5 +67,5 @@ export function mountEngineering(host,task,ctx){
   {label:'밸브를 열어 공기를 보내요.',target:'.valve-control',run:()=>{if(successful||ctx.signal.aborted)return false;if(!design.valve){design.valve=true;sound();render();}host.querySelector('.assembly-scene').dataset.playback='flow';},wait:1000},
   {label:'지금 설계한 장치를 시험해요.',target:'.test-device',run:test,wait:1200}
  ],onStop:()=>{host.querySelector('.assembly-scene')?.removeAttribute('data-playback');if(!ctx.signal.aborted)guideNext();}});
- testButton.onclick=test;render();
+ testButton.onclick=()=>{test();if(lastResult)sound('retry');};render();
 }

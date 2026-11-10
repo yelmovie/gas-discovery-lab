@@ -51,7 +51,7 @@ export function mountWeight(host,task,ctx){
  function compareSelected(){
   if(completed||selected.length!==2)return;
   const sorted=[...selected].sort((a,b)=>a-b),a=records[sorted[0]],b=records[sorted[1]],result=compareMeasurements(a,b,task);
-  if(!result.ok){message(feedback,result.message);return;}
+  if(!result.ok){message(feedback,result.message);sound('retry');return;}
   completed=true;renderRecords();ctx.nextAction?.([]);
   const text=`공기를 ${task.direction>0?'넣은':'뺀'} 뒤 무게가 ${Math.abs(result.delta).toFixed(2)} g ${result.delta>0?'늘었어요':'줄었어요'}. 기체에도 무게가 있어요.`;
   message(feedback,text,'success');ctx.guide?.('3 · 비교 완료','두 무게의 차이를 발견했어요. 다음 의뢰에 도전해요.');sound('success');

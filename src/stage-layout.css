@@ -145,3 +145,6 @@
 @media print{.activity-screen{display:none}}
 /* viewport-fit=cover인 노치·둥근 모서리 기기에서 가장자리 버튼이 시스템 영역과 겹치지 않게 한다(일반 화면에서는 0). */
 .global-controls{padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) 0 env(safe-area-inset-left,0px)}.map-controls{margin:0 0 env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)}.map-next-card{margin:0 env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) 0}
+
+/* 폰 가로처럼 낮은 화면: 의뢰 네 개를 두 줄로 놓아 '의뢰 시작' 버튼까지 스크롤 없이 보이게 한다. */
+@media(max-height:500px){.stage-brief>p,.stage-brief .stage-reward-note{display:none}.stage-brief h1{margin-bottom:6px}.stage-brief .stage-tasks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.stage-brief .stage-task{grid-template-columns:28px minmax(0,1fr) 18px;gap:6px;min-height:44px;padding:4px 8px;font-size:16px;margin:0}.stage-brief .stage-task .task-marker{width:28px;height:28px;font-size:14px}.stage-brief .stage-task>.icon{width:18px;height:18px}.stage-brief .concept-revisit{margin-top:6px;min-height:44px;font-size:16px}.stage-brief .stage-start{margin-top:6px}.stage-brief:has(>.concept-revisit){display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:8px;align-content:start}.stage-brief:has(>.concept-revisit)>*{grid-column:1/-1}.stage-brief>.concept-revisit{grid-column:1}.stage-brief>.concept-revisit+.stage-start{grid-column:2}}

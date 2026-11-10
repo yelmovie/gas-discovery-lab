@@ -24,7 +24,7 @@ for(const stage of STAGES)for(const task of stage.tasks){
  }else if(stage.id==='climate'){
   await p.locator('.condition-slider').fill(String(task.target));await p.locator('.condition-slider').dispatchEvent('change');await bounds(task.id+'-question');await p.getByRole('button',{name:task.answer,exact:true}).click();
  }else if(stage.id==='delivery'){
-  const names={nitrogen:'질소',oxygen:'산소',carbon:'이산화탄소'};await p.locator('.gas-card').filter({hasText:names[task.gas]}).click();await p.getByRole('button',{name:task.reason,exact:true}).click();
+  const names={nitrogen:'질소',oxygen:'산소',carbon:'이산화 탄소'};await p.locator('.gas-card').filter({hasText:names[task.gas]}).click();await p.getByRole('button',{name:task.reason,exact:true}).click();
  }else{
   for(const part of [task.requireSource==='balloon'?'풍선 공급부':'손 펌프',task.requireElbow?'굽은 관':'일자 관','노즐'])await p.locator('.part-card').filter({hasText:part}).click();
   await p.locator('.valve-control').click();if(task.nozzle==='backward')await p.locator('.direction-control').click();await p.locator('.test-device').click();
