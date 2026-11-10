@@ -1,12 +1,15 @@
-@font-face{font-family:Jua;src:url('/assets/fonts/jua-korean-400.woff2') format('woff2');font-style:normal;font-weight:400;font-display:swap}
-@font-face{font-family:Jua;src:url('/assets/fonts/jua-latin-400.woff2') format('woff2');font-style:normal;font-weight:400;font-display:swap;unicode-range:U+0000-00FF}
+/* NAVER NanumSquare Neo, official unmodified WOFF2. License: assets/fonts/NanumSquareNeo-OFL.txt. */
+@font-face { font-family: "NanumSquareNeo"; src: url("/assets/fonts/NanumSquareNeoTTF-bRg.woff2") format("woff2"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: "NanumSquareNeo"; src: url("/assets/fonts/NanumSquareNeoTTF-cBd.woff2") format("woff2"); font-style: normal; font-weight: 700; font-display: swap; }
+
+
 :root{
  --teal-950:#143f43;--teal-800:#235f63;--teal-600:#267e82;--teal-100:#e2f1e9;
  --cream-50:#fffdf5;--cream-100:#fff4d9;--brass-500:#d5aa58;--brass-200:#f5daa1;
  --ink:#263e3d;--ink-soft:#526662;--line:#baa97e;--success:#376e48;--danger:#a74438;
  --color-primary:var(--teal-600);--color-surface:var(--cream-50);--color-text:var(--ink);
  --space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:24px;--space-6:32px;
- --font-display:Jua,sans-serif;--font-body:'Segoe UI','Malgun Gothic',sans-serif;
+ --font-display:"NanumSquareNeo",sans-serif;--font-body:"NanumSquareNeo",'Malgun Gothic',sans-serif;
  --text-body:clamp(20px,1.65vw,25px);--text-small:clamp(16px,1.25vw,19px);--text-title:clamp(30px,2.8vw,44px);
  --radius:22px;--radius-small:12px;--edge:4px;--hud-top:80px;--touch:52px;
  --shadow:0 10px 32px #113a4130;--press-shadow:0 4px 0 #195358,0 8px 14px #12363d2b;

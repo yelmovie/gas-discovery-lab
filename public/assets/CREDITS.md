@@ -32,3 +32,11 @@ Kenney, **Interface Sounds 1.0** — https://kenney.nl/assets/interface-sounds
 배경·학생·연구원·실험 소품: 사용자 제공 이미지 및 기존 프로젝트의 AI 생성 에셋. 제목용 Jua: Woowahan Brothers / Google Fonts, SIL Open Font License 1.1(`public/assets/fonts/`의 라이선스 참조).
 
 외부 CC0 음원과 OFL 글꼴에는 각 공개 라이선스가 적용된다. 자체 제작 자료의 저작권 고지가 이를 제한하지 않는다.
+
+## 나눔스퀘어 네오 UI 글꼴 (2026-11-10)
+
+네이버 공식 배포 원본 WOFF2 Regular/Bold를 수정 없이 함께 제공한다.
+- 공식 안내: https://campaign.naver.com/nanumsquare_neo/
+- 원본: https://campaign.naver.com/nanumsquare_neo/download/NaverNanumSquareNeo.zip
+- 라이선스: SIL Open Font License 1.1. 전체 저작권 안내·전문은 `fonts/NanumSquareNeo-OFL.txt`.
+- 기존 영상·삽화에 포함된 글자는 영상 제작 당시 글꼴을 유지한다.

@@ -12,7 +12,7 @@ await fs.mkdir(target,{recursive:true});
 // public/assets/concepts is the retired first set of concept clips (no code references it); concepts-v2 ships.
 const retired=path.join(root,'public','assets','concepts');
 await fs.cp(path.join(root,'public'),target,{recursive:true,filter:src=>src!==retired&&!src.startsWith(retired+path.sep)&&!path.basename(src).startsWith('._')});
-await fs.cp(path.join(root,'src'),path.join(target,'src'),{recursive:true});
+await fs.cp(path.join(root,'src'),path.join(target,'src'),{recursive:true,filter:src=>!path.basename(src).startsWith('._')});
 await fs.copyFile(path.join(root,'index.html'),path.join(target,'index.html'));
 const files=[];
 async function walk(dir){for(const e of await fs.readdir(dir,{withFileTypes:true})){const f=path.join(dir,e.name);if(e.isDirectory())await walk(f);else if(!['sw.js','offline-manifest.json','_headers'].includes(e.name)&&!e.name.startsWith('._'))files.push('/'+path.relative(target,f).replaceAll('\\','/'));}}
