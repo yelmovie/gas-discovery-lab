@@ -100,3 +100,13 @@
 .map-tools .map-tool{width:48px;min-width:48px;height:48px;min-height:48px;padding:0;justify-content:center}.map-tools .map-tool:focus-visible{outline:3px solid #d5a628;outline-offset:3px}
 /* backdrop-filter를 못 쓰는 브라우저에서는 반투명 판을 거의 불투명하게 바꿔 글자 대비를 지킨다. */
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.title-v2 .title-kicker{background:#0b2f33f2}.title-v2 .title-actions .button.secondary{background:#fffdf3}.map-controls,.map-next-card{background:#fffbef}.dialog::backdrop{background:#10343cd9}}
+
+/* Classroom focus preference: stop decorative CSS motion without hiding science states. */
+html.reduce-motion *, html.reduce-motion *::before, html.reduce-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-delay: 0ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+html.reduce-motion .title-bubbles { display: none; }

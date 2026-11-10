@@ -11,3 +11,12 @@ test('repeat exploration keeps first observation and records latest separately',
 test('saved preview flag cannot reopen teacher mode on reload',()=>{const s=memory();const save=freshSave();save.settings.adminUnlockAll=true;s.setItem(APP.saveKey,JSON.stringify(save));assert.equal(loadSave(s).save.settings.adminUnlockAll,false);});
 test('quota failure during reset preserves the current record',()=>{const s=memory();begin(s);persist(s);store.save.nickname='student';const original=store.save;const blocked={getItem:s.getItem,setItem:()=>{throw Error('quota')}};assert.equal(resetProgress(blocked),false);assert.equal(store.save,original);});
 test('original evidence survives a reload',()=>{const s=memory();begin(s);globalThis.localStorage=s;award(STAGES[0],STAGES[0].tasks[0],'first',{attempts:4});award(STAGES[0],STAGES[0].tasks[0],'latest',{attempts:2});assert.equal(loadSave(s).save.evidence.flow[0].firstObservation.summary,'first');delete globalThis.localStorage;});
+
+test('classroom motion preference defaults safely and survives reload and reset',()=>{
+ const s=memory();begin(s);assert.equal(store.save.settings.reduceMotion,false);
+ store.save.settings.reduceMotion=true;persist(s);
+ assert.equal(loadSave(s).save.settings.reduceMotion,true);
+ assert.equal(resetProgress(s),true);assert.equal(store.save.settings.reduceMotion,true);
+ const malformed=freshSave();malformed.settings.reduceMotion='true';
+ s.setItem(APP.saveKey,JSON.stringify(malformed));assert.equal(loadSave(s).save.settings.reduceMotion,false);
+});
