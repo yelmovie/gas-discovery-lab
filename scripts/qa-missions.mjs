@@ -36,7 +36,7 @@ try{
      assert.equal(focused,String(cell),'Repeated pipe operations preserve keyboard focus');
     }
    }
-   await page.locator('[data-vent]').click();
+   if((await page.locator('[data-vent]').textContent()).includes('열림'))await page.locator('[data-vent]').click();
    await page.locator('[data-pump]').focus();
    for(let i=0;i<missions[level].required;i++)await page.keyboard.press('Enter');
    assert.equal(await page.locator('.gas-target b').textContent(),`${missions[level].required} / ${missions[level].required}`);

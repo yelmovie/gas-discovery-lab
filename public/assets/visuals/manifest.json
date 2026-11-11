@@ -123,6 +123,36 @@
       "model": "not disclosed by tool",
       "original": "output/overnight-20261108/air-jar-v2.png",
       "usage": "Fixed-size airtight container in all four weight investigations; no visible gas particles"
+    },
+    {
+      "file": "pneumatic-bellows-v1.webp",
+      "url": "/assets/visuals/pneumatic-bellows-v1.webp",
+      "bytes": 20514,
+      "width": 384,
+      "height": 327,
+      "alpha": true,
+      "sha256": "2e8d391ec46f08cb153e5be33f40672f4cf5479f28f6ec30727afd3ad914a236",
+      "generated": "2026-11-12",
+      "tool": "Higgsfield connector",
+      "model": "gpt_image_2_6",
+      "jobId": "8985a839-25e5-42c8-8266-02b2c0d82d99",
+      "original": "asset-bank/original/generated-20261112/pneumatic-bellows.png",
+      "usage": "Pneumatic lift game prop; generated separately, alpha preserved, trimmed and resized to WebP"
+    },
+    {
+      "file": "cargo-crate-v1.webp",
+      "url": "/assets/visuals/cargo-crate-v1.webp",
+      "bytes": 24264,
+      "width": 384,
+      "height": 315,
+      "alpha": true,
+      "sha256": "c70362cc4276699e99ce2a814845a0ff14371ef36c95280c442ccfe20b4971fd",
+      "generated": "2026-11-12",
+      "tool": "Higgsfield connector",
+      "model": "gpt_image_2_6",
+      "jobId": "a7be378c-0522-41a6-977f-dd7519a630f1",
+      "original": "asset-bank/original/generated-20261112/cargo-crate.png",
+      "usage": "Pneumatic lift game prop; generated separately, alpha preserved, trimmed and resized to WebP"
     }
   ]
 }

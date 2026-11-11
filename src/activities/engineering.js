@@ -30,7 +30,7 @@ export function mountEngineering(host,task,ctx){
  function guideNext(){
   if(lastResult){ctx.guide?.('다시 살펴봐요',lastResult.message);ctx.nextAction?.(errorTarget(lastResult.kind));return;}
   const placed=Boolean(design.source&&design.pipe&&design.nozzle);
-  ctx.guide?.(successful?'장치 완성':testing?'시험과 수정':placed?'장치 시험':'부품 선택',successful?'공기의 힘으로 장치가 움직여요.':testing?'시험 결과를 보고 부품이나 방향을 바꿔요.':placed?design.valve?'공기 방향을 정하고 장치를 시험해요.':'밸브를 열어 공기 길을 이어요.':!design.source?'공기를 보낼 공급부를 골라요.':!design.pipe?'공기가 지나갈 관을 골라요.':'공기가 나갈 노즐을 연결해요.',['공기 공급부, 관, 노즐이 차례로 이어져야 해요.','공기가 통과할 수 있는 관인지, 밸브가 열렸는지 살펴봐요.',task.target==='car'?'자동차가 갈 방향과 공기가 나갈 방향을 비교해 봐요.':'노즐의 출구가 움직일 장치를 향하는지 확인해요.']);
+  ctx.guide?.(successful?'장치 완성':testing?'시험과 수정':placed?'장치 시험':'부품 선택',successful?'공기의 힘으로 장치가 움직여요.':testing?'시험 결과를 보고 부품이나 방향을 바꿔요.':placed?design.valve?'공기 방향을 정하고 장치를 시험해요.':'공기 길을 여닫는 밸브를 눌러 열어요.':!design.source?'공기를 보내는 부품인 공급부를 골라요.':!design.pipe?'공기가 지나갈 관을 골라요.':'공기가 나오는 끝부분인 노즐을 골라요.',['공기 공급부, 관, 노즐이 차례로 이어져야 해요.','공기가 통과할 수 있는 관인지, 밸브가 열렸는지 살펴봐요.',task.target==='car'?'자동차가 갈 방향과 공기가 나갈 방향을 비교해 봐요.':'노즐의 출구가 움직일 장치를 향하는지 확인해요.']);
   ctx.nextAction?.(successful?[]:nextParts()||(!design.valve?'.valve-control':['.direction-control','.test-device']));
  }
  function render(){

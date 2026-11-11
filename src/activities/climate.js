@@ -49,7 +49,7 @@ export function mountClimate(host,task,ctx){
     if(value===task.answer){
      completed=true;slider.disabled=true;scene.setAttribute('aria-disabled','true');host.querySelector('.comparison-panel').classList.add('answered');feedback.replaceChildren();ctx.guide?.('3 · 발견 완료','같은 공기가 차지하는 공간의 변화를 발견했어요.');sound('success');ctx.complete(task.why,{mode:task.mode,records,transfer:value});
     }else{const retry=task.retry||'두 부피 막대를 다시 비교해 보아요.';feedback.replaceChildren();ctx.guide?.('2 · 다시 생각해요',retry);announce(retry);sound('retry');}
-   }));
+   },{terms:ctx.terms}));
   }
  }
  function move(next){

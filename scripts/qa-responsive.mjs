@@ -52,6 +52,7 @@ function audit(){
     const r=el.getBoundingClientRect();
     const clipping=permanentlyClipped(el,r);if(clipping)add('clipped-control',el,String(clipping));
     if(r.width<43||r.height<43)add('small-touch-target',el,`${Math.round(r.width)}×${Math.round(r.height)}`);
+    if(el.matches('.pipe-cell,[data-action="add"],[data-action="remove"]')&&(r.width<48||r.height<48))add('small-repeated-touch-target',el,`${Math.round(r.width)}×${Math.round(r.height)}`);
     if(!inView(r)){
       let reachable=false;
       for(let a=el.parentElement;a;a=a.parentElement){const s=getComputedStyle(a);if(/auto|scroll/.test(s.overflowY)&&a.scrollHeight>a.clientHeight+2)reachable=true;}

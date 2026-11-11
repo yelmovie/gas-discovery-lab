@@ -1,6 +1,6 @@
 // Media-clock concept emphasis. No completion gates or independent playback timer.
 const escapeText = text => String(text).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-export function emphasizeConcept(text, terms) {
+export function emphasizeConcept(text, terms = []) {
   const words = [...new Set(terms.filter(Boolean))].sort((a,b) => b.length-a.length);
   if (!words.length) return escapeText(text);
   const pattern = new RegExp(words.map(word => word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|'), 'g');

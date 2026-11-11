@@ -40,3 +40,7 @@ Kenney, **Interface Sounds 1.0** — https://kenney.nl/assets/interface-sounds
 - 원본: https://campaign.naver.com/nanumsquare_neo/download/NaverNanumSquareNeo.zip
 - 라이선스: SIL Open Font License 1.1. 전체 저작권 안내·전문은 `fonts/NanumSquareNeo-OFL.txt`.
 - 기존 영상·삽화에 포함된 글자는 영상 제작 당시 글꼴을 유지한다.
+
+## 2026-11-12 공기 장치 공방 소품
+
+공기 주머니 받침과 나무 화물 상자를 Higgsfield의 GPT Image 2.6으로 각각 생성했다. 기존 펌프 그림을 화풍 참고로 사용했고, 글자 없이 투명 배경의 단일 소품으로 만들었다. 원본은 외장 SSD의 `asset-bank/original/generated-20261112/`에 보관했다. 여백 정리, 크기 축소, 알파를 유지한 WebP 변환을 거쳐 `visuals/pneumatic-bellows-v1.webp`와 `visuals/cargo-crate-v1.webp`에 적용했다. 생성 작업 ID와 SHA-256은 `visuals/manifest.json`에 기록했다.

@@ -60,21 +60,21 @@
     "semantic_hash": ""
   },
   "src/activities/climate.js": {
-    "mtime": 1794304796.11,
-    "seen": 1794409856.8832471,
-    "ast_hash": "8c864d099a7a6cdaf694d031b5b6492c",
+    "mtime": 1794412119.37,
+    "seen": 1794412710.975632,
+    "ast_hash": "6794c585fc7b138b1d02215716fe23a6",
     "semantic_hash": ""
   },
   "src/activities/delivery.js": {
-    "mtime": 1794304796.11,
-    "seen": 1794409856.8832471,
-    "ast_hash": "5d62adec648772e9da80e7cf53f83213",
+    "mtime": 1794412119.48,
+    "seen": 1794412710.975633,
+    "ast_hash": "c03b15557ef9bfccadf54b45dfdc8b1b",
     "semantic_hash": ""
   },
   "src/activities/engineering.js": {
-    "mtime": 1794304796.11,
-    "seen": 1794409856.883248,
-    "ast_hash": "b82f5face55000e0d21b3edbdfdcfaf0",
+    "mtime": 1794412119.51,
+    "seen": 1794412710.975633,
+    "ast_hash": "ad3f90d7eda0125b9705b034269c41f3",
     "semantic_hash": ""
   },
   "src/activities/flow.js": {
@@ -84,9 +84,9 @@
     "semantic_hash": ""
   },
   "src/activities/weight.js": {
-    "mtime": 1794304796.12,
-    "seen": 1794409856.8832488,
-    "ast_hash": "bac4274724cc4154574102618da5222b",
+    "mtime": 1794412119.3,
+    "seen": 1794412710.975636,
+    "ast_hash": "2841902bb3213bfc27fb7690ddb2953a",
     "semantic_hash": ""
   },
   "src/audio.js": {
@@ -102,9 +102,9 @@
     "semantic_hash": ""
   },
   "src/data.js": {
-    "mtime": 1794304796.12,
-    "seen": 1794409856.883286,
-    "ast_hash": "7fc57f1bfd33f5e4d73ad3933f034e79",
+    "mtime": 1794412838.44,
+    "seen": 1794412908.0012171,
+    "ast_hash": "c0a257354f7d495934fa8620eea26e03",
     "semantic_hash": ""
   },
   "src/icons.js": {
@@ -114,9 +114,9 @@
     "semantic_hash": ""
   },
   "src/main.js": {
-    "mtime": 1794408335.01,
-    "seen": 1794409856.883295,
-    "ast_hash": "77e0923774fe82e9d6c74a7874c69f5a",
+    "mtime": 1794412119.2,
+    "seen": 1794412710.9756439,
+    "ast_hash": "159d4d652d57c05ab0689c3daae9c336",
     "semantic_hash": ""
   },
   "src/map.js": {
@@ -150,9 +150,9 @@
     "semantic_hash": ""
   },
   "src/settingsContent.js": {
-    "mtime": 1794304796.13,
-    "seen": 1794409856.883301,
-    "ast_hash": "f3dc2e5a6353da78692b034c621134f5",
+    "mtime": 1794412838.46,
+    "seen": 1794412908.001229,
+    "ast_hash": "474c8d86add475adbb93b0eed5210bff",
     "semantic_hash": ""
   },
   "src/state.js": {
@@ -168,15 +168,15 @@
     "semantic_hash": ""
   },
   "src/ui.js": {
-    "mtime": 1794310523.8,
-    "seen": 1794409856.8833039,
-    "ast_hash": "e7810694c7632fc8598b25ee77cc0ef8",
+    "mtime": 1794412119.18,
+    "seen": 1794412710.975657,
+    "ast_hash": "c4a574ddc93ddaf683bb5e7df0852815",
     "semantic_hash": ""
   },
   "tests/model.test.mjs": {
-    "mtime": 1794254232.33,
-    "seen": 1794409856.8833091,
-    "ast_hash": "3acdd3bb51cdf1f09a95528e714aebfd",
+    "mtime": 1794412054.91,
+    "seen": 1794412710.9756641,
+    "ast_hash": "6a4a2a3b492908a4af1908bc817cce92",
     "semantic_hash": ""
   },
   "README.md": {
@@ -234,9 +234,9 @@
     "semantic_hash": ""
   },
   "public/assets/CREDITS.md": {
-    "mtime": 1794304796.07,
-    "seen": 1794409856.883344,
-    "ast_hash": "8bd7110156b8b6fbcf4847b0ee0bef46",
+    "mtime": 1794412452.74,
+    "seen": 1794412710.975714,
+    "ast_hash": "cfbf4d9c61fdb911f96a6dd6a1310d55",
     "semantic_hash": ""
   },
   "public/assets/audio/Kenney-CC0.txt": {
@@ -948,9 +948,9 @@
     "semantic_hash": ""
   },
   "public/assets/visuals/manifest.json": {
-    "mtime": 1794143495.27,
-    "seen": 1794409856.883233,
-    "ast_hash": "e3a05124c02873ca8e708efb814600df",
+    "mtime": 1794412452.72,
+    "seen": 1794412710.97561,
+    "ast_hash": "b7c797c9d2e0764110d4297c29f4f851",
     "semantic_hash": ""
   },
   "scripts/render-concepts-v2.mjs": {
@@ -1272,9 +1272,9 @@
     "semantic_hash": ""
   },
   "scripts/qa-responsive.mjs": {
-    "mtime": 1794142119.16,
-    "seen": 1794409856.883241,
-    "ast_hash": "469324e2f241af15884ab3f2fe886264",
+    "mtime": 1794412566.11,
+    "seen": 1794412710.9756238,
+    "ast_hash": "6d000144b3dcbff294272f5fb8057a7c",
     "semantic_hash": ""
   },
   "docs/reviews/NPC-VOICE-20261108.md": {
@@ -1356,9 +1356,9 @@
     "semantic_hash": ""
   },
   "src/concept-focus.js": {
-    "mtime": 1794185574.29,
-    "seen": 1794409856.883251,
-    "ast_hash": "0d822738c7e0a49a1b16c51047fe43a5",
+    "mtime": 1794412157.08,
+    "seen": 1794412710.975638,
+    "ast_hash": "d39ef1cb927eb615c0bdfedccfb95fe4",
     "semantic_hash": ""
   },
   "tests/concept-focus.test.mjs": {
@@ -2334,21 +2334,21 @@
     "semantic_hash": ""
   },
   "scripts/qa-missions.mjs": {
-    "mtime": 1794409568.77,
-    "seen": 1794409856.883239,
-    "ast_hash": "3242b72c4704eade5a24a49c0949bbc4",
+    "mtime": 1794412119.89,
+    "seen": 1794412710.975619,
+    "ast_hash": "d4a33183bc81d2790485a04ea014e3f8",
     "semantic_hash": ""
   },
   "src/play-mission-model.js": {
-    "mtime": 1794407869.63,
-    "seen": 1794409856.8833,
-    "ast_hash": "3f9936cc8f549c5f52af6f050fb30e88",
+    "mtime": 1794412119.64,
+    "seen": 1794412710.975651,
+    "ast_hash": "553a121971bcdf8d3ef210b7a129782f",
     "semantic_hash": ""
   },
   "src/play-mission.js": {
-    "mtime": 1794408746.4,
-    "seen": 1794409856.8833,
-    "ast_hash": "a16ddc5a4bb42bdea4c4c102a078cbf8",
+    "mtime": 1794412452.51,
+    "seen": 1794412710.975652,
+    "ast_hash": "8e2830e111abc28a9c863b42bcf42b31",
     "semantic_hash": ""
   },
   "tests/play-mission.test.mjs": {
@@ -3567,6 +3567,30 @@
     "mtime": 1794410714.89,
     "seen": 1794410765.3930602,
     "ast_hash": "af081c2cff091be7776b9b094aac0ef6",
+    "semantic_hash": ""
+  },
+  "scripts/qa-pedagogy.mjs": {
+    "mtime": 1794412886.88,
+    "seen": 1794412908.0012002,
+    "ast_hash": "4eb513049b474413d2731e981ceadae1",
+    "semantic_hash": ""
+  },
+  "public/assets/visuals/cargo-crate-v1.webp": {
+    "mtime": 1794412340.81,
+    "seen": 1794412710.975957,
+    "ast_hash": "1933fc308e4c9e43616bd258b4f53645",
+    "semantic_hash": ""
+  },
+  "public/assets/visuals/pneumatic-bellows-v1.webp": {
+    "mtime": 1794412340.51,
+    "seen": 1794412710.975965,
+    "ast_hash": "cdc18370f2d61b6685c89f3f2e534f10",
+    "semantic_hash": ""
+  },
+  "docs/reviews/LEARNING-REVIEW-20261112.md": {
+    "mtime": 1794413127.83,
+    "seen": 1794413131.168279,
+    "ast_hash": "e172023a70769248c460d98781a9bc65",
     "semantic_hash": ""
   }
 }
