@@ -4,6 +4,10 @@
 .title-v2 .title-backdrop{background:url('/assets/title.webp') 62% center/cover;animation:title-drift 26s ease-in-out infinite alternate}
 .title-v2 .title-vignette{background:linear-gradient(90deg,#0c3134f0 0,#14444acc 27%,#1a4b5060 50%,#1a4b5000 68%),linear-gradient(0deg,#0f343a8c 0,#0f343a00 34%),linear-gradient(180deg,#0f343a66 0,#0f343a00 18%)}
 .title-v2 .title-copy{left:6.5%;top:13%;width:50%}
+.npc-welcome-voice{max-width:520px;margin:12px 0;padding:12px 16px;border-radius:14px;background:var(--cream-50);color:var(--ink);text-align:left;position:relative;z-index:2}
+.npc-welcome-voice small{display:block;font-size:14px;line-height:1.4;color:var(--teal-800)}
+.npc-welcome-voice p{margin:6px 0 8px;font-size:16px;line-height:1.5;word-break:keep-all}
+.npc-welcome-voice .npc-dialogue-voice .button{min-height:48px;padding:8px 16px;font-size:18px}
 .title-v2 .title-kicker{display:inline-flex;align-items:center;gap:8px;margin:0 0 14px 4px;padding:7px 16px 7px 12px;border-radius:999px;background:#0b2f3399;border:1px solid #f5daa166;color:var(--brass-200);font-size:clamp(17px,1.45vw,22px);letter-spacing:.06em;backdrop-filter:blur(3px)}
 .title-v2 .title-kicker .icon{width:20px;height:20px;color:#bfe39a}
 .title-v2 .game-logo{width:min(100%,640px);filter:drop-shadow(0 10px 0 #0a2c3055) drop-shadow(0 18px 18px #04202566);animation:logo-in .7s cubic-bezier(.2,1.3,.4,1) both}
@@ -96,6 +100,17 @@
 @media(max-height:640px){.title-v2 .title-copy:has(.npc-welcome-voice) .game-logo{width:min(100%,260px)}.title-v2 .title-copy:has(.npc-welcome-voice) .title-tagline{margin-top:8px}.title-v2 .title-copy:has(.npc-welcome-voice) .title-kicker{margin-bottom:6px}}
 /* 폰 가로(높이 500px 이하)에서는 소개 문장을 줄여 안내 음성 버튼과 자막이 화면 안에 들어오게 한다. */
 @media(max-height:500px){.title-v2 .title-copy:has(.npc-welcome-voice) :is(.title-lead,.title-save-hint){display:none}.title-v2 .title-copy:has(.npc-welcome-voice) .game-logo{width:min(100%,220px)}.title-v2 .title-copy .npc-welcome-voice{margin:8px 0 0!important;padding:6px 10px!important}.title-v2 .title-kicker{display:none}}
+
+/* Three entry actions and narration must remain reachable after a saved visit. */
+.title-v2 .title-copy{max-height:calc(100% - 15%);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;padding:4px 8px 12px 0}
+.title-v2 .title-actions{flex-wrap:wrap;gap:12px}
+@media(max-height:640px){
+ .title-v2 .title-copy:has(.npc-welcome-voice) :is(.title-lead,.title-save-hint){display:none}
+ .title-v2 .title-copy:has(.npc-welcome-voice) .game-logo{width:min(100%,220px)}
+ .title-v2 .title-actions .button{min-height:48px;font-size:20px}
+ .npc-welcome-voice p{font-size:14px}
+}
+@media(min-width:1600px){.npc-welcome-voice :is(small,p){font-size:18px}}
 
 .map-tools .map-tool{width:48px;min-width:48px;height:48px;min-height:48px;padding:0;justify-content:center}.map-tools .map-tool:focus-visible{outline:3px solid #d5a628;outline-offset:3px}
 /* backdrop-filter를 못 쓰는 브라우저에서는 반투명 판을 거의 불투명하게 바꿔 글자 대비를 지킨다. */

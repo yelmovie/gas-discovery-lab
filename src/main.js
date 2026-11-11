@@ -34,9 +34,6 @@ function navigate(route,{replace=false,fromHistory=false}={}){
  if(current.screen==='home')showHome(screen);else if(current.screen==='story')showStory(screen,current.index||0);else if(current.screen==='map')mountMap(screen,{signal:abort.signal,save:store.save,persist,returnFrom,enter:id=>{returnFrom=id;navigate(id==='core'?{screen:'finale'}:{screen:'stage',stageId:id});}});else if(current.screen==='stage')showStage(screen,stageById(current.stageId));else if(current.screen==='activity')showActivity(screen,stageById(current.stageId),current.index||0);else if(current.screen==='finale')showFinale(screen);else if(current.screen==='ending')showEnding(screen,current.index||0);else if(current.screen==='certificate')renderCertificate(screen);
  if(current.screen==='home'){
   const panel=html('<section class="npc-welcome-voice"><small>AI 생성 음성</small><p></p></section>');
-  panel.style.cssText='max-width:480px;margin:12px 0;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.94);color:#193d43;text-align:left;position:relative;z-index:2;';
-  panel.querySelector('small').style.cssText='display:inline-block;margin-left:10px;font-size:12px;';
-  panel.querySelector('p').style.cssText='margin:6px 0 0;font-size:14px;line-height:1.55;word-break:keep-all;';
   panel.querySelector('p').textContent=voiceLines.find(l=>l.id==='welcome').text;
   screen.querySelector('.title-copy').append(panel); welcomeCleanup=attachVoice(panel,'welcome',abort.signal,false);
  } else if(current.screen==='story')attachVoice(screen.querySelector('.story-card'),`story-${(current.index||0)+1}`,abort.signal);

@@ -124,7 +124,12 @@
  .activity-screen .buddy-button{min-width:44px;padding:4px 6px}
  .activity-screen .soli-portrait{display:none}
  .activity-screen .buddy-label{font-size:14px}
- .activity-screen .completed-actions{flex:1}
+ .activity-screen .completed-actions{flex:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.85fr);align-items:start}
+ .activity-screen .completed-actions:has(.npc-dialogue-voice){grid-template-columns:minmax(0,1fr) minmax(0,.8fr) minmax(72px,.65fr)}
+ .activity-screen .completed-actions .npc-dialogue-voice{display:contents!important}
+ .activity-screen .completed-actions [role=status]{grid-column:1/-1;font-size:14px;line-height:1.35}
+ .activity-screen .completed-actions [role=status]:empty{display:none}
+ #app .activity-screen .activity-host>.flow-layout>.experiment-side{padding:4px}
  .activity-screen .completed-actions .primary{min-width:0;flex:1}
  .activity-screen .completed-actions .secondary{min-width:0;max-width:104px}
  .stage-screen .stage-intro{inset:84px 12px 16px;display:flex;flex-direction:column;gap:16px;overflow:auto}
