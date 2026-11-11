@@ -1,10 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
-import {STAGES} from '../src/data.js';
+import {APP,STAGES} from '../src/data.js';
 import {PIPE_PATTERNS,tracePipe,createPipePuzzle,massFor,compareMeasurements,volumeFor,validVolumePair,validateDelivery,validateDevice,isStageOpen,completeStage,teacherRoute} from '../src/model.js';
 import {freshSave,validateSave,loadSave} from '../src/state.js';
 import {validateMap,findPath,canStand,lineClear,movePoint,distance} from '../src/navigation.js';
+const packageInfo=JSON.parse(await fs.readFile(new URL('../package.json',import.meta.url),'utf8'));
+test('displayed and exported app version matches the delivery build',()=>{assert.equal(APP.version,packageInfo.version);});
 test('20 substantive tasks have unique ids and standards',()=>{const tasks=STAGES.flatMap(s=>s.tasks);assert.equal(tasks.length,20);assert.equal(new Set(tasks.map(t=>t.id)).size,20);assert.ok(STAGES.every(s=>s.standard&&s.tasks.length===4));});
 for(let index=0;index<4;index++)test(`pipe route ${index+1}: solved path reaches fan; initial route does not`,()=>{const p=PIPE_PATTERNS[index];assert.equal(tracePipe(p.types.map((type,i)=>({type,rotation:p.solved[i]}))).ok,true);assert.equal(tracePipe(createPipePuzzle(index)).ok,false);});
 test('weight comparison needs valid same-container records, changed air and correct order',()=>{const task=STAGES[1].tasks[0];const a={jar:'same',tare:1,valid:true,air:3,mass:massFor(3)},b={...a,air:5,mass:massFor(5)};assert.equal(compareMeasurements(a,b,task).ok,true);assert.equal(compareMeasurements({...a,valid:false},b,task).ok,false);assert.equal(compareMeasurements(a,{...b,jar:'other'},task).ok,false);assert.equal(compareMeasurements(a,{...b,tare:2},task).ok,false);assert.equal(compareMeasurements(a,a,task).ok,false);assert.equal(compareMeasurements(b,a,task).ok,false);assert.equal(compareMeasurements(b,a,STAGES[1].tasks[1]).ok,true);});

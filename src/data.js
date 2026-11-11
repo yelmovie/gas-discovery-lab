@@ -1,4 +1,4 @@
-export const APP = { name: '기체 도시 대작전', version: '1.3.0', saveKey: 'gas-city-adventure-v1' };
+export const APP = { name: '기체 도시 대작전', version: '1.3.1', saveKey: 'gas-city-adventure-v1' };
 export const STANDARDS = [
   ['4과15-01','실험을 통해 기체가 무게가 있음을 설명할 수 있다.'],
   ['4과15-02','온도나 압력에 따라 기체의 부피가 달라지는 현상을 관찰하고, 우리 주변에서 예를 찾을 수 있다.'],
