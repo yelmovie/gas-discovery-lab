@@ -47,12 +47,12 @@ function audit(){
     if(shown(el)&&el.scrollWidth>el.clientWidth+3)add('horizontal-panel-overflow',el,`${el.scrollWidth-el.clientWidth}px`);
     if(scope.classList.contains('activity-screen')&&shown(el)&&el.scrollHeight>el.clientHeight+3)add('activity-needs-scroll',el,`${el.scrollHeight-el.clientHeight}px`);
   }
-  for(const el of document.querySelectorAll('button,input,[role="slider"],summary')){
+  for(const el of document.querySelectorAll('button,input,[role="slider"],[role="button"],summary')){
     if(!shown(el)||el.disabled)continue;
     const r=el.getBoundingClientRect();
     const clipping=permanentlyClipped(el,r);if(clipping)add('clipped-control',el,String(clipping));
     if(r.width<43||r.height<43)add('small-touch-target',el,`${Math.round(r.width)}×${Math.round(r.height)}`);
-    if(el.matches('.pipe-cell,[data-action="add"],[data-action="remove"]')&&(r.width<48||r.height<48))add('small-repeated-touch-target',el,`${Math.round(r.width)}×${Math.round(r.height)}`);
+    if(el.matches('.pipe-cell,[data-action="add"],[data-action="remove"],.condition-slider,.part-card,.gas-card,.scale-jar,[role="slider"]')&&(r.width<48||r.height<48))add('small-repeated-touch-target',el,`${Math.round(r.width)}×${Math.round(r.height)}`);
     if(!inView(r)){
       let reachable=false;
       for(let a=el.parentElement;a;a=a.parentElement){const s=getComputedStyle(a);if(/auto|scroll/.test(s.overflowY)&&a.scrollHeight>a.clientHeight+2)reachable=true;}

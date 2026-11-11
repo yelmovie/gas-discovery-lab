@@ -1272,9 +1272,9 @@
     "semantic_hash": ""
   },
   "scripts/qa-responsive.mjs": {
-    "mtime": 1794412566.11,
-    "seen": 1794412710.9756238,
-    "ast_hash": "6d000144b3dcbff294272f5fb8057a7c",
+    "mtime": 1794413991.78,
+    "seen": 1794413994.268203,
+    "ast_hash": "638ac1cd0d0b5a1be1348d44b3f901a0",
     "semantic_hash": ""
   },
   "docs/reviews/NPC-VOICE-20261108.md": {
@@ -3591,6 +3591,18 @@
     "mtime": 1794413127.83,
     "seen": 1794413131.168279,
     "ast_hash": "e172023a70769248c460d98781a9bc65",
+    "semantic_hash": ""
+  },
+  "docs/reviews/RELEASE-REVIEW-20261112.md": {
+    "mtime": 1794413905.99,
+    "seen": 1794413994.268248,
+    "ast_hash": "9371e90d946c82eff8a8c9512a805864",
+    "semantic_hash": ""
+  },
+  "docs/reviews/SCORE-20261112.md": {
+    "mtime": 1794413659.76,
+    "seen": 1794413994.268251,
+    "ast_hash": "49183ea7ec5be744f36b9f44a6580c37",
     "semantic_hash": ""
   }
 }

@@ -38,7 +38,7 @@
 .weight-layout .scale-jar:focus-visible{outline:3px solid #bc8c35;outline-offset:2px}
 .weight-layout .scale-jar[aria-disabled=true]{cursor:default}
 .weight-layout .scale-jar .prop{width:100%;height:100%;object-fit:contain;pointer-events:none}
-.weight-layout .scale-jar.off-scale{left:19%;bottom:18%;transform:translateX(-50%);opacity:1}
+.weight-layout .scale-jar.off-scale{width:min(36cqw,calc(var(--scale-size) * .62));height:min(36cqw,calc(var(--scale-size) * .62));left:19%;bottom:18%;transform:translateX(-50%);opacity:1}
 .weight-layout .scale-jar.off-scale::after{content:none}
 .weight-layout .jar-action-label{display:none}
 .weight-layout .off-scale .jar-action-label{display:block;position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:0;width:max-content;max-width:145%;padding:3px 4px;border:1px solid #a7c3b1;border-radius:6px;background:#fffdf4;color:#245f58;text-align:center;font:clamp(14px,1.2vw,21px)/1.2 var(--font-display);pointer-events:none}

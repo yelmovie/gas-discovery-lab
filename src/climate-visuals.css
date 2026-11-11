@@ -22,7 +22,7 @@
 .climate-layout .range-labels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;text-align:center;font-size:clamp(14px,1.2vw,20px);line-height:1.3}
 .climate-layout .range-labels span{padding:2px 3px;border:1px solid transparent;border-radius:8px;word-break:keep-all}
 .climate-layout .range-labels span.active{color:#1d635f;background:#e0f0e8;border-color:#8bbcb0;font-weight:600}
-.climate-layout .condition-slider{height:44px;min-height:44px;margin:0;width:100%;accent-color:#267e82}
+.climate-layout .condition-slider{height:48px;min-height:48px;margin:0;width:100%;accent-color:#267e82}
 /* Two short horizontal bars leave the full question and both choices visible. */
 .climate-layout .comparison-panel{display:grid;grid-template-rows:auto minmax(0,1fr);gap:10px;height:100%;min-height:0}
 .climate-layout .volume-records{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:8px;margin:0;border:1px solid #d4ddce;background:#f0f4eb}
