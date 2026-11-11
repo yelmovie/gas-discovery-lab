@@ -1,0 +1,20 @@
+/* Translucent classroom UI. Keep typography opaque and preserve semantic states. */
+:root { --glass-surface: rgba(251,255,247,.76); --glass-control: rgba(252,255,249,.84); --glass-reading: rgba(252,255,248,.94); --glass-line: rgba(58,100,78,.28); }
+html body :is(.lab-panel,.map-next-card,.map-controls,.measurement-card,.gas-card,.part-card) { background-color:var(--glass-surface); background-image:none; border-color:var(--glass-line); box-shadow:0 8px 24px rgba(24,64,47,.1),inset 0 1px 0 rgba(255,255,255,.65); -webkit-backdrop-filter:blur(9px); backdrop-filter:blur(9px); }
+html body :is(.button,.icon-button,.buddy-button,.start-button,.map-dpad button):not(.primary):not(.gold):not(.golden):not(.selected):not(.active):not(.correct):not(.wrong):not([aria-pressed="true"]) { background-color:var(--glass-control); background-image:none; border-color:var(--glass-line); box-shadow:0 3px 10px rgba(24,64,47,.13),inset 0 1px 0 rgba(255,255,255,.8); -webkit-backdrop-filter:blur(7px); backdrop-filter:blur(7px); }
+html body :is(.dialog,.dialog-head,.dialog-foot,.settings-content details,.research-book section) { background-color:var(--glass-reading); background-image:none; border-color:var(--glass-line); -webkit-backdrop-filter:blur(12px); backdrop-filter:blur(12px); }
+html body :is(.button.primary,.start-button) { background-color:rgba(28,94,78,.94); color:#fff; border-color:rgba(18,65,51,.6); box-shadow:0 4px 12px rgba(18,65,51,.22); }
+html body :is(button,a,input,summary):focus-visible { outline:3px solid #194f91; outline-offset:3px; }
+@supports not (backdrop-filter:blur(1px)) { :root { --glass-surface:rgba(251,255,247,.92); --glass-control:rgba(252,255,249,.96); } }
+@media(prefers-reduced-transparency:reduce) { :root { --glass-surface:#fbfff7; --glass-control:#fcfff9; --glass-reading:#fcfff8; } }
+@media print { html body :is(.lab-panel,.map-next-card,.map-controls,.measurement-card,.gas-card,.part-card,.dialog,.dialog-head,.dialog-foot,.settings-content details,.research-book section) { background:#fff; -webkit-backdrop-filter:none; backdrop-filter:none; box-shadow:none; } }
+@media(max-width:600px){
+ .map-controls{left:10px;right:10px;bottom:10px;width:auto;padding:8px 12px}
+ .map-controls-head{display:none}
+ .map-controls-body{justify-content:space-between}
+ .map-tools{display:flex;gap:8px}
+ .map-next-card{left:10px;right:10px;bottom:128px;max-width:none;grid-template-columns:minmax(0,1fr) minmax(0,1fr);padding:10px;gap:8px}
+ .map-next-card .map-next{min-height:52px;font-size:16px}
+ .map-next-title{font-size:18px}
+ .building-label{min-width:0;max-width:calc(50vw - 16px);font-size:16px;padding:8px;white-space:normal;min-height:48px}
+}
