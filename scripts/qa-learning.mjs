@@ -37,7 +37,12 @@ for(const stage of STAGES)for(const task of stage.tasks){
  if(i===0){await p.locator('.activity-host').evaluate(async el=>{await Promise.all([...el.querySelectorAll('img')].map(img=>img.decode().catch(()=>{})));});await p.screenshot({path:`.tmp/qa/result-${stage.id}.png`,animations:'disabled'});}
  if(process.env.QA_SKIP_VIDEO!=='1'){
  await p.getByRole('button',{name:'개념 영상 보기',exact:true}).click();await p.locator('.concept-dialog').waitFor();const v=p.locator('.concept-dialog video');await p.waitForFunction(()=>{const v=document.querySelector('video');return v?.readyState>=2&&v.videoWidth===1280;});
- const videoInfo=await v.evaluate(v=>({duration:v.duration,w:v.videoWidth,h:v.videoHeight,src:v.currentSrc}));assert.ok(Math.abs(videoInfo.duration-CONCEPT_SECONDS)<.1,`영상 길이 ${videoInfo.duration}`);await v.evaluate(v=>{v.pause();v.currentTime=4.2;});await p.waitForTimeout(250);assert.equal(await p.locator('[data-science-step].is-current').getAttribute('data-science-step'),'1','4.2초는 두 번째 장면');await bounds(task.id+'-video');
+ const videoInfo=await v.evaluate(v=>({duration:v.duration,w:v.videoWidth,h:v.videoHeight,src:v.currentSrc}));
+ assert.ok(Math.abs(videoInfo.duration-CONCEPT_SECONDS)<.1,`영상 길이 ${videoInfo.duration}`);
+ await v.evaluate(v=>{v.pause();v.currentTime=4.2;});
+ await p.waitForFunction(()=>{const video=document.querySelector('.concept-dialog video');return video&&!video.seeking&&Math.abs(video.currentTime-4.2)<.1;},null,{timeout:15000});
+ assert.equal(await p.locator('[data-science-step].is-current').getAttribute('data-science-step'),'1','4.2초는 두 번째 장면');
+ await bounds(task.id+'-video');
  if(i===0)await p.screenshot({path:`.tmp/qa/video-${stage.id}.png`});
  await p.keyboard.press('Escape');
  }
