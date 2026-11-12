@@ -27,6 +27,7 @@ export function createNarration({ isMuted, duck = () => {}, makeAudio = () => ne
       await audio.play();
       if (token !== request) return false;
       if (disposed || doc.hidden || isMuted()) { stop(); return false; }
+      state = { id, status: 'playing', audible: true }; emit();
       return true;
     } catch { fail(); return false; }
   }
@@ -52,6 +53,7 @@ export function mountNarrationControl(host, id, narration, { autoplay = true } =
   const unsubscribe = narration.subscribe(state => {
     const active = state.id === id && state.status === 'playing';
     row.dataset.state = state.id === id ? state.status : 'idle';
+    row.dataset.speaking = String(active && state.audible === true);
     button.textContent = active ? '음성 멈추기' : '다시 듣기';
     button.setAttribute('aria-label', `${line.speaker} 대사 ${active ? '멈추기' : '다시 듣기'}`);
     button.setAttribute('aria-pressed', String(active));
