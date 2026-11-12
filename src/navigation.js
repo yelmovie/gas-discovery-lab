@@ -1,3 +1,4 @@
+import {assistMapStep} from './map-controls.js';
 import {STAGES} from './data.js';
 export const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 const point=a=>({x:a[0],y:a[1]});
@@ -15,7 +16,7 @@ export function segmentDistance(p,a,b){const dx=b.x-a.x,dy=b.y-a.y;const t=Math.
 export function insidePolygon(p,polygon){let inside=false;for(let i=0,j=polygon.length-1;i<polygon.length;j=i++){const a=polygon[i],b=polygon[j];if((a[1]>p.y)!==(b[1]>p.y)&&p.x<(b[0]-a[0])*(p.y-a[1])/(b[1]-a[1])+a[0])inside=!inside;}return inside;}
 export function canStand(map,p){if(!p||!Number.isFinite(p.x)||!Number.isFinite(p.y)||p.x<map.radius||p.x>map.width-map.radius||p.y<map.radius||p.y>map.height-map.radius)return false;if(insidePolygon(p,map.plaza))return true;return map.edges.some(([a,b,width])=>segmentDistance(p,point(map.nodes[a]),point(map.nodes[b]))<=width-map.radius);}
 export function lineClear(map,a,b){const count=Math.ceil(distance(a,b)/6);for(let i=0;i<=count;i++)if(!canStand(map,{x:a.x+(b.x-a.x)*i/(count||1),y:a.y+(b.y-a.y)*i/(count||1)}))return false;return true;}
-export function movePoint(map,start,dx,dy){let current={...start};const n=Math.max(1,Math.ceil(Math.hypot(dx,dy)/4));for(let i=0;i<n;i++){const p={x:current.x+dx/n,y:current.y+dy/n};if(canStand(map,p))current=p;else if(canStand(map,{x:p.x,y:current.y}))current.x=p.x;else if(canStand(map,{x:current.x,y:p.y}))current.y=p.y;}return current;}
+export function movePoint(map,start,dx,dy){return assistMapStep(start,{x:dx,y:dy},p=>canStand(map,p));}
 export function nearestWalkable(map,p){if(canStand(map,p))return p;let best=null,bestDist=Infinity;for(let r=8;r<=80;r+=8)for(let a=0;a<32;a++){const q={x:p.x+Math.cos(a*Math.PI/16)*r,y:p.y+Math.sin(a*Math.PI/16)*r};if(canStand(map,q)&&distance(q,p)<bestDist){best=q;bestDist=distance(q,p);}}return best;}
 export function findPath(map,start,target){
  const end=nearestWalkable(map,target);if(!end||!canStand(map,start))return null;if(lineClear(map,start,end))return [end];
