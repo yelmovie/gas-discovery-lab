@@ -37,7 +37,7 @@
 @media(max-width:760px){.title-v2 .title-copy{width:64%}.title-v2 .title-lead{display:none}.title-v2 .title-characters{right:-3%;width:42%}.title-v2 .title-soli{width:26%}}
 
 /* ── 지도: 조작 패널과 다음 목적지 ─────────── */
-.map-canvas.hand-on{cursor:grab}.map-canvas.grabbing{cursor:grabbing}
+.map-canvas.hand-on{cursor:grab}.map-screen.grabbing .map-canvas{cursor:grabbing}
 .map-controls{position:absolute;left:18px;bottom:18px;z-index:3;padding:10px 12px 12px;border-radius:22px;background:#fffbefeb;border:2px solid #d8c89d;box-shadow:0 10px 24px #12363d40,inset 0 2px 0 #fff;backdrop-filter:blur(4px)}
 .map-controls-head{display:flex;align-items:center;gap:8px;margin:0 2px 8px;font:17px/1.2 var(--font-display);color:var(--teal-800)}
 .map-controls-head img{width:30px;height:30px}
@@ -125,3 +125,8 @@ html.reduce-motion *, html.reduce-motion *::before, html.reduce-motion *::after 
   scroll-behavior: auto !important;
 }
 html.reduce-motion .title-bubbles { display: none; }
+
+.map-next-card .map-camera-actions{position:absolute;right:0;bottom:calc(100% + 10px);display:flex;gap:8px}
+.map-next-card .map-camera-actions .map-tool,.map-controls .map-recenter{width:48px;padding:0;justify-content:center}
+.building-label[data-map-label-covered]:not(:focus-visible){opacity:0;pointer-events:none}
+.map-screen .map-labels .building-label{touch-action:none}

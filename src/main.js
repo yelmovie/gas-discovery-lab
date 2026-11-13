@@ -18,6 +18,7 @@ import {mountEngineering} from './activities/engineering.js';
 import {openSettings,exportResearch} from './settings.js';
 import {mountExperimentPlayer} from './experiment-player.js';
 const app=document.querySelector('#app');let abort=new AbortController(),current={screen:'home'},returnFrom=null,storyReturn=null;
+const pendingRestoration=new Set();
 const mounts={flow:mountFlow,weight:mountWeight,climate:mountClimate,delivery:mountDelivery,engineering:mountEngineering};
 const npcNames={air:'에어',lumi:'루미',popo:'포포'};
 function controls(){const nav=html(`<nav class="global-controls" aria-label="공통 메뉴"><div class="controls-left"><button class="icon-button home-button" aria-label="홈으로 가기">${icon('home')}</button><button class="icon-button back-button" aria-label="이전 화면으로 가기">${icon('back')}</button></div><div class="controls-right"><button class="icon-button sound-button" aria-label="전체 소리 끄기"></button><button class="icon-button settings-button" aria-label="설정">${icon('settings')}</button></div></nav>`);nav.querySelector('.home-button').onclick=()=>navigate({screen:'home'});nav.querySelector('.back-button').onclick=back;nav.querySelector('.sound-button').onclick=()=>{const on=!(store.save.settings.music||store.save.settings.sfx);store.save.settings.music=on;store.save.settings.sfx=on;persist();syncAudio(store.save.settings);if(!on)narration.stop();updateControls();if(on)sound();};nav.querySelector('.settings-button').onclick=()=>openSettings({story:()=>{storyReturn={...current};navigate({screen:'story',index:0});},ending:()=>navigate({screen:'ending',index:0}),certificate:showCertificate,research:showResearch,reset:()=>navigate({screen:'home'}),updateControls,accessChanged:()=>{setTimeout(()=>navigate({screen:'map'},{replace:true}),0);}});return nav;}
@@ -32,7 +33,7 @@ function navigate(route,{replace=false,fromHistory=false}={}){
  if(['activity','stage','map'].includes(current.screen)){store.save.last={...current};persist();}
  app.replaceChildren();const screen=html(`<section class="screen ${current.screen}-screen" aria-label="${APP.name}"></section>`);app.append(screen,controls());updateControls();document.title=current.stageId?`${stageById(current.stageId).name} · ${APP.name}`:APP.name;
  quietAudio(false);
- if(current.screen==='home')showHome(screen);else if(current.screen==='story')showStory(screen,current.index||0);else if(current.screen==='map')mountMap(screen,{signal:abort.signal,save:store.save,persist,returnFrom,enter:id=>{returnFrom=id;navigate(id==='core'?{screen:'finale'}:{screen:'stage',stageId:id});}});else if(current.screen==='stage')showStage(screen,stageById(current.stageId));else if(current.screen==='activity')showActivity(screen,stageById(current.stageId),current.index||0);else if(current.screen==='finale')showFinale(screen);else if(current.screen==='ending')showEnding(screen,current.index||0);else if(current.screen==='certificate')renderCertificate(screen);
+ if(current.screen==='home')showHome(screen);else if(current.screen==='story')showStory(screen,current.index||0);else if(current.screen==='map')mountMap(screen,{signal:abort.signal,save:store.save,persist,returnFrom,takeRestorations:()=>{if(store.demo)return [];const ids=[...pendingRestoration];pendingRestoration.clear();return ids;},enter:id=>{returnFrom=id;navigate(id==='core'?{screen:'finale'}:{screen:'stage',stageId:id});}});else if(current.screen==='stage')showStage(screen,stageById(current.stageId));else if(current.screen==='activity')showActivity(screen,stageById(current.stageId),current.index||0);else if(current.screen==='finale')showFinale(screen);else if(current.screen==='ending')showEnding(screen,current.index||0);else if(current.screen==='certificate')renderCertificate(screen);
  if(current.screen==='home'){
   const panel=html('<section class="npc-welcome-voice"><small>AI 생성 음성</small><p></p></section>');
   panel.querySelector('p').textContent=voiceLines.find(l=>l.id==='welcome').text;
@@ -109,8 +110,9 @@ function showActivity(host,stage,index){
   playback:spec=>player.configure(spec),nextAction,getPlaybackSpeed:()=>player.speed,
   saveDraft:draft=>{if(completing||context.signal.aborted)return;store.save.drafts[task.id]=draft;persist();},
   guide:(step,text,newHints)=>{host.dataset.step=step;if(player.state!=='running'){host.querySelector('.mission-step').textContent=/^\d/.test(step)?step[0]+'단계':'다음';direction.innerHTML=emphasizeConcept(text,stage.keyTerms);voiceForText(direction,text,abort.signal);}if(newHints)hints=newHints;},
-  complete:(summary,details)=>{if(completing||context.signal.aborted)return;completing=true;narration.stop();player.complete();nextAction([]);award(stage,task,summary,details);sound('award');
+  complete:(summary,details)=>{if(completing||context.signal.aborted)return;completing=true;narration.stop();player.complete();nextAction([]);const alreadyComplete=completeStage(store.save,stage.id);award(stage,task,summary,details);sound('award');
    const finished=completeStage(store.save,stage.id);
+   if(finished&&!alreadyComplete&&!store.demo)pendingRestoration.add(stage.id);
    const nextIndex=index<stage.tasks.length-1?index+1:stage.tasks.findIndex(t=>!store.save.evidence[stage.id].some(e=>e.taskId===t.id));
    delete store.save.drafts[task.id];store.save.last=nextIndex>=0?{screen:'activity',stageId:stage.id,index:nextIndex}:{screen:'map'};persist();
    const nextLabel=nextIndex>=0?'다음 의뢰 시작':'마을 변화 보러 가기';
@@ -150,7 +152,7 @@ function showFinale(host){const demo=store.demo===true;host.innerHTML=`<img clas
   valve.onclick=()=>{if(charged)return;const open=valve.getAttribute('aria-pressed')!=='true';valve.setAttribute('aria-pressed',String(open));valve.textContent=open?'밸브 열림':'밸브 열기';supply.disabled=!open;status.textContent=open?'공기를 모아 코어까지 보내요.':'밸브를 열면 공기를 보낼 수 있어요.';sound();};
   holdButton(supply,p=>{gauge.style.width=`${p*100}%`;},()=>{
    if(charged||contextSignal.aborted)return;charged=true;supply.disabled=true;valve.disabled=true;supply.textContent='공기 공급 완료';host.querySelector('.core-apparatus').classList.add('core-active');status.textContent='코어까지 공기가 도착했어요! 마지막 레버를 당겨요.';attachVoice(status,'finale-charged',abort.signal);sound('success');
-   body.querySelector('.final-lever').append(button(`복구 레버 당기기 ${icon('arrow')}`,()=>{if(restored||contextSignal.aborted)return;restored=true;if(!demo){store.save.finaleCompleted=true;persist();}sound('award');if(demo)openDialog('시연이 끝났어요','<p>예시 장치가 코어를 움직였어요. 실제 탐구 기록은 바뀌지 않았어요.</p>');else navigate({screen:'ending',index:0});},'button gold repair-lever'));
+   body.querySelector('.final-lever').append(button(`복구 레버 당기기 ${icon('arrow')}`,()=>{if(restored||contextSignal.aborted)return;restored=true;if(!demo){if(!store.save.finaleCompleted)pendingRestoration.add('core');store.save.finaleCompleted=true;persist();}sound('award');if(demo)openDialog('시연이 끝났어요','<p>예시 장치가 코어를 움직였어요. 실제 탐구 기록은 바뀌지 않았어요.</p>');else navigate({screen:'ending',index:0});},'button gold repair-lever'));
   },contextSignal);
  }
 
