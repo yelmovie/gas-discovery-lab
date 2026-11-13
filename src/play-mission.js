@@ -37,5 +37,3 @@ dialog.querySelector('[data-close]').onclick=()=>dialog.close();dialog.querySele
 }
 
 dialog.addEventListener('close',()=>{dialog.remove();oldFocus?.focus?.();},{once:true});render();dialog.showModal();dialog.querySelector('[data-close]').focus();}
-function install(){const host=document.querySelector('.title-actions, .stage-start');if(host&&!host.querySelector('.play-mission-entry')){const b=document.createElement('button');b.className='play-mission-entry';b.textContent='공기 장치 미션';b.onclick=openPlayMission;host.append(b);}}
-new MutationObserver(install).observe(document.getElementById('app'),{childList:true,subtree:true});install();

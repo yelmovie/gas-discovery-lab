@@ -8,18 +8,14 @@ import {completeStage,isStageOpen,teacherRoute} from './model.js';
 import {html,button,openDialog,portrait,prop,buddy,choices,escapeHTML,announce,holdButton} from './ui.js';
 import {icon} from './icons.js';
 import {sound,syncAudio,unlockAudio,quietAudio} from './audio.js';
-import {openConcept} from './concepts.js';
-import {mountMap} from './map.js';
-import {mountFlow} from './activities/flow.js';
-import {mountWeight} from './activities/weight.js';
-import {mountClimate} from './activities/climate.js';
-import {mountDelivery} from './activities/delivery.js';
-import {mountEngineering} from './activities/engineering.js';
+import {loadActivity,loadPlayMission,loadMapAssets,waitForScreen} from './screen-loaders.js';
 import {openSettings,exportResearch} from './settings.js';
-import {mountExperimentPlayer} from './experiment-player.js';
 const app=document.querySelector('#app');let abort=new AbortController(),current={screen:'home'},returnFrom=null,storyReturn=null;
+const SOLI_IMAGE = "/assets/soli.svg";
 const pendingRestoration=new Set();
-const mounts={flow:mountFlow,weight:mountWeight,climate:mountClimate,delivery:mountDelivery,engineering:mountEngineering};
+let mapAssets;
+const mapCodeFailure = Symbol('map code failure');
+const activityModules = new Map();
 const npcNames={air:'에어',lumi:'루미',popo:'포포'};
 function controls(){const nav=html(`<nav class="global-controls" aria-label="공통 메뉴"><div class="controls-left"><button class="icon-button home-button" aria-label="홈으로 가기">${icon('home')}</button><button class="icon-button back-button" aria-label="이전 화면으로 가기">${icon('back')}</button></div><div class="controls-right"><button class="icon-button sound-button" aria-label="전체 소리 끄기"></button><button class="icon-button settings-button" aria-label="설정">${icon('settings')}</button></div></nav>`);nav.querySelector('.home-button').onclick=()=>navigate({screen:'home'});nav.querySelector('.back-button').onclick=back;nav.querySelector('.sound-button').onclick=()=>{const on=!(store.save.settings.music||store.save.settings.sfx);store.save.settings.music=on;store.save.settings.sfx=on;persist();syncAudio(store.save.settings);if(!on)narration.stop();updateControls();if(on)sound();};nav.querySelector('.settings-button').onclick=()=>openSettings({story:()=>{storyReturn={...current};navigate({screen:'story',index:0});},ending:()=>navigate({screen:'ending',index:0}),certificate:showCertificate,research:showResearch,reset:()=>navigate({screen:'home'}),updateControls,accessChanged:()=>{setTimeout(()=>navigate({screen:'map'},{replace:true}),0);}});return nav;}
 function updateControls(){document.documentElement.classList.toggle('reduce-motion',store.save.settings.reduceMotion===true);app.querySelector('.save-status')?.remove();if(store.demo||store.problem){const status=document.createElement('div');status.className='save-status';status.setAttribute('role','status');status.textContent=store.demo?'교사 시연 · 학생 기록은 바뀌지 않아요':store.problem;app.append(status);}const b=app.querySelector('.sound-button');if(b){const on=store.save.settings.music||store.save.settings.sfx;b.innerHTML=icon(on?'sound':'mute');b.setAttribute('aria-label',on?'전체 소리 끄기':'전체 소리 켜기');b.setAttribute('aria-pressed',String(on));}for(const name of ['home-button','back-button']){const b=app.querySelector('.'+name);if(b){b.disabled=current.screen==='home';b.title=b.disabled?'지금은 시작 화면이에요.':'';}}}
@@ -33,7 +29,7 @@ function navigate(route,{replace=false,fromHistory=false}={}){
  if(['activity','stage','map'].includes(current.screen)){store.save.last={...current};persist();}
  app.replaceChildren();const screen=html(`<section class="screen ${current.screen}-screen" aria-label="${APP.name}"></section>`);app.append(screen,controls());updateControls();document.title=current.stageId?`${stageById(current.stageId).name} · ${APP.name}`:APP.name;
  quietAudio(false);
- if(current.screen==='home')showHome(screen);else if(current.screen==='story')showStory(screen,current.index||0);else if(current.screen==='map')mountMap(screen,{signal:abort.signal,save:store.save,persist,returnFrom,takeRestorations:()=>{if(store.demo)return [];const ids=[...pendingRestoration];pendingRestoration.clear();return ids;},enter:id=>{returnFrom=id;navigate(id==='core'?{screen:'finale'}:{screen:'stage',stageId:id});}});else if(current.screen==='stage')showStage(screen,stageById(current.stageId));else if(current.screen==='activity')showActivity(screen,stageById(current.stageId),current.index||0);else if(current.screen==='finale')showFinale(screen);else if(current.screen==='ending')showEnding(screen,current.index||0);else if(current.screen==='certificate')renderCertificate(screen);
+ if(current.screen==='home')showHome(screen);else if(current.screen==='story')showStory(screen,current.index||0);else if(current.screen==='map')showMap(screen,abort.signal);else if(current.screen==='stage')showStage(screen,stageById(current.stageId));else if(current.screen==='activity')enterActivity(screen,stageById(current.stageId),current.index||0,abort.signal);else if(current.screen==='finale')showFinale(screen);else if(current.screen==='ending')showEnding(screen,current.index||0);else if(current.screen==='certificate')renderCertificate(screen);
  if(current.screen==='home'){
   const panel=html('<section class="npc-welcome-voice"><small>AI 생성 음성</small><p></p></section>');
   panel.querySelector('p').textContent=voiceLines.find(l=>l.id==='welcome').text;
@@ -41,14 +37,94 @@ function navigate(route,{replace=false,fromHistory=false}={}){
  } else if(current.screen==='story')attachVoice(screen.querySelector('.story-card'),`story-${(current.index||0)+1}`,abort.signal);
  else if(current.screen==='stage')attachVoice(screen.querySelector('.stage-brief > p'),`stage-${current.stageId}`,abort.signal);
  else if(current.screen==='ending')attachVoice(screen.querySelector('.ending-copy'),`ending-${(current.index||0)+1}`,abort.signal);
- if(store.save.settings.adminUnlockAll&&TEACHER_SCREENS.includes(current.screen)){
+ if(store.save.settings.adminUnlockAll&&TEACHER_SCREENS.includes(current.screen)&&current.screen!=='activity'){
   screen.classList.add('teacher-mode');
-  if(current.screen==='activity'){
-   const quick=button(`${icon('skip')}<span>교사 이동</span>`,()=>{const d=openDialog('교사용 빠른 이동',teacherDock());d.classList.add('teacher-nav-dialog');d.querySelectorAll('[data-move]').forEach(b=>{const go=b.onclick;b.onclick=()=>{d.close();go();};});},'button secondary teacher-menu-button');quick.setAttribute('aria-label','교사용 빠른 이동');
-   screen.querySelector('.utility-tools').append(quick);
-  }else app.append(teacherDock());
+  app.append(teacherDock());
  }
  if(current.screen!=='map')requestAnimationFrame(()=>screen.querySelector('h1')?.focus({preventScroll:true}));
+}
+function loading(host, text) {
+ host.innerHTML='<div class="map-loading"><span class="boot-orbit" aria-hidden="true"></span><p role="status"></p></div>';
+ host.querySelector('[role="status"]').textContent=text;
+}
+function loadError(host, title, kind, retry, direct) {
+ const focus=host.contains(document.activeElement)||document.activeElement===document.body;
+ host.innerHTML='<section class="screen-load-error"><div class="lab-panel"><h1 tabindex="-1"></h1><p role="alert">저장한 탐구 기록은 그대로예요.</p><div class="screen-load-actions"></div></div></section>';
+ host.dataset.screenLoad=kind;
+ host.querySelector('h1').textContent=title;
+ const actions=host.querySelector('.screen-load-actions');
+ actions.append(button('다시 열기',retry,direct?'button secondary':'button primary'));
+ if(direct)actions.append(button(direct.label,direct.open));
+ if(focus)host.querySelector('h1').focus({preventScroll:true});
+}
+function nextMapActivity() {
+ const stage=STAGES.find((s,i)=>isStageOpen(store.save,i)&&!completeStage(store.save,s.id));
+ if(!stage)return {label:'중앙 공기 코어로 가기',open:()=>navigate({screen:'finale'})};
+ const index=stage.tasks.findIndex(t=>!store.save.evidence[stage.id].some(e=>e.taskId===t.id));
+ return {label:stage.id==='flow'&&index===0?'첫 실험 시작':`${stage.name} 의뢰 시작`,open:()=>{returnFrom=stage.id;navigate({screen:'activity',stageId:stage.id,index});}};
+}
+async function showMap(host, signal) {
+ loading(host,'마을로 가는 길을 준비해요…');
+ const request=new AbortController();
+ const cancel=()=>request.abort();
+ signal.addEventListener('abort',cancel,{once:true});
+ const code=waitForScreen(import('./map.js'),request.signal).catch(()=>{throw mapCodeFailure;});
+ const assets=(mapAssets?Promise.resolve(mapAssets):loadMapAssets(SOLI_IMAGE,request.signal));
+ try{
+  const [module,loaded]=await Promise.all([code,assets]);
+  if(signal.aborted)return;
+  module.mountMap(host,{signal,save:store.save,persist,returnFrom,takeRestorations:()=>{if(store.demo)return [];const ids=[...pendingRestoration];pendingRestoration.clear();return ids;},enter:id=>{returnFrom=id;navigate(id==='core'?{screen:'finale'}:{screen:'stage',stageId:id});}},loaded);
+  mapAssets=loaded;
+ }catch(error){
+  if(signal.aborted)return;
+  const kind=error===mapCodeFailure?'code':'assets';
+  mapAssets=undefined;
+  loadError(host,'지도를 불러오지 못했어요',kind,kind==='code'?()=>location.reload():()=>navigate({screen:'map'},{replace:true}),nextMapActivity());
+ }finally{
+  signal.removeEventListener('abort',cancel);
+  request.abort();
+ }
+}
+async function enterActivity(host, stage, index, signal) {
+ let module=activityModules.get(stage.id);
+ if(!module){
+  loading(host,'실험 도구를 준비해요…');
+  try{module=await waitForScreen(loadActivity(stage.id),signal);}
+  catch{
+   if(!signal.aborted)loadError(host,'실험을 불러오지 못했어요','activity',()=>location.reload());
+   return;
+  }
+  if(signal.aborted)return;
+  activityModules.set(stage.id,module);
+ }
+ const focus=document.activeElement===document.body||host.contains(document.activeElement);
+ showActivity(host,stage,index,module);
+ if(store.save.settings.adminUnlockAll){
+  host.classList.add('teacher-mode');
+  const quick=button(`${icon('skip')}<span>교사 이동</span>`,()=>{const d=openDialog('교사용 빠른 이동',teacherDock());d.classList.add('teacher-nav-dialog');d.querySelectorAll('[data-move]').forEach(b=>{const go=b.onclick;b.onclick=()=>{d.close();go();};});},'button secondary teacher-menu-button');
+  quick.setAttribute('aria-label','교사용 빠른 이동');
+  host.querySelector('.utility-tools').append(quick);
+ }
+ if(focus)host.querySelector('h1')?.focus({preventScroll:true});
+}
+async function openConcept(stage,task,options) {
+ try{
+  const module=await waitForScreen(import('./concepts.js'),options.signal);
+  if(!options.signal.aborted&&!document.querySelector('dialog[open]'))module.openConcept(stage,task,options);
+ }catch{if(!options.signal.aborted)announce('개념 영상을 열지 못했어요. 새로고침한 뒤 다시 열어 주세요.');}
+}
+function missionEntry(){
+ const entry=button('공기 장치 미션',async()=>{
+  if(entry.hasAttribute('aria-busy'))return;
+  const {signal}=abort;
+  entry.setAttribute('aria-busy','true');
+  try{
+   const open=await waitForScreen(loadPlayMission(),signal);
+   if(entry.isConnected&&!document.querySelector('dialog[open]'))open();
+  }catch{if(!signal.aborted)announce('공방을 열지 못했어요. 새로고침한 뒤 다시 열어 주세요.');}
+  finally{entry.removeAttribute('aria-busy');}
+ },'play-mission-entry');
+ return entry;
 }
 // Teacher unlock: step through every facility and task without playing them (← → step, ↑ ↓ facility).
 const TEACHER_SCREENS=['stage','activity','finale'],TEACHER_KEYS={ArrowLeft:'prev',ArrowRight:'next',ArrowUp:'prevStage',ArrowDown:'nextStage'};
@@ -94,18 +170,18 @@ function showNpcConversations(){
  dialog.addEventListener('close',()=>{releaseVoice();narration.stop();},{once:true});
  show(true,true);
 }
-function showHome(host){host.classList.add('title-v2');host.innerHTML=`<div class="title-backdrop"></div><div class="title-vignette"></div><div class="title-bubbles" aria-hidden="true">${'<i></i>'.repeat(9)}</div><div class="title-copy"><div class="title-kicker">${icon('leaf')}에어와 솔이의 공기 탐험</div><img class="game-logo" src="/assets/logo.webp" alt="기체 도시 대작전"><p class="title-tagline">멈춰 버린 공기 코어를 깨워 줘!</p><p class="title-lead">관찰하고, 비교하고, 직접 만든 장치로<br>다섯 연구시설과 우리 마을을 되살려요.</p><div class="title-actions"></div><div class="title-save-hint">나의 탐구는 이 브라우저에 남아요</div></div><div class="title-characters"><img class="title-air" src="/assets/air-portrait.webp" alt="여우 발명가 에어"><img class="title-soli" src="/assets/soli.svg" alt="바람여우 솔이"></div><button class="title-buddy" aria-label="에어와 친구들의 이야기 듣기">에어와 친구들 이야기 ${icon('arrow')}</button>`;const actions=host.querySelector('.title-actions');const hasProgress=STAGES.some(s=>store.save.evidence[s.id].length)||store.save.introSeen;actions.append(button(`${hasProgress?'모험 이어가기':'탐험 시작'} ${icon('arrow')}`,()=>{if(store.save.introSeen)navigate(store.save.last?.screen?store.save.last:{screen:'map'});else{storyReturn=null;navigate({screen:'story',index:0});}},'button primary start-button'));if(hasProgress)actions.append(button('처음 이야기 보기',()=>{storyReturn=null;navigate({screen:'story',index:0});},'button secondary'));host.querySelector('.title-buddy').onclick=showNpcConversations;if(store.problem)openDialog('탐구 기록 안내',`<p>${escapeHTML(store.problem)}</p>`);}
+function showHome(host){host.classList.add('title-v2');host.innerHTML=`<div class="title-backdrop"></div><div class="title-vignette"></div><div class="title-bubbles" aria-hidden="true">${'<i></i>'.repeat(9)}</div><div class="title-copy"><div class="title-kicker">${icon('leaf')}에어와 솔이의 공기 탐험</div><img class="game-logo" src="/assets/logo.webp" alt="기체 도시 대작전"><p class="title-tagline">멈춰 버린 공기 코어를 깨워 줘!</p><p class="title-lead">관찰하고, 비교하고, 직접 만든 장치로<br>다섯 연구시설과 우리 마을을 되살려요.</p><div class="title-actions"></div><div class="title-save-hint">나의 탐구는 이 브라우저에 남아요</div></div><div class="title-characters"><img class="title-air" src="/assets/air-portrait.webp" alt="여우 발명가 에어"><img class="title-soli" src="/assets/soli.svg" alt="바람여우 솔이"></div><button class="title-buddy" aria-label="에어와 친구들의 이야기 듣기">에어와 친구들 이야기 ${icon('arrow')}</button>`;const actions=host.querySelector('.title-actions');const hasProgress=STAGES.some(s=>store.save.evidence[s.id].length)||store.save.introSeen;actions.append(button(`${hasProgress?'모험 이어가기':'탐험 시작'} ${icon('arrow')}`,()=>{if(store.save.introSeen)navigate(store.save.last?.screen?store.save.last:{screen:'map'});else{storyReturn=null;navigate({screen:'story',index:0});}},'button primary start-button'));if(hasProgress)actions.append(button('처음 이야기 보기',()=>{storyReturn=null;navigate({screen:'story',index:0});},'button secondary'));actions.append(missionEntry());host.querySelector('.title-buddy').onclick=showNpcConversations;if(store.problem)openDialog('탐구 기록 안내',`<p>${escapeHTML(store.problem)}</p>`);}
 function showStory(host,index){const shot=STORY[index];host.innerHTML=`<img class="scene-background" src="/assets/${shot.image}.webp" alt=""><div class="scene-shade"></div><div class="story-layout">${conversationPortrait(shot.npc)}<div class="story-card lab-panel"><div class="eyebrow">${npcNames[shot.npc]}의 편지</div><h1 tabindex="-1">${shot.title}</h1><p>${shot.text}</p><div class="story-actions"></div></div></div>`;host.querySelector('.story-actions').append(button(index<2?`다음 이야기 ${icon('arrow')}`:`마을로 출발 ${icon('arrow')}`,()=>{if(index<2)navigate({screen:'story',index:index+1});else{store.save.introSeen=true;persist();const target=storyReturn||{screen:'map'};storyReturn=null;navigate(target);}}));}
 function showStage(host,stage){const records=store.save.evidence[stage.id],done=completeStage(store.save,stage.id),nextIndex=stage.tasks.findIndex(t=>!records.some(e=>e.taskId===t.id));host.innerHTML=`<img class="scene-background" src="/assets/${stage.id}.webp" alt=""><div class="scene-shade"></div><div class="stage-intro"><div class="stage-character">${conversationPortrait(stage.npc)}<span>${npcNames[stage.npc]}</span></div><section class="stage-brief lab-panel"><div class="eyebrow">${stage.name}</div><h1 tabindex="-1">${stage.chapter}</h1><p>${emphasizeConcept(stage.description,stage.keyTerms)}</p><div class="stage-tasks"></div><div class="stage-reward-note">${icon('star')} ${stage.reward}</div><div class="stage-start"></div></section></div>`;
  if(records.length){const replay=button('발견한 개념 다시 보기',()=>{const learned=stage.tasks.filter(t=>records.some(e=>e.taskId===t.id));const menu=html('<div class="concept-library"></div>');const d=openDialog('나의 개념 영상',menu);for(const t of learned)menu.append(button(t.title,()=>{d.close();openConcept(stage,t,{signal:abort.signal});},'button secondary'));},'button secondary concept-revisit');host.querySelector('.stage-reward-note').replaceWith(replay);}
- const list=host.querySelector('.stage-tasks');stage.tasks.forEach((t,i)=>{const completed=records.some(e=>e.taskId===t.id),open=store.save.settings.adminUnlockAll||i===0||records.some(e=>e.taskId===stage.tasks[i-1].id);const b=button(`<span class="task-marker">${completed?icon('check'):String(i+1).padStart(2,'0')}</span><span>${t.title}</span>${!open?icon('lock'):icon('arrow')}`,()=>{if(open)navigate({screen:'activity',stageId:stage.id,index:i});else announce('앞 의뢰를 마치면 열려요.');},`stage-task ${completed?'done':''} ${open?'':'locked'}`);b.setAttribute('aria-disabled',String(!open));list.append(b);});host.querySelector('.stage-start').append(button(`${done?'다른 방법으로 다시 탐구':'의뢰 시작'} ${icon('arrow')}`,()=>navigate({screen:'activity',stageId:stage.id,index:done?0:Math.max(0,nextIndex)})));}
-function showActivity(host,stage,index){
+ const list=host.querySelector('.stage-tasks');stage.tasks.forEach((t,i)=>{const completed=records.some(e=>e.taskId===t.id),open=store.save.settings.adminUnlockAll||i===0||records.some(e=>e.taskId===stage.tasks[i-1].id);const b=button(`<span class="task-marker">${completed?icon('check'):String(i+1).padStart(2,'0')}</span><span>${t.title}</span>${!open?icon('lock'):icon('arrow')}`,()=>{if(open)navigate({screen:'activity',stageId:stage.id,index:i});else announce('앞 의뢰를 마치면 열려요.');},`stage-task ${completed?'done':''} ${open?'':'locked'}`);b.setAttribute('aria-disabled',String(!open));list.append(b);});host.querySelector('.stage-start').append(button(`${done?'다른 방법으로 다시 탐구':'의뢰 시작'} ${icon('arrow')}`,()=>navigate({screen:'activity',stageId:stage.id,index:done?0:Math.max(0,nextIndex)})),missionEntry());}
+function showActivity(host,stage,index,{mount,mountPlayer}){
  const task=stage.tasks[index];host.classList.add('activity-screen');host.dataset.stage=stage.id;
  host.innerHTML=`<img class="scene-background" src="/assets/${stage.id}.webp" alt=""><div class="activity-shade"></div><header class="mission-heading"><div class="eyebrow">${stage.name} · ${index+1} / 4${store.demo?' · 교사 시연':''}</div><h1 tabindex="-1">${task.title}</h1></header><div class="activity-host"></div><footer class="mission-rail"><div class="mission-guide"><span class="mission-step">다음</span><span class="mission-direction" id="next-action-guide">${task.goal}</span></div><div class="activity-actions"><div class="playback-controls"></div><div class="utility-tools"></div></div></footer>`;
  let completing=false,hints=[task.goal,'한 조건씩 바꾸고, 달라진 모습을 살펴봐요.','결과가 예상과 달라도 괜찮아요. 바꾼 조건을 다시 확인해요.'];
  const direction=host.querySelector('.mission-direction');
  const nextAction=selectors=>{host.querySelectorAll('.is-next-action').forEach(el=>el.classList.remove('is-next-action'));for(const selector of Array.isArray(selectors)?selectors:[selectors])if(selector)host.querySelectorAll(selector).forEach(el=>el.classList.add('is-next-action'));};
- const player=mountExperimentPlayer(host,{signal:abort.signal,onInstruction:text=>{narration.stop();direction.textContent=text;},onTargets:nextAction});
+ const player=mountPlayer(host,{signal:abort.signal,onInstruction:text=>{narration.stop();direction.textContent=text;},onTargets:nextAction});
  const context={signal:abort.signal,terms:stage.keyTerms,draft:store.save.drafts[task.id],
   playback:spec=>player.configure(spec),nextAction,getPlaybackSpeed:()=>player.speed,
   saveDraft:draft=>{if(completing||context.signal.aborted)return;store.save.drafts[task.id]=draft;persist();},
@@ -129,7 +205,7 @@ function showActivity(host,stage,index){
    hints=[summary,finished?stage.reward:'발견한 증거가 연구 가방에 남았어요. 다음 의뢰에서도 활용해 봐요.'];
    host.querySelectorAll('.mission-progress i')[index]?.classList.add('done');result.tabIndex=-1;result.focus({preventScroll:true});announce(`발견 성공! ${summary}`);
   }};
- try{mounts[stage.id](host.querySelector('.activity-host'),task,context);}catch(error){host.querySelector('.activity-host').replaceChildren(html('<div class="lab-panel load-error"><h2>활동을 다시 준비할게요</h2><p>탐구 기록은 그대로예요.</p></div>'));host.querySelector('.load-error').append(button('의뢰 다시 열기',()=>{delete store.save.drafts[task.id];persist();navigate({...current},{replace:true});}));console.error(error);}
+ try{mount(host.querySelector('.activity-host'),task,context);}catch(error){host.querySelector('.activity-host').replaceChildren(html('<div class="lab-panel load-error"><h2>활동을 다시 준비할게요</h2><p>탐구 기록은 그대로예요.</p></div>'));host.querySelector('.load-error').append(button('의뢰 다시 열기',()=>navigate({...current},{replace:true})));console.error(error);}
  const feedbackObserver=new MutationObserver(records=>{if(completing||player.state==='running')return;const changed=records.filter(r=>r.target.nodeType===1&&(r.target.matches?.('.activity-feedback')||r.target.closest?.('.activity-feedback')));if(changed.length){const text=host.querySelector('.activity-feedback:not(:empty)')?.textContent.trim();if(text)direction.textContent=text;}});
  feedbackObserver.observe(host.querySelector('.activity-host'),{childList:true,subtree:true,characterData:true});
  context.signal.addEventListener('abort',()=>feedbackObserver.disconnect(),{once:true});
