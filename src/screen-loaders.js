@@ -1,5 +1,5 @@
 const styles = new Map();
-function style(name) {
+function style(name, anchor = 'screen-style-anchor') {
   if (styles.has(name)) return styles.get(name);
   const promise = new Promise((resolve, reject) => {
     const link = document.createElement('link');
@@ -11,7 +11,7 @@ function style(name) {
       link.remove();
       reject(new Error(`Stylesheet unavailable: ${name}`));
     };
-    document.head.insertBefore(link, document.getElementById('screen-style-anchor'));
+    document.head.insertBefore(link, document.getElementById(anchor));
   });
   styles.set(name, promise);
   return promise;
@@ -26,7 +26,7 @@ const activities = {
 };
 export async function loadActivity(id) {
   const [load, mount, css] = activities[id];
-  const [activity, player] = await Promise.all([load(), import('./experiment-player.js'), style(css)]);
+  const [activity, player] = await Promise.all([load(), import('./experiment-player.js'), style(css), loadConceptVisuals()]);
   return { mount: activity[mount], mountPlayer: player.mountExperimentPlayer };
 }
 export async function loadPlayMission() {
@@ -80,3 +80,5 @@ export async function loadMapAssets(soliImage, signal) {
     request.abort();
   }
 }
+
+export function loadConceptVisuals(){return style('./concept-visuals.css','concept-visuals-anchor');}
