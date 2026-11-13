@@ -1,6 +1,7 @@
 import { APP, STAGES } from './data.js';
 import {completeStage} from './model.js';
-export const freshSave=()=>({version:1,mapRepairs:[],introSeen:false,evidence:Object.fromEntries(STAGES.map(s=>[s.id,[]])),drafts:{},finaleCompleted:false,ability:'실험 기록을 비교해 설명할 수 있어요.',nickname:'',settings:{music:true,sfx:true,musicVolume:35,reduceMotion:false,adminUnlockAll:false}});
+import { normalizeMapHits } from './map-encounter-progress.js';
+export const freshSave=()=>({version:1,mapRepairs:[],mapHits:{},introSeen:false,evidence:Object.fromEntries(STAGES.map(s=>[s.id,[]])),drafts:{},finaleCompleted:false,ability:'실험 기록을 비교해 설명할 수 있어요.',nickname:'',settings:{music:true,sfx:true,musicVolume:35,reduceMotion:false,adminUnlockAll:false}});
 export function validateSave(value){
  if(!value||typeof value!=='object'||value.version!==1)throw Error('저장 형식이 달라요.');
  const clean=freshSave();clean.introSeen=value.introSeen===true;
@@ -19,6 +20,7 @@ export function validateSave(value){
   if(value.last.screen==='map')clean.last={screen:'map'};
   else if(stage)clean.last={screen:value.last.screen,stageId:stage.id,index:Math.max(0,Math.min(stage.tasks.length-1,Math.trunc(Number(value.last.index))||0))};
  }
+ clean.mapHits=normalizeMapHits(value.mapHits,STAGES.filter(s=>completeStage(clean,s.id)).map(s=>s.id));
  return clean;
 }
 export function loadSave(storage){

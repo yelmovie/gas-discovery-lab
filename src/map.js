@@ -1,4 +1,6 @@
 import { createMapCamera, bindMapCameraPointer, mapLabelGuard } from './map-camera.js';
+import { mountMapEncounters } from './map-encounters.js';
+import { encounterLook,encounterStage,loadEncounterActor,drawEncounterActor } from './map-encounter-theme.js';
 import { buildingReveal, paintRestoredBuildings } from './building-restoration.js';
 import {bindDirectionPad,MAP_VECTORS} from './map-controls.js';
 import { narration, voiceForText } from './game-voices.js';
@@ -22,6 +24,12 @@ export function mountMap(host,ctx,[geometry,background,student,soli,atlas]){
  const held=new Set(),reduced=ctx.save.settings.reduceMotion||matchMedia('(prefers-reduced-motion: reduce)').matches;
  const camera=createMapCamera({width:map.width,height:map.height,baseZoom:w=>w<1000?1.5:1.62,focusY:.57,reduced:()=>ctx.save.settings.reduceMotion||matchMedia('(prefers-reduced-motion: reduce)').matches});
  const blocked=()=>entered||document.hidden||!!document.querySelector('dialog[open]')||!!host.querySelector('.map-repair[open]');
+ const encounterStages=ctx.save.settings.adminUnlockAll?[]:STAGES.flatMap((s,i)=>{
+  const b=map.buildings.find(b=>b.id===s.id);
+  return b&&completeStage(ctx.save,s.id)?[encounterStage(i,s.id,s.name,{x:b.return[0]+(map.nodes[b.entry][0]-b.return[0])*.46,y:b.return[1]+(map.nodes[b.entry][1]-b.return[1])*.46})]:[];
+ });
+ const encounters=mountMapEncounters({host,stages:encounterStages,progress:ctx.save.mapHits,onSave:patch=>{ctx.save.mapHits={...ctx.save.mapHits,...patch};ctx.persist();},blocked,reduced:()=>reduced,tone:(kind,hits)=>sound(kind==='finish'?'success':kind==='contact'?'retry':hits===2?'pump':'tap'),reach:95,contact:24,...encounterLook});
+ const heroPose=encounterStages.length?loadEncounterActor('hero'):null,allyPose=encounterStages.length?loadEncounterActor('ally'):null;
  const restoredIds=ctx.takeRestorations?.()??[],reveal=buildingReveal(reduced,restoredIds);
  const isRestored=id=>id==='core'?ctx.save.finaleCompleted:completeStage(ctx.save,id);
  const landscape=document.createElement('canvas');landscape.width=map.width;landscape.height=map.height;
@@ -83,7 +91,7 @@ export function mountMap(host,ctx,[geometry,background,student,soli,atlas]){
   canvas.focus({preventScroll:true});
  }
  const clearPointer=bindMapCameraPointer(host,{camera,player:()=>position,blocked,signal:ctx.signal,
-  control:el=>!!el.closest('.map-controls,.map-next-card,.map-companion,.map-speech,.map-repair'),
+  control:el=>!!el.closest('.map-controls,.map-next-card,.map-companion,.map-speech,.map-repair,.map-encounter-attack'),
   onStart(){cancelRoute();held.clear();speech.hidden=true;narration.stop();},
   onMove:syncTools,onTap:e=>{if(e.target!==canvas)return;if(camera.mode!=='hand')walkTo(e);else canvas.focus({preventScroll:true});}
  });
@@ -107,11 +115,15 @@ export function mountMap(host,ctx,[geometry,background,student,soli,atlas]){
   if(key!==lastRestoration){land.clearRect(0,0,map.width,map.height);paintRestoredBuildings(land,{width:map.width,height:map.height,completed:isRestored,progress});lastRestoration=key;}
   g.drawImage(background,-cam.x,-cam.y,map.width*scale,map.height*scale);g.drawImage(landscape,-cam.x,-cam.y,map.width*scale,map.height*scale);
   for(const b of map.buildings){const done=b.id==='core'?ctx.save.finaleCompleted:completeStage(ctx.save,b.id);if(done||b.id===nextId()){const [x,y]=map.nodes[b.entry];g.beginPath();g.ellipse(x*scale-cam.x,y*scale-cam.y,34*scale,12*scale,0,0,Math.PI*2);g.fillStyle=done?'rgba(171,230,152,.55)':'rgba(255,220,112,.65)';g.fill();}const label=labels.get(b.id),lx=b.label[0]*scale-cam.x,ly=b.label[1]*scale-cam.y;label.style.visibility=lx<-60||lx>width+60||ly<-60||ly>height+60?'hidden':'';label.style.left=`${Math.max(86,Math.min(width-86,lx))}px`;label.style.top=`${Math.max(98,Math.min(height-(width<600?254:150),ly))}px`;}
-  for(const item of [{p:position,img:student,name:'student'},{p:follower,img:soli,name:'soli'}].sort((a,b)=>a.p.y-b.p.y))sprite(item.img,item.name,item.p,walking,dir);
+  const reactions=encounters.update({hero:position,ally:follower,project:p=>({x:p.x*scale-cam.x,y:p.y*scale-cam.y}),scale,now});
+  for(const item of [{p:position,img:student,name:'student'},{p:follower,img:soli,name:'soli'}].sort((a,b)=>a.p.y-b.p.y)){
+   const main=item.name==='student',pose=main?reactions.hero:reactions.ally;
+   if(!drawEncounterActor(g,main?heroPose:allyPose,{x:item.p.x*scale-cam.x,y:item.p.y*scale-cam.y},(main?91:63)*scale,pose?{...pose,dx:pose.dx*scale}:null))sprite(item.img,item.name,item.p,walking,dir);
+  }
   const labelView=`${width},${height},${scale},${cam.x},${cam.y}`;
   if(lastLabelView!==labelView){lastLabelView=labelView;guardLabels();}
   const companion=host.querySelector('.map-companion');const sx=follower.x*scale-cam.x,sy=follower.y*scale-cam.y;companion.style.left=`${sx}px`;companion.style.top=`${sy-77*scale}px`;speech.style.left=`${Math.max(18,Math.min(width-340,sx+35))}px`;speech.style.top=`${Math.max(85,Math.min(height-190,sy-145))}px`;
   frame=requestAnimationFrame(draw);
  }
- frame=requestAnimationFrame(draw);ctx.signal.addEventListener('abort',()=>{cancelAnimationFrame(frame);ro.disconnect();held.clear();},{once:true});
+ frame=requestAnimationFrame(draw);ctx.signal.addEventListener('abort',()=>{encounters.destroy();cancelAnimationFrame(frame);ro.disconnect();held.clear();},{once:true});
 }
