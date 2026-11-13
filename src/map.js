@@ -28,9 +28,10 @@ export function mountMap(host,ctx,[geometry,background,student,soli,atlas]){
   const b=map.buildings.find(b=>b.id===s.id);
   return b&&completeStage(ctx.save,s.id)?[encounterStage(i,s.id,s.name,{x:b.return[0]+(map.nodes[b.entry][0]-b.return[0])*.46,y:b.return[1]+(map.nodes[b.entry][1]-b.return[1])*.46})]:[];
  });
- const encounters=mountMapEncounters({host,stages:encounterStages,progress:ctx.save.mapHits,onSave:patch=>{ctx.save.mapHits={...ctx.save.mapHits,...patch};ctx.persist();},blocked,reduced:()=>reduced,tone:(kind,hits)=>sound(kind==='finish'?'success':kind==='contact'?'retry':hits===2?'pump':'tap'),reach:95,contact:24,...encounterLook});
+ const restoredIds=ctx.takeRestorations?.()??[];
+ const encounters=mountMapEncounters({requiredFoes:5,host,clearStage:()=>restoredIds.filter(id=>id!=='core').at(-1),stages:encounterStages,progress:ctx.save.mapHits,onSave:patch=>{ctx.save.mapHits={...ctx.save.mapHits,...patch};ctx.persist();},blocked,reduced:()=>reduced,tone:(kind,hits)=>sound(kind==='finish'?'success':kind==='contact'?'retry':hits===2?'pump':'tap'),reach:95,contact:24,...encounterLook});
  const heroPose=encounterStages.length?loadEncounterActor('hero'):null,allyPose=encounterStages.length?loadEncounterActor('ally'):null;
- const restoredIds=ctx.takeRestorations?.()??[],reveal=buildingReveal(reduced,restoredIds);
+ const reveal=buildingReveal(reduced,restoredIds);
  const isRestored=id=>id==='core'?ctx.save.finaleCompleted:completeStage(ctx.save,id);
  const landscape=document.createElement('canvas');landscape.width=map.width;landscape.height=map.height;
  const land=landscape.getContext('2d');let lastRestoration=null;
