@@ -2,14 +2,14 @@ import { createMapCamera, bindMapCameraPointer, mapLabelGuard } from './map-came
 import { mountMapEncounters } from './map-encounters.js';
 import { encounterLook,encounterStage,loadEncounterActor,drawEncounterActor } from './map-encounter-theme.js';
 import { buildingReveal, paintRestoredBuildings } from './building-restoration.js';
+import { drawMapSprite } from './map-sprite.js';
 import {bindDirectionPad,MAP_VECTORS} from './map-controls.js';
 import { narration, voiceForText } from './game-voices.js';
 import {mountRepair} from './map-repair.js';
 import {STAGES} from './data.js';
 import {isStageOpen,completeStage} from './model.js';
 import {canStand,findPath,movePoint,distance,validateMap} from './navigation.js';
-import {html,button,announce} from './ui.js';
-const SOLI_IMAGE='/assets/soli.svg';
+import {html,button,announce,SOLI_IMAGE} from './ui.js';
 import {icon} from './icons.js';
 import {sound} from './audio.js';
 export function mountMap(host,ctx,[geometry,background,student,soli,atlas]){
@@ -98,7 +98,23 @@ export function mountMap(host,ctx,[geometry,background,student,soli,atlas]){
  });
  function resize(){width=host.clientWidth;height=host.clientHeight;const dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);g.setTransform(dpr,0,0,dpr,0,0);camera.resize(width,height,position);}
  const ro=new ResizeObserver(resize);ro.observe(host);resize();
- function sprite(img,name,p,isWalking,row){if(name==='soli'){const h=63*scale,w=h*160/180,x=p.x*scale-cam.x-w/2,y=p.y*scale-cam.y-h+(isWalking&&!reduced?Math.sin(time*15)*3:0);g.save();if(row===1){g.translate(x+w,y);g.scale(-1,1);g.drawImage(img,0,0,w,h);}else g.drawImage(img,x,y,w,h);g.restore();return;}const frames=atlas.atlas[name].frames;const f=frames[row*4+(isWalking&&!reduced?Math.floor(time*8)%4:0)];const worldHeight=name==='student'?91:75;const factor=worldHeight/f.pivotY;const x=p.x*scale-cam.x-f.pivotX*factor*scale,y=p.y*scale-cam.y-f.pivotY*factor*scale;g.drawImage(img,f.left,f.top,f.width,f.height,x,y,f.width*factor*scale,f.height*factor*scale);}
+ // Scale the full image from the ground contact, so both facing directions keep the paws on the path.
+ const soliPivot={x:.31,y:.975},soliHeight=63;
+ function drawSoli(p,pose){
+  if(drawEncounterActor(g,allyPose,{x:p.x*scale-cam.x,y:p.y*scale-cam.y},63*scale,pose?{...pose,dx:pose.dx*scale}:null))return;
+  const h=soliHeight*scale/soliPivot.y,w=h*soli.naturalWidth/soli.naturalHeight;
+  const bob=walking&&!reduced?Math.sin(time*15)*3:0;
+  g.save();g.translate(p.x*scale-cam.x,p.y*scale-cam.y+bob);
+  if(dir===1)g.scale(-1,1);
+  g.imageSmoothingEnabled=true;drawMapSprite(g,soli,0,0,soli.naturalWidth,soli.naturalHeight,-w*soliPivot.x,-h*soliPivot.y,w,h);
+  g.restore();
+ }
+ function drawStudent(p,pose){
+  if(drawEncounterActor(g,heroPose,{x:p.x*scale-cam.x,y:p.y*scale-cam.y},91*scale,pose?{...pose,dx:pose.dx*scale}:null))return;
+  const f=atlas.atlas.student.frames[dir*4+(walking&&!reduced?Math.floor(time*8)%4:0)],factor=91/f.pivotY;
+  const x=p.x*scale-cam.x-f.pivotX*factor*scale,y=p.y*scale-cam.y-f.pivotY*factor*scale;
+  drawMapSprite(g,student,f.left,f.top,f.width,f.height,x,y,f.width*factor*scale,f.height*factor*scale);
+ }
  let lastLabelView='';
  function draw(now){if(ctx.signal.aborted)return;const dt=lastTime?Math.min((now-lastTime)/1000,.04):0;lastTime=now;time+=dt;
   const paused=Boolean(document.querySelector('dialog[open]')||host.querySelector('.map-repair[open]'))||document.hidden;
@@ -117,13 +133,10 @@ export function mountMap(host,ctx,[geometry,background,student,soli,atlas]){
   g.drawImage(background,-cam.x,-cam.y,map.width*scale,map.height*scale);g.drawImage(landscape,-cam.x,-cam.y,map.width*scale,map.height*scale);
   for(const b of map.buildings){const done=b.id==='core'?ctx.save.finaleCompleted:completeStage(ctx.save,b.id);if(done||b.id===nextId()){const [x,y]=map.nodes[b.entry];g.beginPath();g.ellipse(x*scale-cam.x,y*scale-cam.y,34*scale,12*scale,0,0,Math.PI*2);g.fillStyle=done?'rgba(171,230,152,.55)':'rgba(255,220,112,.65)';g.fill();}const label=labels.get(b.id),lx=b.label[0]*scale-cam.x,ly=b.label[1]*scale-cam.y;label.style.visibility=lx<-60||lx>width+60||ly<-60||ly>height+60?'hidden':'';label.style.left=`${Math.max(86,Math.min(width-86,lx))}px`;label.style.top=`${Math.max(98,Math.min(height-(width<600?254:150),ly))}px`;}
   const reactions=encounters.update({hero:position,ally:follower,project:p=>({x:p.x*scale-cam.x,y:p.y*scale-cam.y}),scale,now});
-  for(const item of [{p:position,img:student,name:'student'},{p:follower,img:soli,name:'soli'}].sort((a,b)=>a.p.y-b.p.y)){
-   const main=item.name==='student',pose=main?reactions.hero:reactions.ally;
-   if(!drawEncounterActor(g,main?heroPose:allyPose,{x:item.p.x*scale-cam.x,y:item.p.y*scale-cam.y},(main?91:63)*scale,pose?{...pose,dx:pose.dx*scale}:null))sprite(item.img,item.name,item.p,walking,dir);
-  }
+  if(position.y<=follower.y){drawStudent(position,reactions.hero);drawSoli(follower,reactions.ally);}else{drawSoli(follower,reactions.ally);drawStudent(position,reactions.hero);}
   const labelView=`${width},${height},${scale},${cam.x},${cam.y}`;
   if(lastLabelView!==labelView){lastLabelView=labelView;guardLabels();}
-  const companion=host.querySelector('.map-companion');const sx=follower.x*scale-cam.x,sy=follower.y*scale-cam.y;companion.style.left=`${sx}px`;companion.style.top=`${sy-77*scale}px`;speech.style.left=`${Math.max(18,Math.min(width-340,sx+35))}px`;speech.style.top=`${Math.max(85,Math.min(height-190,sy-145))}px`;
+  const companion=host.querySelector('.map-companion');const sx=follower.x*scale-cam.x,sy=follower.y*scale-cam.y;companion.style.left=`${sx+(dir===1?-1:1)*(.5-soliPivot.x)*soli.naturalWidth/soli.naturalHeight*soliHeight*scale/soliPivot.y}px`;companion.style.top=`${sy-soliHeight*scale-14}px`;speech.style.left=`${Math.max(18,Math.min(width-340,sx+35))}px`;speech.style.top=`${Math.max(85,Math.min(height-190,sy-145))}px`;
   frame=requestAnimationFrame(draw);
  }
  frame=requestAnimationFrame(draw);ctx.signal.addEventListener('abort',()=>{encounters.destroy();cancelAnimationFrame(frame);ro.disconnect();held.clear();},{once:true});

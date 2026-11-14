@@ -6,6 +6,7 @@
   background: var(--npc-sprite) 0 0 / 200% 100% no-repeat;
   filter: drop-shadow(0 9px 10px #163b2e24);
 }
+.npc-art-frame.npc-art-still { object-fit: contain; object-position: center bottom; }
 .npc-dialogue-grid {
   display: grid;
   grid-template-columns: minmax(130px, 38%) minmax(0, 1fr);
@@ -48,7 +49,7 @@
   color: #fffdf0;
 }
 .npc-conversation-tabs button:focus-visible, .npc-conversation-topics button:focus-visible { outline: 3px solid #cb7d36; outline-offset: 2px; }
-.npc-dialogue-grid:has([data-speaking="true"]) .npc-art-frame,
+.npc-dialogue-grid:has([data-speaking="true"]) .npc-art-frame:not(.npc-art-still),
 .story-layout:has([data-speaking="true"]) > .npc-art-frame,
 .stage-intro:has([data-speaking="true"]) .stage-character .npc-art-frame {
   animation: npc-portrait-talking 920ms step-end infinite;

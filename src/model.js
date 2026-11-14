@@ -53,11 +53,11 @@ export function validVolumePair(records,task){const baseline=task.baseline??1;re
 export function validateDelivery(gas,reason,task){if(gas!==task.gas)return {ok:false,kind:'gas'};if(reason!==task.reason)return {ok:false,kind:'reason'};return {ok:true};}
 export function validateDevice(design,task){
  if(!['balloon','pump'].includes(design.source))return {ok:false,kind:'source',message:'공기를 보낼 공급부를 골라요.'};
- if(task.requireSource&&design.source!==task.requireSource)return {ok:false,kind:'source',message:task.requireSource==='pump'?'이번 의뢰는 손 펌프로 계속 공기를 보내야 해요. 공급부를 살펴봐요.':'이번 의뢰는 풍선에 모아 둔 공기로 움직여요. 공급부를 살펴봐요.'};
- if(!['straight','elbow'].includes(design.pipe))return {ok:false,kind:'pipe',message:'막힌 관에서는 공기가 지나가지 못해요. 열린 관으로 바꿔요.'};
- if(task.requireElbow&&design.pipe!=='elbow')return {ok:false,kind:'route',message:'이번 의뢰는 옆으로 돌아가는 길이에요. 굽은 관을 써 볼까요?'};
+ if(task.requireSource&&design.source!==task.requireSource)return {ok:false,kind:'source',message:'공급부 칸을 살펴봐요. 지금 부품이 공기를 보내는 방식과 의뢰의 조건을 비교해요.'};
+ if(!['straight','elbow'].includes(design.pipe))return {ok:false,kind:'pipe',message:'관 그림에서 양끝을 따라가 봐요. 입구에서 출구까지 이어지는지 확인해요.'};
+ if(task.requireElbow&&design.pipe!=='elbow')return {ok:false,kind:'route',message:'관 칸의 양끝과 의뢰 그림의 길을 비교해요. 어디에서 방향이 바뀌는지 살펴봐요.'};
  if(!design.nozzle)return {ok:false,kind:'nozzle',message:'공기가 나갈 노즐을 연결해요.'};
- if(design.direction!==task.nozzle)return {ok:false,kind:'direction',message:task.target==='car'?'공기를 자동차 뒤로 내보내야 앞으로 나아가요. 노즐 방향을 바꿔요.':'바람이 장치 반대쪽으로 나가요. 노즐이 장치를 향하게 바꿔요.'};
+ if(design.direction!==task.nozzle)return {ok:false,kind:'direction',message:'시험 그림에서 바람이 나간 방향과 장치가 움직이길 바라는 방향을 비교해요. 방향 버튼으로 다시 시험해요.'};
  if(!design.valve)return {ok:false,kind:'valve',message:'밸브가 닫혀 있어요. 공기 길을 열어 주세요.'};
  return {ok:true};
 }

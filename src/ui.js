@@ -1,6 +1,7 @@
 import {emphasizeConcept} from './concept-focus.js';
 import {icon} from './icons.js';
 import {sound} from './audio.js';
+export const SOLI_IMAGE='/assets/soli-character.webp';
 export const escapeHTML=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export function html(markup){const t=document.createElement('template');t.innerHTML=markup.trim();return t.content.firstElementChild;}
 export function button(text,fn,cls='button primary'){const b=html(`<button type="button" class="${cls}">${text}</button>`);b.addEventListener('click',fn);return b;}
@@ -20,11 +21,11 @@ export function openDialog(title,body,{wide=false,footer,close=true,onClose}={})
  document.body.append(d);d.showModal();return d;
 }
 export function buddy(npc,getText){
- const box=html(`<aside class="buddy"><button class="buddy-button" aria-label="바람여우 솔이에게 힌트 받기" aria-expanded="false"><img src="/assets/soli.svg" class="soli-portrait" alt=""><span class="buddy-label">솔이 힌트</span></button><div class="buddy-speech" hidden><div class="hint-heading"><strong>솔이와 생각해 봐요</strong><button class="hint-close icon-button" aria-label="힌트 닫기">${icon('close')}</button></div><p></p><button class="button secondary hint-more">조금 더 알려줘</button></div></aside>`);
+ const box=html(`<aside class="buddy"><button class="buddy-button" aria-label="바람여우 솔이에게 힌트 받기" aria-expanded="false"><img src="${SOLI_IMAGE}" class="soli-portrait" alt=""><span class="buddy-label">솔이 힌트</span></button><div class="buddy-speech" hidden><div class="hint-heading"><strong>솔이와 생각해 봐요</strong><button class="hint-close icon-button" aria-label="힌트 닫기">${icon('close')}</button></div><p></p><button class="button secondary hint-more">조금 더 알려줘</button></div></aside>`);
  const speech=box.querySelector('.buddy-speech'),trigger=box.querySelector('.buddy-button');let index=0,last='';
- function render(){const value=getText(),hints=Array.isArray(value)?value:[value];const key=hints.join('|');if(key!==last){index=0;last=key;}speech.querySelector('p').textContent=hints[Math.min(index,hints.length-1)];const more=speech.querySelector('.hint-more');more.hidden=hints.length<2;more.textContent=index<hints.length-1?'조금 더 알려줘':'처음 힌트';announce(speech.querySelector('p').textContent);}
- trigger.onclick=()=>{speech.hidden=!speech.hidden;trigger.setAttribute('aria-expanded',String(!speech.hidden));if(!speech.hidden){sound('hint');render();}};
- speech.querySelector('.hint-more').onclick=()=>{const hints=getText();index=Array.isArray(hints)?(index+1)%hints.length:0;render();};
+ function render(){const value=getText(),hints=Array.isArray(value)?value:[value];const key=hints.join('|');if(key!==last){index=0;last=key;}speech.querySelector('p').textContent=hints[Math.min(index,hints.length-1)];const more=speech.querySelector('.hint-more');more.hidden=hints.length<2;more.disabled=index>=hints.length-1;announce(speech.querySelector('p').textContent);}
+ trigger.onclick=()=>{speech.hidden=!speech.hidden;trigger.setAttribute('aria-expanded',String(!speech.hidden));if(!speech.hidden){index=0;sound('hint');render();}};
+ speech.querySelector('.hint-more').onclick=()=>{const hints=getText();index=Array.isArray(hints)?Math.min(index+1,hints.length-1):0;render();};
  speech.querySelector('.hint-close').onclick=()=>{speech.hidden=true;trigger.setAttribute('aria-expanded','false');trigger.focus();};return box;
 }
 export function choices(options,onChoose,{selected=null,group='하나를 골라 눌러요',terms=[]}={}){const el=html(`<div class="choice-group" role="group" aria-label="${escapeHTML(group)}"></div>`);for(const option of options){const value=typeof option==='string'?option:option.value,label=typeof option==='string'?option:option.label;const b=button(`<span class="radio-dot"></span><span>${emphasizeConcept(label,terms)}</span>`,()=>{el.querySelectorAll('button').forEach(x=>{x.classList.remove('selected');x.setAttribute('aria-pressed','false');});b.classList.add('selected');b.setAttribute('aria-pressed','true');onChoose(value);},'choice');b.setAttribute('aria-pressed',String(value===selected));if(value===selected)b.classList.add('selected');el.append(b);}return el;}
