@@ -6,13 +6,13 @@
     <title>과자 봉지에 왜 질소를 넣을까?</title>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
     <style>
-/* 기체 도시 대작전 개념영상 공용 부품 — "실험 노트" 판형. 앱 색(청록·크림·금색)과 Jua 글꼴을 쓴다. */
-@font-face{font-family:'Jua';src:url('assets/fonts/jua-korean-400.woff2') format('woff2');unicode-range:U+1100-11FF,U+3130-318F,U+AC00-D7AF,U+3000-303F,U+FF00-FFEF}
-@font-face{font-family:'Jua';src:url('assets/fonts/jua-latin-400.woff2') format('woff2');unicode-range:U+0000-024F,U+2000-206F,U+2070-209F,U+2190-21FF}
+/* 기체 도시 대작전 개념영상 공용 부품 — "실험 노트" 판형. 앱 색(청록·크림·금색)과 나눔스퀘어 네오 글꼴을 쓴다. */
+@font-face{font-family:'NanumSquareNeo';src:url('assets/fonts/NanumSquareNeoTTF-bRg.woff2') format('woff2');font-style:normal;font-weight:400;font-display:block}
+@font-face{font-family:'NanumSquareNeo';src:url('assets/fonts/NanumSquareNeoTTF-cBd.woff2') format('woff2');font-style:normal;font-weight:700;font-display:block}
 :root{--ink:#143f43;--teal:#1f6f6c;--teal-soft:#d6ebe4;--cream:#fffdf3;--paper:#f8f3e3;--line:#dbe6dc;--gold:#c98a1c;--gold-soft:#f7cf7c;--warm:#e58a4e;--cool:#4f8fb3}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:1920px;height:1080px;overflow:hidden;background:var(--paper)}
-#root{position:relative;width:100%;height:100%;overflow:hidden;font-family:'Jua',sans-serif;color:var(--ink)}
+#root{position:relative;width:100%;height:100%;overflow:hidden;font-family:'NanumSquareNeo',sans-serif;color:var(--ink)}
 .paper{position:absolute;inset:0;background-color:var(--paper);background-image:linear-gradient(var(--line) 2px,transparent 2px),linear-gradient(90deg,var(--line) 2px,transparent 2px);background-size:60px 60px;background-position:-2px -2px}
 .paper-edge{position:absolute;left:0;top:0;bottom:0;width:70px;background:#efe6cc;border-right:4px solid #e2d3aa}
 .paper-edge i{position:absolute;left:22px;width:26px;height:26px;border-radius:50%;background:var(--paper);border:3px solid #d8c792}
@@ -44,7 +44,7 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:var(--paper)}
       <div id="cam">
       <div class="paper" style="inset:-700px" data-layout-allow-overflow></div>
       <div class="shadow" style="left:330px;top:790px;width:160px"></div><div class="shadow" style="left:1060px;top:745px;width:340px"></div>
-      <div class="obj" id="tank" style="left:300px;top:380px;width:220px;height:420px;"><svg viewBox="0 0 220 420" width="220" height="420"><rect x="30" y="60" width="160" height="350" rx="70" fill="#1f6f6c" stroke="#123f3d" stroke-width="8"/><rect x="88" y="14" width="44" height="54" rx="10" fill="#c98a1c" stroke="#7a520c" stroke-width="6"/><text x="110" y="270" text-anchor="middle" font-family="Jua" font-size="74" fill="#fff">N₂</text></svg></div>
+      <div class="obj" id="tank" style="left:300px;top:380px;width:220px;height:420px;"><svg viewBox="0 0 220 420" width="220" height="420"><rect x="30" y="60" width="160" height="350" rx="70" fill="#1f6f6c" stroke="#123f3d" stroke-width="8"/><rect x="88" y="14" width="44" height="54" rx="10" fill="#c98a1c" stroke="#7a520c" stroke-width="6"/><text x="110" y="270" text-anchor="middle" font-family="NanumSquareNeo" font-size="74" fill="#fff">N₂</text></svg></div>
       <div class="obj" id="packet" style="left:1000px;top:300px;width:460px;height:460px;"><img src="assets/prop-packet.webp" alt=""></div>
       <div class="obj" id="shield" style="left:960px;top:250px;width:540px;height:560px;z-index:2"><svg viewBox="0 0 540 560" width="540" height="560"><path id="shieldpath" d="M270 20 L510 110 V280 Q495 470 270 540 Q45 470 30 280 V110 Z" fill="none" stroke="#2a8f8a" stroke-width="12" stroke-dasharray="1700" stroke-dashoffset="1700" stroke-linejoin="round"/></svg></div>
       <svg class="flow" viewBox="0 0 1920 1080"><path id="hose" d="M410 390 C 560 250, 860 250, 1080 430" stroke="#2a8f8a" stroke-width="16" stroke-dasharray="34 30" opacity="0"/><path id="hose-head" d="M1040 408 L1084 434 L1048 466" stroke="#2a8f8a" stroke-width="16" stroke-linejoin="round" opacity="0"/></svg>

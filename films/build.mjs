@@ -11,7 +11,7 @@ for(const film of films){
   fs.rmSync(assets,{recursive:true,force:true});fs.mkdirSync(path.join(assets,'fonts'),{recursive:true});
   const html=renderFilm(film);
   fs.writeFileSync(path.join(dir,'index.html'),html);
-  for(const font of ['jua-korean-400.woff2','jua-latin-400.woff2','Jua-OFL.txt'])fs.copyFileSync(path.join(pub,'fonts',font),path.join(assets,'fonts',font));
+  for(const font of ['NanumSquareNeoTTF-bRg.woff2', 'NanumSquareNeoTTF-cBd.woff2', 'NanumSquareNeo-OFL.txt'])fs.copyFileSync(path.join(pub,'fonts',font),path.join(assets,'fonts',font));
   for(const name of new Set([...html.matchAll(/assets\/([\w.-]+\.(?:webp|svg))/g)].map(m=>m[1])))fs.copyFileSync(find(name),path.join(assets,name));
   fs.writeFileSync(path.join(dir,'hyperframes.json'),JSON.stringify({paths:{assets:'assets'},media:{autoProxy:true},authoringSkill:'hyperframes'},null,2)+'\n');
   console.log('built',film.id);

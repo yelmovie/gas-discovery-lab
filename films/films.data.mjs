@@ -41,7 +41,7 @@ export const films=[
  zoom:{x:1330,y:420,scale:1.15}},
 
 {id:'nitrogen',question:'과자 봉지에 왜 질소를 넣을까?',conclusion:'쉽게 반응하지 않는 <em>질소</em>로 과자를 지켜요',
- objects:[{id:'tank',x:300,y:380,w:220,h:420,html:'<svg viewBox="0 0 220 420" width="220" height="420"><rect x="30" y="60" width="160" height="350" rx="70" fill="#1f6f6c" stroke="#123f3d" stroke-width="8"/><rect x="88" y="14" width="44" height="54" rx="10" fill="#c98a1c" stroke="#7a520c" stroke-width="6"/><text x="110" y="270" text-anchor="middle" font-family="Jua" font-size="74" fill="#fff">N₂</text></svg>'},
+ objects:[{id:'tank',x:300,y:380,w:220,h:420,html:'<svg viewBox="0 0 220 420" width="220" height="420"><rect x="30" y="60" width="160" height="350" rx="70" fill="#1f6f6c" stroke="#123f3d" stroke-width="8"/><rect x="88" y="14" width="44" height="54" rx="10" fill="#c98a1c" stroke="#7a520c" stroke-width="6"/><text x="110" y="270" text-anchor="middle" font-family="NanumSquareNeo" font-size="74" fill="#fff">N₂</text></svg>'},
   {id:'packet',src:'prop-packet.webp',x:1000,y:300,w:460,h:460},
   {id:'shield',x:960,y:250,w:540,h:560,style:'z-index:2',html:'<svg viewBox="0 0 540 560" width="540" height="560"><path id="shieldpath" d="M270 20 L510 110 V280 Q495 470 270 540 Q45 470 30 280 V110 Z" fill="none" stroke="#2a8f8a" stroke-width="12" stroke-dasharray="1700" stroke-dashoffset="1700" stroke-linejoin="round"/></svg>'}],
  shadows:[{x:330,y:790,w:160},{x:1060,y:745,w:340}],

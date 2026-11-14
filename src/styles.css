@@ -67,4 +67,4 @@ button,.button,input{word-break:keep-all}h1,h2,h3,p{margin:0}h1,h2,h3,.button,.i
 /* Title subsets use a separate OFL family; full fonts remain available on other screens. */
 @font-face{font-family:"Gas City Title";src:url("/assets/fonts/title-400.woff2") format("woff2");font-style:normal;font-weight:400;font-display:swap;}
 @font-face{font-family:"Gas City Title";src:url("/assets/fonts/title-700.woff2") format("woff2");font-style:normal;font-weight:700;font-display:swap;}
-body.title-font{--font-display:"Gas City Title",system-ui,sans-serif;--font-body:"Gas City Title",system-ui,sans-serif}
+body.title-font{--font-display:"Gas City Title","NanumSquareNeo","Malgun Gothic","Apple SD Gothic Neo",system-ui,sans-serif;--font-body:"Gas City Title","NanumSquareNeo","Malgun Gothic","Apple SD Gothic Neo",system-ui,sans-serif}
