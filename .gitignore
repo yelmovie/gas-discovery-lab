@@ -10,3 +10,14 @@ asset-bank/original/
 
 # macOS metadata on the shared exFAT drive
 ._*
+
+# Local browser, build backup, and deployment outputs
+/output/
+/output-dist-before-publish-*/
+/.wrangler/
+
+# Local Graphify cache and historical snapshots
+/graphify-out/cache/
+/graphify-out/20[0-9][0-9]-[0-9][0-9]-[0-9][0-9]/
+/graphify-out/.graphify_build_state.json
+/graphify-out/.graphify_labels.pending.json

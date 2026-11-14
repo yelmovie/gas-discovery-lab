@@ -5,7 +5,7 @@
 
 ## 이번 변경
 - 신규 이미지 **1장**: 단단한 밀폐 용기. 네 무게 실험에서 같은 이미지·같은 크기를 사용한다. 기존 원본은 보존했다. 저울 판 위 접지 위치를 새 그림에 맞춰 수정했다.
-- 사용본: `public/assets/visuals/air-jar-v2.webp` (640×728, alpha 보존). 원본: `output/overnight-20261108/air-jar-v2.png` (1176×1338).
+- 사용본: `public/assets/visuals/air-jar-v2.webp` (640×728, alpha 보존). 원본: [air-jar-v2.png](../../asset-bank/source/air-jar-v2.png) (1176×1338).
 - 실제 연결: `src/ui.js`의 jar 매핑 → `src/activities/weight.js`의 네 실험. `public/assets/visuals/manifest.json`에 출처·해시·크기 등록.
 - `src/activities/climate.js`에서 온도별 빠르기가 달라지던 입자 점 표시를 제거했다. 풍선 크기·피스톤 위치·처음/바꾼 뒤 부피 막대를 통한 정성 관찰은 유지했다. 연동된 입자 CSS도 제거했다.
 - `src/stage-layout.css`에서 다음 행동 버튼에서 기존 hover 선택자의 우선순위가 높아 어두운 배경과 어두운 글자가 겹치던 문제를 수정했다.
@@ -35,5 +35,5 @@
 - `git diff --check` 통과. 프로젝트 내부 `graphify update .` 수행. macOS `._` 메타데이터 UTF-8 경고 및 커뮤니티 이름 갱신 안내는 남아 있으나 코드 그래프 갱신 완료. 공유 루트 그래프 미수정.
 
 ## 생성 출처·제한
-실제 도구는 **built-in image_gen**, 모델명은 도구 응답에 공개되지 않았다. Imagen으로 생성했다고 주장하지 않는다. `output/overnight-20261108/generation-prompts.json`에 정확한 프롬프트를 보존했다. 단일 오브젝트·투명 배경·무문자·중성광·비실사 일러스트 요청. PNG→WebP 크기 변환만 수행했으며 실제 배경 위 픽셀·브라우저 참조를 확인했다. 본 실행은 data URL을 반환해 내장 생성 원본 파일은 없었다. 외장 파일 저장은 작은 조각 전송 뒤 PNG 디코딩으로 검증했다.
+실제 도구는 **built-in image_gen**, 모델명은 도구 응답에 공개되지 않았다. Imagen으로 생성했다고 주장하지 않는다. [이미지 생성 기록](../review/IMAGE-GENERATION-20261108.json)에 정확한 프롬프트를 보존했다. 단일 오브젝트·투명 배경·무문자·중성광·비실사 일러스트 요청. PNG→WebP 크기 변환만 수행했으며 실제 배경 위 픽셀·브라우저 참조를 확인했다. 본 실행은 data URL을 반환해 내장 생성 원본 파일은 없었다. 외장 파일 저장은 작은 조각 전송 뒤 PNG 디코딩으로 검증했다.
 실제 학교 태블릿·전자칠판 터치 하드웨어 및 Safari/인앱 브라우저는 미실측. 시뮬레이션 수치는 실제 측정기 교정값이 아니다. 전체 이미지를 새로 생성한 것이 아니라 부족한 한 자산과 확인된 학습·표현 문제에 대한 증분 개선이다.
