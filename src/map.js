@@ -26,10 +26,16 @@ export function mountMap(host,ctx,[geometry,background,student,soli,atlas]){
  const blocked=()=>entered||document.hidden||!!document.querySelector('dialog[open]')||!!host.querySelector('.map-repair[open]');
  const encounterStages=ctx.save.settings.adminUnlockAll?[]:STAGES.flatMap((s,i)=>{
   const b=map.buildings.find(b=>b.id===s.id);
-  return b&&completeStage(ctx.save,s.id)?[encounterStage(i,s.id,s.name,{x:b.return[0]+(map.nodes[b.entry][0]-b.return[0])*.46,y:b.return[1]+(map.nodes[b.entry][1]-b.return[1])*.46})]:[];
+  if(!b||!completeStage(ctx.save,s.id))return [];
+  const [x,y]=b.return,[ex,ey]=map.nodes[b.entry],distanceFromDoor=Math.hypot(x-ex,y-ey);
+  // Patrol on the yard beside the road, clear of Soli and the returning researcher.
+  const dx=(x-ex)/distanceFromDoor,dy=(y-ey)/distanceFromDoor;
+  const candidates=[{x:x+dx*38-dy*18,y:y+dy*38+dx*18},{x:x+dx*38+dy*18,y:y+dy*38-dx*18},{x:x+dx*34,y:y+dy*34}];
+  const p=candidates.find(p=>canStand(map,p))??{x,y};
+  return [{...encounterStage(i,s.id,s.name,p),patrolRadius:18}];
  });
  const restoredIds=ctx.takeRestorations?.()??[];
- const encounters=mountMapEncounters({requiredFoes:5,host,clearStage:()=>restoredIds.filter(id=>id!=='core').at(-1),stages:encounterStages,progress:ctx.save.mapHits,onSave:patch=>{ctx.save.mapHits={...ctx.save.mapHits,...patch};ctx.persist();},blocked,reduced:()=>reduced,tone:(kind,hits)=>sound(kind==='finish'?'success':kind==='contact'?'retry':hits===2?'pump':'tap'),reach:95,contact:24,...encounterLook});
+ const encounters=mountMapEncounters({requiredFoes:5,host,clearStage:()=>restoredIds.filter(id=>id!=='core').at(-1),stages:encounterStages,progress:ctx.save.mapHits,onSave:patch=>{ctx.save.mapHits={...ctx.save.mapHits,...patch};ctx.persist();},blocked,reduced:()=>reduced,tone:(kind,hits)=>sound(kind==='finish'?'success':kind==='contact'?'retry':hits===2?'pump':'tap'),reach:95,contact:24,canPatrol:p=>canStand(map,p),...encounterLook});
  const heroPose=encounterStages.length?loadEncounterActor('hero'):null,allyPose=encounterStages.length?loadEncounterActor('ally'):null;
  const reveal=buildingReveal(reduced,restoredIds);
  const isRestored=id=>id==='core'?ctx.save.finaleCompleted:completeStage(ctx.save,id);
