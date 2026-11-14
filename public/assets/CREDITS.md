@@ -25,7 +25,7 @@ Kenney, **Interface Sounds 1.0** — https://kenney.nl/assets/interface-sounds
 
 프로젝트 자체 제작 SVG 모션 그래픽 10편, 각 9초·1280×720·24fps. `scripts/render-concepts.mjs`로 sharp → FFmpeg 렌더링. WebM(VP9), MP4(H.264/yuv420p/faststart), 마지막 장면 WebP. 영상 안에는 문자를 굽지 않고 앱에서 한국어 자막을 제공함. 파일 크기와 SHA-256은 `public/assets/concepts/manifest.json` 참조.
 
-바람여우 **솔이**: 프로젝트에서 직접 그린 SVG(`public/assets/soli.svg`). 학생 캐릭터의 이동 궤적을 따라가며 활동별 단계 힌트를 제공함.
+바람여우 **솔이**: Codex 기본 이미지 생성 도구로 만든 투명 전신 이미지(`public/assets/soli-character.webp`, 2026-11-13). 타이틀, 지도, 활동 힌트와 친구 대화에서 사용한다. 기존 직접 제작 SVG는 제작 원본과 완성 영상의 출처로 보관한다.
 
 ## 기존 이미지와 글꼴
 

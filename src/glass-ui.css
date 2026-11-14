@@ -26,3 +26,149 @@ html body #app :is(.role-grid,.classification-grid,.strategy-grid,.settings-repl
 html body #app :is(.button,.choice,.icon-button){border-radius:14px}
 @media(min-width:900px){.activity-screen .activity-host>.flow-layout{grid-template-columns:minmax(0,1.7fr) minmax(280px,.8fr)}}
 .activity-screen .activity-host>.flow-layout>.experiment-side{height:auto;align-self:center;background-color:rgba(251,255,247,.84)!important;padding:14px;border-radius:22px}
+
+/* Pulse only the next-destination arrow. The label and tap target stay still. */
+@media (prefers-reduced-motion: no-preference) {
+  .map-next-cue:not(:disabled):not([aria-disabled="true"]) > :is(svg:last-child, .map-direction-cue) {
+    animation: map-direction-pulse 1.45s ease-in-out 4;
+  }
+}
+@keyframes map-direction-pulse {
+  0%, 100% { opacity: 1; translate: 0; }
+  50% { opacity: .55; translate: 4px 0; }
+}
+.map-lock-icon { flex: none; vertical-align: middle; }
+
+html body #app .map-next-card { display: block; width: max-content; max-width: calc(100% - 32px); padding: 0; background: transparent !important; border: 0; box-shadow: none; backdrop-filter: none; }
+@media (max-width: 680px) { html body #app .map-next-card { left: auto; } }
+
+/* Map controls: transparent frame, readable keys, and a gold destination. */
+html body #app .map-screen {
+  --map-control-left: max(16px, env(safe-area-inset-left));
+  --map-control-right: max(16px, env(safe-area-inset-right));
+  --map-control-bottom: max(16px, env(safe-area-inset-bottom));
+  --map-key-size: 52px;
+  --map-key-gap: 7px;
+  --map-cta-height: 60px;
+  --map-cta-font: 20px;
+}
+@media (min-width: 1500px) and (min-height: 850px) {
+  html body #app .map-screen { --map-key-size: 64px; --map-key-gap: 10px; --map-cta-height: 66px; --map-cta-font: 22px; }
+}
+@media (max-width: 760px), (max-height: 560px) {
+  html body #app .map-screen { --map-key-size: 44px; --map-key-gap: 4px; --map-cta-height: 52px; --map-cta-font: 16px; }
+}
+html body #app .map-screen .map-controls .map-dpad {
+  display: grid;
+  grid-template-columns: repeat(3, var(--map-key-size));
+  grid-template-rows: repeat(2, var(--map-key-size));
+  gap: var(--map-key-gap);
+  padding: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+html body #app .map-screen .map-controls .map-dpad > button[data-dir] {
+  display: grid;
+  place-items: center;
+  width: var(--map-key-size);
+  min-width: 0;
+  height: var(--map-key-size);
+  min-height: 0;
+  padding: 0;
+  border: 2px solid #617861 !important;
+  border-radius: 12px;
+  background: #fff6dc !important;
+  color: #233e33 !important;
+  box-shadow: 0 3px 0 #405949, 0 4px 12px #13251b40 !important;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  font-family: inherit;
+  font-size: 25px;
+  font-weight: 900;
+  line-height: 1;
+  transition: none;
+  touch-action: none;
+}
+html body #app .map-screen .map-controls .map-dpad > button[data-dir]:is(:active, .active, .is-held, [data-map-held], [aria-pressed="true"]) {
+  transform: translateY(2px);
+  filter: none;
+  background: #245b46 !important;
+  color: #fff !important;
+  box-shadow: 0 1px 0 #263d31 !important;
+}
+html body #app .map-screen .map-controls .map-dpad > button[data-dir] svg { width: 24px; height: 24px; }
+html body #app .map-screen .map-next-card .map-next {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: auto;
+  max-width: 100%;
+  min-width: 0;
+  min-height: var(--map-cta-height);
+  margin: 0;
+  padding: 8px clamp(10px, 1.6vw, 22px);
+  border: 2px solid #a8802f;
+  border-radius: 16px;
+  background: linear-gradient(#ffe391, #f4c95f);
+  color: #463813;
+  box-shadow: 0 5px 0 #8c6a24, 0 5px 14px #21170238;
+  font-size: var(--map-cta-font);
+  font-weight: 900;
+  line-height: 1.25;
+  text-align: center;
+  text-wrap: balance;
+  white-space: normal;
+}
+@media (hover: hover) and (pointer: fine) {
+  html body #app .map-screen .map-next-card .map-next:hover:not(:disabled) { background: linear-gradient(#ffeba9, #f9d473); }
+}
+html body #app .map-screen .map-next-card .map-next:disabled { background: #fff3c8; opacity: 1; }
+html body #app .map-screen .map-next-card .map-next > svg { flex: none; width: 22px; height: 22px; }
+html body #app .map-screen .map-controls .map-dpad > button[data-dir]:focus-visible,
+html body #app .map-screen .map-next-card .map-next:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+}
+
+html body #app .map-screen .map-controls {
+  inset: auto auto var(--map-control-bottom) var(--map-control-left);
+  width: max-content;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+html body #app .map-screen .map-controls-head { display: none; }
+html body #app .map-screen .map-camera-actions {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 12px);
+  display: flex;
+  gap: 7px;
+}
+html body #app .map-screen :is(.map-camera-actions, .map-controls-body) .map-tool {
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  justify-content: center;
+}
+html body #app .map-screen .map-controls-body .map-recenter {
+  position: absolute;
+  left: 0;
+  bottom: calc(100% + 12px);
+}
+html body #app .map-screen .map-next-card {
+  inset: auto var(--map-control-right) var(--map-control-bottom) auto;
+  margin: 0;
+  max-width: calc(100% - var(--map-control-left) - var(--map-control-right) - 3 * var(--map-key-size) - 2 * var(--map-key-gap) - 12px);
+}
