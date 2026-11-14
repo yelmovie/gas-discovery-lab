@@ -38,7 +38,36 @@ self.addEventListener('install',e=>e.waitUntil((async()=>{
  catch(error){await caches.delete(CACHE);throw error;}
  await self.skipWaiting();
 })()));
-self.addEventListener('activate',e=>e.waitUntil(self.clients.claim()));
+self.addEventListener('activate',e=>e.waitUntil(recoverLegacyHome()));
+async function recoverLegacyHome(){
+ // The former cache-first worker may already have delivered the returning tab.
+ // A cache with the online-first document needs no migration.
+ let legacy=false;
+ for(const name of await oldCaches()){
+  if(['gas-city-1.3.0','gas-city-1.3.1','gas-city-assets-073318fed66abc69'].includes(name)){legacy=true;break;}
+  const old=await caches.open(name);
+  for(const path of ['/','/index.html']){
+   const page=await old.match(path,{ignoreVary:true});
+   if(page&&!(await page.text()).includes('name="classroom-update"'))legacy=true;
+  }
+  if(legacy)break;
+ }
+ await self.clients.claim();
+ if(!legacy)return;
+ const windows=await self.clients.matchAll({type:'window'});
+ const candidates=windows.filter(client=>{
+  const url=new URL(client.url);
+  return url.origin===self.location.origin&&/^\\/(?:index\\.html)?$/.test(url.pathname)&&
+   (!url.hash||url.hash==='#home')&&client.frameType!=='nested'&&client.visibilityState==='visible';
+ });
+ const client=candidates.find(c=>c.focused)??(candidates.length===1?candidates[0]:null);
+ // Navigation can need this worker's fetch handler. Do not hold activation open waiting for it.
+ if(client){
+  const next=new URL(client.url);
+  next.searchParams.set('_classroom-update',CACHE);
+  void client.navigate(next.href).catch(()=>{});
+ }
+}
 let preparing=null;
 function prepare(source){
  if(!preparing)preparing=(async()=>{await cacheAssets(source);for(const k of await oldCaches())await caches.delete(k);})().finally(()=>preparing=null);

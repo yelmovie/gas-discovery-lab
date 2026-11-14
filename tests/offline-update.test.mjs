@@ -50,7 +50,8 @@ function worker(build,{active=true}={}){
   if(!build.resources.has(asset))return new Response('missing',{status:404});
   return new Response(build.resources.get(asset),{status:200});
  };
- const context={URL,Request,Response,Headers,AbortController,setTimeout,clearTimeout,caches,self:{registration:{active:active?{}:null},location:{origin},addEventListener:(type,fn)=>listeners.set(type,fn),skipWaiting:async()=>{skipWaiting++;},clients:{claim:async()=>{claimed++;}}},fetch:fetchAsset};
+ const navigated=[],windows=[];
+ const context={URL,Request,Response,Headers,AbortController,setTimeout,clearTimeout,caches,self:{registration:{active:active?{}:null},location:{origin},addEventListener:(type,fn)=>listeners.set(type,fn),skipWaiting:async()=>{skipWaiting++;},clients:{claim:async()=>{claimed++;},matchAll:async()=>windows}},fetch:fetchAsset};
  for(const name of ['localStorage','indexedDB'])Object.defineProperty(context,name,{get(){storageAccess.push(name);throw Error('Student storage must not be accessed');}});
  vm.runInNewContext(build.source,context,{filename:'sw.js'});
  async function event(type,data={}){let promise;listeners.get(type)({...data,waitUntil:p=>{promise=p;}});await promise;}
@@ -59,7 +60,9 @@ function worker(build,{active=true}={}){
   if(navigate)Object.defineProperty(req,'mode',{value:'navigate'});
   let promise;listeners.get('fetch')({request:req,respondWith:p=>{promise=p;}});return promise;
  }
- return {caches,stores,deleted,requests,storageAccess,event,fetchRequest,setOffline:v=>{offline=v;},fail:p=>{failedPath=p;},quota:p=>{quotaPath=p;},get skipped(){return skipWaiting;},get claimed(){return claimed;}};
+ return {caches,stores,deleted,requests,storageAccess,event,fetchRequest,navigated,
+  window:(path,visibilityState,focused=false)=>windows.push({url:origin+path,visibilityState,focused,frameType:'top-level',navigate:async url=>navigated.push(url)}),
+  setOffline:v=>{offline=v;},fail:p=>{failedPath=p;},quota:p=>{quotaPath=p;},get skipped(){return skipWaiting;},get claimed(){return claimed;}};
 }
 async function seed(w,name,p,body){await (await w.caches.open(name)).put(p,new Response(body));}
 
@@ -148,4 +151,18 @@ test('online reload does not read old HTML or code, and leaves the offline snaps
  w.setOffline(true);
  assert.equal(await (await w.fetchRequest('/',{navigate:true})).text(),'old page');
  assert.equal(await (await w.fetchRequest('/src/main.js')).text(),'old code');
+});
+
+test('only legacy migration reopens the foreground home without navigating activities or background tabs',async t=>{
+ const f=await fixture(t),b=await f.build(),old='gas-city-assets-'+'a'.repeat(16);
+ for(const alreadyUpdated of [false,true]){
+  const w=worker(b);
+  await seed(w,old,'/index.html',alreadyUpdated?'<meta name="classroom-update" content="online-first">':'old');
+  await seed(w,old,'/','<meta name="classroom-update" content="online-first">');
+  w.window('/#stage/weight/0','visible',true);
+  w.window('/','hidden');
+  w.window('/?class=1#home','visible',true);
+  await w.event('install');await w.event('activate');
+  assert.deepEqual(w.navigated,alreadyUpdated?[]:[origin+'/?class=1&_classroom-update='+b.cache+'#home']);
+ }
 });

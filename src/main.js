@@ -244,6 +244,11 @@ document.addEventListener('pointerdown',()=>unlockAudio(store.save.settings),{on
 window.addEventListener('error',()=>announce('화면이 멈추었다면 새로고침해 주세요. 저장한 탐구 기록은 남아 있어요.'));
 function viewport(){document.documentElement.style.setProperty('--viewport-height',`${window.innerHeight}px`);if(!document.activeElement?.matches('input'))document.documentElement.classList.toggle('portrait-display',window.innerWidth<700&&window.innerHeight>window.innerWidth);}
 viewport();window.addEventListener('resize',viewport);
+const appURL=new URL(location.href);
+if(appURL.searchParams.has('_classroom-update')){
+ appURL.searchParams.delete('_classroom-update');
+ history.replaceState(history.state,'',appURL);
+}
 navigate(parseHash(),{replace:true});
 refreshOffline();
 
