@@ -22,6 +22,8 @@ npm run build    # 배포용 dist/ 생성
 npm run preview  # dist/ 실행
 ```
 
+운영 주소: https://gas-discovery-lab.yelsam.workers.dev/. 연결된 상태에서 다시 열면 HTML, 실행 코드, 글꼴을 서버에서 먼저 확인해 이전 캐시가 화면을 가리지 않는다. 오프라인 준비를 켠 기기에서는 새 버전의 실행 파일을 먼저 저장하고, 나머지 자료가 다 저장될 때까지 직전 오프라인 자료를 보관한다. 학습 기록은 별도로 유지한다.
+
 - [구현·검수 기록](docs/review/LEARNING-UX-REVIEW.md)
 - [개념 영상 컷 시트](docs/review/CONCEPT-STORYBOARD.md)
 - [이미지·효과음 이용 조건](assets/CREDITS.md)

@@ -9,6 +9,7 @@ import {html,button,openDialog,portrait,prop,buddy,choices,escapeHTML,announce,h
 import {icon} from './icons.js';
 import {sound,syncAudio,unlockAudio,quietAudio} from './audio.js';
 import {loadActivity,loadPlayMission,loadMapAssets,loadConceptVisuals,waitForScreen} from './screen-loaders.js';
+import {refreshOffline} from './offline.js';
 const loadSettings = () => import('./settings.js');
 const app=document.querySelector('#app');let abort=new AbortController(),current={screen:'home'},returnFrom=null,storyReturn=null;
 const pendingRestoration=new Set();
@@ -244,5 +245,6 @@ window.addEventListener('error',()=>announce('화면이 멈추었다면 새로�
 function viewport(){document.documentElement.style.setProperty('--viewport-height',`${window.innerHeight}px`);if(!document.activeElement?.matches('input'))document.documentElement.classList.toggle('portrait-display',window.innerWidth<700&&window.innerHeight>window.innerWidth);}
 viewport();window.addEventListener('resize',viewport);
 navigate(parseHash(),{replace:true});
+refreshOffline();
 
 window.addEventListener('gas-save-status',updateControls);

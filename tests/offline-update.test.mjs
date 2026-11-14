@@ -36,18 +36,21 @@ function worker(build,{active=true}={}){
   async keys(){return [...stores.keys()];},
   async open(name){
    if(!stores.has(name))stores.set(name,new Map());const store=stores.get(name);
-   return {async match(request){return store.get(key(request))?.clone();},async put(request,response){if(new URL(key(request)).pathname===quotaPath)throw Error('quota');store.set(key(request),response.clone());}};
+   const api={async match(request){return store.get(key(request))?.clone();},async put(request,response){if(new URL(key(request)).pathname===quotaPath)throw Error('quota');store.set(key(request),response.clone());}};
+   return {...api,async addAll(list){for(const request of list){const response=await fetchAsset(request);if(!response.ok)throw Error('download');await api.put(request,response);}}};
   },
   async delete(name){deleted.push(name);return stores.delete(name);}
  };
- const context={URL,Request,Response,Headers,caches,self:{registration:{active:active?{}:null},location:{origin},addEventListener:(type,fn)=>listeners.set(type,fn),skipWaiting:async()=>{skipWaiting++;},clients:{claim:async()=>{claimed++;}}},fetch:async(input,options)=>{
+ const fetchAsset=async(input,options)=>{
   const url=new URL(typeof input==='string'?input:input.url,origin),p=url.pathname;
   requests.push({path:p,cache:options?.cache??input.cache});
   if(offline)throw Error('offline');
   if(p===failedPath)return new Response('unavailable',{status:503});
-  if(!build.resources.has(p))return new Response('missing',{status:404});
-  return new Response(build.resources.get(p),{status:200});
- }};
+  const asset=p==='/'?'/index.html':p;
+  if(!build.resources.has(asset))return new Response('missing',{status:404});
+  return new Response(build.resources.get(asset),{status:200});
+ };
+ const context={URL,Request,Response,Headers,AbortController,setTimeout,clearTimeout,caches,self:{registration:{active:active?{}:null},location:{origin},addEventListener:(type,fn)=>listeners.set(type,fn),skipWaiting:async()=>{skipWaiting++;},clients:{claim:async()=>{claimed++;}}},fetch:fetchAsset};
  for(const name of ['localStorage','indexedDB'])Object.defineProperty(context,name,{get(){storageAccess.push(name);throw Error('Student storage must not be accessed');}});
  vm.runInNewContext(build.source,context,{filename:'sw.js'});
  async function event(type,data={}){let promise;listeners.get(type)({...data,waitUntil:p=>{promise=p;}});await promise;}
@@ -71,14 +74,17 @@ test('asset changes revise the worker even without a package version bump',async
  assert.ok(!a.manifest.files.includes('/_headers'),'Cloudflare delivery metadata is not an offline asset');
 });
 
-test('upgrade stages every asset before activation and preserves unrelated caches and student storage',async t=>{
+test('upgrade activates on current HTML and code, then retires the previous cache after assets warm',async t=>{
  const f=await fixture(t),b=await f.build(),w=worker(b);
  for(const name of ['gas-city-1.3.1','gas-city-assets-'+ 'a'.repeat(16),'gas-city-student-exports','other-app'])await seed(w,name,'/index.html','old '+name);
  await w.event('install');
  assert.equal(w.skipped,1);assert.deepEqual(w.deleted,[]);
- for(const asset of b.manifest.files)assert.ok(await (await w.caches.open(b.cache)).match(asset),asset);
+ for(const asset of ['/index.html','/src/main.js'])assert.ok(await (await w.caches.open(b.cache)).match(asset),asset);
+ assert.ok(!w.requests.some(r=>r.path==='/assets/video.mp4'),'video must not delay activation');
  assert.ok(w.requests.every(r=>r.cache==='reload'),'stage fresh bytes, not a stale HTTP cache');
  await w.event('activate');
+ assert.deepEqual(w.deleted,[]);
+ await w.event('message',{data:{type:'WARM_UPDATE'}});
  assert.deepEqual(w.deleted.sort(),['gas-city-1.3.1','gas-city-assets-'+ 'a'.repeat(16)].sort());
  assert.equal(w.claimed,1);
  assert.equal(await (await (await w.caches.open('gas-city-student-exports')).match('/index.html')).text(),'old gas-city-student-exports');
@@ -93,14 +99,14 @@ test('failed download or quota leaves the active old offline release untouched',
   await seed(w,'gas-city-1.3.1','/index.html','old offline release');
   if(mode==='download')w.fail('/src/main.js');else w.quota('/src/main.js');
   await assert.rejects(w.event('install'));
-  assert.equal(w.skipped,0);assert.equal(w.claimed,0);assert.deepEqual(w.deleted,[]);
+  assert.equal(w.skipped,0);assert.equal(w.claimed,0);assert.deepEqual(w.deleted,[b.cache]);
   assert.equal(await (await (await w.caches.open('gas-city-1.3.1')).match('/index.html')).text(),'old offline release');
  }
 });
 
 test('new release stays available offline with navigation fallback and media byte ranges',async t=>{
  const f=await fixture(t),b=await f.build(),w=worker(b);
- await w.event('install');await w.event('activate');w.setOffline(true);
+ await w.event('install');await w.event('activate');await w.event('message',{data:{type:'CACHE_ALL'}});w.setOffline(true);
  assert.equal(await (await w.fetchRequest('/?returning=1',{navigate:true})).text(),'<html>new release</html>');
  assert.equal(await (await w.fetchRequest('/src/main.js')).text(),'export const release="new";');
  const part=await w.fetchRequest('/assets/video.mp4',{range:'bytes=2-5'});
@@ -126,8 +132,20 @@ test('offline preparation still reports progress and errors without deleting cac
 test('first offline opt-in retains the existing message-driven progress workflow',async t=>{
  const f=await fixture(t),b=await f.build(),w=worker(b,{active:false}),messages=[];
  await w.event('install');await w.event('activate');
- assert.equal(w.skipped,1);assert.equal(w.requests.length,0);
+ assert.equal(w.skipped,1);assert.ok(!w.requests.some(r=>r.path==='/assets/video.mp4'));
  await w.event('message',{data:{type:'CACHE_ALL'},source:{postMessage:m=>messages.push(m)}});
  assert.equal(messages.at(-1).type,'CACHE_READY');assert.equal(messages.filter(m=>m.type==='CACHE_PROGRESS').length,b.manifest.files.length);
  w.setOffline(true);assert.equal(await (await w.fetchRequest('/',{navigate:true})).text(),'<html>new release</html>');
+});
+
+test('online reload does not read old HTML or code, and leaves the offline snapshot intact',async t=>{
+ const f=await fixture(t),b=await f.build(),w=worker(b);
+ await seed(w,b.cache,'/index.html','old page');
+ await seed(w,b.cache,'/src/main.js','old code');
+ assert.equal(await (await w.fetchRequest('/?returning=1',{navigate:true})).text(),'<html>new release</html>');
+ assert.match(await (await w.fetchRequest('/src/main.js')).text(),/release="new"/);
+ assert.ok(w.requests.every(r=>r.cache==='no-cache'));
+ w.setOffline(true);
+ assert.equal(await (await w.fetchRequest('/',{navigate:true})).text(),'old page');
+ assert.equal(await (await w.fetchRequest('/src/main.js')).text(),'old code');
 });

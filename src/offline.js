@@ -1,10 +1,25 @@
 let pending=null;
 export let offlineReady=false;
+export function refreshOffline(){
+ if(!('serviceWorker' in navigator))return;
+ const warm=()=>{if(!document.hidden&&navigator.onLine)navigator.serviceWorker.controller?.postMessage({type:'WARM_UPDATE'});};
+ const check=async()=>{
+  if(document.hidden||!navigator.onLine)return;
+  const reg=await navigator.serviceWorker.getRegistration();
+  if(reg)await reg.update().catch(()=>{});
+  warm();
+ };
+ const refresh=()=>void check().catch(()=>{});
+ addEventListener('online',refresh);
+ document.addEventListener('visibilitychange',refresh);
+ navigator.serviceWorker.addEventListener('controllerchange',warm);
+ refresh();
+}
 export function prepareOffline(onProgress){
  if(pending)return pending;
  pending=(async()=>{
   if(!('serviceWorker'in navigator))throw Error('이 브라우저에서는 오프라인 준비를 지원하지 않아요.');
-  const reg=await navigator.serviceWorker.register('/sw.js');
+  const reg=await navigator.serviceWorker.register('/sw.js',{updateViaCache:'none'});
   let worker=reg.active||reg.waiting||reg.installing;
   if(!worker)throw Error('오프라인 준비를 시작하지 못했어요.');
   if(worker.state!=='activated')await new Promise((resolve,reject)=>{const timer=setTimeout(()=>reject(Error('오프라인 준비를 다시 눌러 주세요.')),12000);worker.addEventListener('statechange',()=>{if(worker.state==='activated'){clearTimeout(timer);resolve();}});});
