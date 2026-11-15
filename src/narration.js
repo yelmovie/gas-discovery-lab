@@ -22,6 +22,11 @@ export function createNarration({ isMuted, duck = () => {}, makeAudio = () => ne
     const fail = () => { if (token !== request) return; stop(); state = { id, status: 'error' }; emit(); };
     audio.addEventListener('ended', finish, { once: true });
     audio.addEventListener('error', fail, { once: true });
+    // The portrait speaks only while sound is audible; buffering and pauses rest it.
+    const audible = value => { if (token === request && player === audio && state.id === id && state.status === 'playing') { state = { id, status: 'playing', audible: value }; emit(); } };
+    audio.addEventListener('playing', () => audible(!doc.hidden && !isMuted()));
+    audio.addEventListener('waiting', () => audible(false));
+    audio.addEventListener('pause', () => audible(false));
     state = { id, status: 'playing' }; duck(true); emit();
     try {
       await audio.play();

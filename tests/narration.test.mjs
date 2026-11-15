@@ -27,6 +27,13 @@ test('늦은 play 완료와 실패는 새 대사의 상태를 덮어쓰지 않�
  const old=f.audios[0];await f.player.play('story-2');resolve();assert.equal(await first,false);
  old.dispatchEvent(new Event('error'));assert.equal(f.player.state.id,'story-2');assert.equal(f.player.state.status,'playing');f.player.dispose();
 });
+test('말하기 표시는 소리가 실제로 날 때만 켜지고 버퍼링·일시정지에서는 쉰다',async()=>{
+ const f=fixture();await f.player.play('welcome');const first=f.audios[0];assert.equal(f.player.state.audible,true);
+ first.dispatchEvent(new Event('waiting'));assert.equal(f.player.state.status,'playing');assert.equal(f.player.state.audible,false);
+ first.dispatchEvent(new Event('playing'));assert.equal(f.player.state.audible,true);
+ first.dispatchEvent(new Event('pause'));assert.equal(f.player.state.audible,false);
+ await f.player.play('story-2');first.dispatchEvent(new Event('waiting'));assert.equal(f.player.state.id,'story-2');assert.equal(f.player.state.audible,true);f.player.dispose();
+});
 test('자동재생 차단은 오류 상태로 돌아오고 글의 진행을 막지 않는다',async()=>{
  const f=fixture(Promise.reject(new Error('NotAllowedError')));assert.equal(await f.player.play('welcome'),false);assert.equal(f.player.state.status,'error');assert.equal(f.duck.at(-1),false);f.player.dispose();
 });
