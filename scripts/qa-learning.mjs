@@ -16,7 +16,7 @@ async function bounds(label){const x=await p.evaluate(()=>({panels:[...document.
 for(const stage of STAGES)for(const task of stage.tasks){
  const i=stage.tasks.indexOf(task);await p.goto(`${QA}/#stage/${stage.id}/${i}`);await p.locator('.activity-screen').waitFor();await p.waitForTimeout(300);
  if(stage.id==='flow'){
-  const cells=createPipePuzzle(task.pattern),solved=PIPE_PATTERNS[task.pattern].solved;for(let j=0;j<9;j++)for(let k=0;k<(solved[j]-cells[j].rotation+4)%4;k++)await p.locator('.pipe-cell').nth(j).click();
+  const cells=createPipePuzzle(task.pattern),solved=PIPE_PATTERNS[task.pattern].solved;for(let j=0;j<9;j++)for(let k=0;k<(solved[j]-cells[j].rotation+4)%4;k++){const cell=p.locator('.pipe-cell').nth(j);if(await cell.isDisabled())break;await cell.click();}
  }else if(stage.id==='weight'){
   if(!task.prepared){await p.locator('[data-action=level]').click();await p.locator('[data-action=zero]').click();await drag('.scale-jar','.scale-scene');}
   for(let n=0;n<task.minDelta;n++)await p.locator(`[data-action=${task.direction>0?'add':'remove'}]`).click();await p.locator('.record-button').click();
@@ -62,17 +62,17 @@ for(const stage of STAGES){
  assert.equal(await p.evaluate(async id=>(await import('/src/state.js')).store.save.evidence[id][0].date,stage.id),date);
 }
 // Air flows from the start, so rotating alone completes the path, then replay continues to task 2.
-await p.goto(QA+'/#stage/flow/0');
+await p.goto(QA+'/#stage/flow/0');await p.locator('.activity-screen').waitFor();await p.waitForTimeout(300);
 const liveCells=createPipePuzzle(0),liveSolution=PIPE_PATTERNS[0].solved;
 for(let j=0;j<9;j++)for(let k=0;k<(liveSolution[j]-liveCells[j].rotation+4)%4;k++){
  const cell=p.locator('.pipe-cell').nth(j);if(await cell.isDisabled())break;await cell.focus();await p.keyboard.press('Enter');
- if(!await cell.isDisabled())assert.equal(await cell.evaluate(el=>el===document.activeElement),true);
+ if(!await cell.isDisabled())assert.equal(await cell.evaluate(el=>el===document.activeElement),true,`focus lost on cell ${j}: `+await p.evaluate(()=>document.activeElement?.outerHTML.slice(0,160)));
 }
 await p.locator('.discovery-result').waitFor();await p.locator('.completed-actions .primary').click();assert.equal(new URL(p.url()).hash,'#stage/flow/1');
 // Leaving during the fan celebration must not save an abandoned attempt.
 await p.goto(QA+'/#stage/flow/0');
 const beforeAbort=await p.evaluate(async()=>(await import('/src/state.js')).store.save.evidence.flow[0].date);
-for(let j=0;j<9;j++)for(let k=0;k<(liveSolution[j]-liveCells[j].rotation+4)%4;k++)await p.locator('.pipe-cell').nth(j).click();
+for(let j=0;j<9;j++)for(let k=0;k<(liveSolution[j]-liveCells[j].rotation+4)%4;k++){const cell=p.locator('.pipe-cell').nth(j);if(await cell.isDisabled())break;await cell.click();}
 await p.getByRole('button',{name:'홈으로 가기'}).click();await p.waitForTimeout(800);
 assert.equal(await p.evaluate(async()=>(await import('/src/state.js')).store.save.evidence.flow[0].date),beforeAbort);
 assert.deepEqual(errors,[]);await fs.writeFile('.tmp/qa/journey.json',JSON.stringify({errors,report},null,2));console.log(`PASS: all 20 tasks, ${process.env.QA_SKIP_VIDEO==='1'?'':'videos, '}finale, certificate, replay, keyboard and abort`);await b.close();
