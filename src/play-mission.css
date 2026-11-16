@@ -147,3 +147,4 @@ dialog.play-mission{font-size:16px}.pm-head{position:sticky;top:0;z-index:2;back
 }
 .gas-pipe.is-blocked{background:#e9e4d6;border:2px solid #cbbf9f}
 .gas-pipe img.pm-blocked{width:74%;height:74%;object-fit:contain;aspect-ratio:auto;border-radius:0;background:none;box-shadow:none;filter:drop-shadow(0 3px 4px #0003)}
+@media(min-width:1600px){.pm-tray-label,.pm-tray-empty,.pm-note,.gas-pump span,.gas-pipe .pm-blocked-label{font-size:18px}}
