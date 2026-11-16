@@ -1,17 +1,17 @@
-# Graph Report - 15 gas  (2026-11-15)
+# Graph Report - 15 gas  (2026-11-17)
 
 ## Corpus Check
-- 134 files · ~74,739 words
+- 134 files · ~75,640 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 45 file(s) not represented in the graph (top: .woff2 26, .css 15, (none) 3)
 
 ## Summary
-- 1039 nodes · 2028 edges · 90 communities (82 shown, 8 thin omitted)
+- 1053 nodes · 2074 edges · 94 communities (86 shown, 8 thin omitted)
 - Extraction: 97% EXTRACTED · 3% INFERRED · 0% AMBIGUOUS · INFERRED: 58 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `73c46458`
+- Built from commit: `908b23f6`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -27,22 +27,27 @@
 - sound
 - scripts
 - gas-city-operation_deep-design_v2.md
-- verify-media.mjs
+- map.js
 - STORY-VOICE-BGM-20261113.md
 - mountMap
-- src/state.js
+- ref_node_assert
 - 12. NPC 변화
 - play-mission.js
 - qa-playback.mjs
+- game-voices.js
 - audio.js
+- bindDirectionPad
 - 화면 01 — 도시 비상 신호
+- building-restoration.js
 - 기본 이미지 프롬프트
+- createPlayback
+- map-camera.test.mjs
+- 19. 난이도 변수
 - scripts/build.mjs
 - qa-voices.mjs
 - 화면 02 — 공기 흐름 작동 시험
 - 화면 06 — 압력 제어 및 환경 적용
 - 화면 03 — 기체 무게 계측실
-- qa-screens.mjs
 - prepare-assets.mjs
 - README.md
 - 기체 도시 대작전 장별 시나리오 논의안
@@ -89,7 +94,6 @@
 - 기체 도시 대작전 최종 성적표
 - 23. 3D 사용 확정
 - 5. 단원 메인 퀘스트
-- 기체 도시 대작전 개념영상 SPEC (HyperFrames)
 - public/assets/concepts/manifest.json
 - public/assets/concepts-v2/manifest.json
 - public/assets/visuals/manifest.json
@@ -107,112 +111,136 @@
 
 ## God Nodes (most connected - your core abstractions)
 1. `icon()` - 43 edges
-2. `mountMap()` - 38 edges
-3. `sound()` - 35 edges
+2. `sound()` - 40 edges
+3. `mountMap()` - 38 edges
 4. `button()` - 34 edges
 5. `navigate()` - 26 edges
-6. `escapeHTML()` - 25 edges
+6. `escapeHTML()` - 26 edges
 7. `openConcept()` - 22 edges
-8. `announce()` - 22 edges
-9. `html()` - 21 edges
+8. `html()` - 21 edges
+9. `announce()` - 21 edges
 10. `mountEngineering()` - 18 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `기체 도시 대작전 개념영상 SPEC (HyperFrames)` --references--> `conceptFor()`  [INFERRED]
-  films/SPEC.md → src/concepts.js
 - `3단계 → 12 : 개념영상 HyperFrames 고도화 + 이 프로젝트만의 연출` --references--> `massFor()`  [INFERRED]
   docs/reviews/UPGRADE-PLAN-20261109.md → src/model.js
+- `기체 도시 대작전 개념영상 SPEC (HyperFrames)` --references--> `conceptFor()`  [INFERRED]
+  films/SPEC.md → src/concepts.js
 - `setup()` --calls--> `createPlayback()`  [EXTRACTED]
   tests/playback.test.mjs → src/experiment-player.js
 - `fixture()` --calls--> `createNarration()`  [EXTRACTED]
   tests/narration.test.mjs → src/narration.js
-- `solve()` --calls--> `freshCells()`  [EXTRACTED]
-  tests/play-mission.test.mjs → src/play-mission-model.js
+- `begin()` --calls--> `loadSave()`  [EXTRACTED]
+  tests/storage.test.mjs → src/state.js
 
 ## Import Cycles
 - None detected.
 
-## Communities (90 total, 8 thin omitted)
+## Communities (94 total, 8 thin omitted)
 
 ### Community 0 - "model.test.mjs"
-Cohesion: 0.20
-Nodes (10): {chromium}, APP, CONTENT_REVIEW, GASES, STAGES, STANDARDS, STORY, SETTINGS_CONTENT (+2 more)
+Cohesion: 0.31
+Nodes (14): assistMapStep(), canStand(), distance(), findPath(), snap(), insidePolygon(), lineClear(), movePoint() (+6 more)
 
 ### Community 1 - "ref_node_fs"
-Cohesion: 0.16
-Nodes (9): {chromium}, errors, report, {chromium}, errors, checks, {chromium}, {chromium} (+1 more)
+Cohesion: 0.11
+Nodes (13): {chromium}, errors, report, {chromium}, errors, bad, {chromium}, errors (+5 more)
 
 ### Community 2 - "main.js"
 Cohesion: 0.06
-Nodes (96): mountDelivery(), chooseGas(), deliver(), guideSelection(), render(), save(), showInformation(), useImage() (+88 more)
+Nodes (94): FACILITY_ART, mountDelivery(), chooseGas(), deliver(), guideSelection(), render(), save(), showInformation() (+86 more)
 
 ### Community 3 - "render.mjs"
-Cohesion: 0.18
-Nodes (5): films, manifest, only, out, sharp
+Cohesion: 0.11
+Nodes (9): pub, films, manifest, only, out, sharp, dir, manifest (+1 more)
 
 ### Community 4 - "output-dist-before-publish-1794173282/src/model.js"
 Cohesion: 0.20
 Nodes (31): arrow(), balloon(), C, car(), carbon(), circle(), clips, dots() (+23 more)
 
 ### Community 5 - "ref_node_fs"
-Cohesion: 0.20
-Nodes (5): pub, port, production, root, types
+Cohesion: 0.33
+Nodes (4): port, production, root, types
 
 ### Community 6 - "render-concepts-v2.mjs"
 Cohesion: 0.19
 Nodes (26): arrow(), assets, car(), carbon(), clips, dot(), ease(), encode() (+18 more)
 
 ### Community 7 - "qa-learning.mjs"
-Cohesion: 0.22
-Nodes (5): {chromium}, errors, liveCells, report, PIPE_PATTERNS
+Cohesion: 0.25
+Nodes (4): {chromium}, errors, liveCells, report
 
 ### Community 8 - "sound"
 Cohesion: 0.08
-Nodes (50): 1단계 → 10/10 : FAIL·WARNING·NOT TESTED 해소, 2단계 → 11 : 몰입·피드백·접근성, 3단계 → 12 : 개념영상 HyperFrames 고도화 + 이 프로젝트만의 연출, 기체 도시 대작전 · 12/10 고도화 계획 (2026-11-09 밤), 오늘 밤 실행 순서, iyeyo(), mountClimate(), move() (+42 more)
+Nodes (46): 1단계 → 10/10 : FAIL·WARNING·NOT TESTED 해소, 2단계 → 11 : 몰입·피드백·접근성, 3단계 → 12 : 개념영상 HyperFrames 고도화 + 이 프로젝트만의 연출, 기체 도시 대작전 · 12/10 고도화 계획 (2026-11-09 밤), 오늘 밤 실행 순서, iyeyo(), mountClimate(), move() (+38 more)
 
 ### Community 9 - "scripts"
 Cohesion: 0.08
 Nodes (24): description, engines, node, name, optionalDependencies, sharp@^0.35.4, private, scripts (+16 more)
 
 ### Community 10 - "gas-city-operation_deep-design_v2.md"
-Cohesion: 0.09
-Nodes (21): 0. 문서 목적, 10. Research Kit, 13. Final Report 설계, 16. 최종 인증서, 19. 난이도 변수, 1. 설계 핵심 한 줄, 20. 태블릿 필수성 체크, 26. 페이지당 에셋 제한 (+13 more)
+Cohesion: 0.11
+Nodes (18): 0. 문서 목적, 10. Research Kit, 13. Final Report 설계, 16. 최종 인증서, 1. 설계 핵심 한 줄, 20. 태블릿 필수성 체크, 26. 페이지당 에셋 제한, 27. 저장 / 이어하기 (+10 more)
 
-### Community 11 - "verify-media.mjs"
-Cohesion: 0.25
-Nodes (4): {chromium}, dir, manifest, root
+### Community 11 - "map.js"
+Cohesion: 0.19
+Nodes (12): bindMapCameraPointer(), clear(), release(), createMapCamera(), follow(), update(), mapLabelGuard(), encounterLook (+4 more)
 
 ### Community 13 - "mountMap"
-Cohesion: 0.06
-Nodes (66): buildingReveal(), clamp01(), detail(), facades, halo(), lamp(), line(), meeting (+58 more)
+Cohesion: 0.25
+Nodes (19): voiceForText(), nextMapActivity(), drawEncounterActor(), mountMap(), cancelRoute(), canVisit(), draw(), drawSoli() (+11 more)
 
-### Community 14 - "src/state.js"
-Cohesion: 0.33
-Nodes (8): normalizeMapHits(), freshSave(), loadSave(), resetProgress(), setTeacherPreview(), store, validateSave(), begin()
+### Community 14 - "ref_node_assert"
+Cohesion: 0.12
+Nodes (19): {chromium}, checks, {chromium}, APP, CONTENT_REVIEW, GASES, STAGES, STANDARDS (+11 more)
 
 ### Community 15 - "12. NPC 변화"
 Cohesion: 0.10
 Nodes (20): 12. NPC 변화, Final Report, Mission 1 후, Mission 2 후, Mission 3 후, Mission 4 후, Mission 5 후, 게임 시작 (+12 more)
 
 ### Community 16 - "play-mission.js"
-Cohesion: 0.11
-Nodes (29): {chromium}, errors, report, solutions, createPlayback(), account(), advance(), clear() (+21 more)
+Cohesion: 0.13
+Nodes (27): {chromium}, errors, report, solutions, defaults(), freshMission(), load(), directions (+19 more)
 
 ### Community 17 - "qa-playback.mjs"
 Cohesion: 0.20
 Nodes (6): {chromium}, draft(), errors, evidence(), report, root
 
+### Community 18 - "game-voices.js"
+Cohesion: 0.32
+Nodes (8): controls, narration, createNarration(), play(), stop(), mountNarrationControl(), voiceLines, fixture()
+
 ### Community 19 - "audio.js"
-Cohesion: 0.08
-Nodes (23): active, config, duckNarration(), effects, init(), notes, startMusic(), stopNotes() (+15 more)
+Cohesion: 0.07
+Nodes (31): 기체 도시 대작전 개념영상 SPEC (HyperFrames), 만들기, 장면 문법 ("실험 노트"), active, config, duckNarration(), effects, init() (+23 more)
+
+### Community 20 - "bindDirectionPad"
+Cohesion: 0.27
+Nodes (9): bindDirectionPad(), change(), clear(), destroy(), endPointer(), paint(), keyDirections, MAP_VECTORS (+1 more)
 
 ### Community 21 - "화면 01 — 도시 비상 신호"
 Cohesion: 0.13
 Nodes (15): AI SLOP CHECK, CSS/UI, Mission, 과학 개념, 다음 연결, 성공 조건, 실패 상황, 재시도 (+7 more)
 
+### Community 22 - "building-restoration.js"
+Cohesion: 0.33
+Nodes (9): buildingReveal(), clamp01(), detail(), facades, halo(), lamp(), line(), meeting (+1 more)
+
 ### Community 23 - "기본 이미지 프롬프트"
 Cohesion: 0.15
 Nodes (13): G01 중앙 공기 코어 외장, G02 코어 회전 날개, G03 장치 조립 받침대, G04 공기 저장 풍선 모듈, G05 둥근 노즐, G06 손잡이 밸브, G07 일자 관, G08 90도 굽은 관 (+5 more)
+
+### Community 24 - "createPlayback"
+Cohesion: 0.38
+Nodes (8): createPlayback(), account(), advance(), clear(), stop(), wait(), mountExperimentPlayer(), setup()
+
+### Community 25 - "map-camera.test.mjs"
+Cohesion: 0.33
+Nodes (5): bounds, close(), player, same(), size
+
+### Community 26 - "19. 난이도 변수"
+Cohesion: 0.67
+Nodes (3): 19. 난이도 변수, 기본, 심화
 
 ### Community 27 - "scripts/build.mjs"
 Cohesion: 0.18
@@ -233,10 +261,6 @@ Nodes (11): Evidence, Mission, World Change, 과학적 문구, 금지, 성공 �
 ### Community 33 - "화면 03 — 기체 무게 계측실"
 Cohesion: 0.20
 Nodes (10): Mission, 다음 연결, 성공 조건, 실패 상황, 재시도, 태블릿 조작, 학생 행동, 화면 03 — 기체 무게 계측실 (+2 more)
-
-### Community 34 - "qa-screens.mjs"
-Cohesion: 0.25
-Nodes (6): bad, {chromium}, errors, out, report, viewports
 
 ### Community 35 - "prepare-assets.mjs"
 Cohesion: 0.20
@@ -422,10 +446,6 @@ Nodes (5): 23. 3D 사용 확정, Screen 01, Screen 06 일부, Screen 09, Screen 
 Cohesion: 0.40
 Nodes (5): 5. 단원 메인 퀘스트, NPC 의뢰, 사건 — 기체 도시의 공기 코어 정지, 에어 — 여우 발명가, 최종 목표
 
-### Community 88 - "기체 도시 대작전 개념영상 SPEC (HyperFrames)"
-Cohesion: 0.50
-Nodes (3): 기체 도시 대작전 개념영상 SPEC (HyperFrames), 만들기, 장면 문법 ("실험 노트")
-
 ### Community 93 - "public/assets/concepts/manifest.json"
 Cohesion: 0.50
 Nodes (3): files, generated, method
@@ -456,11 +476,11 @@ Nodes (3): 24. 구현 시 과학 피드백 문구 원칙, 사용, 사용하지 �
 
 ### Community 106 - "ref_node_test"
 Cohesion: 0.17
-Nodes (4): root, fixture(), root, worker()
+Nodes (4): {chromium}, fixture(), root, worker()
 
 ### Community 107 - "qa-responsive.mjs"
-Cohesion: 0.22
-Nodes (9): audit(), check(), {chromium}, errors, failures, output, report, resources (+1 more)
+Cohesion: 0.20
+Nodes (10): audit(), check(), {chromium}, errors, failures, output, report, resources (+2 more)
 
 ## Knowledge Gaps
 - **8 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
@@ -469,16 +489,16 @@ Nodes (9): audit(), check(), {chromium}, errors, failures, output, report, resou
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `8. 총 10개 화면 상세 설계` connect `8. 총 10개 화면 상세 설계` to `화면 03 — 기체 무게 계측실`, `화면 04 — 증거 분석 보드`, `화면 08 — 기체 배달 관제센터`, `gas-city-operation_deep-design_v2.md`, `화면 05 — 온도 터널`, `화면 09 — 3D 공기 공학실`, `화면 07 — 기체 정보 연구소`, `화면 01 — 도시 비상 신호`, `화면 02 — 공기 흐름 작동 시험`, `화면 06 — 압력 제어 및 환경 적용`?**
-  _High betweenness centrality (0.052) - this node is a cross-community bridge._
+  _High betweenness centrality (0.032) - this node is a cross-community bridge._
 - **Are the 2 inferred relationships involving `mountMap()` (e.g. with `draw()` and `resize()`) actually correct?**
   _`mountMap()` has 2 INFERRED edges - model-reasoned connections that need verification._
+- **Should `ref_node_fs` be split into smaller, more focused modules?**
+  _Cohesion score 0.11052631578947368 - nodes in this community are weakly interconnected._
+- **Why does `icon()` connect `main.js` to `sound`, `map.js`, `mountMap`, `play-mission.js`, `audio.js`, `createPlayback`?**
+  _High betweenness centrality (0.025) - this node is a cross-community bridge._
 - **Should `main.js` be split into smaller, more focused modules?**
-  _Cohesion score 0.0641025641025641 - nodes in this community are weakly interconnected._
-- **Why does `STAGES` connect `model.test.mjs` to `ref_node_fs`, `main.js`, `qa-learning.mjs`, `sound`, `qa-responsive.mjs`, `mountMap`, `src/state.js`, `qa-playback.mjs`, `qa-voices.mjs`?**
-  _High betweenness centrality (0.018) - this node is a cross-community bridge._
-- **Should `sound` be split into smaller, more focused modules?**
-  _Cohesion score 0.0818452380952381 - nodes in this community are weakly interconnected._
-- **Why does `mountMap()` connect `mountMap` to `sound`, `main.js`, `map-encounters.js`?**
-  _High betweenness centrality (0.016) - this node is a cross-community bridge._
-- **Should `scripts` be split into smaller, more focused modules?**
-  _Cohesion score 0.08333333333333333 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06453888203138776 - nodes in this community are weakly interconnected._
+- **Why does `mountMap()` connect `mountMap` to `model.test.mjs`, `main.js`, `map.js`, `bindDirectionPad`, `map-encounters.js`, `building-restoration.js`?**
+  _High betweenness centrality (0.024) - this node is a cross-community bridge._
+- **Should `render.mjs` be split into smaller, more focused modules?**
+  _Cohesion score 0.11428571428571428 - nodes in this community are weakly interconnected._
