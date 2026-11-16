@@ -168,3 +168,4 @@
 .reduce-motion .weight-layout .scale-jar.off-scale.is-next-action{animation:none}
 .weight-layout .off-scale .jar-action-label{font-weight:800;background:#fff4d8;border-color:#e2b65f;color:#6a4708}
 .weight-layout .scale-scene.touch-drop-ready{outline-offset:-6px;background:url('/assets/visuals/weight-bench-v1.jpg') center bottom/cover no-repeat!important}
+@media (max-height:520px){.weight-layout .scale-readout{font-size:clamp(11px,calc(var(--scale-size) * .12),34px)!important;padding:2px 5px}}
