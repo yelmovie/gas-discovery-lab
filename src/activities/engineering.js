@@ -18,19 +18,19 @@ export function mountEngineering(host,task,ctx){
   if(part.slot!==slot){message(feedback,'부품과 연결 칸의 이름을 맞춰 주세요.');return;}
   if(slot==='nozzle'?design.nozzle:design[slot]===part.id)return;
   if(slot==='nozzle')design.nozzle=true;else design[slot]=part.id;
-  sound('connect');render();if(design.valve)test();
+  sound('connect');render();slots.querySelector(`[data-slot="${slot}"]`)?.classList.add('just-snapped');if(design.valve)test();
  }
  for(const part of PARTS){
   const b=button(`${part.prop?prop(part.prop):pipeArt(part.id)}<span>${part.name}</span>`,()=>assign(part,part.slot),'part-card');
   b.dataset.part=part.id;b.dataset.slot=part.slot;b.setAttribute('aria-label',`${part.name} 연결`);
-  touchDrag(b,{signal:ctx.signal,selector:'.design-slot',onDrop:target=>assign(part,target.dataset.slot)});tray.append(b);
+  touchDrag(b,{signal:ctx.signal,selector:'.design-slot',onDrop:target=>assign(part,target.dataset.slot)});b.addEventListener('pointerdown',()=>slots.dataset.dragging=part.slot,{signal:ctx.signal});for(const type of ['pointerup','pointercancel','lostpointercapture'])b.addEventListener(type,()=>delete slots.dataset.dragging,{signal:ctx.signal});tray.append(b);
  }
  function nextParts(){return !design.source?'.part-card[data-slot="source"]':!design.pipe?'.part-card[data-slot="pipe"]':!design.nozzle?'.part-card[data-slot="nozzle"]':null;}
  function errorTarget(kind){return kind==='source'?'.part-card[data-slot="source"]':['pipe','route'].includes(kind)?'.part-card[data-slot="pipe"]':kind==='nozzle'?'.part-card[data-slot="nozzle"]':kind==='direction'?'.direction-control':'.valve-control';}
  function guideNext(){
   if(lastResult){ctx.guide?.('다시 살펴봐요',lastResult.message);ctx.nextAction?.(errorTarget(lastResult.kind));return;}
   const placed=Boolean(design.source&&design.pipe&&design.nozzle);
-  ctx.guide?.(successful?'장치 완성':placed?'밸브 열기':'부품 선택',successful?'공기의 힘으로 장치가 움직여요.':placed?'밸브를 눌러 열면 공기가 바로 흘러 시험돼요.':!design.source?'공기를 보내는 부품인 공급부를 골라요.':!design.pipe?'공기가 지나갈 관을 골라요.':'공기가 나오는 끝부분인 노즐을 골라요.',['공기 공급부, 관, 노즐이 차례로 이어져야 해요.','공기가 통과할 수 있는 관인지, 밸브가 열렸는지 살펴봐요.',task.target==='car'?'자동차가 갈 방향과 공기가 나갈 방향을 비교해 봐요.':'노즐의 출구가 움직일 장치를 향하는지 확인해요.']);
+  ctx.guide?.(successful?'장치 완성':placed?'밸브 열기':'부품 선택',successful?'공기의 힘으로 장치가 움직여요.':placed?'밸브를 눌러 열면 공기가 바로 흘러 시험돼요.':!design.source?'공기를 보내는 공급부 카드를 1번 칸으로 끌어 끼워요. 눌러도 돼요.':!design.pipe?'공기가 지나갈 관 카드를 2번 칸으로 끌어 끼워요.':'공기가 나오는 노즐 카드를 3번 칸으로 끌어 끼워요.',['공기 공급부, 관, 노즐이 차례로 이어져야 해요.','공기가 통과할 수 있는 관인지, 밸브가 열렸는지 살펴봐요.',task.target==='car'?'자동차가 갈 방향과 공기가 나갈 방향을 비교해 봐요.':'노즐의 출구가 움직일 장치를 향하는지 확인해요.']);
   ctx.nextAction?.(successful?[]:nextParts()||'.valve-control');
  }
  function render(){
@@ -39,7 +39,7 @@ export function mountEngineering(host,task,ctx){
   slots.replaceChildren();
   for(const [slot,label]of [['source','공급부'],['pipe','관'],['nozzle','노즐']]){
    const id=slot==='nozzle'?(design.nozzle?'nozzle':null):design[slot],part=PARTS.find(p=>p.id===id);
-   const box=html(`<div class="design-slot ${part?'filled':''} ${slot==='nozzle'&&design.direction==='backward'?'backward':''}" role="group" aria-label="${label} 연결 칸${part?': '+part.name:''}"><span class="slot-caption"><span class="slot-order">${slots.children.length+1}</span><span>${part?part.name:label}</span></span><span class="slot-art">${part?(part.prop?prop(part.prop):pipeArt(part.id)):'<span class="slot-plus">+</span>'}</span></div>`);
+   const box=html(`<div class="design-slot ${part?'filled':''} ${slot==='nozzle'&&design.direction==='backward'?'backward':''}" role="group" aria-label="${label} 연결 칸${part?': '+part.name:''}"><span class="slot-caption"><span class="slot-order">${slots.children.length+1}</span><span>${part?part.name:label}</span></span><span class="slot-art">${part?(part.prop?prop(part.prop):pipeArt(part.id)):'<span class="slot-plus">+</span><span class="slot-drop-hint">여기로 끌어 놓기</span>'}</span></div>`);
    box.dataset.slot=slot;
    box.ondragover=event=>event.preventDefault();
    box.ondrop=event=>{event.preventDefault();const part=PARTS.find(p=>p.id===event.dataTransfer.getData('text/plain'));if(part)assign(part,slot);};slots.append(box);

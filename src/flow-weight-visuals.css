@@ -155,3 +155,16 @@
 .weight-layout .record-tag{font-style:normal;font-weight:800;font-size:clamp(13px,1vw,17px);padding:2px 10px;border-radius:999px;background:#fdf0cf;color:#7a5418;border:1px solid #e6c886}
 .weight-layout .measurement-card.selected .record-tag{background:#d8efe1;color:#245a47;border-color:#8fc0a4}
 .weight-layout .scale-scene{background:url('/assets/visuals/weight-bench-v1.jpg') center bottom/cover no-repeat}
+/* 2026-11-17: 펌프는 꾹 누르기, 용기는 저울 위로 끌어 올리기 */
+.weight-layout .hold-pump{position:relative;overflow:hidden;isolation:isolate}
+.weight-layout .hold-pump .hold-fill{position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,#bfe3d3,#8fcab4);transform:scaleX(0);transform-origin:left center;border-radius:inherit}
+.weight-layout .hold-pump.is-holding .hold-fill{animation:hold-pump-fill 1.3s linear infinite}
+.weight-layout .hold-pump.is-holding{transform:translateY(2px)}
+@keyframes hold-pump-fill{to{transform:scaleX(1)}}
+.reduce-motion .weight-layout .hold-pump.is-holding .hold-fill{animation:none;transform:scaleX(1)}
+.weight-layout .scale-jar.off-scale{cursor:grab;touch-action:none}
+.weight-layout .scale-jar.off-scale.is-next-action{animation:jar-nudge 1.6s ease-in-out infinite}
+@keyframes jar-nudge{50%{translate:10px -6px}}
+.reduce-motion .weight-layout .scale-jar.off-scale.is-next-action{animation:none}
+.weight-layout .off-scale .jar-action-label{font-weight:800;background:#fff4d8;border-color:#e2b65f;color:#6a4708}
+.weight-layout .scale-scene.touch-drop-ready{outline-offset:-6px;background:url('/assets/visuals/weight-bench-v1.jpg') center bottom/cover no-repeat!important}

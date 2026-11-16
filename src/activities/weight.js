@@ -5,7 +5,7 @@ import {icon} from '../icons.js';
 import {sound} from '../audio.js';
 export function mountWeight(host,task,ctx){
  const draft=ctx.draft||{};const fresh=!ctx.draft,ready=task.prepared===true;let level=Number.isFinite(draft.level)?draft.level:ready?0:task.level,zero=draft.zero===true||(fresh&&ready),onScale=draft.onScale===true||(fresh&&ready),air=Number.isFinite(draft.air)?draft.air:task.initial,tare=Number.isInteger(draft.tare)?draft.tare:ready?1:0,records=Array.isArray(draft.records)?draft.records.slice(0,8):[],selected=[],completed=false,visibleStart=Math.max(0,(draft.records?.length||0)-2);
- host.innerHTML=`<div class="weight-layout"><section class="lab-panel scale-panel" aria-label="같은 용기의 무게 실험"><div class="scale-readiness"><span class="same-container">같은 용기 · 모형 저울</span><span class="level-state"></span><span class="zero-state"></span></div><div class="scale-scene"><div class="scale-jar" role="button" tabindex="0" aria-label="밀폐 용기를 저울로 끌거나 눌러 올리기">${prop('jar','','공기가 든 단단한 밀폐 용기')}<span class="jar-action-label">눌러 올려요</span></div>${prop('scale','scale-art','전자저울')}<output class="scale-readout" aria-live="polite"></output></div><div class="weight-actions"><div class="level-row"><span>수평</span><div class="bubble-level"><i></i></div><button class="button secondary" data-action="level">수평 맞추기</button></div><div class="control-row preparation-actions"><button class="button secondary" data-action="zero">빈 저울 0점</button><button class="button secondary" data-action="place"></button></div><div class="pump-row"><div class="air-amount-copy">${prop('pump','pump-mini','공기의 양을 바꾸는 펌프')}<span>공기의 양</span><strong class="air-amount-value"></strong></div><div class="air-amount-meter" aria-hidden="true">${'<i></i>'.repeat(12)}</div><div class="control-row pump-actions"><button class="button secondary" data-action="remove">공기 빼기</button><button class="button secondary" data-action="add">공기 넣기</button><button class="button primary record-button">${icon('book')} 처음 기록</button></div></div></div></section><aside class="lab-panel records-panel"><div class="weight-record-heading"><span>측정 기록 · 처음과 나중</span><div class="record-pagination" hidden><button class="record-page record-prev" aria-label="이전 측정 기록">${icon('back')}</button><span class="record-page-count"></span><button class="record-page record-next" aria-label="다음 측정 기록">${icon('arrow')}</button></div></div><div class="measurement-list"></div><div class="weight-comparison" hidden></div><div class="activity-feedback"></div><div class="evidence-slot"></div></aside></div>`;
+ host.innerHTML=`<div class="weight-layout"><section class="lab-panel scale-panel" aria-label="같은 용기의 무게 실험"><div class="scale-readiness"><span class="same-container">같은 용기 · 모형 저울</span><span class="level-state"></span><span class="zero-state"></span></div><div class="scale-scene"><div class="scale-jar" role="button" tabindex="0" aria-label="밀폐 용기를 저울 위로 끌어 올리기, 눌러도 올라가요">${prop('jar','','공기가 든 단단한 밀폐 용기')}<span class="jar-action-label">저울로 끌어 올려요</span></div>${prop('scale','scale-art','전자저울')}<output class="scale-readout" aria-live="polite"></output></div><div class="weight-actions"><div class="level-row"><span>수평</span><div class="bubble-level"><i></i></div><button class="button secondary" data-action="level">수평 맞추기</button></div><div class="control-row preparation-actions"><button class="button secondary" data-action="zero">빈 저울 0점</button><button class="button secondary" data-action="place"></button></div><div class="pump-row"><div class="air-amount-copy">${prop('pump','pump-mini','공기의 양을 바꾸는 펌프')}<span>공기의 양</span><strong class="air-amount-value"></strong></div><div class="air-amount-meter" aria-hidden="true">${'<i></i>'.repeat(12)}</div><div class="control-row pump-actions"><button class="button secondary hold-pump" data-action="remove"><i class="hold-fill" aria-hidden="true"></i><span>꾹 눌러 공기 빼기</span></button><button class="button secondary hold-pump" data-action="add"><i class="hold-fill" aria-hidden="true"></i><span>꾹 눌러 공기 넣기</span></button><button class="button primary record-button">${icon('book')} 처음 기록</button></div></div></div></section><aside class="lab-panel records-panel"><div class="weight-record-heading"><span>측정 기록 · 처음과 나중</span><div class="record-pagination" hidden><button class="record-page record-prev" aria-label="이전 측정 기록">${icon('back')}</button><span class="record-page-count"></span><button class="record-page record-next" aria-label="다음 측정 기록">${icon('arrow')}</button></div></div><div class="measurement-list"></div><div class="weight-comparison" hidden></div><div class="activity-feedback"></div><div class="evidence-slot"></div></aside></div>`;
  const feedback=host.querySelector('.activity-feedback'),list=host.querySelector('.measurement-list');
  function save(){ctx.saveDraft({level,zero,onScale,air,tare,records});}
  function autoBaseline(){
@@ -23,8 +23,8 @@ export function mountWeight(host,task,ctx){
   const prepared=level===0&&zero,baseline=records.some(r=>r.valid&&r.tare===tare);
   host.querySelector('.level-row').hidden=level===0;
   host.querySelector('[data-action="zero"]').hidden=level!==0||zero||onScale;
-  host.querySelector('[data-action="place"]').hidden=level!==0||(!onScale&&!zero)||(onScale&&zero);
-  host.querySelector('.preparation-actions').hidden=level!==0||(zero&&onScale);
+  host.querySelector('[data-action="place"]').hidden=level!==0||!onScale||zero;
+  host.querySelector('.preparation-actions').hidden=level!==0||(zero&&onScale)||(zero&&!onScale);
   host.querySelector('.pump-row').hidden=!prepared||!onScale;
   for(const action of ['add','remove'])host.querySelector(`[data-action="${action}"]`).hidden=!baseline;
   host.querySelector('.record-button').innerHTML=`${icon('book')} 다시 재기`;host.querySelector('.record-button').hidden=!baseline;
@@ -35,10 +35,10 @@ export function mountWeight(host,task,ctx){
  function guideCurrentAction(){
   if(completed){ctx.nextAction?.([]);return;}
   const prepared=level===0&&zero,baseline=records.some(r=>r.valid&&r.tare===tare);
-  const step=level!==0?['1 · 수평 맞추기','수평 맞추기를 눌러 저울의 기울기를 맞춰요.']:!zero?['1 · 0점 맞추기',onScale?'용기를 내려 빈 저울을 준비해요.':'빈 저울 0점을 눌러 숫자를 0으로 맞춰요.']:!onScale?['1 · 용기 올리기','왼쪽 용기를 눌러 저울에 올려요. 끌어도 돼요.']:!baseline?['1 · 저울 준비','저울을 다시 준비해요.']:records.some(r=>compareMeasurements(r,{air,valid:prepared,jar:'rigid-jar',tare},task).ok)?['3 · 다시 재기','다시 재기를 눌러 처음 무게와 비교해요.']:['2 · 공기 바꾸기',`${task.direction>0?'공기 넣기':'공기 빼기'}를 꾹 눌러 공기를 ${task.minDelta}칸 이상 ${task.direction>0?'넣어요':'빼요'}.`];
+  const step=level!==0?['1 · 수평 맞추기','수평 맞추기를 눌러 저울의 기울기를 맞춰요.']:!zero?['1 · 0점 맞추기',onScale?'용기를 내려 빈 저울을 준비해요.':'빈 저울 0점을 눌러 숫자를 0으로 맞춰요.']:!onScale?['1 · 용기 올리기','왼쪽 용기를 저울 위로 끌어 올려요. 눌러도 돼요.']:!baseline?['1 · 저울 준비','저울을 다시 준비해요.']:records.some(r=>compareMeasurements(r,{air,valid:prepared,jar:'rigid-jar',tare},task).ok)?['3 · 다시 재기','다시 재기를 눌러 처음 무게와 비교해요.']:['2 · 공기 바꾸기',`${task.direction>0?'공기 넣기':'공기 빼기'} 버튼을 꾹 누르고 있으면 공기가 계속 ${task.direction>0?'들어가요':'빠져요'}. ${task.minDelta}칸 이상 바꿔요.`];
   ctx.guide?.(...step,['같은 용기와 같은 저울로 비교해야 해요.','빈 저울의 0점과 수평을 먼저 확인해요.',`공기 ${task.minDelta}칸 이상을 ${task.direction>0?'넣고':'빼고'} 다시 재어 보아요. 펌프 버튼을 길게 눌러도 돼요.`]);
   const currentRecord={air,valid:prepared,jar:'rigid-jar',tare},canCompare=records.some(r=>compareMeasurements(r,currentRecord,task).ok);
-  ctx.nextAction?.(completed?[]:level!==0?'[data-action="level"]':!zero?onScale?'[data-action="place"]':'[data-action="zero"]':!onScale?'[data-action="place"]':canCompare?'.record-button':`[data-action="${task.direction>0?'add':'remove'}"]`);
+  ctx.nextAction?.(completed?[]:level!==0?'[data-action="level"]':!zero?onScale?'[data-action="place"]':'[data-action="zero"]':!onScale?'.scale-jar':canCompare?'.record-button':`[data-action="${task.direction>0?'add':'remove'}"]`);
  }
  function renderRecords(focusIndex=-1){
   list.replaceChildren();
@@ -82,14 +82,14 @@ export function mountWeight(host,task,ctx){
  host.querySelector('.record-next').onclick=()=>{visibleStart=Math.min(Math.max(0,records.length-2),visibleStart+2);renderRecords();};
  const jar=host.querySelector('.scale-jar'),place=()=>{if(!completed&&!onScale){onScale=true;sound('connect');update();}};
  touchDrag(jar,{signal:ctx.signal,selector:'.scale-scene',onDrop:place});jar.onclick=place;jar.onkeydown=e=>{if(['Enter','Space'].includes(e.code)){e.preventDefault();place();}};
- for(const action of ['add','remove']){const el=host.querySelector(`[data-action="${action}"]`);repeatPress(el,()=>el.onclick(),ctx.signal);}
+ for(const action of ['add','remove']){const el=host.querySelector(`[data-action="${action}"]`);repeatPress(el,()=>el.onclick(),ctx.signal);el.addEventListener('pointerdown',e=>{if(e.button===0&&!el.disabled)el.classList.add('is-holding');},{signal:ctx.signal});for(const type of ['pointerup','pointercancel','lostpointercapture','pointerleave'])el.addEventListener(type,()=>el.classList.remove('is-holding'),{signal:ctx.signal});}
  ctx.playback?.({steps:()=>{
   if(completed)return [];
   const steps=[],add=(label,target,wait=750)=>steps.push({label,target,run:()=>{if(!completed)host.querySelector(target)?.click();},wait});
   if(level!==0)add('수평계의 방울을 가운데로 맞춰요.','[data-action="level"]');
   if(!zero&&onScale)add('용기를 내려 빈 저울을 준비해요.','[data-action="place"]');
   if(!zero)add('빈 저울의 0점을 맞춰요.','[data-action="zero"]');
-  if(!onScale||!zero)add('같은 용기를 저울에 올려요.','[data-action="place"]',900);
+  if(!onScale||!zero)add('같은 용기를 저울 위로 올려요.','.scale-jar',900);
   let current=air;const base=records.findLast(r=>r.valid&&r.tare===tare)||{air:current};
   const changeTo=value=>{while(current!==value){const direction=value>current?1:-1;add(direction>0?'공기를 한 칸 넣어요.':'공기를 한 칸 빼요.',`[data-action="${direction>0?'add':'remove'}"]`,500);current+=direction;}};
   if(!records.some(r=>compareMeasurements(r,{air:current,valid:true,jar:'rigid-jar',tare},task).ok))changeTo(Math.max(0,Math.min(12,base.air+task.direction*task.minDelta)));
