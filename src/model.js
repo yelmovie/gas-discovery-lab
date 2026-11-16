@@ -57,7 +57,7 @@ export function validateDevice(design,task){
  if(!['straight','elbow'].includes(design.pipe))return {ok:false,kind:'pipe',message:'관 그림에서 양끝을 따라가 봐요. 입구에서 출구까지 이어지는지 확인해요.'};
  if(task.requireElbow&&design.pipe!=='elbow')return {ok:false,kind:'route',message:'관 칸의 양끝과 의뢰 그림의 길을 비교해요. 어디에서 방향이 바뀌는지 살펴봐요.'};
  if(!design.nozzle)return {ok:false,kind:'nozzle',message:'공기가 나갈 노즐을 연결해요.'};
- if(design.direction!==task.nozzle)return {ok:false,kind:'direction',message:'시험 그림에서 바람이 나간 방향과 장치가 움직이길 바라는 방향을 비교해요. 방향 버튼으로 다시 시험해요.'};
+ if(design.direction!==task.nozzle)return {ok:false,kind:'direction',message:'시험 그림에서 바람이 나간 방향과 장치가 움직이길 바라는 방향을 비교해요. 방향 버튼을 누르면 바로 다시 시험돼요.'};
  if(!design.valve)return {ok:false,kind:'valve',message:'밸브가 닫혀 있어요. 공기 길을 열어 주세요.'};
  return {ok:true};
 }

@@ -11,6 +11,8 @@ const USE_VISUALS={
  carbon:{src:'/assets/prop-soda.webp',alt:'이산화 탄소가 녹아 있는 탄산음료',caption:'탄산음료'},
  extinguisher:{src:'/assets/visuals/co2-extinguisher-v1.webp',alt:'넓은 검은 방사혼이 달린 이산화 탄소 소화기',caption:'일부 소화기'}
 };
+// 의뢰마다 시설 그림을 보여 준다(정답 쓰임 그림은 기체를 고른 뒤에만 보여 준다).
+const FACILITY_ART={'delivery-1':'/assets/visuals/facility-snack-v1.webp','delivery-2':'/assets/visuals/facility-breathing-v1.webp','delivery-3':'/assets/visuals/facility-soda-v1.webp','delivery-4':'/assets/visuals/facility-safety-v1.webp'};
 const useVisual=(gas,task)=>USE_VISUALS[gas==='carbon'&&task.id==='delivery-4'?'extinguisher':gas];
 const useImage=(visual,cls='gas-use-image')=>`<img class="${cls}" src="${visual.src}" alt="${escapeHTML(visual.alt)}" draggable="false">`;
 export function mountDelivery(host,task,ctx){
@@ -18,7 +20,7 @@ export function mountDelivery(host,task,ctx){
  const reasons=[task.reason,...['다른 물질과 쉽게 반응하지 않아요.','사람의 호흡에 필요해요.','물에 녹아 탄산음료를 만들어요.','불이 타는 것을 돕지 않아요.'].filter(x=>x!==task.reason).slice(0,2)];
  // A fixed permutation prevents the first position from always being the answer.
  const orderedReasons=task.id.endsWith('2')?[reasons[1],reasons[0],reasons[2]]:task.id.endsWith('3')?[reasons[1],reasons[2],reasons[0]]:reasons;
- host.innerHTML=`<div class="delivery-layout"><section class="lab-panel research-panel"><div class="gas-cards" role="group" aria-label="조사할 기체"></div><div class="gas-information"></div><p class="gas-color-note">카드의 색은 구분용 표시예요.</p></section><aside class="lab-panel facility-panel"><div class="facility-request" aria-label="${escapeHTML(task.facility)}의 부탁"><p>${escapeHTML(task.goal)}</p></div><div class="reason-slot" aria-label="시설에 필요한 기체의 성질"></div><div class="supply-port" role="status">${icon('flask')}<span>배송 준비</span></div><div class="activity-feedback"></div><div class="evidence-slot"></div></aside></div>`;
+ host.innerHTML=`<div class="delivery-layout"><section class="lab-panel research-panel"><div class="gas-cards" role="group" aria-label="조사할 기체"></div><div class="gas-information"></div><p class="gas-color-note">카드의 색은 구분용 표시예요.</p></section><aside class="lab-panel facility-panel"><div class="facility-request" aria-label="${escapeHTML(task.facility)}의 부탁"><img class="facility-art" src="${FACILITY_ART[task.id]}" alt="${escapeHTML(task.facility)}" draggable="false"><div class="facility-copy"><strong>${escapeHTML(task.facility)}</strong><p>${escapeHTML(task.goal)}</p></div></div><div class="reason-slot" aria-label="시설에 필요한 기체의 성질"></div><div class="supply-port" role="status">${icon('flask')}<span>배송 준비</span></div><div class="activity-feedback"></div><div class="evidence-slot"></div></aside></div>`;
  const cards=host.querySelector('.gas-cards'),information=host.querySelector('.gas-information'),feedback=host.querySelector('.activity-feedback'),port=host.querySelector('.supply-port');
  function save(){ctx.saveDraft({selected,reason,read:[...read]});}
  function chooseGas(id){if(delivered||ctx.signal.aborted)return;previewId=null;
@@ -34,7 +36,8 @@ export function mountDelivery(host,task,ctx){
   if(delivered||ctx.signal.aborted)return;
   for(const b of cards.children)b.classList.toggle('is-observing',b.dataset.gas===previewId);
   const gas=GASES.find(g=>g.id===(previewId||selected));
-  const visual=useVisual(gas?.id||task.gas,task);
+  if(!gas){information.innerHTML=`<div class="gas-use-card awaiting-gas gas-awaiting"><div class="gas-awaiting-orbs" aria-hidden="true">${GASES.map(g=>`<span class="gas-orb" style="--gas-color:${g.color}">${escapeHTML(g.symbol)}</span>`).join('')}</div><p>위의 기체 카드를 눌러<br>성질과 쓰임을 조사해요.</p></div>`;return;}
+  const visual=useVisual(gas.id,task);
   information.innerHTML=`<div class="gas-use-card ${gas?'':'awaiting-gas'}"><div class="gas-use-visual">${useImage(visual)}<span>${escapeHTML(visual.caption)}</span></div><div class="gas-use-copy">${gas?`<h3>${gas.name}의 성질</h3><ul>${gas.facts.map(f=>`<li>${emphasizeConcept(f,ctx.terms)}</li>`).join('')}</ul>`:''}</div></div>`;
  }
  function guideSelection(){

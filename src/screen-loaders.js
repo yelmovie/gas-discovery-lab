@@ -30,7 +30,7 @@ export async function loadActivity(id) {
   return { mount: activity[mount], mountPlayer: player.mountExperimentPlayer };
 }
 export async function loadPlayMission() {
-  const [module] = await Promise.all([import('./play-mission.js'), style('./play-mission.css')]);
+  const [module] = await Promise.all([import('./play-mission.js'), style('./play-mission.css'), loadConceptVisuals()]);
   return module.openPlayMission;
 }
 

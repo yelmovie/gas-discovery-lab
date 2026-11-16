@@ -128,3 +128,30 @@
  .flow-layout .has-flow .pipe-water,.weight-layout .pump-stroke>.prop{animation:none}
  .weight-layout .scale-jar{transition:none}
 }
+/* 2026-11-16: 바람은 처음부터 흐른다. 공기 보내기 버튼 대신 상태 표시 */
+.flow-layout .supply-live{display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:8px 14px;border-radius:999px;background:#e3f2e8;border:2px solid #78aa92;color:#1d5a4a;font-weight:800;text-align:center}
+.flow-layout .supply-live svg{width:18px;height:18px;animation:flow-live-nudge 1.2s ease-in-out infinite}
+@keyframes flow-live-nudge{50%{transform:translateX(4px)}}
+.reduce-motion .flow-layout .supply-live svg{animation:none}
+.flow-layout .pipe-cell.flow-stopped{animation:flow-stop-pulse 1.4s ease-in-out infinite}
+@keyframes flow-stop-pulse{50%{box-shadow:0 0 0 6px #f2d69a}}
+.reduce-motion .flow-layout .pipe-cell.flow-stopped{animation:none}
+/* 2026-11-16: 저울 조작은 저울 아래 한 줄, 오른쪽은 기록만 */
+.weight-layout .scale-panel{grid-template-rows:auto minmax(0,1fr) auto}
+.weight-layout .scale-panel>.weight-actions{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;padding:8px;border-radius:16px;background:#fffaf0e6;border:1px solid #e3d6b4}
+.weight-layout .scale-panel>.weight-actions>*{flex:1 1 auto}
+.weight-layout .scale-panel>.weight-actions [hidden]{display:none!important}
+.weight-layout .scale-panel .level-row{grid-template-columns:auto minmax(80px,140px) auto;align-items:center}
+.weight-layout .scale-panel .pump-row{grid-template-columns:auto minmax(80px,1fr);align-items:center;column-gap:10px}
+.weight-layout .scale-panel .pump-row .pump-actions{grid-column:1 / -1}
+.weight-layout .scale-art{transform:translateX(-50%) rotate(var(--tilt,0deg));transition:transform .35s ease}
+.weight-layout .scale-jar:not(.off-scale){transform:translateX(-50%) rotate(var(--tilt,0deg))}
+.weight-layout .records-panel{justify-content:flex-start;gap:12px}
+.weight-layout .records-panel .measurement-card strong{font-size:clamp(26px,2.6vw,44px)}
+.weight-layout .empty-record{border:2px dashed #cfd9c6;border-radius:16px;background:#fbfdf7;color:#4c6a5e;padding:22px 12px}
+.weight-layout .weight-comparison{border-radius:16px;padding:12px 14px}
+.reduce-motion .weight-layout .scale-art{transition:none}
+.activity-complete .weight-layout .scale-panel>.weight-actions{display:none}
+.weight-layout .record-tag{font-style:normal;font-weight:800;font-size:clamp(13px,1vw,17px);padding:2px 10px;border-radius:999px;background:#fdf0cf;color:#7a5418;border:1px solid #e6c886}
+.weight-layout .measurement-card.selected .record-tag{background:#d8efe1;color:#245a47;border-color:#8fc0a4}
+.weight-layout .scale-scene{background:url('/assets/visuals/weight-bench-v1.jpg') center bottom/cover no-repeat}

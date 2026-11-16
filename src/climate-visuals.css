@@ -66,3 +66,13 @@
 @media(prefers-reduced-motion:reduce){
  .climate-layout .pressure-plunger-art,.climate-layout .piston-air-space,.climate-layout .thermal-balloon,.climate-layout .comparison-track>i{transition:none}
 }
+
+/* 2026-11-16 온도 장면: 차가운 곳·따뜻한 곳을 그림으로 보여 준다(조건 이름만 바뀌는 밋밋함 해소). */
+.climate-layout .climate-scene.temperature::before,.climate-layout .climate-scene.temperature::after{content:"";position:absolute;inset:0;z-index:-1;background:center 70%/cover no-repeat;opacity:0;transition:opacity .45s ease;pointer-events:none}
+.climate-layout .climate-scene.temperature::before{background-image:url('/assets/visuals/climate-cold-v1.webp')}
+.climate-layout .climate-scene.temperature::after{background-image:url('/assets/visuals/climate-warm-v1.webp')}
+.climate-layout .climate-scene.temperature[data-condition="0"]::before,.climate-layout .climate-scene.temperature[data-condition="2"]::after{opacity:1}
+.climate-layout .climate-scene.temperature .thermal-apparatus{filter:drop-shadow(0 10px 14px #1d3b4a33)}
+.climate-layout .climate-scene-head .condition-pill{box-shadow:0 3px 10px #1d3b4a26;font-weight:800}
+.reduce-motion .climate-layout .climate-scene.temperature::before,.reduce-motion .climate-layout .climate-scene.temperature::after{transition:none}
+.climate-layout .climate-scene-head .climate-constants{padding:3px 9px;border-radius:999px;background:#fffef7ea;color:#245d59;box-shadow:0 3px 10px #1d3b4a1f;font-weight:700}

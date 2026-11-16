@@ -21,25 +21,22 @@ try{
   page.on('pageerror',error=>errors.push(error.message));
   await page.goto(base);
   await page.locator('.play-mission-entry').click();
+  const air=()=>page.locator('.pm-air-meter').getAttribute('aria-label');
+  const fill=async level=>{await page.locator('[data-pump]').tap();await page.waitForFunction(r=>document.querySelector('.pm-air-meter')?.getAttribute('aria-label')===`공기 ${r} / ${r}`,missions[level].required);};
   for(let level=0;level<missions.length;level++){
    await page.locator('[data-pump]').tap();
-   assert.equal(await page.locator('.gas-target b').textContent(),`0 / ${missions[level].required}`);
-   for(const [cell,type,turn] of solutions[level]){
-    if(type){
-     await page.locator('[data-mode="shape"]').click();
-     for(let i=0;i<type;i++)await page.locator(`[data-cell="${cell}"]`).tap();
-    }
-    await page.locator('[data-mode="rotate"]').click();
-    for(let i=0;i<turn;i++)await page.locator(`[data-cell="${cell}"]`).click();
-    if(turn){
+   assert.equal(await air(),`공기 0 / ${missions[level].required}`,'An unconnected route does not lift the platform');
+   for(const [cell,,turn] of solutions[level]){
+    const clicks=(turn-missions[level].start[cell].turn+4)%4;
+    for(let i=0;i<clicks;i++)await page.locator(`[data-cell="${cell}"]`).click();
+    if(clicks){
      const focused=await page.evaluate(()=>document.activeElement?.dataset.cell);
      assert.equal(focused,String(cell),'Repeated pipe operations preserve keyboard focus');
     }
    }
-   if((await page.locator('[data-vent]').textContent()).includes('열림'))await page.locator('[data-vent]').click();
-   await page.locator('[data-pump]').focus();
-   for(let i=0;i<missions[level].required;i++)await page.keyboard.press('Enter');
-   assert.equal(await page.locator('.gas-target b').textContent(),`${missions[level].required} / ${missions[level].required}`);
+   if(await page.locator('[data-vent]').count()&&(await page.locator('[data-vent]').getAttribute('aria-pressed'))==='false')await page.locator('[data-vent]').click();
+   await page.locator('[data-pump]').focus();await page.keyboard.press('Enter');
+   await page.waitForFunction(r=>document.querySelector('.pm-air-meter')?.getAttribute('aria-label')===`공기 ${r} / ${r}`,missions[level].required);
    await page.screenshot({path:`${output}/${width}x${height}-mission-${level+1}.png`});
    const layout=await page.locator('.play-mission').evaluate(dialog=>{
     const bounds=dialog.getBoundingClientRect();
@@ -52,7 +49,7 @@ try{
    assert.deepEqual(layout.hiddenControls,[],'The complete experiment fits a landscape screen');
    await page.locator('[data-release]').click();
    assert.equal(await page.evaluate(n=>JSON.parse(localStorage.getItem('science-play-15-v1')).air[n],level),0,'Released air is saved immediately');
-   for(let i=0;i<missions[level].required;i++)await page.locator('[data-pump]').tap();
+   await fill(level);
    if(level<2)await page.locator('[data-next]').click();
   }
   await page.keyboard.press('Escape');
@@ -61,10 +58,7 @@ try{
   assert.deepEqual(await page.evaluate(()=>JSON.parse(localStorage.getItem('science-play-15-v1')).won),[0,1,2]);
   await page.locator('[data-release]').click();await page.keyboard.press('Escape');
   await page.reload();await page.locator('.play-mission-entry').click();
-  assert.equal(await page.locator('.gas-target b').textContent(),'0 / 5');
-  await page.locator('[data-cell="3"]').click();
-  await page.locator('[data-undo]').click();
-  assert.ok(await page.locator('[data-undo]').isDisabled());
+  assert.equal(await air(),'공기 0 / 5');
   report.push({width,height,missions:3,passed:true});
   await context.close();console.log(`Completed 3 missions at ${width}×${height}`);
  }

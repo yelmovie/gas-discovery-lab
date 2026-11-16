@@ -16,9 +16,9 @@ export const STAGES = [
  ]},
  {id:'weight',name:'무게 연구소',chapter:'보이지 않는 무게',short:'무게를 비교해요',npc:'lumi',color:'blue',evidence:'기체 무게 측정 기록',badge:'꼼꼼한 측정가',description:'공기에도 무게가 있을까요? 같은 용기에서 공기의 양만 바꾸어 비교해요.',keyTerms:['무게','같은 용기','공기의 양','0점','수평'],bridge:'다음은 같은 공기의 부피를 비교해요.',reward:'마을의 물류 저울이 다시 작동해요.',standard:'4과15-01',tasks:[
   {id:'weight-1',title:'공기를 더 넣으면 어떨까요?',goal:'빈 저울을 맞춘 뒤, 공기를 넣기 전후를 재요.',direction:1,minDelta:1,initial:3,level:-2},
-  {id:'weight-2',title:'공기를 빼면 어떨까요?',goal:'같은 용기에서 공기를 빼기 전후를 재요.',direction:-1,minDelta:1,initial:6,level:2},
+  {id:'weight-2',title:'공기를 빼면 어떨까요?',goal:'맞춰 둔 저울 그대로, 공기를 빼고 다시 재요.',direction:-1,minDelta:1,initial:6,level:2,prepared:true},
   {id:'weight-3',title:'저울 조건부터 바르게 맞춰요',goal:'저울을 바르게 맞추고, 비교할 수 있는 기록을 만들어요.',direction:1,minDelta:2,initial:3,level:1},
-  {id:'weight-4',title:'한 번 더 재도 같을까요?',goal:'다른 양의 공기로 다시 확인해요.',direction:-1,minDelta:2,initial:7,level:-1}
+  {id:'weight-4',title:'한 번 더 재도 같을까요?',goal:'맞춰 둔 저울로 공기를 2칸 이상 빼고 다시 확인해요.',direction:-1,minDelta:2,initial:7,level:-1,prepared:true}
  ]},
  {id:'climate',name:'환경 관측소',chapter:'크기가 달라지는 공기',short:'부피 변화를 살펴요',npc:'lumi',color:'coral',evidence:'부피 변화 환경 기록',badge:'환경 탐구자',description:'부피는 차지하는 공간의 크기예요. 온도나 압력을 한 가지씩 바꾸어 비교해요.',keyTerms:['부피','온도','압력','같은 공기','공기','기체의 양','기체'],bridge:'다음은 여러 기체의 성질을 조사해요.',reward:'온실의 온도·압력 장치가 켜져요.',standard:'4과15-02',tasks:[
   {id:'climate-1',title:'따뜻한 곳으로 옮겨요',goal:'따뜻한 곳으로 바꾸고 처음 부피와 비교해요.',mode:'temperature',target:2,transfer:'공기가 든 풍선을 따뜻한 곳에 두면?',answer:'공기가 차지하는 부피가 커져요.',choices:['공기가 차지하는 부피가 커져요.','공기가 차지하는 부피가 작아져요.'],why:'기체의 양과 바깥 압력을 같게 두었어요. 온도가 높아지자 부피가 커졌어요.',retry:'따뜻한 곳으로 옮긴 뒤 부피 막대가 길어졌나요, 짧아졌나요? 다시 비교해 보아요.'},

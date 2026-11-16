@@ -53,3 +53,21 @@
  .delivery-layout .gas-color-note{font-size:20px}
  .delivery-layout .gas-use-visual>span,.delivery-layout .gas-use-complete{font-size:22px}
 }
+
+/* 2026-11-16 배송소: 시설 그림이 있는 부탁 카드, 고르기 전에는 정답 쓰임을 숨김, 이유 선택지는 내용만큼만 */
+.delivery-layout .facility-request{display:grid;grid-template-columns:clamp(72px,9vw,128px) minmax(0,1fr);align-items:center;gap:clamp(8px,1vw,14px);background:#fffaf0;border-color:#f1d9a6;box-shadow:0 6px 16px #6b4a1a1a}
+.delivery-layout .facility-art{width:100%;aspect-ratio:1;object-fit:cover;border-radius:14px;border:2px solid #fff;box-shadow:0 4px 12px #2a3b3326}
+.delivery-layout .facility-copy{display:grid;gap:2px;min-width:0}
+.delivery-layout .facility-copy strong{font-size:clamp(14px,1.2vw,20px);color:#8a5a0c}
+.delivery-layout .reason-slot,.delivery-layout .reason-slot .choice-group{height:auto}
+.delivery-layout .reason-slot .choice-group{grid-template-rows:none;grid-auto-rows:minmax(56px,auto);align-content:start}
+.delivery-layout .reason-slot .choice{border-radius:16px}
+.delivery-layout .gas-awaiting{display:grid;place-items:center;align-content:center;gap:16px;min-height:100%;text-align:center;color:#2f5e57;font-weight:800;font-size:clamp(16px,1.5vw,24px);line-height:1.4}
+.delivery-layout .gas-awaiting p{margin:0}
+.delivery-layout .gas-awaiting-orbs{display:flex;gap:14px}
+.delivery-layout .gas-awaiting-orbs .gas-orb{width:clamp(48px,5vw,72px);height:clamp(48px,5vw,72px);font-size:clamp(14px,1.4vw,20px);animation:gas-bob 2.4s ease-in-out infinite}
+.delivery-layout .gas-awaiting-orbs .gas-orb:nth-child(2){animation-delay:.3s}.delivery-layout .gas-awaiting-orbs .gas-orb:nth-child(3){animation-delay:.6s}
+@keyframes gas-bob{50%{transform:translateY(-8px)}}
+.reduce-motion .delivery-layout .gas-awaiting-orbs .gas-orb{animation:none}
+@media(prefers-reduced-motion:reduce){.delivery-layout .gas-awaiting-orbs .gas-orb{animation:none}}
+@media(max-height:560px){.delivery-layout .facility-request{grid-template-columns:56px minmax(0,1fr)}.delivery-layout .reason-slot .choice-group{grid-auto-rows:minmax(44px,auto)}}

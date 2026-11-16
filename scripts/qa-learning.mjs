@@ -17,9 +17,8 @@ for(const stage of STAGES)for(const task of stage.tasks){
  const i=stage.tasks.indexOf(task);await p.goto(`${QA}/#stage/${stage.id}/${i}`);await p.locator('.activity-screen').waitFor();await p.waitForTimeout(300);
  if(stage.id==='flow'){
   const cells=createPipePuzzle(task.pattern),solved=PIPE_PATTERNS[task.pattern].solved;for(let j=0;j<9;j++)for(let k=0;k<(solved[j]-cells[j].rotation+4)%4;k++)await p.locator('.pipe-cell').nth(j).click();
-  await p.getByRole('button',{name:'공기 보내기',exact:true}).click();
  }else if(stage.id==='weight'){
-  await p.locator('[data-action=level]').click();await p.locator('[data-action=zero]').click();await drag('.scale-jar','.scale-scene');await p.locator('.record-button').click();
+  if(!task.prepared){await p.locator('[data-action=level]').click();await p.locator('[data-action=zero]').click();await drag('.scale-jar','.scale-scene');}
   for(let n=0;n<task.minDelta;n++)await p.locator(`[data-action=${task.direction>0?'add':'remove'}]`).click();await p.locator('.record-button').click();
  }else if(stage.id==='climate'){
   await p.locator('.condition-slider').fill(String(task.target));await p.locator('.condition-slider').dispatchEvent('change');await bounds(task.id+'-question');await p.getByRole('button',{name:task.answer,exact:true}).click();
@@ -27,7 +26,7 @@ for(const stage of STAGES)for(const task of stage.tasks){
   const names={nitrogen:'질소',oxygen:'산소',carbon:'이산화 탄소'};await p.locator('.gas-card').filter({hasText:names[task.gas]}).click();await p.getByRole('button',{name:task.reason,exact:true}).click();
  }else{
   for(const part of [task.requireSource==='balloon'?'풍선 공급부':'손 펌프',task.requireElbow?'굽은 관':'일자 관','노즐'])await p.locator('.part-card').filter({hasText:part}).click();
-  await p.locator('.valve-control').click();if(task.nozzle==='backward')await p.locator('.direction-control').click();await p.locator('.test-device').click();
+  if(task.nozzle==='backward')await p.locator('.direction-control').click();await p.locator('.valve-control').click();
  }
  await p.locator('.discovery-result').waitFor();await bounds(task.id);
  assert.equal(await p.locator('dialog[open]').count(),0,'Completion must keep the experiment visible');
@@ -52,7 +51,7 @@ for(const stage of STAGES)for(const task of stage.tasks){
 }
 // Finale and certificate are checked through the real completion flow.
 await p.goto(QA+'/#finale');assert.equal(await p.locator('.begin-repair').isVisible(),true,'All five evidence popups are optional');
-await p.getByRole('button',{name:'내 장치 연결하기'}).click();await p.locator('.final-valve').click();await press('.final-pump');await p.getByRole('button',{name:'복구 레버 당기기'}).click();
+await p.getByRole('button',{name:'내 장치 연결하기'}).click();await press('.final-pump');await p.getByRole('button',{name:'복구 레버 당기기'}).click();
 for(let i=0;i<3;i++){const next=p.locator('.ending-actions button');await next.click();}
 await p.locator('.certificate').waitFor();await p.screenshot({path:'.tmp/qa/certificate.png'});await bounds('certificate');
 // Reopening a completed task starts a new experiment, without auto-awarding stale drafts.
@@ -62,8 +61,8 @@ for(const stage of STAGES){
  assert.equal(await p.locator('.discovery-result').count(),0,`${stage.id} must be replayable`);
  assert.equal(await p.evaluate(async id=>(await import('/src/state.js')).store.save.evidence[id][0].date,stage.id),date);
 }
-// A single supply action keeps testing as pipes rotate, then replay continues to task 2.
-await p.goto(QA+'/#stage/flow/0');await p.getByRole('button',{name:'공기 보내기',exact:true}).click();
+// Air flows from the start, so rotating alone completes the path, then replay continues to task 2.
+await p.goto(QA+'/#stage/flow/0');
 const liveCells=createPipePuzzle(0),liveSolution=PIPE_PATTERNS[0].solved;
 for(let j=0;j<9;j++)for(let k=0;k<(liveSolution[j]-liveCells[j].rotation+4)%4;k++){
  const cell=p.locator('.pipe-cell').nth(j);if(await cell.isDisabled())break;await cell.focus();await p.keyboard.press('Enter');
@@ -74,6 +73,6 @@ await p.locator('.discovery-result').waitFor();await p.locator('.completed-actio
 await p.goto(QA+'/#stage/flow/0');
 const beforeAbort=await p.evaluate(async()=>(await import('/src/state.js')).store.save.evidence.flow[0].date);
 for(let j=0;j<9;j++)for(let k=0;k<(liveSolution[j]-liveCells[j].rotation+4)%4;k++)await p.locator('.pipe-cell').nth(j).click();
-await p.getByRole('button',{name:'공기 보내기',exact:true}).click();await p.getByRole('button',{name:'홈으로 가기'}).click();await p.waitForTimeout(800);
+await p.getByRole('button',{name:'홈으로 가기'}).click();await p.waitForTimeout(800);
 assert.equal(await p.evaluate(async()=>(await import('/src/state.js')).store.save.evidence.flow[0].date),beforeAbort);
 assert.deepEqual(errors,[]);await fs.writeFile('.tmp/qa/journey.json',JSON.stringify({errors,report},null,2));console.log(`PASS: all 20 tasks, ${process.env.QA_SKIP_VIDEO==='1'?'':'videos, '}finale, certificate, replay, keyboard and abort`);await b.close();

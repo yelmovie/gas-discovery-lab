@@ -206,6 +206,9 @@ function showActivity(host,stage,index,{mount,mountPlayer}){
    if(nextIndex<0)attachVoice(actions,`reward-${stage.id}`,abort.signal);
    hints=[summary,finished?stage.reward:'발견한 증거가 연구 가방에 남았어요. 다음 의뢰에서도 활용해 봐요.'];
    host.querySelectorAll('.mission-progress i')[index]?.classList.add('done');result.tabIndex=-1;result.focus({preventScroll:true});announce(`발견 성공! ${summary}`);
+    actions.firstElementChild?.classList.add('is-next-action','success-next');
+    const burst=html(`<div class="success-burst" aria-hidden="true"><div class="success-stamp">${icon('star')}<strong>${finished?'시설 복구!':'발견 성공!'}</strong><span>${escapeHTML(stage.evidence)} ${store.save.evidence[stage.id].length} / 4</span></div></div>`);
+    host.append(burst);setTimeout(()=>burst.remove(),2100);
   }};
  try{mount(host.querySelector('.activity-host'),task,context);}catch(error){host.querySelector('.activity-host').replaceChildren(html('<div class="lab-panel load-error"><h2>활동을 다시 준비할게요</h2><p>탐구 기록은 그대로예요.</p></div>'));host.querySelector('.load-error').append(button('의뢰 다시 열기',()=>navigate({...current},{replace:true})));console.error(error);}
  const feedbackObserver=new MutationObserver(records=>{if(completing||player.state==='running')return;const changed=records.filter(r=>r.target.nodeType===1&&(r.target.matches?.('.activity-feedback')||r.target.closest?.('.activity-feedback')));if(changed.length){const text=host.querySelector('.activity-feedback:not(:empty)')?.textContent.trim();if(text)direction.textContent=text;}});
@@ -223,13 +226,13 @@ function showFinale(host){loadConceptVisuals().catch(()=>{});const demo=store.de
  function repair(){
   narration.stop();
   const design=store.save.evidence.engineering.find(e=>e.taskId==='engineering-4')?.details?.design;
-  body.innerHTML=`<p>${demo?'예시 장치를 연결했어요.':'공기 공작소에서 만든 내 장치를 연결했어요.'}</p><div class="final-design">${prop(design?.source==='pump'?'pump':'balloon')}${icon('arrow')}${prop('nozzle')}${icon('arrow')}<img class="prop" src="/assets/visuals/air-core.webp" alt="중앙 공기 코어"></div><button class="button secondary final-valve" aria-pressed="false">밸브 열기</button><div class="final-supply"></div><div class="air-gauge"><i></i></div><div class="final-status" role="status">밸브를 열면 공기를 보낼 수 있어요.</div><div class="final-lever"></div>`;
-  const valve=body.querySelector('.final-valve'),gauge=body.querySelector('.air-gauge i'),status=body.querySelector('.final-status');
+  body.innerHTML=`<p>${demo?'예시 장치를 연결했어요.':'공기 공작소에서 만든 내 장치를 연결했어요.'}</p><div class="final-design">${prop(design?.source==='pump'?'pump':'balloon')}${icon('arrow')}${prop('nozzle')}${icon('arrow')}<img class="prop" src="/assets/visuals/air-core.webp" alt="중앙 공기 코어"></div><div class="final-supply"></div><div class="air-gauge"><i></i></div><div class="final-status" role="status">버튼을 꾹 누르고 있으면 공기가 코어까지 모여요.</div><div class="final-lever"></div>`;
+  const gauge=body.querySelector('.air-gauge i'),status=body.querySelector('.final-status');
   let charged=false,restored=false;
-  const supply=button('꾹 눌러 공기 보내기',()=>{},'button primary final-pump');supply.disabled=true;body.querySelector('.final-supply').append(supply);
-  valve.onclick=()=>{if(charged)return;const open=valve.getAttribute('aria-pressed')!=='true';valve.setAttribute('aria-pressed',String(open));valve.textContent=open?'밸브 열림':'밸브 열기';supply.disabled=!open;status.textContent=open?'공기를 모아 코어까지 보내요.':'밸브를 열면 공기를 보낼 수 있어요.';sound();};
+  const supply=button('꾹 눌러 공기 보내기',()=>{},'button primary final-pump');body.querySelector('.final-supply').append(supply);
+  
   holdButton(supply,p=>{gauge.style.width=`${p*100}%`;},()=>{
-   if(charged||contextSignal.aborted)return;charged=true;supply.disabled=true;valve.disabled=true;supply.textContent='공기 공급 완료';host.querySelector('.core-apparatus').classList.add('core-active');status.textContent='코어까지 공기가 도착했어요! 마지막 레버를 당겨요.';attachVoice(status,'finale-charged',abort.signal);sound('success');
+   if(charged||contextSignal.aborted)return;charged=true;supply.disabled=true;supply.textContent='공기 공급 완료';host.querySelector('.core-apparatus').classList.add('core-active');status.textContent='코어까지 공기가 도착했어요! 마지막 레버를 당겨요.';attachVoice(status,'finale-charged',abort.signal);sound('success');
    body.querySelector('.final-lever').append(button(`복구 레버 당기기 ${icon('arrow')}`,()=>{if(restored||contextSignal.aborted)return;restored=true;if(!demo){if(!store.save.finaleCompleted)pendingRestoration.add('core');store.save.finaleCompleted=true;persist();}sound('award');if(demo)openDialog('시연이 끝났어요','<p>예시 장치가 코어를 움직였어요. 실제 탐구 기록은 바뀌지 않았어요.</p>');else navigate({screen:'ending',index:0});},'button gold repair-lever'));
   },contextSignal);
  }

@@ -172,3 +172,28 @@ html body #app .map-screen .map-next-card {
   margin: 0;
   max-width: calc(100% - var(--map-control-left) - var(--map-control-right) - 3 * var(--map-key-size) - 2 * var(--map-key-gap) - 12px);
 }
+
+/* 2026-11-16 흐름 개선: 공방 진입 버튼은 첫 화면부터 같은 모양이어야 한다(공방 CSS는 늦게 불러온다). */
+.play-mission-entry{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:10px 20px;border-radius:999px;border:1px solid #f1cf86;background:#fff4d8f2;color:#5b3d07;font:inherit;font-weight:800;cursor:pointer;box-shadow:0 3px 0 #e2b65f,0 8px 18px #5a3c0a1f;transition:transform .12s ease,box-shadow .12s ease}
+.play-mission-entry::before{content:"";width:22px;height:22px;flex:none;background:url('/assets/prop-pump.webp') center/contain no-repeat}
+.play-mission-entry:hover{background:#ffeec4}
+.play-mission-entry:active{transform:translateY(2px);box-shadow:0 1px 0 #e2b65f}
+.play-mission-entry[aria-busy=true]{opacity:.7;cursor:progress}
+.stage-start{display:flex;gap:10px;align-items:stretch}
+.stage-start>.button{flex:1 1 auto}
+.stage-start>.play-mission-entry{flex:0 0 auto;border-radius:18px}
+
+/* 완료 순간: 화면 가운데에 잠깐 떠올랐다 사라지는 도장(조작을 막지 않는다). */
+.success-burst{position:fixed;inset:0;display:grid;place-items:center;pointer-events:none;z-index:60}
+.success-stamp{display:grid;justify-items:center;gap:6px;padding:22px 34px;border-radius:28px;background:radial-gradient(circle at 50% 0,#fffbe9,#fff1c6);border:3px solid #f5c95b;box-shadow:0 18px 50px #6b4a1a40,0 0 0 10px #fff3cf66;color:#5b3d07;animation:success-stamp 2.1s cubic-bezier(.2,1.3,.5,1) forwards}
+.success-stamp .icon{width:54px;height:54px;color:#f0a81e;animation:success-spin 1.2s ease-out}
+.success-stamp strong{font-size:clamp(26px,3.2vw,40px);line-height:1.1}
+.success-stamp span{font-size:16px;font-weight:700;color:#7a5a1a}
+@keyframes success-stamp{0%{opacity:0;transform:scale(.4) rotate(-8deg)}14%{opacity:1;transform:scale(1.06) rotate(1deg)}22%{transform:scale(1) rotate(0)}78%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(.92) translateY(-18px)}}
+@keyframes success-spin{from{transform:rotate(-140deg) scale(.4)}to{transform:none}}
+.success-next{animation:success-next 1.6s ease-in-out 1.4s 3}
+@keyframes success-next{50%{transform:scale(1.05);box-shadow:0 0 0 6px #ffd76a80}}
+.reduce-motion .success-stamp,.reduce-motion .success-stamp .icon,.reduce-motion .success-next{animation:none}
+.reduce-motion .success-burst{display:none}
+@media(prefers-reduced-motion:reduce){.success-stamp,.success-stamp .icon,.success-next{animation:none}.success-burst{display:none}}
+.success-stamp .icon{fill:#f7c23a;stroke:#d48a0c}
