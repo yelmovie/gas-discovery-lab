@@ -71,3 +71,21 @@
 .reduce-motion .delivery-layout .gas-awaiting-orbs .gas-orb{animation:none}
 @media(prefers-reduced-motion:reduce){.delivery-layout .gas-awaiting-orbs .gas-orb{animation:none}}
 @media(max-height:560px){.delivery-layout .facility-request{grid-template-columns:56px minmax(0,1fr)}.delivery-layout .reason-slot .choice-group{grid-auto-rows:minmax(44px,auto)}}
+
+/* 2026-11-17 배송관: 기체 카드를 끌어 넣는 곳(누르기로 골라도 같은 판정) */
+.delivery-layout .supply-port{min-height:64px;border-radius:18px;border-width:3px;background:repeating-linear-gradient(45deg,#f3f8ef 0 10px,#e8f1e2 10px 20px);font-weight:800;color:#2f5e57}
+.delivery-layout .supply-port.ready{background:#e1ecde}
+.delivery-layout .supply-port.touch-drop-ready{outline:4px solid #f0a81e!important;background:#fff0c9!important}
+.delivery-layout .supply-port.just-loaded{animation:port-load .6s cubic-bezier(.3,1.5,.6,1)}
+.delivery-layout .gas-card{cursor:grab;touch-action:none}
+.delivery-layout .gas-card.touch-dragging{opacity:.4}
+@keyframes port-load{0%{transform:scale(.94)}50%{transform:scale(1.04);box-shadow:0 0 0 8px #ffd76a66}100%{transform:none}}
+.reduce-motion .delivery-layout .supply-port.just-loaded{animation:none}
+@media(max-height:440px){.delivery-layout .supply-port{display:flex;min-height:44px;padding:4px 8px;font-size:13px}}
+@media(max-height:440px){
+ .delivery-layout .facility-request{grid-template-columns:1fr;padding:4px 8px}
+ .delivery-layout .facility-art,.delivery-layout .facility-copy strong{display:none}
+ .delivery-layout .reason-slot .choice-group{grid-auto-rows:minmax(40px,auto);gap:4px}
+ .delivery-layout .reason-slot .choice{min-height:40px;padding:4px 10px;font-size:14px}
+ .delivery-layout .supply-port{min-height:40px}
+}

@@ -197,3 +197,22 @@ html body #app .map-screen .map-next-card {
 .reduce-motion .success-burst{display:none}
 @media(prefers-reduced-motion:reduce){.success-stamp,.success-stamp .icon,.success-next{animation:none}.success-burst{display:none}}
 .success-stamp .icon{fill:#f7c23a;stroke:#d48a0c}
+
+/* 2026-11-17 활동 안내: 시설 캐릭터가 말풍선으로 지금 할 일을 알려 준다. */
+.activity-screen .mission-guide{grid-template-columns:auto auto minmax(0,1fr);align-items:center;gap:10px}
+.activity-screen .mission-npc{width:76px;height:76px;flex:none;border-radius:50%;object-fit:cover;object-position:50% 6%;background:radial-gradient(circle at 50% 35%,#fffbe9,#ffe7b0);border:3px solid #fff;box-shadow:0 4px 14px #0004,0 0 0 3px #f2c25c;margin:-30px 0 -6px;position:relative;z-index:2;animation:npc-nod 3.2s ease-in-out infinite}
+.activity-screen .mission-guide .mission-direction{position:relative;padding:8px 14px;border-radius:16px;background:#fffaf0;color:#1d3f3a;box-shadow:0 2px 8px #0002;line-height:1.4}
+.activity-screen .mission-guide .mission-direction::before{content:"";position:absolute;left:-7px;top:50%;width:14px;height:14px;background:#fffaf0;transform:translateY(-50%) rotate(45deg);border-radius:2px}
+.activity-screen .mission-step{grid-column:2}
+@keyframes npc-nod{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px) rotate(-2deg)}}
+.reduce-motion .activity-screen .mission-npc{animation:none}
+@media(prefers-reduced-motion:reduce){.activity-screen .mission-npc{animation:none}}
+@media(max-height:560px),(max-width:760px){.activity-screen .mission-npc{width:44px;height:44px;margin:-6px 0}.activity-screen .mission-guide .mission-direction{padding:6px 10px}}
+
+/* 2026-11-17 홈: 큰 시작 버튼 하나를 중심으로, 나머지는 작은 알약 버튼 한 줄로 정리(넘침·스크롤 줄 방지). */
+.title-v2 .title-actions{align-items:center;gap:10px}
+.title-v2 .title-actions .start-button{flex-basis:100%;max-width:340px;min-height:64px;font-size:24px}
+.title-v2 .title-actions .button.secondary,.title-v2 .title-actions .play-mission-entry{min-height:48px;padding:8px 18px;font-size:18px;border-radius:999px}
+.title-v2 .npc-welcome-voice{margin:8px 0;padding:10px 14px;max-width:480px}
+.title-v2 .npc-welcome-voice p{margin:4px 0 6px;font-size:15px;line-height:1.45}
+.title-v2 .npc-welcome-voice .npc-dialogue-voice .button{min-height:44px;padding:6px 14px;font-size:16px}

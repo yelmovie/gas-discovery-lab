@@ -76,3 +76,16 @@
 .climate-layout .climate-scene-head .condition-pill{box-shadow:0 3px 10px #1d3b4a26;font-weight:800}
 .reduce-motion .climate-layout .climate-scene.temperature::before,.reduce-motion .climate-layout .climate-scene.temperature::after{transition:none}
 .climate-layout .climate-scene-head .climate-constants{padding:3px 9px;border-radius:999px;background:#fffef7ea;color:#245d59;box-shadow:0 3px 10px #1d3b4a1f;font-weight:700}
+
+/* 2026-11-17 끌기 안내: 처음 한 번 끌기 전까지 손가락이 움직이는 방향을 보여 준다. */
+.climate-layout .drag-cue{position:absolute;left:50%;bottom:14%;z-index:5;display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:#163f3bdd;color:#fffaf0;font-weight:800;font-size:clamp(13px,1.2vw,18px);white-space:nowrap;transform:translateX(-50%);pointer-events:none;box-shadow:0 6px 18px #0004;transition:opacity .3s}
+.climate-layout .drag-cue-hand{width:22px;height:22px;border-radius:50%;background:#ffd76a;box-shadow:0 0 0 5px #ffd76a55;flex:none}
+.climate-layout .drag-cue-x .drag-cue-hand{animation:cue-x 1.4s ease-in-out infinite}
+.climate-layout .drag-cue-y{left:auto;right:10px;bottom:10px;transform:none}
+.climate-layout .drag-cue-y .drag-cue-hand{animation:cue-y 1.4s ease-in-out infinite}
+@keyframes cue-x{0%,100%{transform:translateX(-10px)}50%{transform:translateX(10px)}}
+@keyframes cue-y{0%,100%{transform:translateY(-8px)}50%{transform:translateY(8px)}}
+.climate-layout .climate-scene.was-dragged .drag-cue,.climate-layout .climate-scene[aria-disabled="true"] .drag-cue{opacity:0}
+.reduce-motion .climate-layout .drag-cue-hand{animation:none}
+@media(prefers-reduced-motion:reduce){.climate-layout .drag-cue-hand{animation:none}}
+@media(max-height:440px){.climate-layout .drag-cue{font-size:12px;padding:5px 10px;bottom:6px}.climate-layout .drag-cue-y{right:6px}}
