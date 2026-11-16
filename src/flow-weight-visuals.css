@@ -152,7 +152,7 @@
 .weight-layout .weight-comparison{border-radius:16px;padding:12px 14px}
 .reduce-motion .weight-layout .scale-art{transition:none}
 .activity-complete .weight-layout .scale-panel>.weight-actions{display:none}
-.weight-layout .record-tag{font-style:normal;font-weight:800;font-size:clamp(13px,1vw,17px);padding:2px 10px;border-radius:999px;background:#fdf0cf;color:#7a5418;border:1px solid #e6c886}
+.weight-layout .record-tag{font-style:normal;font-weight:800;font-size:max(14px,min(1.15vw,20px));padding:2px 10px;border-radius:999px;background:#fdf0cf;color:#7a5418;border:1px solid #e6c886}
 .weight-layout .measurement-card.selected .record-tag{background:#d8efe1;color:#245a47;border-color:#8fc0a4}
 .weight-layout .scale-scene{background:url('/assets/visuals/weight-bench-v1.jpg') center bottom/cover no-repeat}
 /* 2026-11-17: 펌프는 꾹 누르기, 용기는 저울 위로 끌어 올리기 */
@@ -163,9 +163,27 @@
 @keyframes hold-pump-fill{to{transform:scaleX(1)}}
 .reduce-motion .weight-layout .hold-pump.is-holding .hold-fill{animation:none;transform:scaleX(1)}
 .weight-layout .scale-jar.off-scale{cursor:grab;touch-action:none}
-.weight-layout .scale-jar.off-scale.is-next-action{animation:jar-nudge 1.6s ease-in-out infinite}
-@keyframes jar-nudge{50%{translate:10px -6px}}
-.reduce-motion .weight-layout .scale-jar.off-scale.is-next-action{animation:none}
+.weight-layout .scale-jar.off-scale.is-next-action .jar-action-label{animation:jar-nudge 1.6s ease-in-out infinite}
+@keyframes jar-nudge{50%{translate:8px -4px}}
+.reduce-motion .weight-layout .scale-jar.off-scale.is-next-action .jar-action-label{animation:none}
 .weight-layout .off-scale .jar-action-label{font-weight:800;background:#fff4d8;border-color:#e2b65f;color:#6a4708}
 .weight-layout .scale-scene.touch-drop-ready{outline-offset:-6px;background:url('/assets/visuals/weight-bench-v1.jpg') center bottom/cover no-repeat!important}
-@media (max-height:520px){.weight-layout .scale-readout{font-size:clamp(11px,calc(var(--scale-size) * .12),34px)!important;padding:2px 5px}}
+/* 2026-11-17: 낮은 화면에서는 조작 칸을 저울 오른쪽으로 옮겨 저울 장면을 키운다 */
+.weight-layout .scale-jar{min-width:52px;min-height:52px}
+.weight-layout .off-scale .jar-action-label{top:auto;bottom:100%;margin:0 0 4px;font-size:max(14px,min(1.1vw,20px))}
+@media (max-height:520px){
+ .weight-layout .scale-panel{grid-template-columns:minmax(0,1fr) minmax(160px,38%);grid-template-rows:minmax(0,1fr)}
+ .weight-layout .scale-readiness{display:none}
+ .weight-layout .scale-panel>.scale-scene{grid-column:1;grid-row:1}
+ .weight-layout .scale-panel>.weight-actions{grid-column:2;grid-row:1;flex-direction:column;flex-wrap:nowrap;align-items:stretch;justify-content:center;padding:6px;gap:6px}
+ .weight-layout .scale-panel>.weight-actions>*{flex:0 0 auto}
+ .weight-layout .scale-panel .level-row{grid-template-columns:minmax(60px,1fr);justify-items:stretch}
+ .weight-layout .scale-panel .level-row>span{display:none}
+ .weight-layout .scale-panel .preparation-actions{flex-direction:column}
+ .weight-layout .scale-panel .pump-row{grid-template-columns:1fr}
+ .weight-layout .scale-panel .pump-row .air-amount-meter{display:none}
+ .weight-layout .scale-panel .pump-actions{flex-direction:column}
+ .weight-layout .scale-readout{font-size:max(14px,calc(var(--scale-size) * .12))!important}
+}
+.weight-layout .scale-panel:has(>.weight-actions>.level-row[hidden]):has(>.weight-actions>.preparation-actions[hidden]):has(>.weight-actions>.pump-row[hidden])>.weight-actions{display:none}
+@media (max-height:520px){.weight-layout .scale-panel:has(>.weight-actions>.level-row[hidden]):has(>.weight-actions>.preparation-actions[hidden]):has(>.weight-actions>.pump-row[hidden]){grid-template-columns:minmax(0,1fr)}}

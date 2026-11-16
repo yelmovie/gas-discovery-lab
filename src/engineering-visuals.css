@@ -64,7 +64,7 @@
 /* 2026-11-17: 부품은 빈 칸으로 끌어다 끼우기가 기본 조작 */
 .engineering-layout .design-slot:not(.filled) .slot-art{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
 .engineering-layout .design-slot:not(.filled) .slot-plus{height:auto;flex:none}
-.engineering-layout .slot-drop-hint{padding:4px 10px;border-radius:999px;background:#fff4d8;border:1px dashed #d6a64c;color:#6a4708;font:800 clamp(13px,1vw,17px)/1.2 var(--font-body);text-align:center;word-break:keep-all}
+.engineering-layout .slot-drop-hint{padding:4px 10px;border-radius:999px;background:#fff4d8;border:1px dashed #d6a64c;color:#6a4708;font:800 max(14px,min(1.15vw,20px))/1.2 var(--font-body);text-align:center;word-break:keep-all}
 .engineering-layout .design-slots[data-dragging=source] .design-slot[data-slot=source],.engineering-layout .design-slots[data-dragging=pipe] .design-slot[data-slot=pipe],.engineering-layout .design-slots[data-dragging=nozzle] .design-slot[data-slot=nozzle]{border-color:#d5aa58;background:#fff8e3;box-shadow:0 0 0 4px #f5daa1}
 .engineering-layout .part-card:not(:disabled){cursor:grab;touch-action:none}
 .engineering-layout .design-slot.just-snapped .slot-art{animation:slot-snap .36s cubic-bezier(.3,1.6,.5,1)}
