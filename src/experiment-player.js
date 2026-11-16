@@ -43,7 +43,7 @@ export function createPlayback({signal,schedule=setTimeout,cancel=clearTimeout,n
 let preferredSpeed=1;
 export function mountExperimentPlayer(screen,{signal,onInstruction,onTargets}){
   const controls=screen.querySelector('.playback-controls');
-  controls.innerHTML=`<button type="button" class="button secondary autoplay-button" aria-pressed="false">${icon('play')}<span>자동재생</span></button><label class="playback-speed"><span class="sr-only">자동재생 속도</span><select aria-label="자동재생 속도"><option value="0.5">0.5× 천천히</option><option value="1">1× 보통</option><option value="2">2× 빠르게</option></select></label>`;
+  controls.innerHTML=`<button type="button" class="button secondary autoplay-button" aria-pressed="false">${icon('play')}<span>자동재생</span></button><label class="playback-speed"><span class="sr-only">자동재생 속도</span><select aria-label="자동재생 속도"><option value="0.5" aria-label="0.5배 천천히">0.5×</option><option value="1" aria-label="1배 보통">1×</option><option value="2" aria-label="2배 빠르게">2×</option></select></label>`;
   const toggle=controls.querySelector('button'),select=controls.querySelector('select');
   const player=createPlayback({signal,onChange:({state,speed,step})=>{
     screen.dataset.playback=state;screen.style.setProperty('--playback-rate',String(speed));

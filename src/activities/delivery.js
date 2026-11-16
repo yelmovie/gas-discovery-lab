@@ -20,28 +20,28 @@ export function mountDelivery(host,task,ctx){
  const reasons=[task.reason,...['다른 물질과 쉽게 반응하지 않아요.','사람의 호흡에 필요해요.','물에 녹아 탄산음료를 만들어요.','불이 타는 것을 돕지 않아요.'].filter(x=>x!==task.reason).slice(0,2)];
  // A fixed permutation prevents the first position from always being the answer.
  const orderedReasons=task.id.endsWith('2')?[reasons[1],reasons[0],reasons[2]]:task.id.endsWith('3')?[reasons[1],reasons[2],reasons[0]]:reasons;
- host.innerHTML=`<div class="delivery-layout"><section class="lab-panel research-panel"><div class="gas-cards" role="group" aria-label="조사할 기체"></div><div class="gas-information"></div><p class="gas-color-note">카드의 색은 구분용 표시예요.</p></section><aside class="lab-panel facility-panel"><div class="facility-request" aria-label="${escapeHTML(task.facility)}의 부탁"><img class="facility-art" src="${FACILITY_ART[task.id]}" alt="${escapeHTML(task.facility)}" draggable="false"><div class="facility-copy"><strong>${escapeHTML(task.facility)}</strong><p>${escapeHTML(task.goal)}</p></div></div><div class="reason-slot" aria-label="시설에 필요한 기체의 성질"></div><div class="supply-port" role="status">${icon('flask')}<span>기체 카드를 이 배송관으로 끌어 넣어요</span></div><div class="activity-feedback"></div><div class="evidence-slot"></div></aside></div>`;
+ host.innerHTML=`<div class="delivery-layout"><section class="lab-panel research-panel"><div class="gas-cards" role="group" aria-label="조사할 기체"></div><div class="gas-information"></div><p class="gas-color-note">카드의 색은 구분용 표시예요.</p></section><aside class="lab-panel facility-panel"><div class="facility-request" aria-label="${escapeHTML(task.facility)}의 부탁"><img class="facility-art" src="${FACILITY_ART[task.id]}" alt="${escapeHTML(task.facility)}" draggable="false"><div class="facility-copy"><strong>${escapeHTML(task.facility)}</strong><p>${escapeHTML(task.goal)}</p></div><div class="supply-port" role="status">${icon('flask')}<span>기체 카드를 이 시설로 끌어 넣어요</span></div></div><div class="reason-slot" aria-label="시설에 필요한 기체의 성질"></div><div class="activity-feedback"></div><div class="evidence-slot"></div></aside></div>`;
  const cards=host.querySelector('.gas-cards'),information=host.querySelector('.gas-information'),feedback=host.querySelector('.activity-feedback'),port=host.querySelector('.supply-port');
  function save(){ctx.saveDraft({selected,reason,read:[...read]});}
  function chooseGas(id){if(delivered||ctx.signal.aborted)return;previewId=null;
   if(selected!==id){reason=null;host.querySelectorAll('.reason-slot .choice').forEach(button=>{button.classList.remove('selected');button.setAttribute('aria-pressed','false');});}
   selected=id;read.add(id);sound();render();port.classList.remove('just-loaded');void port.offsetWidth;port.classList.add('just-loaded');}
  for(const gas of GASES){
-  const b=button(`<span class="gas-orb" style="--gas-color:${gas.color}" aria-hidden="true">${escapeHTML(gas.symbol)}</span><strong>${gas.name}</strong><span class="gas-read-state"></span>`,()=>chooseGas(gas.id),'gas-card');
+  const b=button(`<span class="gas-orb gas-tank" style="--gas-color:${gas.color}" aria-hidden="true"><img src="/assets/visuals/gas-${gas.id}-v1.webp" alt="" draggable="false"><b>${escapeHTML(gas.symbol)}</b></span><strong>${gas.name}</strong><span class="gas-read-state"></span>`,()=>chooseGas(gas.id),'gas-card');
   b.dataset.gas=gas.id;b.setAttribute('aria-label',`${gas.name} 조사`);
-  touchDrag(b,{signal:ctx.signal,selector:'.supply-port',onDrop:()=>chooseGas(gas.id)});
+  touchDrag(b,{signal:ctx.signal,selector:'.facility-request',onDrop:()=>chooseGas(gas.id)});
   cards.append(b);
  }
  function showInformation(){
   if(delivered||ctx.signal.aborted)return;
   for(const b of cards.children)b.classList.toggle('is-observing',b.dataset.gas===previewId);
   const gas=GASES.find(g=>g.id===(previewId||selected));
-  if(!gas){information.innerHTML=`<div class="gas-use-card awaiting-gas gas-awaiting"><div class="gas-awaiting-orbs" aria-hidden="true">${GASES.map(g=>`<span class="gas-orb" style="--gas-color:${g.color}">${escapeHTML(g.symbol)}</span>`).join('')}</div><p>위의 기체 카드를 눌러<br>성질과 쓰임을 조사해요.</p></div>`;return;}
+  if(!gas){information.innerHTML=`<div class="gas-use-card awaiting-gas gas-awaiting"><img class="gas-awaiting-hand" src="/assets/visuals/hand-point-v1.webp" alt="" draggable="false"><p>위의 기체 카드를 눌러<br>성질과 쓰임을 조사해요.</p></div>`;return;}
   const visual=useVisual(gas.id,task);
   information.innerHTML=`<div class="gas-use-card ${gas?'':'awaiting-gas'}"><div class="gas-use-visual">${useImage(visual)}<span>${escapeHTML(visual.caption)}</span></div><div class="gas-use-copy">${gas?`<h3>${gas.name}의 성질</h3><ul>${gas.facts.map(f=>`<li>${emphasizeConcept(f,ctx.terms)}</li>`).join('')}</ul>`:''}</div></div>`;
  }
  function guideSelection(){
-  ctx.guide?.(selected?'성질 선택':'기체 조사',selected?'시설에 필요한 성질을 골라요.':'기체 카드를 눌러 성질을 살펴보고, 알맞은 기체를 배송관으로 끌어 넣어요.',['시설이 무엇을 필요로 하는지 먼저 살펴봐요.','기체 카드에 있는 성질과 쓰임을 읽고 비교해요.','고른 기체와 고른 성질이 모두 시설의 부탁과 맞아야 해요.']);
+  ctx.guide?.(selected?'성질 선택':'기체 조사',selected?'시설에 필요한 성질을 골라요.':'기체 카드를 눌러 성질을 살펴보고, 알맞은 기체를 시설 카드로 끌어 넣어요.',['시설이 무엇을 필요로 하는지 먼저 살펴봐요.','기체 카드에 있는 성질과 쓰임을 읽고 비교해요.','고른 기체와 고른 성질이 모두 시설의 부탁과 맞아야 해요.']);
   ctx.nextAction?.(selected?'.reason-slot .choice':'.gas-card');
  }
  function render(){
@@ -50,7 +50,7 @@ export function mountDelivery(host,task,ctx){
   showInformation();
   const gas=GASES.find(g=>g.id===selected);
   port.classList.toggle('ready',Boolean(selected));
-  port.querySelector('span').textContent=gas?`${gas.name} 캡슐을 넣었어요 · 이유를 골라 보내요`:'기체 카드를 이 배송관으로 끌어 넣어요';
+  port.querySelector('span').textContent=gas?`${gas.name} 캡슐을 넣었어요 · 이유를 골라 보내요`:'기체 카드를 이 시설로 끌어 넣어요';
   save();
  }
  host.querySelector('.reason-slot').append(choices(orderedReasons,value=>{if(delivered||ctx.signal.aborted)return;reason=value;sound();render();deliver(true);},{selected:reason,terms:ctx.terms}));
@@ -74,9 +74,9 @@ export function mountDelivery(host,task,ctx){
   feedback.replaceChildren();sound('connect');
   ctx.complete(task.why,{gas:selected,reason,investigated:[...read]});
  }
- port.addEventListener('dragover',event=>{if(delivered)return;event.preventDefault();port.classList.add('drag-over');},{signal:ctx.signal});
- port.addEventListener('dragleave',()=>port.classList.remove('drag-over'),{signal:ctx.signal});
- port.addEventListener('drop',event=>{event.preventDefault();port.classList.remove('drag-over');const id=event.dataTransfer.getData('text/plain');if(GASES.some(gas=>gas.id===id))chooseGas(id);},{signal:ctx.signal});
+ host.querySelector('.facility-request').addEventListener('dragover',event=>{if(delivered)return;event.preventDefault();port.classList.add('drag-over');},{signal:ctx.signal});
+ host.querySelector('.facility-request').addEventListener('dragleave',()=>port.classList.remove('drag-over'),{signal:ctx.signal});
+ host.querySelector('.facility-request').addEventListener('drop',event=>{event.preventDefault();port.classList.remove('drag-over');const id=event.dataTransfer.getData('text/plain');if(GASES.some(gas=>gas.id===id))chooseGas(id);},{signal:ctx.signal});
  ctx.playback?.({steps:()=>GASES.map(gas=>({label:`${gas.name}의 성질을 살펴봐요.`,target:`.gas-card[data-gas="${gas.id}"]`,run:()=>{if(delivered||ctx.signal.aborted)return;previewId=gas.id;showInformation();},wait:1800})),onStop:()=>{previewId=null;showInformation();if(!delivered&&!ctx.signal.aborted)guideSelection();}});
  render();
 }

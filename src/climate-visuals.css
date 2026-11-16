@@ -89,3 +89,9 @@
 .reduce-motion .climate-layout .drag-cue-hand{animation:none}
 @media(prefers-reduced-motion:reduce){.climate-layout .drag-cue-hand{animation:none}}
 @media(max-height:440px){.climate-layout .drag-cue{font-size:12px;padding:5px 10px;bottom:6px}.climate-layout .drag-cue-y{right:6px}}
+/* 끌기 안내는 그림을 가리지 않게 조작 줄 위에 둔다. */
+.climate-layout .climate-controls .drag-cue{position:static;transform:none;align-self:center;margin:0 auto 6px;font-size:var(--ui-text-label,15px);box-shadow:none;width:max-content;max-width:100%}
+.climate-layout .climate-controls{display:flex;flex-direction:column}
+.climate-layout .climate-panel:has(.climate-scene.was-dragged) .drag-cue,.climate-layout .climate-panel:has(.climate-scene[aria-disabled="true"]) .drag-cue{display:none}
+@media(max-height:440px){.climate-layout .climate-controls .drag-cue{font-size:14px;padding:3px 10px;margin-bottom:2px}}
+.climate-layout img.drag-cue-hand{width:26px;height:30px;border-radius:0;background:none;box-shadow:none;object-fit:contain;filter:drop-shadow(0 2px 3px #0005)}
