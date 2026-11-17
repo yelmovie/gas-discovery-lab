@@ -279,3 +279,16 @@ html body .button{font-weight:700}
 @media(max-height:560px),(max-width:700px){.stage-brief .stage-task .task-again{display:none}.stage-brief .stage-task .task-now{padding:2px 8px}}
 /* 큰 화면(1600px 이상, 전자칠판)에서는 보조 글씨도 18px 이상 */
 @media(min-width:1600px){:root{--ui-text-label:18px;--ui-text-button:20px;--ui-text-guide:22px}}
+
+/* =====================================================================
+   2026-11-17 3초 규칙 (sc34-design-20261117)
+   주 버튼은 하나만, 사이드 패널은 내용 높이에 맞춘다.
+   ===================================================================== */
+/* 시설 소개: 주 버튼은 「의뢰 시작」 하나. 공방 입구는 글자 버튼으로 낮춘다. */
+.stage-start>.play-mission-entry{background:transparent;border-color:transparent;box-shadow:none;color:var(--ui-ink-soft);text-decoration:underline;text-underline-offset:4px}
+.stage-start>.play-mission-entry:hover{background:#fff4d880}
+/* 측정 기록·부피 비교 패널: 빈 아래쪽을 남기지 않고 위에서부터 채운다(바람길 .experiment-side와 같은 방식). */
+.activity-screen .activity-host>.weight-layout>.records-panel,
+.activity-screen .activity-host>.climate-layout>.comparison-panel{height:auto;max-height:100%;align-self:start;justify-content:flex-start;grid-template-rows:auto auto;overflow:auto}
+/* 「지금」 표시가 의뢰 줄 밖으로 넘치지 않게 */
+.stage-brief .stage-task:is(.current,.done){grid-template-columns:36px minmax(0,1fr) auto}

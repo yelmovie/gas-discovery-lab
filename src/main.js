@@ -64,6 +64,12 @@ function nextMapActivity() {
  const index=stage.tasks.findIndex(t=>!store.save.evidence[stage.id].some(e=>e.taskId===t.id));
  return {label:stage.id==='flow'&&index===0?'첫 실험 시작':`${stage.name} 의뢰 시작`,open:()=>{returnFrom=stage.id;navigate({screen:'activity',stageId:stage.id,index});}};
 }
+// 3초 규칙: 시설 소개는 처음 들어갈 때 한 번만. 이미 시작한 시설은 지도에서 바로 다음 의뢰로 들어간다.
+function mapEntry(id) {
+ const stage=stageById(id),records=store.save.evidence[id];
+ if(!records.length||completeStage(store.save,id))return {screen:'stage',stageId:id};
+ return {screen:'activity',stageId:id,index:Math.max(0,stage.tasks.findIndex(t=>!records.some(e=>e.taskId===t.id)))};
+}
 async function showMap(host, signal) {
  loading(host,'마을로 가는 길을 준비해요…');
  const request=new AbortController();
@@ -74,7 +80,7 @@ async function showMap(host, signal) {
  try{
   const [module,loaded]=await Promise.all([code,assets]);
   if(signal.aborted)return;
-  module.mountMap(host,{signal,save:store.save,persist,returnFrom,takeRestorations:()=>{if(store.demo)return [];const ids=[...pendingRestoration];pendingRestoration.clear();return ids;},enter:id=>{returnFrom=id;navigate(id==='core'?{screen:'finale'}:{screen:'stage',stageId:id});}},loaded);
+  module.mountMap(host,{signal,save:store.save,persist,returnFrom,takeRestorations:()=>{if(store.demo)return [];const ids=[...pendingRestoration];pendingRestoration.clear();return ids;},enter:id=>{returnFrom=id;navigate(id==='core'?{screen:'finale'}:mapEntry(id));}},loaded);
   mapAssets=loaded;
  }catch(error){
   if(signal.aborted)return;
