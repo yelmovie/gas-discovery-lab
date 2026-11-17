@@ -18,10 +18,33 @@ function syncMusic(){
 }
 function setTrack(nextScreen,nextOverlay){const before=overlay?'finale':screenTrack,after=nextOverlay?'finale':nextScreen;screenTrack=nextScreen;overlay=nextOverlay;if(after!==before&&after==='finale'){finaleDone=false;if(players.finale)players.finale.currentTime=0;}syncMusic();}
 export function setScreenMusic(track){setTrack(track==='finale'?'finale':'main',overlay);}
-export function setFinaleOverlay(value){setTrack(screenTrack,Boolean(value));}
-export function syncAudio(settings){config={...settings};effects.sync();syncMusic();if(ctx&&!config.sfx)stopNotes(active);}
+export function setFinaleOverlay(value){if(value)stopNotes(active);setTrack(screenTrack,Boolean(value));}
+export function syncAudio(settings){config={...settings};effects.sync();syncMusic();if(ctx&&(!config.sfx||quiet))stopNotes(active);}
 export function unlockAudio(settings){started=true;init();effects.unlock();ctx?.resume().catch(()=>{});syncAudio(settings);}
 export function sound(kind='tap'){ if(ctx) effects.play(kind); }
+// Map encounter cues: CC0 samples (assets/CREDITS.md) on the same SFX switch, mute and hidden-tab rules.
+// They may layer (swing, then hit); a file that fails falls back to the themed tone.
+// No victory jingle: the finale theme starts 2.9 s after the last hit and every library jingle is longer than the gap.
+const cueFiles={attack:'attack-swing.mp3',hit:'hit-light.mp3',finish:'hit-heavy.mp3',exit:'villain-exit.mp3',appear:'villain-appear.mp3',contact:'hurt-bump.mp3'};
+// Files sit near -18 to -25 LUFS; these levels keep hits just above the theme music and the appear pop quiet.
+const cueLevel={attack:.45,hit:.6,finish:.75,exit:.4,appear:.3,contact:.5};
+const cueFallback={attack:'tap',hit:'tap',finish:'success',contact:'retry'};
+const buffers=new Map();
+const cueAllowed=()=>Boolean(ctx)&&config.sfx!==false&&!quiet&&!document.hidden;
+function cueBuffer(kind){if(!buffers.has(kind))buffers.set(kind,fetch(`/assets/audio/sfx/${cueFiles[kind]}`).then(r=>{if(!r.ok)throw Error(kind);return r.arrayBuffer();}).then(b=>ctx.decodeAudioData(b)).catch(()=>{buffers.delete(kind);return null;}));return buffers.get(kind);}
+export function preloadCues(){if(ctx)for(const kind of Object.keys(cueFiles))cueBuffer(kind);}
+export async function cue(kind,{delay=0,rate=1}={}){
+ if(!cueFiles[kind]){sound(kind);return;}
+ if(!cueAllowed())return;
+ const at=ctx.currentTime+delay,buffer=await cueBuffer(kind);
+ if(!cueAllowed()||ctx.state!=='running')return;
+ if(!buffer){if(cueFallback[kind])effects.play(cueFallback[kind]);return;}
+ const source=ctx.createBufferSource(),gain=ctx.createGain();
+ source.buffer=buffer;source.playbackRate.value=rate;gain.gain.value=cueLevel[kind];
+ source.connect(gain);gain.connect(ctx.destination);
+ source.onended=()=>{source.disconnect();gain.disconnect();active=active.filter(x=>x!==source);};
+ active.push(source);source.start(Math.max(ctx.currentTime,at));
+}
 export function quietAudio(value){quiet=value;syncAudio(config);}
 document.addEventListener('visibilitychange',()=>{if(document.hidden){stopNotes(active);ctx?.suspend().catch(()=>{});syncMusic();}else{ctx?.resume().catch(()=>{});syncAudio(config);}});
 

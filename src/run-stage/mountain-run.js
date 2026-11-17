@@ -6,7 +6,7 @@ import {volumeFor} from '../model.js';
 import {bindDirectionPad,mapKeyDirection,MAP_VECTORS} from '../map-controls.js';
 import {choices,escapeHTML,announce,html} from '../ui.js';
 import {icon} from '../icons.js';
-import {sound} from '../audio.js';
+import {sound,cue} from '../audio.js';
 
 const ART='/assets/run-stage/';
 const LABELS=['낮은 압력','보통 압력','높은 압력'];
@@ -216,7 +216,7 @@ export function mountMountainRun(host,task,ctx,textures,{toClassic}){
    if(events.jumped)sound('rotate');
    if(events.respawned){cameraFloor=runner.y;follow(true);sound('retry');say(runner.falls>=3?'여기가 어렵다면 위의 「기존 방식으로 하기」를 눌러도 돼요. 통나무 가운데로 천천히 걸어 봐요.':'괜찮아요! 조금 앞에서 다시 걸어요.',runner.falls>=3?7000:2600);if(runner.falls>=3)root.querySelector('.run-classic').classList.add('is-next-action');}
    if(events.checkpoint===1&&!hintGiven){hintGiven=true;say('봉지를 봐요. 올라오는 동안 조금 부풀었어요.',4200);}
-   if(touchPatrol(runner,clock)){sound('retry');say('앗, 깜짝이야! 그대로 다시 걸어요.',2200);}
+   if(touchPatrol(runner,clock)){cue('contact');say('앗, 깜짝이야! 그대로 다시 걸어요.',2200);}
   }
   clock+=dt;
   // 캐릭터 그림: 벽이나 울타리에 막혀 제자리일 때는 걷는 그림을 쓰지 않는다.

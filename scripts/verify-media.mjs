@@ -14,4 +14,5 @@ for(const item of manifest.files){
   const real=Number(execFileSync(process.env.FFPROBE||'ffprobe',['-v','error','-show_entries','format=duration','-of','csv=p=0',path.join(dir,item.file)]).toString());assert.ok(Math.abs(real-CONCEPT_SECONDS)<.15,`${item.file} 실제 길이 ${real}s`);assert.ok(bytes.length<=2.5*1024*1024,`${item.file} 2.5MB 초과`);}
 }
 for(const name of ['tap','rotate','pump','connect','success','award','hint'])assert.ok((await fs.stat(path.join(root,`public/assets/audio/${name}.mp3`))).size>500);
-console.log('PASS: 30 media hashes/sizes, 20 complete video decodes, 7 local effects.');
+for(const name of ['attack-swing','hit-light','hit-heavy','villain-exit','villain-appear','hurt-bump'])assert.ok((await fs.stat(path.join(root,`public/assets/audio/sfx/${name}.mp3`))).size>1000);
+console.log('PASS: 30 media hashes/sizes, 20 complete video decodes, 7 local effects, 6 map cues.');
