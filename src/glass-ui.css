@@ -214,8 +214,8 @@ html body #app .map-screen .map-next-card {
 .title-v2 .title-actions .start-button{flex-basis:100%;max-width:340px;min-height:64px;font-size:24px}
 .title-v2 .title-actions .button.secondary,.title-v2 .title-actions .play-mission-entry{min-height:48px;padding:8px 18px;font-size:18px;border-radius:999px}
 .title-v2 .npc-welcome-voice{margin:8px 0;padding:10px 14px;max-width:480px}
-.title-v2 .npc-welcome-voice p{margin:4px 0 6px;font-size:15px;line-height:1.45}
-.title-v2 .npc-welcome-voice .npc-dialogue-voice .button{min-height:44px;padding:6px 14px;font-size:16px}
+.title-v2 .npc-welcome-voice p{margin:4px 0 6px;font-size:18px;line-height:1.45}
+.title-v2 .npc-welcome-voice .npc-dialogue-voice .button{min-height:44px;padding:6px 14px;font-size:18px}
 
 /* =====================================================================
    2026-11-17 디자인 고도화 (yelsam-design · 일러스트 게임 화면 예외: 그림 톤에 맞춘 금색·청록)
@@ -229,7 +229,8 @@ html body #app .map-screen .map-next-card {
  --ui-shadow-pop:0 28px 70px #0b2a3159,0 4px 14px #0b2a3126;
  --ui-scrim:#0b2a3142;
  --ui-ease-out:cubic-bezier(.16,1,.3,1);--ui-dur-base:250ms;--ui-dur-slow:400ms;
- --ui-text-guide:clamp(17px,1.45vw,21px);--ui-text-button:clamp(16px,1.3vw,19px);--ui-text-label:clamp(15px,1.2vw,17px);
+ /* 글자 크기는 styles.css의 --text-* 하나로 정한다. --ui-text-*는 그 별칭이다. */
+ --ui-text-guide:var(--text-body);--ui-text-button:var(--text-small);--ui-text-label:var(--text-small);
 }
 
 /* 팝업: 불투명한 종이 면 + 청록 제목 띠 + 또렷한 닫기 버튼 */
@@ -240,7 +241,7 @@ html body .dialog::backdrop{background:var(--ui-scrim);-webkit-backdrop-filter:n
 html body .dialog .dialog-head{background:linear-gradient(120deg,var(--ui-accent),var(--ui-accent-2));border-bottom:0;padding:16px 22px}
 html body .dialog .dialog-head h2{color:#fffaf0;font-weight:700;font-size:clamp(20px,2vw,26px);letter-spacing:-.01em}
 html body .dialog .dialog-head .close-dialog{background:#fffaf0;color:var(--ui-accent);border:0;border-radius:var(--ui-radius-pill);box-shadow:0 3px 0 #0b2a3140}
-html body .dialog .dialog-body{background:var(--ui-surface);font-size:clamp(16px,1.35vw,19px);line-height:1.6}
+html body .dialog .dialog-body{background:var(--ui-surface);font-size:clamp(18px,1.35vw,19px);line-height:1.6}
 html body .dialog .dialog-foot{background:var(--ui-surface-2);border-top:1px solid var(--ui-line)}
 @keyframes ui-pop{from{opacity:0;transform:translateY(14px) scale(.96)}to{opacity:1;transform:none}}
 
@@ -255,7 +256,7 @@ html body .dialog .dialog-foot{background:var(--ui-surface-2);border-top:1px sol
 .npc-hub-dialog .npc-dialogue-grid::before{content:"";position:absolute;left:0;bottom:0;width:38%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#ffe7b0 0,#ffe7b000 70%);pointer-events:none}
 .npc-hub-dialog .npc-dialogue-copy{position:relative;margin-top:22px;padding:28px 22px 18px;border:2px solid var(--ui-line);border-radius:22px;background:#fff;box-shadow:0 10px 24px #6b4a1a1a}
 .npc-hub-dialog .npc-dialogue-copy h3{position:absolute;top:-18px;left:18px;margin:0;padding:6px 16px;border-radius:var(--ui-radius-pill);background:var(--ui-accent);color:#fffaf0;font-size:var(--ui-text-label);font-weight:700;box-shadow:0 4px 10px #1f5f5840}
-.npc-hub-dialog .npc-dialogue-copy p{font-size:clamp(17px,1.6vw,21px);line-height:1.6;color:var(--ui-ink)}
+.npc-hub-dialog .npc-dialogue-copy p{font-size:clamp(18px,1.6vw,21px);line-height:1.6;color:var(--ui-ink)}
 
 /* 글자 위계: 제목·버튼·핵심 안내를 굵고 크게 */
 .activity-screen .mission-heading h1{font-weight:700;letter-spacing:-.01em;text-shadow:0 2px 10px #0b2a3155}
@@ -270,7 +271,7 @@ html body .button{font-weight:700}
 .stage-start{flex-wrap:wrap}
 .stage-start>.button{flex:1 1 220px;min-width:0}
 /* 하단 줄 정리: 자동재생 속도는 숫자만 보이는 작은 알약으로 */
-.activity-screen .playback-speed select{min-width:64px;min-height:44px;padding:4px 26px 4px 12px;border-radius:999px;font-weight:700;font-size:var(--ui-text-label,15px)}
+.activity-screen .playback-speed select{min-width:64px;min-height:44px;padding:4px 26px 4px 12px;border-radius:999px;font-weight:700;font-size:var(--ui-text-label)}
 /* 시설 안내 목록: 진행 상태 표시(지금 할 의뢰는 강조, 끝낸 의뢰만 '다시' 버튼) */
 .stage-brief .stage-task.current{border:2px solid var(--ui-gold);background:#fff6df;font-weight:700}
 .stage-brief .stage-task .task-now{margin-left:auto;padding:3px 12px;border-radius:999px;background:var(--ui-gold);color:#4a3205;font-size:var(--ui-text-label);font-weight:700}
@@ -279,8 +280,6 @@ html body .button{font-weight:700}
 .stage-brief .stage-task>span:nth-child(2){min-width:0;overflow:hidden;text-overflow:ellipsis}
 .stage-brief .stage-task :is(.task-again,.task-now){flex:none;white-space:nowrap}
 @media(max-height:560px),(max-width:700px){.stage-brief .stage-task .task-again{display:none}.stage-brief .stage-task .task-now{padding:2px 8px}}
-/* 큰 화면(1600px 이상, 전자칠판)에서는 보조 글씨도 18px 이상 */
-@media(min-width:1600px){:root{--ui-text-label:18px;--ui-text-button:20px;--ui-text-guide:22px}}
 
 /* =====================================================================
    2026-11-17 3초 규칙 (sc34-design-20261117)
@@ -291,6 +290,7 @@ html body .button{font-weight:700}
 .stage-start>.play-mission-entry:hover{background:#fff4d880}
 /* 측정 기록·부피 비교 패널: 빈 아래쪽을 남기지 않고 위에서부터 채운다(바람길 .experiment-side와 같은 방식). */
 .activity-screen .activity-host>.weight-layout>.records-panel,
-.activity-screen .activity-host>.climate-layout>.comparison-panel{height:auto;max-height:100%;align-self:start;justify-content:flex-start;grid-template-rows:auto auto;overflow:auto}
+.activity-screen .activity-host>.climate-layout>.comparison-panel,
+.activity-screen .activity-host>.delivery-layout>.facility-panel{height:auto;max-height:100%;align-self:start;justify-content:flex-start;grid-template-rows:auto auto;overflow:auto}
 /* 「지금」 표시가 의뢰 줄 밖으로 넘치지 않게 */
 .stage-brief .stage-task:is(.current,.done){grid-template-columns:36px minmax(0,1fr) auto}

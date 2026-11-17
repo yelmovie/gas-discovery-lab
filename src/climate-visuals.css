@@ -5,9 +5,9 @@
 .climate-layout .climate-scene.temperature[data-condition="0"]{background:linear-gradient(180deg,#d5e9f4,#f2f8fb 82%,#d6e6e6 83%,#e9f0ed)}
 .climate-layout .climate-scene.temperature[data-condition="2"]{background:linear-gradient(180deg,#fae5c9,#fff7e8 82%,#e8ddc2 83%,#f4eddd)}
 .climate-layout .climate-scene.pressure{background:linear-gradient(180deg,#e3eef0,#f5f9f7 82%,#dae3dd 83%,#eaf0e7)}
-.climate-scene-head{position:absolute;left:10px;right:10px;top:7px;display:flex;align-items:center;justify-content:space-between;gap:6px;z-index:4;pointer-events:none;line-height:1.3;font-size:clamp(14px,1.2vw,22px)}
+.climate-scene-head{position:absolute;left:10px;right:10px;top:7px;display:flex;align-items:center;justify-content:space-between;gap:6px;z-index:4;pointer-events:none;line-height:1.3;font-size:clamp(18px,1.2vw,22px)}
 .climate-scene-head .condition-pill{position:static;flex:none;padding:3px 8px;border:1px solid #9dbdb6;border-radius:9px;background:#fffef7;color:#245d59;font-size:inherit;line-height:1.25;white-space:nowrap}
-.climate-constants{color:#3c625d;font-size:clamp(14px,1vw,20px);line-height:1.3;text-align:right;word-break:keep-all}
+.climate-constants{color:#3c625d;font-size:clamp(18px,1vw,20px);line-height:1.3;text-align:right;word-break:keep-all}
 .climate-layout .volume-visual{inset:36px 6px 5px;container-type:size}
 /* Container units preserve the image proportions at any available height. */
 .thermal-apparatus{position:relative;width:min(94cqw,calc(98cqh * 1.05));height:min(98cqh,calc(94cqw / 1.05));pointer-events:none}
@@ -19,14 +19,14 @@
 .pressure-plunger-art{position:absolute;left:34.5%;top:var(--plunger-top,.52%);width:31%;height:44%;object-fit:fill;pointer-events:none;z-index:3;transition:top var(--climate-motion,350ms) ease-out}
 .pressure .piston-air-space{position:absolute;left:36.5%;bottom:16%;width:27%;height:var(--chamber-air-height,43%);z-index:2;overflow:hidden;background:linear-gradient(90deg,#4faeb83b,#b4e4dd40,#4faeb83b);border-radius:0 0 12% 12%;transition:height var(--climate-motion,350ms) ease-out;pointer-events:none}
 .climate-controls{display:grid;grid-template-rows:auto 44px;gap:0;min-width:0}
-.climate-layout .range-labels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;text-align:center;font-size:clamp(14px,1.2vw,20px);line-height:1.3}
+.climate-layout .range-labels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;text-align:center;font-size:clamp(18px,1.2vw,20px);line-height:1.3}
 .climate-layout .range-labels span{padding:2px 3px;border:1px solid transparent;border-radius:8px;word-break:keep-all}
 .climate-layout .range-labels span.active{color:#1d635f;background:#e0f0e8;border-color:#8bbcb0;font-weight:600}
 .climate-layout .condition-slider{height:48px;min-height:48px;margin:0;width:100%;accent-color:#267e82}
 /* Two short horizontal bars leave the full question and both choices visible. */
 .climate-layout .comparison-panel{display:grid;grid-template-rows:auto minmax(0,1fr);gap:10px;height:100%;min-height:0}
 .climate-layout .volume-records{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:8px;margin:0;border:1px solid #d4ddce;background:#f0f4eb}
-.climate-layout .volume-record{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto 12px;gap:5px 6px;min-width:0;align-content:center;text-align:left;font-size:clamp(14px,1.1vw,20px);line-height:1.25}
+.climate-layout .volume-record{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto 12px;gap:5px 6px;min-width:0;align-content:center;text-align:left;font-size:clamp(18px,1.1vw,20px);line-height:1.25}
 .climate-layout .volume-record>div.record-stage{grid-column:1;grid-row:1;font-family:var(--font-display);color:#49625a}
 .climate-layout .volume-record .record-condition{grid-column:2;grid-row:1;font-size:inherit;font-weight:600;word-break:keep-all;text-align:right}
 .climate-layout .volume-record .comparison-track{grid-column:1 / -1;grid-row:2;position:relative;isolation:isolate;height:12px;width:100%;margin:0;padding:0;border:1px solid #bccbc5;border-radius:5px;background:repeating-linear-gradient(to right,transparent 0 17px,#c9d5cd80 17px 18px);display:block}
@@ -38,7 +38,7 @@
 .climate-layout .transfer-question{flex:none}
 .climate-layout .transfer-question h3{font-size:clamp(18px,1.55vw,28px);line-height:1.3;margin:0;overflow-wrap:anywhere}
 .climate-layout .choice-group{gap:8px;flex:none}
-.climate-layout .choice{min-width:0;min-height:44px;font-size:clamp(16px,1.35vw,24px);padding:8px 10px;line-height:1.3}
+.climate-layout .choice{min-width:0;min-height:44px;font-size:clamp(18px,1.35vw,24px);padding:8px 10px;line-height:1.3}
 .climate-layout .choice .radio-dot{flex:none}
 .climate-layout .activity-feedback:empty{display:none}
 @media(max-height:600px){
@@ -90,7 +90,7 @@
 @media(prefers-reduced-motion:reduce){.climate-layout .drag-cue-hand{animation:none}}
 @media(max-height:440px){.climate-layout .drag-cue{font-size:12px;padding:5px 10px;bottom:6px}.climate-layout .drag-cue-y{right:6px}}
 /* 끌기 안내는 그림을 가리지 않게 조작 줄 위에 둔다. */
-.climate-layout .climate-controls .drag-cue{position:static;transform:none;align-self:center;margin:0 auto 6px;font-size:var(--ui-text-label,15px);box-shadow:none;width:max-content;max-width:100%}
+.climate-layout .climate-controls .drag-cue{position:static;transform:none;align-self:center;margin:0 auto 6px;font-size:var(--ui-text-label);box-shadow:none;width:max-content;max-width:100%}
 .climate-layout .climate-controls{display:flex;flex-direction:column}
 .climate-layout .climate-panel:has(.climate-scene.was-dragged) .drag-cue,.climate-layout .climate-panel:has(.climate-scene[aria-disabled="true"]) .drag-cue{display:none}
 @media(max-height:440px){.climate-layout .climate-controls .drag-cue{font-size:14px;padding:3px 10px;margin-bottom:2px}}

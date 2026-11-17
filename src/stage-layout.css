@@ -1,7 +1,7 @@
 /* One viewport: title, large experiment, one instruction/action bar. */
-.activity-screen{--stage-gap:clamp(8px,1vw,16px);--panel-pad:clamp(10px,1.35vw,24px);--text-small:clamp(14px,1.15vw,20px);--classroom-body:clamp(16px,1.4vw,24px);display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:var(--stage-gap);padding:12px 2%;overflow:clip}
+.activity-screen{--stage-gap:clamp(8px,1vw,16px);--panel-pad:clamp(10px,1.35vw,24px);display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:var(--stage-gap);padding:12px 2%;overflow:clip}
 .activity-screen .mission-heading{position:static;margin:0 124px;min-width:0;padding:0}
-.activity-screen .mission-heading .eyebrow{font-size:clamp(14px,1.05vw,20px);margin-bottom:2px;line-height:1.2}
+.activity-screen .mission-heading .eyebrow{font-size:clamp(18px,1.05vw,20px);margin-bottom:2px;line-height:1.2}
 .activity-screen .mission-heading h1{font-size:clamp(22px,2.15vw,38px);line-height:1.18}
 .activity-screen~.global-controls{inset:12px 16px auto}
 .activity-screen~.global-controls .icon-button{width:48px;height:48px}
@@ -10,7 +10,7 @@
 .activity-screen .activity-host>div{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);grid-template-rows:minmax(0,1fr);align-items:stretch;width:100%;height:100%;max-width:none;max-height:none;margin:0;gap:var(--stage-gap);min-width:0;min-height:0}
 :where(.activity-screen) .activity-host :where(.lab-panel){min-width:0;min-height:0;height:100%;max-height:none;padding:var(--panel-pad);overflow:visible;scrollbar-gutter:auto;border-radius:20px;background:#fffdf5f5}
 .activity-screen .activity-host .lab-panel{height:100%;min-height:0;max-height:none;grid-template-columns:minmax(0,1fr);padding:var(--panel-pad);overflow:visible;scrollbar-gutter:auto}
-.activity-screen .activity-host :is(.button,.choice){min-height:44px;font-size:clamp(16px,1.25vw,23px);padding:8px 12px;line-height:1.25;gap:8px;min-width:0}
+.activity-screen .activity-host :is(.button,.choice){min-height:44px;font-size:clamp(18px,1.25vw,23px);padding:8px 12px;line-height:1.25;gap:8px;min-width:0}
 .activity-screen .activity-host :is(.section-label,.microcopy){font-size:var(--text-small);line-height:1.25}
 .activity-screen .activity-host :is(.button,.choice)>span{min-width:0}
 .activity-host :is(button,.choice,.supply-port)>.icon{flex:none}
@@ -21,7 +21,7 @@
 .activity-screen .mission-rail{position:relative;inset:auto;margin:0;min-width:0;display:flex;align-items:center;justify-content:space-between;flex-wrap:nowrap;gap:12px;padding:8px 12px;min-height:64px;border-radius:16px;background:#143f43f5}
 .mission-guide{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:start;gap:8px;min-width:0;flex:1}
 .activity-screen .mission-step{font:18px/1.35 var(--font-display);white-space:nowrap;color:#f5daa1}
-.activity-screen .mission-direction{display:block;font-size:clamp(16px,1.1vw,21px);line-height:1.35;min-width:0}
+.activity-screen .mission-direction{display:block;font-size:clamp(18px,1.1vw,21px);line-height:1.35;min-width:0}
 .activity-actions,.playback-controls,.utility-tools{display:flex;align-items:center;gap:8px;flex:none;min-width:0}
 .activity-actions .button{min-height:44px;padding:8px 12px;font-size:18px;line-height:1.2;gap:6px;border-radius:12px}
 .autoplay-button{min-width:136px}
@@ -33,12 +33,12 @@
 .activity-screen .buddy{position:static;width:auto;height:auto;margin:0}
 .activity-screen .buddy-button{position:static;inset:auto;display:flex;align-items:center;justify-content:center;gap:4px;min-width:64px;min-height:44px;height:44px;padding:4px 8px;border-radius:12px;background:#fff4d9;border:2px solid #b7ad87}
 .activity-screen .soli-portrait{width:24px;height:30px;filter:none}
-.activity-screen .buddy-label{position:static;padding:0;border:0;background:none;font:16px/1.2 var(--font-display)}
+.activity-screen .buddy-label{position:static;padding:0;border:0;background:none;font:18px/1.2 var(--font-display)}
 .activity-screen .buddy-speech{position:fixed;left:auto;right:16px;bottom:88px;width:min(430px,calc(100vw - 32px));max-height:calc(100dvh - 120px);overflow:auto;font-size:20px}
 .activity-screen .activity-host .is-next-action{outline:3px solid #d4a447;outline-offset:2px}
 .activity-screen .activity-host button.is-next-action,.activity-screen .activity-host button.is-next-action:hover:not(:disabled){background:#fff0cc;border-color:#a67722;color:#143f43;transition:transform .12s,box-shadow .12s}
 .activity-screen .discovery-result{gap:8px;height:auto;min-height:0}
-.activity-screen .discovery-label{font-size:clamp(16px,1.1vw,22px);line-height:1.25}
+.activity-screen .discovery-label{font-size:clamp(18px,1.1vw,22px);line-height:1.25}
 .activity-screen .discovery-result>p{font-size:var(--classroom-body);padding:10px;line-height:1.4}
 .activity-screen .completed-actions{display:flex;gap:8px;padding:0}
 .activity-screen .completed-actions .button{width:auto;white-space:normal}
@@ -83,14 +83,14 @@
 @media(max-width:1100px){
  .activity-screen{padding-inline:12px}
  .activity-screen .mission-rail{gap:8px;padding:8px}
- .activity-screen .mission-step,.activity-screen .mission-direction{font-size:16px}
- .activity-actions .button{font-size:16px;padding:8px}
+ .activity-screen .mission-step,.activity-screen .mission-direction{font-size:18px}
+ .activity-actions .button{font-size:18px;padding:8px}
  .autoplay-button{min-width:120px}
  .playback-speed select{width:102px;font-size:14px}
  .teacher-menu-button>span{display:none}
 }
 @media(max-height:600px){
- .activity-screen{padding:8px 12px;gap:8px;--panel-pad:8px;--stage-gap:8px;--classroom-body:16px}
+ .activity-screen{padding:8px 12px;gap:8px;--panel-pad:8px;--stage-gap:8px}
  .activity-screen .mission-heading{margin-inline:116px}
  .activity-screen .mission-heading h1{font-size:24px}
  .activity-screen .mission-heading .eyebrow{font-size:14px}

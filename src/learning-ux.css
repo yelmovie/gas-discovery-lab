@@ -1,5 +1,5 @@
 /* Shared classroom layout: readable type, content-sized panels, persistent next action. */
-:root{--text-small:clamp(18px,1.2vw,22px);--text-body:clamp(20px,1.55vw,27px);--classroom-body:clamp(20px,1.45vw,27px);--panel-pad:clamp(16px,1.8vw,30px)}
+:root{--panel-pad:clamp(18px,1.8vw,30px)}
 [hidden]{display:none!important}
 button,input,[role=slider]{touch-action:manipulation}
 button{line-height:1.25}
@@ -10,7 +10,7 @@ h1,h2,h3{ text-wrap:balance }
 .mission-heading h1{font-size:clamp(30px,2.5vw,46px)}
 .mission-heading .eyebrow{font-size:18px;line-height:1.25;margin-bottom:5px}
 .activity-host{inset:112px 4% 108px;display:flex;align-items:center;justify-content:center}
-.flow-layout,.weight-layout,.climate-layout,.delivery-layout,.engineering-layout{height:auto;max-height:100%;width:100%;max-width:1540px;align-items:center;gap:clamp(16px,2vw,32px);grid-template-columns:minmax(0,1.4fr) minmax(0,1fr)}
+.flow-layout,.weight-layout,.climate-layout,.delivery-layout,.engineering-layout{height:auto;max-height:100%;width:100%;max-width:1540px;align-items:center;gap:clamp(18px,2vw,32px);grid-template-columns:minmax(0,1.4fr) minmax(0,1fr)}
 .activity-host .lab-panel{padding:var(--panel-pad);max-height:calc(100dvh - 220px);overflow:auto;scrollbar-gutter:stable;border-radius:24px;background:#fffdf5f5}
 .activity-host h2{font-size:clamp(26px,2.05vw,36px);line-height:1.2;margin-bottom:12px}
 .activity-host .button,.choice,.reason-slot .choice{font-size:clamp(20px,1.45vw,26px);min-height:52px;padding:10px 14px;line-height:1.3}
@@ -211,7 +211,6 @@ h1,h2,h3{ text-wrap:balance }
  .certificate-layout{grid-template-columns:minmax(0,1fr) minmax(300px,.8fr)}.certificate-options{padding:18px}.certificate>p{font-size:20px}.certificate-badges>span{font-size:16px}
 }
 @media(max-height:680px){
- :root{--text-body:20px;--text-small:18px}
  .mission-heading{top:14px}.mission-heading h1{font-size:30px}.mission-heading .eyebrow{font-size:18px}
  .activity-host{inset:94px 3% 86px}.activity-host .lab-panel{max-height:calc(100dvh - 180px);padding:14px 16px;border-radius:18px}.activity-host h2{font-size:26px;margin-bottom:8px}
  .activity-host .button{font-size:20px;min-height:48px;padding:8px 10px}.section-label,.microcopy{font-size:18px}.feedback{font-size:20px;padding:10px;line-height:1.35}.activity-feedback,.evidence-slot{margin-top:8px}
