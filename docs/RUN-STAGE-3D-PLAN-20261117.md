@@ -189,3 +189,58 @@
 | `run-river.png` | river.webp | 없음 | Seamless tileable top-down texture of a clear turquoise mountain stream flowing over smooth pebbles with soft white ripples and a few round stones, bright cheerful hand-painted cartoon illustration for a children's science game, clean shapes, soft even lighting, storybook look, flat top-down view, no banks, no horizon, no text, no letters, no numbers, no logo |
 | `run-base-shelter.png` | base-shelter.webp | 타이틀 그림 | A small cute weather instrument shelter at a trailhead, in the same storybook fantasy art style, colors and lighting as the reference image (lush green nature valley, cream stone buildings with teal domes and brass trim): a cream wooden louvered box on four wooden legs with a little teal roof and brass corners, a small brass thermometer tube and a round brass dial without numbers on the front, front view, single object centered, whole object visible with margin, transparent background, no text, no letters, no numbers, no logo |
 
+## 구현 결과 (2026-11-17)
+
+운영 주소 https://gas-discovery-lab.yelsam.workers.dev/ 에서 `climate-4` 「높은 산의 과자 봉지」가 3D 산길로 열리고, 화면 버튼과 키보드로 끝까지 플레이되며, 기록이 기존 `drafts['climate-4']`와 `evidence.climate`에 남는 것을 확인했다.
+
+### 바뀐 파일
+
+| 파일 | 내용 |
+|---|---|
+| `src/run-stage/mountain-rules.js` | 규칙 연결(초안 복원, 관측 지점 기록, 봉지 비율), 코스·발판·복귀 지점, 걷기·점프 계산. 순수 함수 |
+| `src/run-stage/mountain-run.js` | three.js 무대, 세운 그림, 입력(방향판·점프·기록, WASD·방향키·Space·Enter), 고정 추적 카메라, 겹침 화면 |
+| `src/run-stage/run-stage.css` | 겹침 화면 스타일 |
+| `src/activities/climate.js` | 기존 화면 함수는 그대로 두고(`mountClassic`) 앞에 분기 추가. WebGL 불가·움직임 줄이기·불러오기 실패·자동재생·「기존 방식으로 하기」는 기존 화면 |
+| `src/data.js` | `climate-4`에 `runStage:true` |
+| `src/settingsContent.js`, `public/assets/CREDITS.md`, `README.md` | three.js·그림 고지와 안내 |
+| `public/assets/vendor/three/` | three.js r170 모듈(691,648바이트, 06번과 SHA-256 동일)과 라이선스 |
+| `public/assets/run-stage/` | 그림 20장(WebP 합계 약 1.0MB) |
+| `tests/run-stage.test.mjs` | 규칙 테스트 9개 |
+| `scripts/qa-run-stage.mjs`, `scripts/prepare-run-stage.mjs` | 브라우저 검증(`npm run qa:run-stage`), 그림 가공 |
+| `scripts/qa-learning.mjs`·`qa-responsive.mjs`·`qa-voices.mjs` | 3D로 먼저 열리는 의뢰는 「기존 방식으로 하기」로 바꿔 기존 조작을 검사하는 한 줄 |
+
+추가 다운로드는 three 0.69MB + 그림 약 1.0MB + 코드 약 35KB로 3MB 안쪽이다. 화면의 삼각형은 상자·평면·세운 그림 100여 개 분량이라 3만에 한참 못 미친다. 픽셀 비율은 최대 1.25, 그림자는 발밑 둥근 그림자뿐이고 후처리는 없다.
+
+### 실행한 검증
+
+| 검증 | 결과 |
+|---|---|
+| `npm test` | 79/79 통과(새 규칙 테스트 9개 포함) |
+| `npm run build` | 통과. 243개 파일, 오프라인 revision `0551fcd48f50cd4b`. three 모듈과 그림이 오프라인 목록에 들어갔고, three는 설치 때 미리 받는 목록에는 없다 |
+| `npm run qa:run-stage` | 개발 서버 1280×800·1024×768·1920×1080·1024×600, 빌드 결과물 1280×800·1024×768, **운영 주소 1280×800·1024×768** 모두 통과 |
+| ↳ 내용 | 키보드 완주(산 아래→꼭대기 약 7초), 터치 방향판·점프·기록 완주, 통나무 다리에서 떨어지면 쉼터 복귀, 걷기만으로는 기록되지 않음, 오답은 완료되지 않음, 새로고침 뒤 비교 단계에서 이어 하기, 완료 기록(`mode`·`records`·`transfer`)과 초안 삭제, 「기존 방식으로 하기」와 자동재생은 기존 2D 화면, 움직임 줄이기(앱 설정·OS 설정)는 처음부터 기존 화면, 교사 시연에서 방향키는 단계 이동·WASD는 걷기, 버튼 52px 이상과 `aria-label`, 겹침 화면의 겹침·넘침·14px 미만 글자 없음, 콘솔·페이지 오류 0 |
+| `npm run qa:browser` | 통과(20개 의뢰·영상·코어·엔딩·인증서·재도전·키보드·이탈). 개발 서버와 빌드 결과물 |
+| `npm run qa:layout` | 통과 |
+| `npm run qa:playback` | **실패(원래 있던 실패).** 첫 의뢰 `flow-1`에서 초안이 없어 멈춘다. 변경 전 스크립트로 운영본(`dc837bb`)을 검사해도 같은 자리에서 같은 오류다. `climate-4`의 자동재생은 `qa:run-stage`로 확인했다 |
+| `npm run qa:responsive` | **실패(원래 있던 실패).** 740×360 등 작은 화면의 기존 문제다. 변경 전 소스(HEAD `dc837bb`)를 로컬에서 같은 검사로 돌린 결과와 이번 빌드의 결과가 그림 불러오기 항목을 빼고 125건으로 완전히 같다(차이 0건). `climate/3`에 새로 생긴 항목 없음 |
+| 운영 파일 대조 | 빌드 245개 파일(오프라인 목록 243 + `sw.js`·`offline-manifest.json`)의 SHA-256이 운영 주소와 전부 일치 |
+
+### 커밋과 배포
+
+- 앱 코드 커밋 `a6dbcf2`, 코드 그래프 갱신 `8dea28a`. 둘 다 `main`에 푸시했다(직전 `dc837bb`).
+- Cloudflare Worker `gas-discovery-lab` 버전 `079d1ebe-7868-42a3-93f8-ad97014eeece`, 2026-11-17 12:17 KST, 트래픽 100%. 배포 메시지에 `8dea28a`를 적었다. 절차는 기존과 같이 `wrangler deploy --config .tmp/release-20261117-run3d/wrangler.json`(이름 `gas-discovery-lab`, `assets.directory`는 `dist`).
+- 직전 운영본의 오프라인 revision은 `2c52785296264e52`였다.
+- 그림 17장의 내장 임시 원본은 적용을 확인한 뒤 `gpt-image.sh -c`로 모두 지웠다.
+
+### 확인하지 못한 것
+
+- 학교 태블릿·전자칠판 실기기에서의 프레임 수와 발열, Safari. 검증은 맥의 헤드리스 Chrome에서 했다.
+- 실제 손가락 터치(검증은 CDP 터치 이벤트).
+- 교사의 내용 검수와 학생 대상 수업 관찰.
+- `qa:voices`는 실행하지 않았다(스크립트에 기존 방식 전환 한 줄만 넣었다).
+
+### 작업 중 발견한 별도 문제(고치지 않음)
+
+- 830×515처럼 좁은 화면에서 소리를 끈 채 시설의 마지막 의뢰를 끝내면, 아래 안내줄이 화면을 거의 다 차지해 실험 영역이 20px로 줄어든다. 기존 2D 화면과 변경 전 운영본에서도 같다(`.mission-rail`이 줄바꿈 없이 버튼과 음성 안내를 한 줄에 넣기 때문).
+- `qa:playback`이 `flow-1`에서 멈추고, `qa:responsive`가 작은 화면에서 실패한다(위 표).
+
