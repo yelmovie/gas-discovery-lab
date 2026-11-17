@@ -7,7 +7,7 @@ import {store,persist,award,allComplete} from './state.js';
 import {completeStage,isStageOpen,teacherRoute} from './model.js';
 import {html,button,openDialog,portrait,prop,buddy,choices,escapeHTML,announce,holdButton,SOLI_IMAGE} from './ui.js';
 import {icon} from './icons.js';
-import {sound,syncAudio,unlockAudio,quietAudio} from './audio.js';
+import {sound,syncAudio,unlockAudio,quietAudio,setScreenMusic} from './audio.js';
 import {loadActivity,loadPlayMission,loadMapAssets,loadConceptVisuals,waitForScreen} from './screen-loaders.js';
 import {refreshOffline} from './offline.js';
 const loadSettings = () => import('./settings.js');
@@ -29,7 +29,7 @@ function navigate(route,{replace=false,fromHistory=false}={}){
  if(['activity','stage','map'].includes(current.screen)){store.save.last={...current};persist();}
  document.body.classList.toggle('title-font',current.screen==='home');
  app.replaceChildren();const screen=html(`<section class="screen ${current.screen}-screen" aria-label="${APP.name}"></section>`);app.append(screen,controls());updateControls();document.title=current.stageId?`${stageById(current.stageId).name} · ${APP.name}`:APP.name;
- quietAudio(false);
+ quietAudio(false);setScreenMusic(['ending','certificate'].includes(current.screen)?'finale':'main');
  if(current.screen==='home')showHome(screen);else if(current.screen==='story')showStory(screen,current.index||0);else if(current.screen==='map')showMap(screen,abort.signal);else if(current.screen==='stage')showStage(screen,stageById(current.stageId));else if(current.screen==='activity')enterActivity(screen,stageById(current.stageId),current.index||0,abort.signal);else if(current.screen==='finale')showFinale(screen);else if(current.screen==='ending')showEnding(screen,current.index||0);else if(current.screen==='certificate')renderCertificate(screen);
  if(current.screen==='home'){
   const panel=html('<section class="npc-welcome-voice"><small>AI 생성 음성</small><p></p></section>');
@@ -247,6 +247,7 @@ function showCertificate(){if(!store.save.finaleCompleted)return;navigate({scree
 function renderCertificate(host){if(!store.save.finaleCompleted){navigate({screen:'map'},{replace:true});return;}host.innerHTML=`<img class="scene-background" src="/assets/ending.webp" alt=""><div class="scene-shade"></div><div class="certificate-layout"><section class="certificate" id="certificate"><div class="certificate-top">과학 탐구 · 공기 엔지니어</div><div class="certificate-seal">${icon('star')}</div><h1 tabindex="-1">기체 도시 복구 인증서</h1><div class="certificate-name">${escapeHTML(store.save.nickname||'멋진 공기 엔지니어')}</div><p>다섯 연구시설에서 증거를 모으고<br>직접 만든 공기 장치로 마을을 되살렸어요.</p><strong class="certificate-ability">나는 이제 ${escapeHTML(store.save.ability)}</strong><div class="certificate-badges">${STAGES.map(s=>`<span>${icon('check')}${s.badge}</span>`).join('')}</div><div class="certificate-sign">옐샘 & 아이스크림미디어</div></section><aside class="lab-panel certificate-options"><div class="eyebrow">내가 발견한 힘</div><h2>이제 무엇을<br>할 수 있나요?</h2><div class="ability-options"></div><label class="nickname-label" for="nickname">별명 (선택 · 16자까지)</label><input id="nickname" maxlength="16" autocomplete="off" value="${escapeHTML(store.save.nickname)}" placeholder="공기 엔지니어"><div class="certificate-actions"></div></aside></div>`;host.querySelector('.ability-options').append(choices(['실험 기록을 비교해 설명할 수 있어요.','조건을 바꾸고 부피 변화를 관찰할 수 있어요.','공기의 성질로 장치를 만들 수 있어요.'],value=>{store.save.ability=value;persist();host.querySelector('.certificate-ability').textContent='나는 이제 '+value;},{selected:store.save.ability}));host.querySelector('#nickname').oninput=e=>{store.save.nickname=e.target.value.slice(0,16);persist();host.querySelector('.certificate-name').textContent=store.save.nickname||'멋진 공기 엔지니어';};host.querySelector('.certificate-actions').append(button(`${icon('print')} 인증서 인쇄`,()=>window.print()),button('다른 방법으로 다시 탐구',()=>navigate({screen:'map'}),'button secondary'));}
 window.addEventListener('popstate',()=>navigate(parseHash(),{fromHistory:true}));
 document.addEventListener('pointerdown',()=>unlockAudio(store.save.settings),{once:true});
+document.addEventListener('keydown',()=>unlockAudio(store.save.settings),{once:true});
 window.addEventListener('error',()=>announce('화면이 멈추었다면 새로고침해 주세요. 저장한 탐구 기록은 남아 있어요.'));
 function viewport(){document.documentElement.style.setProperty('--viewport-height',`${window.innerHeight}px`);if(!document.activeElement?.matches('input'))document.documentElement.classList.toggle('portrait-display',window.innerWidth<700&&window.innerHeight>window.innerWidth);}
 viewport();window.addEventListener('resize',viewport);

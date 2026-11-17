@@ -1,4 +1,5 @@
 // The map award plays once on the last hit. It never changes learning or certificate progress.
+import {setFinaleOverlay} from './audio.js';
 export function openMapFinale(host, source) {
  const doc=host.ownerDocument;
  if(!host.isConnected||doc.querySelector('.map-finale-dialog'))return;
@@ -11,8 +12,10 @@ export function openMapFinale(host, source) {
  const status=doc.createElement('p');status.hidden=true;status.role='status';
  const close=doc.createElement('button');close.type='button';close.textContent='지도로 돌아가기';Object.assign(close.style,{marginTop:'10px',minHeight:'44px',padding:'6px 18px',borderRadius:'8px',cursor:'pointer'});
  dialog.append(title,video,status,close);doc.body.append(dialog);dialog.showModal();
+ // The clip stays silent; the finale theme plays while the dialog is open.
+ setFinaleOverlay(true);
  close.addEventListener('click',()=>dialog.close());
  video.addEventListener('error',()=>{status.hidden=false;status.textContent='지금은 영상을 열 수 없어. 지도 퇴치 기록은 저장됐어.';});
- dialog.addEventListener('close',()=>{video.pause();dialog.remove();},{once:true});
+ dialog.addEventListener('close',()=>{video.pause();dialog.remove();setFinaleOverlay(false);},{once:true});
  video.play().catch(()=>{});
 }

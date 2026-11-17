@@ -1,14 +1,28 @@
 import { createThemeEffects } from './theme-effects.js';
-let ctx,master,musicGain,sfxGain,clock=0,active=[],notes=[],config={music:true,sfx:true,musicVolume:35},quiet=false,narrating=false,effectSerial=0;
+let ctx,master,sfxGain,active=[],config={music:true,sfx:true,musicVolume:35},quiet=false,narrating=false,started=false;
 const effects = createThemeEffects('gas', () => ({ enabled: config.sfx, muted: quiet, volume: .75 }));
-function init(){if(ctx)return;try{ctx=new AudioContext();master=ctx.createGain();master.gain.value=.55;master.connect(ctx.destination);musicGain=ctx.createGain();musicGain.connect(master);sfxGain=ctx.createGain();sfxGain.gain.value=.22;sfxGain.connect(master);}catch{/* Audio is optional; interactions remain available. */}}
+// Suno tracks (originals in references/suno). The main theme loops; the finale plays once and then rests.
+const musicFiles={main:'/assets/audio/bgm/main-theme.mp3',finale:'/assets/audio/bgm/final-theme.mp3'};
+const players={};let screenTrack='main',overlay=false,finaleDone=false;
+function init(){if(ctx)return;try{ctx=new AudioContext();master=ctx.createGain();master.gain.value=.55;master.connect(ctx.destination);sfxGain=ctx.createGain();sfxGain.gain.value=.22;sfxGain.connect(master);}catch{/* Audio is optional; interactions remain available. */}}
 function stopNotes(list){for(const n of list){try{n.stop();n.disconnect();}catch{}}list.length=0;}
-export function syncAudio(settings){config={...settings};effects.sync();if(!ctx)return;musicGain.gain.setTargetAtTime(config.music&&!quiet?config.musicVolume/100*.15*(narrating?.15:1):0,ctx.currentTime,.1);if(!config.sfx)stopNotes(active);if(config.music&&!quiet&&!clock&&!document.hidden)startMusic();if(!config.music||quiet||document.hidden){clearInterval(clock);clock=0;stopNotes(notes);}}
-export function unlockAudio(settings){init();effects.unlock();ctx?.resume().catch(()=>{});syncAudio(settings);}
-let sequence=0;
-function startMusic(){const melody=[523.25,659.25,783.99,659.25,587.33,698.46,880,698.46,493.88,587.33,783.99,587.33,440,523.25,659.25,523.25];const tick=()=>{if(!ctx||document.hidden)return;notes=notes.filter(n=>!n.ended);const osc=ctx.createOscillator(),gain=ctx.createGain();osc.type='sine';osc.frequency.value=melody[sequence++%melody.length]/2;osc.connect(gain);gain.connect(musicGain);const t=ctx.currentTime;gain.gain.setValueAtTime(0,t);gain.gain.linearRampToValueAtTime(.6,t+.04);gain.gain.exponentialRampToValueAtTime(.001,t+.7);osc.start();osc.stop(t+.75);osc.onended=()=>{osc.ended=true;osc.disconnect();gain.disconnect();};notes.push(osc);};tick();clock=setInterval(tick,560);}
+function player(track){let a=players[track];if(!a){a=players[track]=new Audio(musicFiles[track]);a.dataset.track=track;a.loop=track==='main';a.preload='auto';a.onended=()=>{if(track==='finale')finaleDone=true;};}return a;}
+function syncMusic(){
+ const track=overlay?'finale':screenTrack;
+ for(const [name,a] of Object.entries(players))if(name!==track)a.pause();
+ if(!started||!config.music||config.musicVolume<=0||document.hidden||track==='finale'&&finaleDone){players[track]?.pause();return;}
+ const a=player(track);
+ // Ducked under character voices and concept clips instead of stopping.
+ a.volume=Math.min(1,config.musicVolume/100*.8)*(quiet||narrating?.25:1);
+ if(a.paused)a.play().catch(()=>{});
+}
+function setTrack(nextScreen,nextOverlay){const before=overlay?'finale':screenTrack,after=nextOverlay?'finale':nextScreen;screenTrack=nextScreen;overlay=nextOverlay;if(after!==before&&after==='finale'){finaleDone=false;if(players.finale)players.finale.currentTime=0;}syncMusic();}
+export function setScreenMusic(track){setTrack(track==='finale'?'finale':'main',overlay);}
+export function setFinaleOverlay(value){setTrack(screenTrack,Boolean(value));}
+export function syncAudio(settings){config={...settings};effects.sync();syncMusic();if(ctx&&!config.sfx)stopNotes(active);}
+export function unlockAudio(settings){started=true;init();effects.unlock();ctx?.resume().catch(()=>{});syncAudio(settings);}
 export function sound(kind='tap'){ if(ctx) effects.play(kind); }
 export function quietAudio(value){quiet=value;syncAudio(config);}
-document.addEventListener('visibilitychange',()=>{if(document.hidden){clearInterval(clock);clock=0;stopNotes(notes);stopNotes(active);ctx?.suspend().catch(()=>{});}else{ctx?.resume().catch(()=>{});syncAudio(config);}});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){stopNotes(active);ctx?.suspend().catch(()=>{});syncMusic();}else{ctx?.resume().catch(()=>{});syncAudio(config);}});
 
 export function duckNarration(value){narrating=value;syncAudio(config);}
