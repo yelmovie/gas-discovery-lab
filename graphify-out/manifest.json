@@ -1272,9 +1272,9 @@
     "semantic_hash": ""
   },
   "scripts/qa-responsive.mjs": {
-    "mtime": 1794881347.04,
-    "seen": 1794885388.594209,
-    "ast_hash": "bce1d7d1da1054b035f76b2299e6bd06",
+    "mtime": 1794889479.62,
+    "seen": 1794890027.5725498,
+    "ast_hash": "dd2cde69e9ac58aaaa100404e56cf287",
     "semantic_hash": ""
   },
   "docs/reviews/NPC-VOICE-20261108.md": {
@@ -1290,9 +1290,9 @@
     "semantic_hash": ""
   },
   "scripts/qa-playback.mjs": {
-    "mtime": 1794254232.29,
-    "seen": 1794409856.88324,
-    "ast_hash": "3851eb72ef5fd8d1983e1a685bbe477d",
+    "mtime": 1794886406.03,
+    "seen": 1794890027.5725498,
+    "ast_hash": "330822855a27f658af97737ab757afad",
     "semantic_hash": ""
   },
   "src/experiment-player.js": {
@@ -1788,9 +1788,9 @@
     "semantic_hash": ""
   },
   "scripts/qa-voices.mjs": {
-    "mtime": 1794881347.04,
-    "seen": 1794885388.594212,
-    "ast_hash": "88e9998251363543c3fe8427e6c9260b",
+    "mtime": 1794886701.75,
+    "seen": 1794890027.572553,
+    "ast_hash": "32c9d485765288b4bb4c5d90c22539cd",
     "semantic_hash": ""
   },
   "src/game-voices.js": {
@@ -2034,8 +2034,8 @@
     "semantic_hash": ""
   },
   ".claude/launch.json": {
-    "mtime": 1793285412.28,
-    "seen": 1794409856.8831291,
+    "mtime": 1794889607.16,
+    "seen": 1794890027.5725162,
     "ast_hash": "e706ee7e3c3f4b976ef9b059793b86b5",
     "semantic_hash": ""
   },
@@ -2478,33 +2478,33 @@
     "semantic_hash": ""
   },
   "scripts/qa-run-stage.mjs": {
-    "mtime": 1794882668.26,
-    "seen": 1794885388.5942101,
-    "ast_hash": "c23bf490d5ed0b193f03311ad8389dd8",
+    "mtime": 1794886173.02,
+    "seen": 1794890027.572551,
+    "ast_hash": "ce8e94914d06138019425cbc322d8cf1",
     "semantic_hash": ""
   },
   "src/run-stage/mountain-rules.js": {
-    "mtime": 1794880757.54,
-    "seen": 1794885388.594233,
-    "ast_hash": "0468ecefb9bf626e750195d9d6fe0243",
+    "mtime": 1794886162.38,
+    "seen": 1794890027.572574,
+    "ast_hash": "d4ce4d6e99dfa67832504561daa7aac9",
     "semantic_hash": ""
   },
   "src/run-stage/mountain-run.js": {
-    "mtime": 1794885038.49,
-    "seen": 1794885388.5942342,
-    "ast_hash": "11552e1fa80cfd5b750b2810054b189b",
+    "mtime": 1794886162.38,
+    "seen": 1794890027.572574,
+    "ast_hash": "290dc9b90be755ed8dda3e0e482ff506",
     "semantic_hash": ""
   },
   "tests/run-stage.test.mjs": {
-    "mtime": 1794880716.25,
-    "seen": 1794885388.594244,
-    "ast_hash": "f930e1f731541a357cbdfdd7f1057e4e",
+    "mtime": 1794886162.38,
+    "seen": 1794890027.5725849,
+    "ast_hash": "165d3d50929fa035cc6521aa110bcf12",
     "semantic_hash": ""
   },
   "docs/RUN-STAGE-3D-PLAN-20261117.md": {
-    "mtime": 1794885088.53,
-    "seen": 1794885388.594249,
-    "ast_hash": "5fef54b9271b80eb3d2afa73b1bb8fa4",
+    "mtime": 1794890020.45,
+    "seen": 1794890027.572591,
+    "ast_hash": "d38f5a0ac303c3abe026c07b0d1ff4fd",
     "semantic_hash": ""
   },
   "public/assets/vendor/three/THREE-LICENSE.txt": {
@@ -2631,6 +2631,12 @@
     "mtime": 1794884604.85,
     "seen": 1794885388.594351,
     "ast_hash": "28799673782655f73963ef5ee6503088",
+    "semantic_hash": ""
+  },
+  "docs/HANDOFF-20261117-KID-FLOW-FIXES.md": {
+    "mtime": 1794887523.31,
+    "seen": 1794890027.5725892,
+    "ast_hash": "c2403cc5a228cd3d2913a0a255f154ce",
     "semantic_hash": ""
   }
 }
