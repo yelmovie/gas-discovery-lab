@@ -12,9 +12,9 @@
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1794199348.84,
-    "seen": 1794409856.883229,
-    "ast_hash": "ca2f1bf13cadab31de0f92dc52f2df79",
+    "mtime": 1794881387.32,
+    "seen": 1794885388.594197,
+    "ast_hash": "791dc7fb2da3923fa387da9edeb40697",
     "semantic_hash": ""
   },
   "public/assets/concepts/manifest.json": {
@@ -60,9 +60,9 @@
     "semantic_hash": ""
   },
   "src/activities/climate.js": {
-    "mtime": 1794843688.69,
-    "seen": 1794844072.2406569,
-    "ast_hash": "cfda9a2ea81d21a8f3e0b24f91f020f9",
+    "mtime": 1794880983.6,
+    "seen": 1794885388.594215,
+    "ast_hash": "c7c9d56c58b185e0069e931ac0fe048a",
     "semantic_hash": ""
   },
   "src/activities/delivery.js": {
@@ -102,9 +102,9 @@
     "semantic_hash": ""
   },
   "src/data.js": {
-    "mtime": 1794841223.79,
-    "seen": 1794844072.240664,
-    "ast_hash": "ac0974b68e12012322252b70dd38ed56",
+    "mtime": 1794880696.44,
+    "seen": 1794885388.59422,
+    "ast_hash": "9a517ee03db0ffeed3a54d5b67391cdc",
     "semantic_hash": ""
   },
   "src/icons.js": {
@@ -150,9 +150,9 @@
     "semantic_hash": ""
   },
   "src/settingsContent.js": {
-    "mtime": 1794676411.17,
-    "seen": 1794677291.167209,
-    "ast_hash": "eb0360941135e7e3a83583e41b53a9e5",
+    "mtime": 1794881424.86,
+    "seen": 1794885388.594236,
+    "ast_hash": "a18e24691c1a3245ecfe15217bea32c6",
     "semantic_hash": ""
   },
   "src/state.js": {
@@ -180,9 +180,9 @@
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1794842093.9,
-    "seen": 1794844072.24069,
-    "ast_hash": "c8fe674938c1300242c5d653ed15af4f",
+    "mtime": 1794882623.95,
+    "seen": 1794885388.594246,
+    "ast_hash": "c9b0b07e4df4050238936ad97e602ba4",
     "semantic_hash": ""
   },
   "assets/CREDITS.md": {
@@ -234,9 +234,9 @@
     "semantic_hash": ""
   },
   "public/assets/CREDITS.md": {
-    "mtime": 1794676407.3,
-    "seen": 1794677291.167306,
-    "ast_hash": "d5bc4ced092e39b41cb9cf3c80d10293",
+    "mtime": 1794882623.95,
+    "seen": 1794885388.594274,
+    "ast_hash": "f22652ff480152f54167833daa14dbf3",
     "semantic_hash": ""
   },
   "public/assets/audio/Kenney-CC0.txt": {
@@ -900,9 +900,9 @@
     "semantic_hash": ""
   },
   "scripts/qa-learning.mjs": {
-    "mtime": 1794842557.23,
-    "seen": 1794844072.2406468,
-    "ast_hash": "12358aef2b480e9765c5ff2dd33c25fa",
+    "mtime": 1794881347.04,
+    "seen": 1794885388.594205,
+    "ast_hash": "e538c2a6106ede46f168ea8a12242daf",
     "semantic_hash": ""
   },
   "scripts/verify-media.mjs": {
@@ -1272,9 +1272,9 @@
     "semantic_hash": ""
   },
   "scripts/qa-responsive.mjs": {
-    "mtime": 1794413991.78,
-    "seen": 1794413994.268203,
-    "ast_hash": "638ac1cd0d0b5a1be1348d44b3f901a0",
+    "mtime": 1794881347.04,
+    "seen": 1794885388.594209,
+    "ast_hash": "bce1d7d1da1054b035f76b2299e6bd06",
     "semantic_hash": ""
   },
   "docs/reviews/NPC-VOICE-20261108.md": {
@@ -1788,9 +1788,9 @@
     "semantic_hash": ""
   },
   "scripts/qa-voices.mjs": {
-    "mtime": 1794410494.06,
-    "seen": 1794410765.393066,
-    "ast_hash": "b5eae9f972f9cc6dc6891be562c5d3c4",
+    "mtime": 1794881347.04,
+    "seen": 1794885388.594212,
+    "ast_hash": "88e9998251363543c3fe8427e6c9260b",
     "semantic_hash": ""
   },
   "src/game-voices.js": {
@@ -2463,6 +2463,174 @@
     "mtime": 1794841206.2,
     "seen": 1794844072.240813,
     "ast_hash": "3e3cf62b2dfa12b21579138949f89ee5",
+    "semantic_hash": ""
+  },
+  "public/assets/vendor/three/three.module.min.js": {
+    "mtime": 1794880640.44,
+    "seen": 1794885388.5942001,
+    "ast_hash": "954c1c226c332f2aecea3d9d6fbc25d5",
+    "semantic_hash": ""
+  },
+  "scripts/prepare-run-stage.mjs": {
+    "mtime": 1794884604.75,
+    "seen": 1794885388.594203,
+    "ast_hash": "eaa5ed612cb928e4b74ec9de6db9f683",
+    "semantic_hash": ""
+  },
+  "scripts/qa-run-stage.mjs": {
+    "mtime": 1794882668.26,
+    "seen": 1794885388.5942101,
+    "ast_hash": "c23bf490d5ed0b193f03311ad8389dd8",
+    "semantic_hash": ""
+  },
+  "src/run-stage/mountain-rules.js": {
+    "mtime": 1794880757.54,
+    "seen": 1794885388.594233,
+    "ast_hash": "0468ecefb9bf626e750195d9d6fe0243",
+    "semantic_hash": ""
+  },
+  "src/run-stage/mountain-run.js": {
+    "mtime": 1794885038.49,
+    "seen": 1794885388.5942342,
+    "ast_hash": "11552e1fa80cfd5b750b2810054b189b",
+    "semantic_hash": ""
+  },
+  "tests/run-stage.test.mjs": {
+    "mtime": 1794880716.25,
+    "seen": 1794885388.594244,
+    "ast_hash": "f930e1f731541a357cbdfdd7f1057e4e",
+    "semantic_hash": ""
+  },
+  "docs/RUN-STAGE-3D-PLAN-20261117.md": {
+    "mtime": 1794885088.53,
+    "seen": 1794885388.594249,
+    "ast_hash": "5fef54b9271b80eb3d2afa73b1bb8fa4",
+    "semantic_hash": ""
+  },
+  "public/assets/vendor/three/THREE-LICENSE.txt": {
+    "mtime": 1794880640.45,
+    "seen": 1794885388.5942762,
+    "ast_hash": "5c4c9366edb129147b1631f489c93a65",
+    "semantic_hash": ""
+  },
+  "public/assets/run-stage/bag-normal.webp": {
+    "mtime": 1794884605.23,
+    "seen": 1794885388.594343,
+    "ast_hash": "36c7c5711d9b267b0e875f517d57eb61",
+    "semantic_hash": ""
+  },
+  "public/assets/run-stage/bag-puffed.webp": {
+    "mtime": 1794884605.34,
+    "seen": 1794885388.594343,
+    "ast_hash": "9922955d7ce4ecb82346fdeaeda7408d",
+    "semantic_hash": ""
+  },
+  "public/assets/run-stage/base-shelter.webp": {
+    "mtime": 1794884605.58,
+    "seen": 1794885388.594344,
+    "ast_hash": "16c2e7e33bd64ff1106ff5ac0c23854c",
+    "semantic_hash": ""
+  },
+  "public/assets/run-stage/boulder.webp": {
+    "mtime": 1794884606.17,
+    "seen": 1794885388.594344,
+    "ast_hash": "5b4ca70fb3decb43057588672c2d1d18",
+    "semantic_hash": ""
+  },
+  "public/assets/run-stage/cloud.webp": {
+    "mtime": 1794884606.25,
+    "seen": 1794885388.5943449,
+    "ast_hash": "ec33d5f2f1facb34e562c80050e39da8",
+    "semantic_hash": ""
+  },
+  "public/assets/run-stage/fence.webp": {
+    "mtime": 1794884606.36,
+    "seen": 1794885388.5943449,
+    "ast_hash": "10be3a4a45940dbf69c5bc0a41c113b5",
+    "semantic_hash": ""
+  },
+  "public/assets/run-stage/flower-clump.webp": {
+    "mtime": 1794884606.1,
+    "seen": 1794885388.594346,
+    "ast_hash": "c40357ad4f8e5c4494b6dbac02367a6c",
+    "semantic_hash": ""
+  },
+  "public/assets/run-stage/lantern-post.webp": {
+    "mtime": 1794884605.96,
+    "seen": 1794885388.594346,
+    "ast_hash": "fc437e0e11a04401ef3b3c201a3954df",
+    "semantic_hash": ""
+  },
+  "public/assets/run-stage/leafy-tree.webp": {
+    "mtime": 1794884605.9,
+    "seen": 1794885388.594346,
+    "ast_hash": "bf544afd1502d8a54fe077a476e961f2",
+    "semantic_hash": ""
+  },
+  "public/assets/run-stage/log-bridge.webp": {
+    "mtime": 1794884604.93,
+    "seen": 1794885388.594347,
+    "ast_hash": "24ce383aa1a2b0d08561838a0d20bb68",
+    "semantic_hash": ""
+  },
+  "public/assets/run-stage/meadow-flowers.webp": {
+    "mtime": 1794884605.02,
+    "seen": 1794885388.594347,
+    "ast_hash": "0341a5626383bff68fe2aca996e53230",
+    "semantic_hash": ""
+  },
+  "public/assets/run-stage/mountain-backdrop.webp": {
+    "mtime": 1794884605.18,
+    "seen": 1794885388.594348,
+    "ast_hash": "b84ff33245e1bb9dacf02ed1985f8317",
+    "semantic_hash": ""
+  },
+  "public/assets/run-stage/pine-tree.webp": {
+    "mtime": 1794884605.81,
+    "seen": 1794885388.594348,
+    "ast_hash": "b61d3b2c43483b0e3518a83fa843d5d2",
+    "semantic_hash": ""
+  },
+  "public/assets/run-stage/pinwheel.webp": {
+    "mtime": 1794884606.01,
+    "seen": 1794885388.5943491,
+    "ast_hash": "f70ba962bd5e68abaff1c6091be4d984",
+    "semantic_hash": ""
+  },
+  "public/assets/run-stage/river.webp": {
+    "mtime": 1794884605.06,
+    "seen": 1794885388.5943491,
+    "ast_hash": "222806a74ccf00859f7ef325c0a4251f",
+    "semantic_hash": ""
+  },
+  "public/assets/run-stage/rock-face.webp": {
+    "mtime": 1794884604.97,
+    "seen": 1794885388.59435,
+    "ast_hash": "7434bf35ac0d874f5e90beb0298fbbba",
+    "semantic_hash": ""
+  },
+  "public/assets/run-stage/station-post.webp": {
+    "mtime": 1794884605.7,
+    "seen": 1794885388.59435,
+    "ast_hash": "72b0645a0d93f1d4ee53e3d947c7665a",
+    "semantic_hash": ""
+  },
+  "public/assets/run-stage/stone-steps.webp": {
+    "mtime": 1794884604.89,
+    "seen": 1794885388.59435,
+    "ast_hash": "0e3ce01dc642e680a707bf8acc9bc9bc",
+    "semantic_hash": ""
+  },
+  "public/assets/run-stage/summit-station.webp": {
+    "mtime": 1794884605.48,
+    "seen": 1794885388.594351,
+    "ast_hash": "71f538281d9881e5ed165fda246dd72f",
+    "semantic_hash": ""
+  },
+  "public/assets/run-stage/trail-grass.webp": {
+    "mtime": 1794884604.85,
+    "seen": 1794885388.594351,
+    "ast_hash": "28799673782655f73963ef5ee6503088",
     "semantic_hash": ""
   }
 }
