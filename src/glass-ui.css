@@ -227,6 +227,7 @@ html body #app .map-screen .map-next-card {
  --ui-accent:#1f5f58;--ui-accent-2:#2f7d72;--ui-gold:#f3c25e;--ui-gold-edge:#c98d2b;
  --ui-radius-lg:28px;--ui-radius-md:18px;--ui-radius-pill:999px;
  --ui-shadow-pop:0 28px 70px #0b2a3159,0 4px 14px #0b2a3126;
+ --ui-scrim:#0b2a3142;
  --ui-ease-out:cubic-bezier(.16,1,.3,1);--ui-dur-base:250ms;--ui-dur-slow:400ms;
  --ui-text-guide:clamp(17px,1.45vw,21px);--ui-text-button:clamp(16px,1.3vw,19px);--ui-text-label:clamp(15px,1.2vw,17px);
 }
@@ -234,7 +235,8 @@ html body #app .map-screen .map-next-card {
 /* 팝업: 불투명한 종이 면 + 청록 제목 띠 + 또렷한 닫기 버튼 */
 html body .dialog{background:var(--ui-surface);border:1px solid var(--ui-line);border-radius:var(--ui-radius-lg);box-shadow:var(--ui-shadow-pop);overflow:hidden;color:var(--ui-ink)}
 html body .dialog[open]{animation:ui-pop var(--ui-dur-slow) var(--ui-ease-out)}
-html body .dialog::backdrop{background:#0b2a31b3;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+/* 2026-11-17 3초 규칙: 결과·확인 팝업 뒤 장면이 보이게 어둡기 0.26, 흐림 없음 */
+html body .dialog::backdrop{background:var(--ui-scrim);-webkit-backdrop-filter:none;backdrop-filter:none}
 html body .dialog .dialog-head{background:linear-gradient(120deg,var(--ui-accent),var(--ui-accent-2));border-bottom:0;padding:16px 22px}
 html body .dialog .dialog-head h2{color:#fffaf0;font-weight:700;font-size:clamp(20px,2vw,26px);letter-spacing:-.01em}
 html body .dialog .dialog-head .close-dialog{background:#fffaf0;color:var(--ui-accent);border:0;border-radius:var(--ui-radius-pill);box-shadow:0 3px 0 #0b2a3140}

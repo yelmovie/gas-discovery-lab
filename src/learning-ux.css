@@ -119,7 +119,6 @@ h1,h2,h3{ text-wrap:balance }
 .hint-more{width:100%;font-size:20px}
 .dialog{position:fixed;inset:0;margin:auto;max-height:calc(100dvh - 40px);width:min(820px,calc(100vw - 48px));height:fit-content}
 .dialog.wide{width:min(1120px,calc(100vw - 56px))}
-.dialog::backdrop{background:#10343c96;backdrop-filter:blur(3px)}
 .dialog-head{padding:18px 24px 14px;gap:14px}
 .dialog-head h2{font-size:clamp(28px,2.2vw,38px)}
 .dialog-body{padding:22px 24px;font-size:var(--classroom-body)}
