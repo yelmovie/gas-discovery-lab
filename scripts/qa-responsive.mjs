@@ -91,7 +91,8 @@ function audit(){
       if(status){const a=status.getBoundingClientRect();if(Math.min(r.right,a.right)-Math.max(r.left,a.left)>2&&Math.min(r.bottom,a.bottom)-Math.max(r.top,a.top)>2)add('covered-text',el,'save-status');}
     }
   }
-  for(const img of scope.querySelectorAll('img'))if(shown(img)&&(!img.complete||!img.naturalWidth))add('broken-image',img,img.getAttribute('src'));
+  // 아직 받는 중인 그림(검사 타이밍)과 받았는데 못 그린 그림(실제 문제)을 나눠 적는다.
+  for(const img of scope.querySelectorAll('img'))if(shown(img)){if(!img.complete)add('image-still-loading',img,img.getAttribute('src'));else if(!img.naturalWidth)add('broken-image',img,img.getAttribute('src'));}
   return issues;
 }
 
@@ -104,9 +105,20 @@ for(const [width,height] of viewports){
   const page=await context.newPage();
   page.on('pageerror',e=>errors.push({width,height,message:e.message}));
   page.on('response',r=>{if(r.status()>=400)resources.push({url:r.url(),status:r.status()});});
+  // 응답 없이 끊긴 요청도 남긴다(화면을 바꾸며 취소한 요청은 빼고).
+  page.on('requestfailed',r=>{const reason=r.failure()?.errorText||'';if(!reason.includes('ERR_ABORTED'))resources.push({url:r.url(),status:reason});});
   async function check(route,state='initial',shot=false){
-    if(route)await page.goto(`${base}/#${route}`);
+    // 주소만 바뀌는 이동이라 화면 껍데기(.activity-screen)가 실험 칸보다 먼저 생긴다. 이전 화면 내용에 표시를 해 두고,
+    // 새 화면 내용이 실제로 붙은 뒤에 그림을 기다린다(껍데기만 보고 기다리면 늦게 붙는 그림을 아직 받는 중으로 잡는다).
+    const content=':is(.activity-screen .activity-host>*,.stage-screen .stage-intro,.finale-screen .finale-layout)';
+    if(route){
+      await page.evaluate(sel=>document.querySelectorAll(sel).forEach(el=>el.dataset.qaOld='1'),content);
+      await page.goto(`${base}/#${route}`);
+      await page.locator(`${content}:not([data-qa-old])`).first().waitFor();
+    }
     await page.locator('.activity-screen,.stage-screen,.finale-screen').waitFor();
+    // 활동 화면은 모듈을 늦게 불러와 그림이 뒤늦게 붙는다. 그림이 다 올 때까지 기다린 뒤 검사한다.
+    await page.waitForFunction(()=>[...document.images].every(img=>img.complete),null,{timeout:20000}).catch(()=>{});
     await page.evaluate(async()=>{await document.fonts.ready;await Promise.all([...document.images].map(x=>x.decode().catch(()=>{})));});
     const issues=await page.evaluate(audit);
     const label=route||new URL(page.url()).hash.slice(1);
@@ -142,11 +154,13 @@ for(const [width,height] of viewports){
         const task=stage.tasks[i];
         if(stage.id==='flow'){
           const cells=createPipePuzzle(task.pattern),solution=PIPE_PATTERNS[task.pattern].solved;
-          for(let j=0;j<9;j++)for(let k=0;k<(solution[j]-cells[j].rotation+4)%4;k++)await page.locator('.pipe-cell').nth(j).click();
-          await page.getByRole('button',{name:'공기 보내기',exact:true}).click();
+          // 바람은 처음부터 흐르고, 길이 이어지면 바로 완료된다(2026-11-16).
+          for(let j=0;j<9;j++)for(let k=0;k<(solution[j]-cells[j].rotation+4)%4;k++){const cell=page.locator('.pipe-cell').nth(j);if(await cell.isDisabled())break;await cell.click();}
         }else if(stage.id==='weight'){
           for(const action of ['level','zero']){const b=page.locator(`[data-action=${action}]`);if(await b.isEnabled())await b.click();}
-          const place=page.locator('[data-action=place]');if(await place.isVisible())await place.click();await page.locator('.record-button').click();
+          // 용기를 올리면 처음 무게가 자동으로 기록된다(2026-11-16).
+          const place=page.locator('[data-action=place]');if(await place.isVisible())await place.click();
+          if(await page.locator('.scale-jar.off-scale').count()){const a=await page.locator('.scale-jar').boundingBox(),z=await page.locator('.scale-scene').boundingBox();await page.mouse.move(a.x+a.width/2,a.y+a.height/2);await page.mouse.down();await page.mouse.move(z.x+z.width/2,z.y+z.height/2,{steps:12});await page.mouse.up();await page.waitForTimeout(80);}
           for(let n=0;n<task.minDelta;n++)await page.locator(`[data-action=${task.direction>0?'add':'remove'}]`).click();
           await page.locator('.record-button').click();
         }else if(stage.id==='climate'){
@@ -156,10 +170,10 @@ for(const [width,height] of viewports){
           await page.getByRole('button',{name:task.reason,exact:true}).click();
         }else{
           for(const part of [task.requireSource==='balloon'?'balloon':'pump',task.requireElbow?'elbow':'straight','nozzle'])await page.locator(`[data-part=${part}]`).click();
-          await page.locator('.valve-control').click();
           if(task.nozzle==='backward')await page.locator('.direction-control').click();
           await check(null,'assembled',i===0);
-          await page.locator('.test-device').click();
+          // 밸브를 여는 순간 시험된다(2026-11-16).
+          await page.locator('.valve-control').click();
         }
         await page.locator('.discovery-result').waitFor();
         await check(null,'complete',i===0);

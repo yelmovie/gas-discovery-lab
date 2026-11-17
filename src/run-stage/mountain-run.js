@@ -1,7 +1,7 @@
 // 「높은 산의 과자 봉지」 3D 산길. 무대·캐릭터·입력·겹침 화면을 맡고, 기록과 완료는 mountain-rules와 기존 ctx로 넘긴다.
 // 봉지 크기는 걸은 높이에 따라 보이기만 하고, 저장되는 값은 두 관측 지점의 모형 값뿐이다.
 import * as THREE from '/assets/vendor/three/three.module.min.js';
-import {COURSE,PREDICTIONS,restoreRun,recordStation,readyToCompare,runDraft,bagRatio,observedChange,createRunner,advanceRunner,stationAt,heightFraction,patrolX,touchPatrol,groundAt} from './mountain-rules.js';
+import {COURSE,PREDICTIONS,restoreRun,recordStation,readyToCompare,runDraft,bagRatio,observedChange,createRunner,advanceRunner,stationAt,heightFraction,patrolX,touchPatrol,groundAt,obstacleAhead} from './mountain-rules.js';
 import {volumeFor} from '../model.js';
 import {bindDirectionPad,mapKeyDirection,MAP_VECTORS} from '../map-controls.js';
 import {choices,escapeHTML,announce,html} from '../ui.js';
@@ -195,7 +195,7 @@ export function mountMountainRun(host,task,ctx,textures,{toClassic}){
 
  // ── 한 프레임 ──
  const cameraAt=new THREE.Vector3(),lookAt=new THREE.Vector3(),projected=new THREE.Vector3();
- let last=performance.now(),clock=0,cameraFloor=runner.y,facing=3,walkTime=0,atSummit=false,placeText='',hintGiven=false,width=0,height=0;
+ let last=performance.now(),clock=0,stuck=0,stuckHint=null,cameraFloor=runner.y,facing=3,walkTime=0,atSummit=false,placeText='',hintGiven=false,width=0,height=0;
  const labels=[...root.querySelectorAll('.run-label')].map(el=>({el,point:el.dataset.station==='base'?at(-3.6,1.9,1.2):at(-3.5,COURSE.summit+1.7,37.4)}));
  function resize(){
   const w=Math.max(1,Math.round(root.clientWidth)),h=Math.max(1,Math.round(root.clientHeight));if(w===width&&h===height)return;
@@ -221,6 +221,14 @@ export function mountMountainRun(host,task,ctx,textures,{toClassic}){
   clock+=dt;
   // 캐릭터 그림: 벽이나 울타리에 막혀 제자리일 때는 걷는 그림을 쓰지 않는다.
   const moving=Math.hypot(runner.x-fromX,runner.f-fromF)>dt*.6;
+  // 앞으로 가려는데 턱에 막혀 있으면 잠깐 뒤에 할 일을 알려 준다.
+  const obstacle=input.f>0&&!moving&&runner.stun<=0?obstacleAhead(runner):null;
+  stuck=obstacle?stuck+dt:0;
+  if(stuck>.7&&obstacle!==stuckHint){
+   stuckHint=obstacle;
+   if(obstacle==='jump'){say('턱이 있어요. 점프 버튼을 눌러 넘어요!');ctx.nextAction?.('.run-jump');}
+   else{say('여기는 너무 높아요. 가운데 바위를 밟고 올라가요.');ctx.nextAction?.([]);}
+  }else if(!obstacle&&stuckHint&&(moving||!runner.ground)){stuckHint=null;say('');guide();}
   if(input.x||input.f)facing=Math.abs(input.x)>Math.abs(input.f)?(input.x<0?1:2):input.f<0?0:3;
   walkTime=moving?walkTime+dt:0;
   setFrame(facing,runner.ground?(moving?Math.floor(walkTime*8)%4:0):1);

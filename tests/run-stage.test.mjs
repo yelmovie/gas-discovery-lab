@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {STAGES} from '../src/data.js';
 import {volumeFor,validVolumePair} from '../src/model.js';
-import {COURSE,PREDICTIONS,supportsRun,restoreRun,recordStation,readyToCompare,runDraft,bagRatio,observedChange,createRunner,advanceRunner,groundAt,stationAt,heightFraction,touchPatrol,patrolX} from '../src/run-stage/mountain-rules.js';
+import {COURSE,PREDICTIONS,supportsRun,restoreRun,recordStation,readyToCompare,runDraft,bagRatio,observedChange,createRunner,advanceRunner,groundAt,stationAt,heightFraction,touchPatrol,patrolX,obstacleAhead} from '../src/run-stage/mountain-rules.js';
 
 const climate=STAGES.find(s=>s.id==='climate'),task=climate.tasks.find(t=>t.id==='climate-4');
 const walk=(runner,input,seconds)=>{const seen={};for(let t=0;t<seconds;t+=1/60)Object.assign(seen,advanceRunner(runner,input,1/60));return seen;};
@@ -97,4 +97,16 @@ test('the patroller only makes the runner flinch',()=>{
  assert.equal(touchPatrol(runner,0),false,'no repeated hit while flinching');
  const f=runner.f;advanceRunner(runner,{x:0,f:1},.05);assert.equal(runner.f,f,'movement pauses during the flinch');
  assert.deepEqual({checkpoint:runner.checkpoint,falls:runner.falls},before);
+});
+
+test('a blocked runner is told whether to jump or to take the rocks',()=>{
+ const runner=createRunner();
+ assert.equal(obstacleAhead(runner),null,'open ground needs no hint');
+ walk(runner,{x:0,f:1},3);
+ assert.equal(obstacleAhead(runner),'jump','the rest ledge is one jump');
+ const meadow=createRunner(COURSE,2);meadow.x=2.4;walk(meadow,{x:0,f:1},3);
+ assert.ok(meadow.f>34&&meadow.y===2.4);assert.equal(obstacleAhead(meadow),'wall','the summit wall is too high beside the rocks');
+ const atRock=createRunner(COURSE,2);walk(atRock,{x:0,f:1},1.5);
+ assert.equal(obstacleAhead(atRock),'jump','the first rock is one jump');
+ atRock.ground=false;assert.equal(obstacleAhead(atRock),null,'no hint in the air');
 });

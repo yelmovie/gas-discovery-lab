@@ -47,11 +47,16 @@ try{
   assert.equal(await p.locator('.run-record').isDisabled(),true,'recording needs the summit station');
   assert.equal(await p.locator('.run-place').textContent(),'산 아래 · 보통 압력');
   await p.waitForTimeout(400);await shot(p,'2-base');await layout(p,'run');
+  // 걷기만 하면 쉼터 턱에서 막히고, 점프하라는 안내와 점프 버튼 강조가 나온다.
+  await p.keyboard.down('ArrowUp');await p.waitForFunction(()=>/점프 버튼/.test(document.querySelector('.run-speech')?.textContent||'')&&!document.querySelector('.run-speech').hidden,null,{timeout:8000});
+  assert.equal(await p.locator('.run-jump.is-next-action').count(),1,'the jump button is highlighted at the ledge');
+  assert.equal(await p.locator('.run-stage').getAttribute('data-checkpoint'),'0');await shot(p,'2b-ledge-hint');
+  await p.keyboard.up('ArrowUp');
   const started=Date.now();await p.keyboard.down('ArrowUp');
   for(let i=0;i<80&&await p.locator('.run-record').isDisabled();i++){await p.keyboard.press('Space');await p.waitForTimeout(260);if(i===8)await shot(p,'3-trail');if(i===16)await shot(p,'4-bridge');}
   await p.keyboard.up('ArrowUp');const seconds=(Date.now()-started)/1000;
   assert.equal(await p.locator('.run-record').isDisabled(),false,'the keyboard reaches the summit');
-  assert.ok(seconds<30,`base to summit took ${seconds}s`);
+  assert.ok(seconds<30,`ledge to summit took ${seconds}s`);
   assert.equal(await p.locator('.run-place').textContent(),'산꼭대기 · 낮은 압력');
   assert.equal((await saved(p)).drafts[task.id].records.length,1,'nothing is recorded by walking');
   await p.waitForTimeout(500);await shot(p,'5-summit');await layout(p,'summit');
@@ -70,7 +75,7 @@ try{
   assert.equal(record.summary,task.why);assert.equal(record.details.mode,'pressure');assert.deepEqual(record.details.records,expected);assert.equal(record.details.transfer,task.answer);
   assert.equal(save.drafts[task.id],undefined,'the draft is cleared on completion');
   await p.waitForTimeout(400);await shot(p,'7-complete');await layout(p,'complete');
-  console.log(`keyboard run: ${seconds.toFixed(1)}s base to summit`);await c.close();
+  console.log(`keyboard run: ledge hint, then ${seconds.toFixed(1)}s to the summit`);await c.close();
  }
  // 2. 화면 버튼(터치)으로 끝까지, 떨어지면 복귀
  {

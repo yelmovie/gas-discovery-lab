@@ -157,3 +157,55 @@
 .choice.selected .science-keyword{color:inherit;background:transparent;text-decoration:underline;text-underline-offset:3px}
 .mission-direction .science-keyword{color:#153f38;background:#ffecab}
 .activity-screen .activity-host .pump-actions [data-action]{min-height:48px;min-width:48px}
+
+/* 2026-11-17 좁거나 낮은 화면 다듬기: 아이가 스크롤하거나 잘린 버튼을 찾지 않아도 되게 한다. */
+/* 의뢰를 끝낸 뒤: 아래 안내줄의 말풍선이 글자 한 칸으로 찌그러져 실험 화면을 밀어내지 않게, 자리가 모자라면 버튼 줄을 아래로 내린다. */
+.activity-complete .mission-rail{flex-wrap:wrap}
+.activity-complete .mission-guide{flex:1 1 260px}
+.activity-complete .activity-actions{flex:0 1 auto;flex-wrap:wrap;justify-content:flex-end;min-width:0}
+@media(max-height:600px){
+ /* 낮은 화면에서는 한 줄에 들어가도록 음성 안내 문장을 숨긴다(다시 듣기 버튼은 남는다). */
+ .activity-complete .completed-actions [role=status]{display:none}
+}
+@media(max-height:440px) and (min-width:601px){
+ /* 바람길: 관 칸을 정사각형에 가깝게 넓혀 48px 이상으로 */
+ .flow-layout .pipe-grid{aspect-ratio:1/1;width:min(100%,100cqh)}
+ /* 배송소: 부탁 글 옆에 넣는 자리를 작은 그림 칸으로 두어 이유 선택지 세 개가 잘리지 않게 한다.
+    글은 숨기고 칸의 색으로만 상태를 보여 준다(고른 기체는 왼쪽 카드에, 할 일은 아래 안내줄에 나온다). */
+ .delivery-layout .facility-panel{padding:4px 6px;gap:3px}
+ .delivery-layout .facility-request{grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:6px;padding:3px 8px}
+ .delivery-layout .facility-request p{font-size:14px;line-height:1.3}
+ .delivery-layout .facility-request .supply-port{grid-column:auto;margin:0;min-height:36px;min-width:44px;padding:2px 8px}
+ .delivery-layout .facility-request .supply-port>span{display:none}
+ .delivery-layout .reason-slot .choice-group{grid-auto-rows:minmax(44px,auto);gap:2px}
+ .delivery-layout .reason-slot .choice{min-height:44px;padding:2px 8px;font-size:14px;line-height:1.2}
+ /* 바람길: 오른쪽 기록 칸이 몇 픽셀 넘치지 않게 */
+ #app .activity-screen .activity-host>.flow-layout>.experiment-side{gap:6px;padding:6px 8px}
+ /* 공작소: 빈 칸의 큰 더하기표가 칸 이름을 가리지 않게 */
+ .engineering-layout .design-slot:not(.filled) .slot-plus{display:none}
+ /* 무게 연구소: 용기 안내 글이 왼쪽에서 잘리지 않게 */
+ .weight-layout .off-scale .jar-action-label{left:0;transform:none;max-width:none}
+ /* 환경 관측소: 비교 패널이 몇 픽셀 넘치지 않게 */
+ .climate-layout .comparison-panel{gap:4px}
+ .climate-layout .transfer-question h3{font-size:14px;line-height:1.2}
+ /* 의뢰를 끝낸 뒤: 안내줄이 두 줄로 늘어 실험 화면을 밀어내지 않게 버튼 글자를 조금 줄인다. */
+ .activity-complete .mission-guide{flex-basis:200px}
+ .activity-complete .completed-actions .button{font-size:14px;padding:6px 8px}
+ .activity-complete .completed-actions .primary{min-width:0}
+ /* 무게 연구소 완료: 기록 칸을 넓히고 처음·나중 카드를 납작하게 눌러 결과 문장까지 스크롤 없이 보이게 한다. */
+ .activity-complete .activity-host>.weight-layout{grid-template-columns:minmax(0,1fr) minmax(0,1.25fr)}
+ .activity-complete .weight-layout .records-panel{gap:6px}
+ .activity-complete .weight-layout .measurement-list{max-height:none;margin:0}
+ .activity-complete .weight-layout .measurement-card{grid-template-columns:auto auto;justify-content:center;align-items:center;gap:0 6px;min-height:0;padding:4px}
+ .activity-complete .weight-layout .measurement-card>span:last-child{grid-column:1/-1}
+ .activity-complete .weight-layout .weight-comparison{padding:4px 10px}
+ .activity-complete .weight-layout .evidence-slot{padding-bottom:0}
+ .activity-complete .weight-layout .discovery-result{gap:4px}
+ .activity-complete .weight-layout .discovery-label .icon{width:18px;height:18px}
+ /* 공작소 완료: 다 끼운 부품 고르기 칸은 접어 두고 결과 글이 부품 카드에 가리지 않게 한다(조립한 장치는 왼쪽에 그대로 보인다). */
+ .activity-complete .engineering-layout .test-panel>.parts-tray{display:none}
+ .activity-complete .engineering-layout .test-panel{grid-template-rows:none;align-content:center}
+ /* 교사 시연: 재생 버튼이 자리를 차지하므로 안내 글이 세 줄로 늘지 않게 캐릭터 얼굴을 빼고 글자를 조금 줄인다. */
+ .activity-screen.teacher-mode .mission-npc{display:none}
+ .activity-screen.teacher-mode .mission-guide .mission-direction{font-size:15px;line-height:1.3}
+}

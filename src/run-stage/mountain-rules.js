@@ -97,6 +97,13 @@ export function advanceRunner(runner,input,seconds,course=COURSE){
  if(dt>0)for(let i=0;i<5;i++)stepOnce(runner,{...input,jump:input.jump&&i===0},dt,course,events);
  return events;
 }
+/** 앞이 턱에 막혔는지 본다. 뛰면 넘는 턱은 'jump', 뛰어도 못 넘는 벽은 'wall'(바위를 밟고 올라가야 한다). */
+export function obstacleAhead(runner,course=COURSE){
+ if(!runner.ground)return null;
+ const rise=groundAt(runner.x,Math.min(course.end,runner.f+.4),course)-runner.y;
+ if(!(rise>course.stepUp))return null;
+ return rise<=course.jump*course.jump/(2*course.gravity)+course.stepUp?'jump':'wall';
+}
 /** 방해꾼에 닿으면 움찔만 한다. 기록·복귀 지점·떨어진 횟수는 바뀌지 않는다. */
 export function patrolX(seconds,course=COURSE){const {x0,x1}=course.patrol;return x0+(x1-x0)*(.5-.5*Math.cos(seconds*1.3));}
 export function touchPatrol(runner,seconds,course=COURSE){

@@ -24,16 +24,21 @@ for(const s of STAGES)for(let i=0;i<s.tasks.length;i++){
   if(t.nozzle==='backward'){
    await play();await settled();assert.equal((await draft(t)).design.direction,'forward','Replay cannot choose the correct nozzle direction');assert.equal(await p.locator('.discovery-result').count(),0);
    await p.locator('.direction-control').tap();
-  }else await play();
+  }else{await play();await settled();assert.equal(await p.locator('.discovery-result').count(),0,'Observing cannot open the valve');}
+  // 자동재생은 연결을 보여 주기만 하고, 밸브는 학생이 직접 연다(2026-11-16).
+  await p.locator('.valve-control').tap();
   await p.locator('.discovery-result').waitFor();
  }else{
   await play();
   if(s.id==='weight'){
-   await p.locator('.discovery-result').waitFor();const e=await evidence(t);assert.equal(e.details.before.valid,true);assert.equal(e.details.after.valid,true);assert.notEqual(e.details.before.air,e.details.after.air);
+   // 자동재생은 준비까지만 하고, 다시 재기는 학생이 직접 누른다(2026-11-16).
+   await settled();assert.equal(await p.locator('.discovery-result').count(),0,'Observing cannot record the comparison');assert.equal((await evidence(t)).date,'before');
+   await p.locator('.record-button').tap();await p.locator('.discovery-result').waitFor();const e=await evidence(t);assert.equal(e.details.before.valid,true);assert.equal(e.details.after.valid,true);assert.notEqual(e.details.before.air,e.details.after.air);
   }else{
    await settled();assert.equal(await p.locator('.discovery-result').count(),0);assert.equal((await evidence(t)).date,'before','Observing cannot award a correct answer');
    const after=await draft(t);
-   if(s.id==='flow')assert.deepEqual(after.cells.map(x=>x.rotation),(before?.cells||createPipePuzzle(t.pattern)).map(x=>x.rotation),'Replay cannot solve the pipe puzzle');
+   // 바람길은 관을 돌리기 전에는 초안을 저장하지 않는다(2026-11-16). 초안이 없으면 처음 배치 그대로다.
+   if(s.id==='flow')assert.deepEqual((after?.cells||createPipePuzzle(t.pattern)).map(x=>x.rotation),(before?.cells||createPipePuzzle(t.pattern)).map(x=>x.rotation),'Replay cannot solve the pipe puzzle');
    if(s.id==='climate'){
     assert.equal(await p.locator('.choice').count(),t.choices.length);assert.equal(await p.locator('.choice[aria-pressed=true]').count(),0);
     assert.ok(after.records.some(x=>x.condition===t.target));await p.getByRole('button',{name:t.answer,exact:true}).tap();await p.locator('.discovery-result').waitFor();

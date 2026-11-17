@@ -38,10 +38,9 @@ for(const stage of STAGES)for(const task of stage.tasks){
  if(i===0){await p.goto(QA+'/#map');await p.locator('.map-companion').click();await voice('map-next-'+stage.id);await p.goto(QA+'/#stage/'+stage.id);await voice('stage-'+stage.id);}
  await p.goto(`${QA}/#stage/${stage.id}/${i}`);await p.locator('.activity-screen').waitFor();await p.waitForTimeout(300);
  if(stage.id==='flow'){
-  const cells=createPipePuzzle(task.pattern),solved=PIPE_PATTERNS[task.pattern].solved;for(let j=0;j<9;j++)for(let k=0;k<(solved[j]-cells[j].rotation+4)%4;k++)await p.locator('.pipe-cell').nth(j).click();
-  await p.getByRole('button',{name:'공기 보내기',exact:true}).click();
+  const cells=createPipePuzzle(task.pattern),solved=PIPE_PATTERNS[task.pattern].solved;for(let j=0;j<9;j++)for(let k=0;k<(solved[j]-cells[j].rotation+4)%4;k++){const cell=p.locator('.pipe-cell').nth(j);if(await cell.isDisabled())break;await cell.click();}
  }else if(stage.id==='weight'){
-  await p.locator('[data-action=level]').click();await p.locator('[data-action=zero]').click();await drag('.scale-jar','.scale-scene');await p.locator('.record-button').click();
+  if(!task.prepared){await p.locator('[data-action=level]').click();await p.locator('[data-action=zero]').click();await drag('.scale-jar','.scale-scene');}
   for(let n=0;n<task.minDelta;n++)await p.locator(`[data-action=${task.direction>0?'add':'remove'}]`).click();await p.locator('.record-button').click();
  }else if(stage.id==='climate'){
   if(task.runStage)await classicScreen(p);
@@ -56,7 +55,7 @@ for(const stage of STAGES)for(const task of stage.tasks){
  const names={nitrogen:'질소',oxygen:'산소',carbon:'이산화 탄소'};await p.locator('.gas-card').filter({hasText:names[task.gas]}).click();await p.getByRole('button',{name:task.reason,exact:true}).click();
  }else{
   for(const part of [task.requireSource==='balloon'?'풍선 공급부':'손 펌프',task.requireElbow?'굽은 관':'일자 관','노즐'])await p.locator('.part-card').filter({hasText:part}).click();
-  await p.locator('.valve-control').click();if(task.nozzle==='backward')await p.locator('.direction-control').click();await p.locator('.test-device').click();
+  if(task.nozzle==='backward')await p.locator('.direction-control').click();await p.locator('.valve-control').click();
  }
  await p.locator('.discovery-result').waitFor();await bounds(task.id);
  assert.equal(await p.locator('dialog[open]').count(),0,'Completion must keep the experiment visible');
@@ -82,7 +81,7 @@ for(const stage of STAGES)for(const task of stage.tasks){
 }
 // Finale and certificate are checked through the real completion flow.
 await p.goto(QA+'/#map');await p.locator('.map-companion').click();await voice('map-next-core');await p.goto(QA+'/#finale');await voice('finale-ready');assert.equal(await p.locator('.begin-repair').isVisible(),true,'All five evidence popups are optional');
-await p.getByRole('button',{name:'내 장치 연결하기'}).click();await p.locator('.final-valve').click();await press('.final-pump');await voice('finale-charged');await p.getByRole('button',{name:'복구 레버 당기기'}).click();
+await p.getByRole('button',{name:'내 장치 연결하기'}).click();await press('.final-pump');await voice('finale-charged');await p.getByRole('button',{name:'복구 레버 당기기'}).click();
 for(let i=0;i<3;i++){await voice('ending-'+(i+1));const next=p.locator('.ending-actions button');await next.click();}
 await p.locator('.certificate').waitFor();await p.screenshot({path:'.tmp/qa/certificate.png'});await bounds('certificate');
 await p.goto(QA+'/#map');await p.locator('.map-companion').click();await voice('map-done');
