@@ -66,9 +66,9 @@
     "semantic_hash": ""
   },
   "src/activities/delivery.js": {
-    "mtime": 1794843706.31,
-    "seen": 1794844072.2406578,
-    "ast_hash": "23e151489c106be54a0f20990ed01de3",
+    "mtime": 1794926920.65,
+    "seen": 1794945141.534422,
+    "ast_hash": "4ee4280f72890f8f91ebca00ec15f2ea",
     "semantic_hash": ""
   },
   "src/activities/engineering.js": {
@@ -90,9 +90,9 @@
     "semantic_hash": ""
   },
   "src/audio.js": {
-    "mtime": 1794923274.61,
-    "seen": 1794923683.3313549,
-    "ast_hash": "3e6b2b0d8f138d16c2eb63f15d44a118",
+    "mtime": 1794926085.04,
+    "seen": 1794945141.534424,
+    "ast_hash": "066835211fe8f17929aa1ea099876d7d",
     "semantic_hash": ""
   },
   "src/concepts.js": {
@@ -114,15 +114,15 @@
     "semantic_hash": ""
   },
   "src/main.js": {
-    "mtime": 1794923283.74,
-    "seen": 1794923683.331361,
-    "ast_hash": "42d7d70a2908cab8b20fe7b886f3134a",
+    "mtime": 1794926909.99,
+    "seen": 1794945141.5344288,
+    "ast_hash": "9e29099cee5afc92a182b676916278e1",
     "semantic_hash": ""
   },
   "src/map.js": {
-    "mtime": 1794842397.23,
-    "seen": 1794844072.240674,
-    "ast_hash": "92ff8fa7f5dfaebec0e30496a7352ca8",
+    "mtime": 1794925914.57,
+    "seen": 1794945141.534435,
+    "ast_hash": "9e9d9320d4be2601f9818eec49d64558",
     "semantic_hash": ""
   },
   "src/model.js": {
@@ -186,9 +186,9 @@
     "semantic_hash": ""
   },
   "assets/CREDITS.md": {
-    "mtime": 1793286431.35,
-    "seen": 1794409856.883314,
-    "ast_hash": "3a7be5c0842081991fc130178305b4b5",
+    "mtime": 1794926114.62,
+    "seen": 1794945141.534451,
+    "ast_hash": "881626e6a8b5956bb3268fc5da536930",
     "semantic_hash": ""
   },
   "docs/PRD.md": {
@@ -906,9 +906,9 @@
     "semantic_hash": ""
   },
   "scripts/verify-media.mjs": {
-    "mtime": 1794254232.3,
-    "seen": 1794409856.8832462,
-    "ast_hash": "80adabd0717601a9230232448c4ee964",
+    "mtime": 1794926117.84,
+    "seen": 1794945141.534421,
+    "ast_hash": "e16749428dbeb1fa70567d0b676a0b66",
     "semantic_hash": ""
   },
   "docs/review/LEARNING-UX-REVIEW.md": {
@@ -2202,9 +2202,9 @@
     "semantic_hash": ""
   },
   "src/map-encounters.js": {
-    "mtime": 1794676410.58,
-    "seen": 1794677291.167199,
-    "ast_hash": "5fa01851deac77c0e8f2d6d01a7cdb6b",
+    "mtime": 1794926085.04,
+    "seen": 1794945141.5344331,
+    "ast_hash": "927041aabb8d2c4bb6129313755bade5",
     "semantic_hash": ""
   },
   "docs/MAP-VILLAIN-HANDOFF-20261114.md": {
@@ -2490,9 +2490,9 @@
     "semantic_hash": ""
   },
   "src/run-stage/mountain-run.js": {
-    "mtime": 1794886162.38,
-    "seen": 1794890027.572574,
-    "ast_hash": "290dc9b90be755ed8dda3e0e482ff506",
+    "mtime": 1794925921.3,
+    "seen": 1794945141.5344388,
+    "ast_hash": "cbc6683bc3b74ad4b38a0d1e06a6a90e",
     "semantic_hash": ""
   },
   "tests/run-stage.test.mjs": {
@@ -2655,6 +2655,48 @@
     "mtime": 1794922502.57,
     "seen": 1794923683.331553,
     "ast_hash": "e838be738d0ce7b9ea7c78ee6837b109",
+    "semantic_hash": ""
+  },
+  "tests/map-cues.test.mjs": {
+    "mtime": 1794926114.56,
+    "seen": 1794945141.534446,
+    "ast_hash": "4621ae0b9ebadacee7e23560b905c039",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/sfx/attack-swing.mp3": {
+    "mtime": 1794926064.73,
+    "seen": 1794945141.5345888,
+    "ast_hash": "796d486f32c8634550bfa77fcb1f8daa",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/sfx/hit-heavy.mp3": {
+    "mtime": 1794926064.74,
+    "seen": 1794945141.5345888,
+    "ast_hash": "5d5705067434891b09b5a9ef6f573ab0",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/sfx/hit-light.mp3": {
+    "mtime": 1794926064.74,
+    "seen": 1794945141.53459,
+    "ast_hash": "b907cc3fe52acc2ab442ba3bc4aca4ed",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/sfx/hurt-bump.mp3": {
+    "mtime": 1794926064.77,
+    "seen": 1794945141.53459,
+    "ast_hash": "43bc683d747bc174cae8640687fb0e9a",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/sfx/villain-appear.mp3": {
+    "mtime": 1794926064.76,
+    "seen": 1794945141.534591,
+    "ast_hash": "1ef257d9cc07b980131ff03d56f7b72e",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/sfx/villain-exit.mp3": {
+    "mtime": 1794926076.12,
+    "seen": 1794945141.534591,
+    "ast_hash": "518857cf6118a878976f1e9f447bc683",
     "semantic_hash": ""
   }
 }
