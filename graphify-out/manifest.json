@@ -90,9 +90,9 @@
     "semantic_hash": ""
   },
   "src/audio.js": {
-    "mtime": 1794310523.78,
-    "seen": 1794409856.8832488,
-    "ast_hash": "8545804d3f17399fafdadab020bcc800",
+    "mtime": 1794923274.61,
+    "seen": 1794923683.3313549,
+    "ast_hash": "3e6b2b0d8f138d16c2eb63f15d44a118",
     "semantic_hash": ""
   },
   "src/concepts.js": {
@@ -114,9 +114,9 @@
     "semantic_hash": ""
   },
   "src/main.js": {
-    "mtime": 1794843647.75,
-    "seen": 1794844072.2406669,
-    "ast_hash": "8806e702ccf058e86b180cf4e269a981",
+    "mtime": 1794923283.74,
+    "seen": 1794923683.331361,
+    "ast_hash": "42d7d70a2908cab8b20fe7b886f3134a",
     "semantic_hash": ""
   },
   "src/map.js": {
@@ -180,9 +180,9 @@
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1794882623.95,
-    "seen": 1794885388.594246,
-    "ast_hash": "c9b0b07e4df4050238936ad97e602ba4",
+    "mtime": 1794923299.21,
+    "seen": 1794923683.3313842,
+    "ast_hash": "1cd9d76ac8b02f2d941f422fb4a18d53",
     "semantic_hash": ""
   },
   "assets/CREDITS.md": {
@@ -234,9 +234,9 @@
     "semantic_hash": ""
   },
   "public/assets/CREDITS.md": {
-    "mtime": 1794882623.95,
-    "seen": 1794885388.594274,
-    "ast_hash": "f22652ff480152f54167833daa14dbf3",
+    "mtime": 1794923299.21,
+    "seen": 1794923683.331411,
+    "ast_hash": "f7a1e2f842c6ca9b4250d47358d5334e",
     "semantic_hash": ""
   },
   "public/assets/audio/Kenney-CC0.txt": {
@@ -2268,9 +2268,9 @@
     "semantic_hash": ""
   },
   "src/map-finale.js": {
-    "mtime": 1794676410.62,
-    "seen": 1794677291.1672,
-    "ast_hash": "514985c0036be1b7cc17e09607e1c550",
+    "mtime": 1794923283.74,
+    "seen": 1794923683.331365,
+    "ast_hash": "742a611e91644f3eddb6d021bed95e6c",
     "semantic_hash": ""
   },
   "src/map-villain-patrol.js": {
@@ -2633,10 +2633,28 @@
     "ast_hash": "28799673782655f73963ef5ee6503088",
     "semantic_hash": ""
   },
-  "docs/HANDOFF-20261117-KID-FLOW-FIXES.md": {
-    "mtime": 1794887523.31,
-    "seen": 1794890027.5725892,
-    "ast_hash": "c2403cc5a228cd3d2913a0a255f154ce",
+  "public/assets/audio/bgm/final-theme.mp3": {
+    "mtime": 1794923264.26,
+    "seen": 1794923683.331508,
+    "ast_hash": "c3a0baddc9550d463affcdad906f65c5",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/bgm/main-theme.mp3": {
+    "mtime": 1794923264.25,
+    "seen": 1794923683.331508,
+    "ast_hash": "e838be738d0ce7b9ea7c78ee6837b109",
+    "semantic_hash": ""
+  },
+  "references/suno/final.mp3": {
+    "mtime": 1794922530.07,
+    "seen": 1794923683.331553,
+    "ast_hash": "c3a0baddc9550d463affcdad906f65c5",
+    "semantic_hash": ""
+  },
+  "references/suno/main_theme.mp3": {
+    "mtime": 1794922502.57,
+    "seen": 1794923683.331553,
+    "ast_hash": "e838be738d0ce7b9ea7c78ee6837b109",
     "semantic_hash": ""
   }
 }
