@@ -7,6 +7,6 @@ export const SETTINGS_CONTENT={
  standards:STANDARDS,
  standardIntro:'2022 개정 과학과 교육과정과 연계한 탐구 보조 활동이에요. 이 게임만으로 성취기준 전체를 달성했다고 판단하지 않으며, 수업·토론·후속 평가와 함께 활용해 주세요.',
  credits:['캐릭터·배경·실험 소품은 사용자가 제공한 프로젝트 이미지와 이번 프로젝트의 AI 생성 이미지예요.','실험 장치 그림과 마을은 학습용 재현 이미지예요. 실제 장비 조작법을 설명하는 자료가 아니에요.','배경 음악은 자체 합성이에요. 효과음은 Kenney Interface Sounds(CC0)를 MP3로 변환해 사용했어요.','개념 모션 영상과 바람여우 솔이는 프로젝트 자체 제작이에요.','화면과 개념 영상의 나눔스퀘어 네오 글꼴은 SIL Open Font License 1.1에 따라 사용했어요. 라이선스 원문을 동봉했어요.','출처와 이용 조건은 프로젝트의 assets/CREDITS.md에서 확인할 수 있어요.'],
- sources:['교육 내용 · 경기도교육청, 깊이있는 수업 단원설계 예시자료, 여러 가지 기체, 2025 (goe.go.kr)','미술 자료 · 사용자 제공 기체 도시 시안 및 자체 AI 생성 지도·캐릭터·실험 소품','효과음 · Kenney Interface Sounds, CC0 (kenney.nl/assets/interface-sounds)','글꼴 · NAVER 나눔스퀘어 네오 (SIL OFL 1.1)'],
+ sources:['교육 내용 · 경기도교육청, 깊이있는 수업 단원설계 예시자료, 여러 가지 기체, 2025 (goe.go.kr)','미술 자료 · 사용자 제공 기체 도시 시안 및 자체 AI 생성 지도·캐릭터·실험 소품','효과음 · Kenney Interface Sounds, CC0 (kenney.nl/assets/interface-sounds)','글꼴 · NAVER 나눔스퀘어 네오 (SIL OFL 1.1)','3D 산길 화면 · three.js r170, MIT License (threejs.org)'],
  copyright:['ⓒ 2026 옐샘 & 아이스크림미디어. All rights reserved.','앱 화면 캡처·자체 제작 일러스트·자체 제작 음향의 무단 복제·재배포·전용·상업적 이용을 금지해요.','외부 CC0 음원과 OFL 글꼴에는 각 공개 라이선스가 적용돼요. 자체 자료의 이용 제한이 공개 라이선스를 제한하지 않아요.','교육 내용 구성 참고: 경기도교육청(goe.go.kr).']
 };

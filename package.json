@@ -17,6 +17,7 @@
     "qa:layout": "node scripts/qa-layout.mjs",
     "qa:responsive": "node scripts/qa-responsive.mjs",
     "qa:playback": "node scripts/qa-playback.mjs",
+    "qa:run-stage": "node scripts/qa-run-stage.mjs",
     "assets:prepare": "node scripts/prepare-assets.mjs"
   },
   "engines": { "node": ">=20" },

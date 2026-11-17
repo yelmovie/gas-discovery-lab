@@ -44,3 +44,9 @@ Kenney, **Interface Sounds 1.0** — https://kenney.nl/assets/interface-sounds
 ## 2026-11-12 공기 장치 공방 소품
 
 공기 주머니 받침과 나무 화물 상자를 Higgsfield의 GPT Image 2.6으로 각각 생성했다. 기존 펌프 그림을 화풍 참고로 사용했고, 글자 없이 투명 배경의 단일 소품으로 만들었다. 원본은 외장 SSD의 `asset-bank/original/generated-20261112/`에 보관했다. 여백 정리, 크기 축소, 알파를 유지한 WebP 변환을 거쳐 `visuals/pneumatic-bellows-v1.webp`와 `visuals/cargo-crate-v1.webp`에 적용했다. 생성 작업 ID와 SHA-256은 `visuals/manifest.json`에 기록했다.
+
+## 2026-11-17 3D 산길 스테이지
+
+「높은 산의 과자 봉지」의 3D 산길 그림(`run-stage/`)은 ChatGPT의 GPT 이미지 모델(Codex 경유)로 한 장씩 생성했다. 부푼 과자 봉지는 기존 `prop-packet.webp`를, 원경·관측소·기구 보관함·등불 기둥은 타이틀 그림을 화풍 참고로 썼고, 모두 글자·로고 없이 만들었다. 원본은 외장 SSD의 `asset-bank/original/generated-20261117/run-*.png`에 보관했고 `scripts/prepare-run-stage.mjs`로 여백 정리·크기 축소·WebP 변환을 했다. 프롬프트와 파일 대응은 `docs/RUN-STAGE-3D-PLAN-20261117.md`에 있다. 학생·루미·방해꾼은 기존 그림을 다시 썼다.
+
+3D 표시는 three.js r170(MIT License, Copyright 2010-2024 Three.js Authors)을 수정 없이 `vendor/three/three.module.min.js`로 함께 제공한다. 라이선스 전문은 `vendor/three/THREE-LICENSE.txt`.

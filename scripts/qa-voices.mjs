@@ -6,6 +6,8 @@ import {CONCEPT_SECONDS} from '../src/concept-clips.js';
 import {createPipePuzzle,PIPE_PATTERNS} from '../src/model.js';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
+// 3D 산길로 먼저 열리는 의뢰는 「기존 방식으로 하기」로 바꿔 기존 조작을 검사한다(3D 경로는 qa-run-stage.mjs).
+const classicScreen=async page=>{await page.locator('.run-classic,.condition-slider').first().waitFor();if(await page.locator('.run-classic').count())await page.locator('.run-classic').click();};
 const b=await chromium.launch({channel:'chrome',headless:true}),isolated=await b.newContext({storageState:{cookies:[],origins:[]},viewport:{width:Number(process.env.QA_WIDTH)||1280,height:Number(process.env.QA_HEIGHT)||800}}),p=await isolated.newPage(),errors=[],report=[];
 await fs.mkdir('.tmp/qa',{recursive:true});
 p.on('pageerror',e=>errors.push(e.message));
@@ -42,6 +44,7 @@ for(const stage of STAGES)for(const task of stage.tasks){
   await p.locator('[data-action=level]').click();await p.locator('[data-action=zero]').click();await drag('.scale-jar','.scale-scene');await p.locator('.record-button').click();
   for(let n=0;n<task.minDelta;n++)await p.locator(`[data-action=${task.direction>0?'add':'remove'}]`).click();await p.locator('.record-button').click();
  }else if(stage.id==='climate'){
+  if(task.runStage)await classicScreen(p);
   await p.locator('.condition-slider').fill(String(task.target));await p.locator('.condition-slider').dispatchEvent('change');await bounds(task.id+'-question');
  await p.locator('.choice').filter({hasNotText:task.answer}).first().click();await voice('retry-climate-'+(i+1));
  await p.getByRole('button',{name:task.answer,exact:true}).click();

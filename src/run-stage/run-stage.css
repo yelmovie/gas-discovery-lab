@@ -1,0 +1,74 @@
+/* 3D 산길 스테이지의 겹침 화면. 글자·눈금·버튼은 전부 HTML로 올린다. */
+#app .activity-screen .activity-host>.run-stage{position:relative;display:block;width:100%;height:100%;border-radius:20px;overflow:hidden;background:#bfe4f3;isolation:isolate;--run-key:clamp(56px,6.2vw,84px);--run-edge:clamp(10px,1.6vw,22px);--run-panel:min(44%,560px)}
+.run-stage .run-canvas{position:absolute;inset:0;display:block;width:100%;height:100%;touch-action:none;outline:none}
+.run-stage .run-canvas:focus-visible{box-shadow:inset 0 0 0 4px #ffd36a}
+.run-stage .run-labels{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.run-stage .run-label{position:absolute;left:0;top:0;padding:4px 12px;border:2px solid #79633f;border-radius:10px;background:#fff5d9;color:#143f43;font:clamp(18px,1.5vw,26px)/1.3 var(--font-display);white-space:nowrap;box-shadow:0 3px 0 #79633f66}
+.run-stage [hidden]{display:none!important}
+.run-stage .run-top{position:absolute;left:var(--run-edge);right:var(--run-edge);top:var(--run-edge);z-index:3;display:flex;align-items:center;gap:10px;flex-wrap:wrap;pointer-events:none}
+.run-stage .run-top>*{pointer-events:auto}
+.run-stage .run-place{padding:6px 12px;border:1px solid #9dbdb6;border-radius:10px;background:#fffef7;color:#245d59;font:600 clamp(18px,1.45vw,26px)/1.3 var(--font-body);white-space:nowrap}
+.run-stage .climate-constants{padding:6px 12px;border-radius:10px;background:#fffef7e6;color:#2c524d;font-size:clamp(18px,1.35vw,24px);line-height:1.3;text-align:left}
+#app .activity-screen .activity-host .run-stage .run-classic{margin-left:auto;min-height:48px;font-size:clamp(18px,1.3vw,24px);padding:8px 14px}
+.run-stage .run-bag{position:absolute;right:var(--run-edge);top:calc(var(--run-edge) + 62px);z-index:2;margin:0;width:clamp(120px,13vw,200px);padding:8px 8px 6px;border:2px solid #ded4b9;border-radius:16px;background:#fffdf5e8;text-align:center;box-shadow:0 6px 16px #153b3726}
+.run-stage .run-bag-art{position:relative;aspect-ratio:1;display:grid;place-items:center}
+.run-stage .run-bag-art img{grid-area:1/1;width:100%;height:100%;object-fit:contain;transform:scale(var(--bag-scale,.74))}
+.run-stage .run-bag-puffed{opacity:0}
+.run-stage .run-bag figcaption{font:clamp(18px,1.2vw,22px)/1.3 var(--font-body);color:#3c5a54;word-break:keep-all}
+.run-stage .run-speech{position:absolute;left:50%;top:calc(var(--run-edge) + 64px);z-index:3;transform:translateX(-50%);max-width:min(62%,720px);margin:0;padding:10px 18px;border:2px solid #79633f;border-radius:16px;background:#fff9e6;color:#143f43;font-size:clamp(18px,1.6vw,28px);line-height:1.4;text-align:center;word-break:keep-all;box-shadow:0 5px 0 #79633f55}
+.run-stage .run-pad{position:absolute;left:var(--run-edge);bottom:var(--run-edge);z-index:3;display:grid;grid-template:repeat(2,var(--run-key))/repeat(3,var(--run-key));gap:6px;touch-action:none;user-select:none;-webkit-user-select:none}
+.run-stage .run-pad button,.run-stage .run-actions button{display:grid;place-items:center;min-width:0;padding:0;border:2px solid #2f6d68;border-radius:18px;background:#fffdf5eb;color:#17494b;box-shadow:0 4px 0 #2f6d6880;font-family:var(--font-display);touch-action:none;-webkit-tap-highlight-color:transparent;cursor:pointer}
+.run-stage .run-pad button svg{width:44%;height:44%}
+.run-stage .run-pad [data-run-dir=up]{grid-area:1/2}.run-stage .run-pad [data-run-dir=left]{grid-area:2/1}.run-stage .run-pad [data-run-dir=down]{grid-area:2/2}.run-stage .run-pad [data-run-dir=right]{grid-area:2/3}
+.run-stage .run-pad [data-run-dir=up] svg{transform:rotate(-90deg)}.run-stage .run-pad [data-run-dir=down] svg{transform:rotate(90deg)}.run-stage .run-pad [data-run-dir=left] svg{transform:rotate(180deg)}
+.run-stage .run-pad button:is(:active,.is-held),.run-stage .run-actions button:active:not(:disabled){background:#ffe7a3;transform:translateY(3px);box-shadow:0 1px 0 #2f6d6880}
+.run-stage .run-actions{position:absolute;right:var(--run-edge);bottom:var(--run-edge);z-index:3;display:flex;align-items:flex-end;gap:10px;user-select:none;-webkit-user-select:none}
+.run-stage .run-actions button{width:calc(var(--run-key)*1.35);height:calc(var(--run-key)*1.35);border-radius:50%;grid-auto-flow:row;align-content:center;gap:2px;font-size:clamp(18px,1.4vw,24px);line-height:1.2}
+.run-stage .run-actions button svg{width:38%;height:38%}
+.run-stage .run-jump svg{transform:rotate(-90deg)}
+.run-stage .run-record{background:#ffe7a3;border-color:#a67722}
+.run-stage .run-record:disabled{background:#f1efe4f5;border-color:#a9b3ac;color:#6c7a75;box-shadow:none;cursor:default}
+.run-stage :is(.run-pad button,.run-actions button,.run-classic):focus-visible{outline:4px solid #ffd36a;outline-offset:2px}
+/* 예상 패널과 비교 패널: 오른쪽에 두고 캐릭터와 봉지는 왼쪽에 보인다. */
+#app .activity-screen .activity-host .run-stage .run-panel{position:absolute;right:var(--run-edge);top:var(--run-edge);bottom:auto;max-height:calc(100% - var(--run-edge)*2);z-index:5;width:var(--run-panel);height:auto;display:grid;gap:10px;overflow:auto;background:#fffdf5!important;backdrop-filter:none}
+#app .activity-screen .activity-host .run-stage .run-compare{grid-template-rows:auto auto minmax(0,1fr)}
+.run-stage .run-predict h2{font-size:clamp(22px,2vw,34px);line-height:1.3;word-break:keep-all}
+.run-stage .run-predict p{font-size:clamp(18px,1.4vw,24px);line-height:1.45;word-break:keep-all}
+.run-stage .run-predict-choices .choice-group{display:grid;gap:8px}
+#app .activity-screen .activity-host .run-stage .run-predict-choices .choice{min-height:56px;font-size:clamp(18px,1.5vw,26px)}
+.run-stage:not([data-phase=predict]) .run-predict,.run-stage:not([data-phase=compare]) .run-compare{display:none!important}
+.run-stage:not([data-phase=run]) :is(.run-pad,.run-actions,.run-speech){display:none}
+.run-stage[data-phase=compare] .run-classic,.run-stage:not([data-phase=run]) .run-labels{display:none}
+.run-stage:not([data-phase=run]) .run-bag{right:auto;left:var(--run-edge)}
+.run-stage[data-phase=predict] .run-classic{margin-left:0}
+.run-stage[data-phase=predict] .run-place{display:none}
+.run-stage:not([data-phase=run]) .run-top{right:calc(var(--run-panel) + var(--run-edge)*2)}
+
+.run-stage .volume-records{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:8px;border:1px solid #d4ddce;border-radius:12px;background:#f0f4eb}
+.run-stage .volume-record{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto 12px;gap:5px 6px;min-width:0;font-size:clamp(18px,1.2vw,22px);line-height:1.25}
+.run-stage .volume-record .record-stage{font-family:var(--font-display);color:#49625a}
+.run-stage .volume-record .record-condition{font-weight:600;text-align:right;word-break:keep-all}
+.run-stage .volume-record .comparison-track{grid-column:1/-1;position:relative;width:100%;height:12px;margin:0;padding:0;border:1px solid #bccbc5;border-radius:5px;background:#fff}
+.run-stage .comparison-track .comparison-baseline{position:absolute;top:-3px;bottom:-3px;width:0;border-left:2px dashed #718f84;z-index:2}
+.run-stage .comparison-track>i{display:block;height:100%;min-height:0;padding:0;border:0;border-radius:4px;background:linear-gradient(90deg,#49a69c,#8bc6b9)}
+.run-stage .run-prediction-note{margin:0;font-size:clamp(18px,1.25vw,22px);line-height:1.35;color:#3c5a54;word-break:keep-all}
+.run-stage .transfer-slot{min-height:0;display:flex;flex-direction:column;justify-content:flex-start;gap:10px}
+.run-stage .transfer-question h3{font-size:clamp(20px,1.6vw,28px);line-height:1.3;margin:0;word-break:keep-all}
+.run-stage .transfer-slot .choice-group{display:grid;gap:8px}
+.run-stage .activity-feedback:empty{display:none}
+.activity-complete .run-stage .run-compare{grid-template-rows:auto minmax(0,1fr)}
+.activity-complete .run-stage .run-prediction-note{display:none}
+@media (max-height:620px),(max-width:900px){
+ #app .activity-screen .activity-host>.run-stage{--run-key:52px;--run-edge:8px;--run-panel:min(52%,560px)}
+ .run-stage .run-bag{width:104px;top:calc(var(--run-edge) + 54px)}
+ .run-stage .run-bag figcaption{font-size:14px}
+ .run-stage .run-place,.run-stage .climate-constants{font-size:14px;padding:4px 8px}
+ #app .activity-screen .activity-host .run-stage .run-classic{font-size:14px;min-height:44px;padding:6px 10px}
+ .run-stage .run-speech{font-size:15px;padding:6px 12px;top:calc(var(--run-edge) + 52px)}
+ .run-stage .run-label{font-size:14px}
+ .run-stage .run-predict h2{font-size:18px}.run-stage .run-predict p{font-size:14px}
+ #app .activity-screen .activity-host .run-stage .run-predict-choices .choice{min-height:48px;font-size:15px}
+ #app .activity-screen .activity-host .run-stage .run-panel{gap:6px;padding:10px}
+ .run-stage .volume-record{font-size:14px}.run-stage .run-prediction-note{font-size:14px}.run-stage .transfer-question h3{font-size:16px}
+ .run-stage .run-actions button{font-size:14px}
+}
