@@ -1,17 +1,17 @@
 # Graph Report - 15 gas  (2026-11-18)
 
 ## Corpus Check
-- 142 files · ~108,383 words
+- 143 files · ~116,236 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 46 file(s) not represented in the graph (top: .woff2 26, .css 16, (none) 3)
 
 ## Summary
-- 3194 nodes · 5854 edges · 225 communities (124 shown, 101 thin omitted)
+- 3199 nodes · 5869 edges · 228 communities (126 shown, 102 thin omitted)
 - Extraction: 92% EXTRACTED · 8% INFERRED · 0% AMBIGUOUS · INFERRED: 478 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `73c01d11`
+- Built from commit: `0329672a`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -21,7 +21,7 @@
 - main.js
 - render.mjs
 - output-dist-before-publish-1794173282/src/model.js
-- qa-screens.mjs
+- serve.mjs
 - render-concepts-v2.mjs
 - three.module.min.js
 - sound
@@ -30,10 +30,10 @@
 - map-camera.test.mjs
 - STORY-VOICE-BGM-20261113.md
 - ci
-- src/state.js
+- model.js
 - 12. NPC 변화
 - play-mission.js
-- model.test.mjs
+- button
 - game-voices.js
 - audio.js
 - ji
@@ -71,7 +71,7 @@
 - map-cues.test.mjs
 - ts
 - 3D-ASSET-PROMPTS.md
-- am
+- map-encounters.js
 - 학습 UX 개선 및 검수 기록
 - 기체 도시 대작전 · 2026-11-08 증분 고도화 검토
 - 기체 도시 대작전 납품 최종점검
@@ -98,7 +98,7 @@
 - 7. Mission 1~5 심화 설계
 - 8. 총 10개 화면 상세 설계
 - Audio provenance and release review
-- 조작 흐름 개선 · 2026-10-28
+- qa-voices.mjs
 - 기체 도시 대작전 · 2026-11-10 이어서 검수
 - 기체 도시 대작전 최종 성적표
 - 23. 3D 사용 확정
@@ -127,13 +127,12 @@
 - yl
 - St
 - ri
-- e
+- qd
 - cs
 - hp
 - ym
 - sr
 - ao
-- .set
 - Wn
 - fr
 - Yn
@@ -156,10 +155,11 @@
 - Wn
 - oc
 - theme-effects.test.mjs
+- .set
 - .clone
 - .constructor
 - wd
-- vc
+- qa-playback.mjs
 - s
 - qp
 - cm
@@ -168,26 +168,24 @@
 - oa
 - qa-run-stage.mjs
 - zp
-- sound
+- delivery.js
 - _a
-- .multiplyMatrices
+- scripts/build.mjs
 - fh
 - prepare-run-stage.mjs
 - 15 기체 도시 대작전 · 3D 달리기 스테이지 계획 · 2026-11-17
 - lu
 - au
-- _s
+- ha
 - si
 - sl
 - ad
 - bs
-- gr
+- ei
 - iu
-- .constructor
+- pu
 - nu
-- dh
-- screen-loaders.js
-- dp
+- e
 - nd
 - vm
 - ba
@@ -199,7 +197,8 @@
 - 기체 도시 대작전 · 12/10 고도화 계획 (2026-11-09 밤)
 - tp
 - .constructor
-- ef
+- qa-learning.mjs
+- tu
 - ni
 - gh
 - ap
@@ -207,24 +206,30 @@
 - yu
 - 계획 확정 (2026-11-17 구현 세션, 코드 대조 결과)
 - _m
-- n
+- .load
 - zh
 - ga
 - 구현 결과 (2026-11-17)
+- .copy
 - zo
 - va
 - ks
 - su
-- mp
-- .constructor
+- ru
+- .raycast
 - yd
+- ec
 - gp
 - od
 - oh
-- createMapCamera
-- uu
+- t
+- eu
 - fc
+- vi
 - wh
+- np
+- 사용 흐름 다듬기 (2026-11-17 오후, 추가 수정)
+- tc
 
 ## God Nodes (most connected - your core abstractions)
 1. `ci` - 76 edges
@@ -253,19 +258,19 @@
 ## Import Cycles
 - None detected.
 
-## Communities (225 total, 101 thin omitted)
+## Communities (228 total, 102 thin omitted)
 
 ### Community 0 - "mountMap"
-Cohesion: 0.07
-Nodes (45): buildingReveal(), clamp01(), detail(), facades, halo(), lamp(), line(), meeting (+37 more)
+Cohesion: 0.10
+Nodes (42): buildingReveal(), clamp01(), detail(), facades, halo(), lamp(), line(), meeting (+34 more)
 
 ### Community 1 - "ref_node_assert"
-Cohesion: 0.05
-Nodes (28): {chromium}, {chromium}, errors, report, {chromium}, errors, liveCells, report (+20 more)
+Cohesion: 0.09
+Nodes (17): {chromium}, {chromium}, errors, report, {chromium}, errors, checks, {chromium} (+9 more)
 
 ### Community 2 - "main.js"
 Cohesion: 0.09
-Nodes (66): stageById(), attachVoice(), icon(), abort, activityModules, app, appURL, back() (+58 more)
+Nodes (51): 다른 후보를 고르지 않은 이유, 바꿀 자리, stageById(), abort, activityModules, app, appURL, back() (+43 more)
 
 ### Community 3 - "render.mjs"
 Cohesion: 0.10
@@ -275,9 +280,9 @@ Nodes (20): pub, films, box(), esc(), KIT_CSS, px(), renderFilm(), manifest (+12
 Cohesion: 0.20
 Nodes (31): arrow(), balloon(), C, car(), carbon(), circle(), clips, dots() (+23 more)
 
-### Community 5 - "qa-screens.mjs"
-Cohesion: 0.13
-Nodes (10): bad, {chromium}, errors, out, report, viewports, port, production (+2 more)
+### Community 5 - "serve.mjs"
+Cohesion: 0.33
+Nodes (4): port, production, root, types
 
 ### Community 6 - "render-concepts-v2.mjs"
 Cohesion: 0.19
@@ -288,8 +293,8 @@ Cohesion: 0.02
 Nodes (81): aa, ac, ar, as, bind(), br, Cc, cr (+73 more)
 
 ### Community 8 - "sound"
-Cohesion: 0.11
-Nodes (34): mountEngineering(), assign(), errorTarget(), guideNext(), nextParts(), render(), save(), test() (+26 more)
+Cohesion: 0.12
+Nodes (32): mountEngineering(), assign(), errorTarget(), guideNext(), nextParts(), render(), save(), test() (+24 more)
 
 ### Community 9 - "scripts"
 Cohesion: 0.08
@@ -300,32 +305,32 @@ Cohesion: 0.09
 Nodes (21): 0. 문서 목적, 10. Research Kit, 13. Final Report 설계, 16. 최종 인증서, 1. 설계 핵심 한 줄, 20. 태블릿 필수성 체크, 24. 구현 시 과학 피드백 문구 원칙, 26. 페이지당 에셋 제한 (+13 more)
 
 ### Community 11 - "map-camera.test.mjs"
-Cohesion: 0.33
-Nodes (5): bounds, close(), player, same(), size
+Cohesion: 0.17
+Nodes (12): bindMapCameraPointer(), clear(), release(), createMapCamera(), follow(), update(), mapLabelGuard(), bounds (+4 more)
 
-### Community 14 - "src/state.js"
-Cohesion: 0.25
-Nodes (9): normalizeMapHits(), freshSave(), loadSave(), resetProgress(), setTeacherPreview(), store, validateSave(), root (+1 more)
+### Community 14 - "model.js"
+Cohesion: 0.13
+Nodes (21): APP, CONTENT_REVIEW, GASES, STAGES, STANDARDS, STORY, normalizeMapHits(), BASE (+13 more)
 
 ### Community 15 - "12. NPC 변화"
 Cohesion: 0.10
 Nodes (20): 12. NPC 변화, Final Report, Mission 1 후, Mission 2 후, Mission 3 후, Mission 4 후, Mission 5 후, 게임 시작 (+12 more)
 
 ### Community 16 - "play-mission.js"
-Cohesion: 0.13
-Nodes (26): {chromium}, errors, report, solutions, defaults(), freshMission(), load(), directions (+18 more)
+Cohesion: 0.14
+Nodes (26): {chromium}, errors, report, solutions, sound(), defaults(), freshMission(), load() (+18 more)
 
-### Community 17 - "model.test.mjs"
-Cohesion: 0.17
-Nodes (20): APP, CONTENT_REVIEW, GASES, STANDARDS, STORY, assistMapStep(), canStand(), distance() (+12 more)
+### Community 17 - "button"
+Cohesion: 0.18
+Nodes (26): syncAudio(), controls(), conversationPortrait(), loadSettings(), missionEntry(), renderCertificate(), showHome(), showNpcConversations() (+18 more)
 
 ### Community 18 - "game-voices.js"
-Cohesion: 0.15
-Nodes (15): controls, narration, voiceForText(), paths, mountRepair(), finish(), render(), createNarration() (+7 more)
+Cohesion: 0.16
+Nodes (18): duckNarration(), attachVoice(), controls, narration, voiceForText(), icon(), paths, updateControls() (+10 more)
 
 ### Community 19 - "audio.js"
-Cohesion: 0.19
-Nodes (19): 기체 도시 대작전 개념영상 SPEC (HyperFrames), 만들기, 장면 문법 ("실험 노트"), quietAudio(), bindConceptFocus(), emphasizeConcept(), escapeText(), conceptFor() (+11 more)
+Cohesion: 0.17
+Nodes (23): 기체 도시 대작전 개념영상 SPEC (HyperFrames), 만들기, 장면 문법 ("실험 노트"), quietAudio(), bindConceptFocus(), emphasizeConcept(), escapeText(), conceptFor() (+15 more)
 
 ### Community 21 - "화면 01 — 도시 비상 신호"
 Cohesion: 0.13
@@ -340,16 +345,16 @@ Cohesion: 0.38
 Nodes (8): createPlayback(), account(), advance(), clear(), stop(), wait(), mountExperimentPlayer(), setup()
 
 ### Community 25 - "mountain-run.js"
-Cohesion: 0.10
-Nodes (51): cue(), bindDirectionPad(), change(), clear(), destroy(), endPointer(), paint(), keyDirections (+43 more)
+Cohesion: 0.09
+Nodes (61): canRun3D(), iyeyo(), mountClassic(), move(), recordCondition(), renderRecords(), update(), mountClimate() (+53 more)
 
 ### Community 26 - "19. 난이도 변수"
 Cohesion: 0.67
 Nodes (3): 19. 난이도 변수, 기본, 심화
 
 ### Community 27 - "scripts/build.mjs"
-Cohesion: 0.09
-Nodes (14): files, hash, pkg, retired, revision, root, shell, syntax() (+6 more)
+Cohesion: 0.17
+Nodes (4): {chromium}, fixture(), root, worker()
 
 ### Community 30 - "화면 02 — 공기 흐름 작동 시험"
 Cohesion: 0.18
@@ -360,8 +365,8 @@ Cohesion: 0.18
 Nodes (11): Evidence, Mission, World Change, 과학적 문구, 금지, 성공 조건, 태블릿 조작, 학생 행동 (+3 more)
 
 ### Community 32 - "rr"
-Cohesion: 0.09
-Nodes (4): fm(), mm(), pm, rr
+Cohesion: 0.06
+Nodes (5): fm(), gr, mm(), pm, rr
 
 ### Community 33 - "화면 03 — 기체 무게 계측실"
 Cohesion: 0.20
@@ -372,8 +377,8 @@ Cohesion: 0.20
 Nodes (7): manifest, out, props, require, root, sharp, total
 
 ### Community 36 - "README.md"
-Cohesion: 0.22
-Nodes (4): 개념 모션 영상 컷 시트, 주요 개념 그림 고도화 · 2026-10-28, 기체 도시 대작전, 폴더
+Cohesion: 0.13
+Nodes (8): 개념 모션 영상 컷 시트, 검증 방법, 변경 파일, 입력과 전환, 조작 흐름 개선 · 2026-10-28, 주요 개념 그림 고도화 · 2026-10-28, 기체 도시 대작전, 폴더
 
 ### Community 37 - "기체 도시 대작전 장별 시나리오 논의안"
 Cohesion: 0.22
@@ -417,7 +422,7 @@ Nodes (7): 구현 후 필요한 검증, 기체 도시 대작전 TRD 초안, 상�
 
 ### Community 47 - "자료와 제작 기록"
 Cohesion: 0.20
-Nodes (9): 2026-10-28 개념 시각 자료 고도화, 2026-11-12 공기 장치 공방 소품, 2026-11-17 3D 산길 스테이지, 개념 영상과 동물 친구, 기존 이미지와 글꼴, 나눔스퀘어 네오 UI 글꼴 (2026-11-10), 배경음 2곡 (Suno 생성), 자료와 제작 기록 (+1 more)
+Nodes (10): 2026-10-28 개념 시각 자료 고도화, 2026-11-12 공기 장치 공방 소품, 2026-11-17 3D 산길 스테이지, 2026-11-18 캐릭터 목소리 통일·팝업 음성, 개념 영상과 동물 친구, 기존 이미지와 글꼴, 나눔스퀘어 네오 UI 글꼴 (2026-11-10), 배경음 2곡 (Suno 생성) (+2 more)
 
 ### Community 48 - "화면 07 — 기체 정보 연구소"
 Cohesion: 0.25
@@ -428,8 +433,8 @@ Cohesion: 0.29
 Nodes (6): 15 기체 도시 대작전 · 지도 악당 연계 계획, 방향과 시선, 세 번의 타격과 접촉 피격, 스테이지마다 바뀌는 소품·자세·대사, 외형과 등장, 제작하고 적용할 순서
 
 ### Community 52 - "_s"
-Cohesion: 0.08
-Nodes (9): d(), du, ed, ha, hu, p(), _s, sd (+1 more)
+Cohesion: 0.09
+Nodes (7): du, ed, hu, id, _s, sd, xu
 
 ### Community 54 - "ts"
 Cohesion: 0.06
@@ -438,6 +443,10 @@ Nodes (8): ch, _d, gd, ol, ts, ud, vd, xd
 ### Community 55 - "3D-ASSET-PROMPTS.md"
 Cohesion: 0.14
 Nodes (12): 3D를 적용할 화면, 기본 이미지 목록, 기체 도시 대작전 3D 기본 이미지와 프롬프트, 별도 필요한 2.5D 픽셀 지도, 생성 후 확인할 것, 제작 기준, 로고와 캐릭터, 배경 10장 (+4 more)
+
+### Community 56 - "map-encounters.js"
+Cohesion: 0.22
+Nodes (13): setFinaleOverlay(), stopNotes(), dockMapAttack(), appeared, CUES, layoutSpeech(), mountMapEncounters(), hit() (+5 more)
 
 ### Community 57 - "학습 UX 개선 및 검수 기록"
 Cohesion: 0.29
@@ -491,10 +500,6 @@ Nodes (5): 기체 도시 대작전 · 2026-11-10 추가 품질 검수, 남은 �
 Cohesion: 0.33
 Nodes (5): 개선 우선순위 (최저 3개), 디자인스킬 13항목 — BEFORE 119/130 → AFTER 125/130, 최종스킬 10항목 — BEFORE 70/100 → AFTER 88/100, 최종점검 성적표 — 기체 도시 대작전 (15 gas), 측정하지 못한 것
 
-### Community 71 - "vp"
-Cohesion: 0.06
-Nodes (4): cp, ec, np, vp
-
 ### Community 73 - "nm"
 Cohesion: 0.06
 Nodes (3): im, nm, setValue()
@@ -535,9 +540,9 @@ Nodes (6): 8. 총 10개 화면 상세 설계, Phase A — Final Report, Phase B 
 Cohesion: 0.40
 Nodes (4): Audio provenance and release review, New sound effects, NPC narration, Preserved existing assets
 
-### Community 83 - "조작 흐름 개선 · 2026-10-28"
-Cohesion: 0.40
-Nodes (4): 검증 방법, 변경 파일, 입력과 전환, 조작 흐름 개선 · 2026-10-28
+### Community 83 - "qa-voices.mjs"
+Cohesion: 0.15
+Nodes (6): {chromium}, createGain(), errors, report, stageVoice, verified
 
 ### Community 84 - "기체 도시 대작전 · 2026-11-10 이어서 검수"
 Cohesion: 0.40
@@ -557,15 +562,15 @@ Nodes (5): 5. 단원 메인 퀘스트, NPC 의뢰, 사건 — 기체 도시의 �
 
 ### Community 88 - "audio.js"
 Cohesion: 0.13
-Nodes (22): active, buffers, config, cueAllowed(), cueBuffer(), cueFallback, cueFiles, cueLevel (+14 more)
+Nodes (18): active, buffers, config, cueAllowed(), cueBuffer(), cueFallback, cueFiles, cueLevel (+10 more)
 
 ### Community 89 - "es"
 Cohesion: 0.09
-Nodes (4): u(), es, g(), nh
+Nodes (3): es, g(), nh
 
-### Community 90 - "kr"
+### Community 92 - ".parseObject"
 Cohesion: 0.09
-Nodes (3): kr, oi(), Xn()
+Nodes (6): dp, ep, fp, mp, op, tp
 
 ### Community 93 - "public/assets/concepts/manifest.json"
 Cohesion: 0.50
@@ -592,28 +597,24 @@ Cohesion: 0.67
 Nodes (3): mountWelcomeVoice(), fail(), stop()
 
 ### Community 104 - "fu"
-Cohesion: 0.07
-Nodes (10): eu, fu, gu, ju(), qu(), rd, td, tu (+2 more)
+Cohesion: 0.15
+Nodes (5): fu, gu, qu(), td, zu()
 
 ### Community 107 - "qa-responsive.mjs"
 Cohesion: 0.20
 Nodes (9): audit(), check(), {chromium}, errors, failures, output, report, resources (+1 more)
 
 ### Community 109 - "yi"
-Cohesion: 0.08
-Nodes (7): _i(), qs, ti, vh, vi, ya(), yi
+Cohesion: 0.11
+Nodes (5): qs, ti, vh, ya(), yi
 
 ### Community 110 - "yl"
-Cohesion: 0.08
+Cohesion: 0.09
 Nodes (15): al(), el(), fl(), hl(), jl, _l(), ll(), pl() (+7 more)
 
 ### Community 111 - "St"
-Cohesion: 0.15
-Nodes (14): ca(), St(), ja(), kh, kl(), ht(), lt(), nt() (+6 more)
-
-### Community 113 - "e"
-Cohesion: 0.12
-Nodes (12): e, n(), t(), ip, a(), jd, c(), l() (+4 more)
+Cohesion: 0.14
+Nodes (15): ca(), At(), St(), ja(), kh, kl(), ht(), lt() (+7 more)
 
 ### Community 114 - "cs"
 Cohesion: 0.08
@@ -623,12 +624,8 @@ Nodes (8): cs, ds, fs, gs, hs, ms, ps, us
 Cohesion: 0.15
 Nodes (22): ao(), bo(), Do(), fo(), go(), ho(), io, jo() (+14 more)
 
-### Community 119 - ".set"
-Cohesion: 0.11
-Nodes (4): bc(), _c, cl(), wl()
-
 ### Community 122 - "Yn"
-Cohesion: 0.13
+Cohesion: 0.15
 Nodes (3): rs(), vs, Yn()
 
 ### Community 123 - "na"
@@ -640,59 +637,59 @@ Cohesion: 0.26
 Nodes (19): Gl(), b(), D(), E(), f(), g(), I(), k() (+11 more)
 
 ### Community 127 - "bi"
-Cohesion: 0.12
-Nodes (11): ai, bi, M(), S(), C(), I(), R(), rf (+3 more)
+Cohesion: 0.08
+Nodes (14): ai, bi, M(), C(), I(), R(), la(), r() (+6 more)
 
 ### Community 130 - ".constructor"
-Cohesion: 0.18
-Nodes (3): ah, bh, rh
+Cohesion: 0.11
+Nodes (4): ah, bh, qm, rh
 
 ### Community 132 - "sc"
-Cohesion: 0.10
-Nodes (7): s(), r(), ei(), Gn(), hm, sc, i()
+Cohesion: 0.14
+Nodes (3): Gn(), hm, sc
 
 ### Community 133 - "jc"
 Cohesion: 0.14
 Nodes (3): hc, jc, qc
 
-### Community 138 - ".constructor"
-Cohesion: 0.19
-Nodes (10): At(), Gt(), Ht(), It(), Kt(), Lt(), qt(), Vt() (+2 more)
+### Community 136 - ".computeBoundingSphere"
+Cohesion: 0.13
+Nodes (3): dh(), _h, xh
 
-### Community 139 - "Wn"
-Cohesion: 0.09
-Nodes (3): ic, nc, tc()
+### Community 138 - ".constructor"
+Cohesion: 0.17
+Nodes (10): Gt(), Ht(), It(), Kt(), Lt(), qt(), Vt(), wt() (+2 more)
 
 ### Community 141 - "theme-effects.test.mjs"
 Cohesion: 0.16
 Nodes (5): createThemeEffects(), play(), stop(), sync(), unlock()
 
-### Community 145 - "wd"
-Cohesion: 0.13
-Nodes (3): kd(), o(), wd()
+### Community 146 - "qa-playback.mjs"
+Cohesion: 0.20
+Nodes (6): {chromium}, draft(), errors, evidence(), report, root
 
 ### Community 148 - "s"
 Cohesion: 0.20
 Nodes (7): ku(), s(), B(), k(), O(), V(), z()
 
-### Community 152 - "Xs"
-Cohesion: 0.15
-Nodes (3): dd, Xs, zl
-
 ### Community 154 - "qa-run-stage.mjs"
 Cohesion: 0.17
 Nodes (5): {chromium}, climate, errors, expected, seed
 
-### Community 156 - "sound"
-Cohesion: 0.16
-Nodes (27): canRun3D(), iyeyo(), mountClassic(), move(), recordCondition(), renderRecords(), update(), mountClimate() (+19 more)
+### Community 156 - "delivery.js"
+Cohesion: 0.28
+Nodes (12): FACILITY_ART, mountDelivery(), chooseGas(), deliver(), guideSelection(), render(), save(), showInformation() (+4 more)
 
 ### Community 157 - "_a"
-Cohesion: 0.28
-Nodes (4): _a(), f(), g(), o()
+Cohesion: 0.19
+Nodes (7): _a(), d(), f(), g(), o(), u(), p()
+
+### Community 158 - "scripts/build.mjs"
+Cohesion: 0.18
+Nodes (10): files, hash, pkg, retired, revision, root, shell, syntax() (+2 more)
 
 ### Community 159 - "fh"
-Cohesion: 0.17
+Cohesion: 0.13
 Nodes (3): fh, om, tf
 
 ### Community 160 - "prepare-run-stage.mjs"
@@ -700,20 +697,20 @@ Cohesion: 0.29
 Nodes (11): cutout(), done(), exists(), missing, original(), out, report, root (+3 more)
 
 ### Community 161 - "15 기체 도시 대작전 · 3D 달리기 스테이지 계획 · 2026-11-17"
-Cohesion: 0.12
-Nodes (17): 15 기체 도시 대작전 · 3D 달리기 스테이지 계획 · 2026-11-17, 390×844 `broken-image` 원인, 과학 개념과 조작, 기술, 검증, 배포, 바뀐 파일, 사용 흐름 다듬기 (2026-11-17 오후, 추가 수정), 시작 전에 확인할 것, 실행한 검증 (빌드 결과물 `http://127.0.0.1:4191`, 로컬 Chrome 헤드리스) (+9 more)
+Cohesion: 0.18
+Nodes (11): 15 기체 도시 대작전 · 3D 달리기 스테이지 계획 · 2026-11-17, 과학 개념과 조작, 기술, 검증, 배포, 시작 전에 확인할 것, 연결과 저장, 이미지 생성·적용 목록, 작업 순서, 지금 방식과 바뀐 방식 (+3 more)
 
-### Community 163 - "au"
-Cohesion: 0.17
-Nodes (3): au, Ou(), ru
+### Community 169 - "ei"
+Cohesion: 0.25
+Nodes (5): s(), r(), ei(), Hd, i()
 
-### Community 171 - ".constructor"
-Cohesion: 0.19
-Nodes (3): mu, pu, qm
+### Community 174 - "e"
+Cohesion: 0.28
+Nodes (5): e, n(), kd(), o(), c()
 
-### Community 174 - "screen-loaders.js"
-Cohesion: 0.36
-Nodes (8): 다른 후보를 고르지 않은 이유, 바꿀 자리, activities, loadActivity(), loadConceptVisuals(), loadPlayMission(), style(), styles
+### Community 179 - "md"
+Cohesion: 0.13
+Nodes (3): md, Wn(), Xn()
 
 ### Community 181 - ".constructor"
 Cohesion: 0.43
@@ -723,9 +720,13 @@ Nodes (3): wm, a(), o()
 Cohesion: 0.33
 Nodes (5): 1단계 → 10/10 : FAIL·WARNING·NOT TESTED 해소, 2단계 → 11 : 몰입·피드백·접근성, 3단계 → 12 : 개념영상 HyperFrames 고도화 + 이 프로젝트만의 연출, 기체 도시 대작전 · 12/10 고도화 계획 (2026-11-09 밤), 오늘 밤 실행 순서
 
+### Community 187 - "qa-learning.mjs"
+Cohesion: 0.22
+Nodes (4): {chromium}, errors, liveCells, report
+
 ### Community 189 - "ni"
-Cohesion: 0.50
-Nodes (3): fi, ii(), ni()
+Cohesion: 0.40
+Nodes (4): fi, ii(), ni(), oi()
 
 ### Community 193 - "bl"
 Cohesion: 0.60
@@ -735,9 +736,9 @@ Nodes (4): bl, b(), S(), T()
 Cohesion: 0.33
 Nodes (6): 계획 확정 (2026-11-17 구현 세션, 코드 대조 결과), 구현하면서 더 정한 것, 그림 기록, 정한 것, 코드에서 확인한 것, 코스 설계표
 
-### Community 197 - "n"
-Cohesion: 0.29
-Nodes (3): la(), r(), n
+### Community 197 - ".load"
+Cohesion: 0.25
+Nodes (3): cp, ip, a()
 
 ### Community 201 - "구현 결과 (2026-11-17)"
 Cohesion: 0.33
@@ -747,27 +748,39 @@ Nodes (6): 구현 결과 (2026-11-17), 바뀐 파일, 실행한 검증, 작업 �
 Cohesion: 0.25
 Nodes (4): fa, ma, va(), f()
 
-### Community 220 - "createMapCamera"
-Cohesion: 0.83
-Nodes (3): createMapCamera(), follow(), update()
+### Community 213 - ".raycast"
+Cohesion: 0.25
+Nodes (3): bc(), _c, ph()
+
+### Community 220 - "t"
+Cohesion: 0.36
+Nodes (5): t(), c(), l(), o(), r()
+
+### Community 221 - "eu"
+Cohesion: 0.29
+Nodes (3): eu, ju(), wu()
+
+### Community 226 - "사용 흐름 다듬기 (2026-11-17 오후, 추가 수정)"
+Cohesion: 0.33
+Nodes (6): 390×844 `broken-image` 원인, 바뀐 파일, 사용 흐름 다듬기 (2026-11-17 오후, 추가 수정), 실행한 검증 (빌드 결과물 `http://127.0.0.1:4191`, 로컬 Chrome 헤드리스), 커밋과 배포, 확인하지 못한 것
 
 ## Knowledge Gaps
-- **101 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **102 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `vp` connect `vp` to `sound`, `.copy`, `three.module.min.js`?**
-  _High betweenness centrality (0.369) - this node is a cross-community bridge._
+- **Why does `vp` connect `vp` to `sound`, `np`, `.copy`, `three.module.min.js`?**
+  _High betweenness centrality (0.366) - this node is a cross-community bridge._
 - **Should `mountMap` be split into smaller, more focused modules?**
-  _Cohesion score 0.07184325108853411 - nodes in this community are weakly interconnected._
-- **Why does `update()` connect `sound` to `main.js`?**
-  _High betweenness centrality (0.312) - this node is a cross-community bridge._
+  _Cohesion score 0.09528214616096208 - nodes in this community are weakly interconnected._
+- **Why does `update()` connect `sound` to `game-voices.js`?**
+  _High betweenness centrality (0.309) - this node is a cross-community bridge._
 - **Should `ref_node_assert` be split into smaller, more focused modules?**
-  _Cohesion score 0.05297532656023222 - nodes in this community are weakly interconnected._
-- **Why does `15 기체 도시 대작전 · 3D 달리기 스테이지 계획 · 2026-11-17` connect `15 기체 도시 대작전 · 3D 달리기 스테이지 계획 · 2026-11-17` to `구현 결과 (2026-11-17)`, `계획 확정 (2026-11-17 구현 세션, 코드 대조 결과)`, `README.md`, `screen-loaders.js`?**
-  _High betweenness centrality (0.197) - this node is a cross-community bridge._
+  _Cohesion score 0.09259259259259259 - nodes in this community are weakly interconnected._
+- **Why does `15 기체 도시 대작전 · 3D 달리기 스테이지 계획 · 2026-11-17` connect `15 기체 도시 대작전 · 3D 달리기 스테이지 계획 · 2026-11-17` to `사용 흐름 다듬기 (2026-11-17 오후, 추가 수정)`, `main.js`, `계획 확정 (2026-11-17 구현 세션, 코드 대조 결과)`, `README.md`, `구현 결과 (2026-11-17)`?**
+  _High betweenness centrality (0.189) - this node is a cross-community bridge._
 - **Should `main.js` be split into smaller, more focused modules?**
-  _Cohesion score 0.09014084507042254 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.08525506638714186 - nodes in this community are weakly interconnected._
 - **Should `render.mjs` be split into smaller, more focused modules?**
   _Cohesion score 0.10084033613445378 - nodes in this community are weakly interconnected._

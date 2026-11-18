@@ -96,9 +96,9 @@
     "semantic_hash": ""
   },
   "src/concepts.js": {
-    "mtime": 1794410692.52,
-    "seen": 1794410765.393076,
-    "ast_hash": "8371a9a4d2aec45f5976f7028596159f",
+    "mtime": 1795003364.21,
+    "seen": 1795003870.461185,
+    "ast_hash": "81008db2729ee9e2cf0d26df7fa74308",
     "semantic_hash": ""
   },
   "src/data.js": {
@@ -114,15 +114,15 @@
     "semantic_hash": ""
   },
   "src/main.js": {
-    "mtime": 1794926909.99,
-    "seen": 1794945141.5344288,
-    "ast_hash": "9e29099cee5afc92a182b676916278e1",
+    "mtime": 1795003346.18,
+    "seen": 1795003870.461189,
+    "ast_hash": "1fb9fca49547fa6fea378d659fa61854",
     "semantic_hash": ""
   },
   "src/map.js": {
-    "mtime": 1794925914.57,
-    "seen": 1794945141.534435,
-    "ast_hash": "9e9d9320d4be2601f9818eec49d64558",
+    "mtime": 1795003353.09,
+    "seen": 1795003870.461195,
+    "ast_hash": "2165cb343781c1141983bdda34a6224e",
     "semantic_hash": ""
   },
   "src/model.js": {
@@ -168,9 +168,9 @@
     "semantic_hash": ""
   },
   "src/ui.js": {
-    "mtime": 1794676411.35,
-    "seen": 1794677291.167211,
-    "ast_hash": "f811c7580e0a825387a0f304fd51de08",
+    "mtime": 1795003346.19,
+    "seen": 1795003870.4612029,
+    "ast_hash": "5a6acd6701561897de308bee74affa20",
     "semantic_hash": ""
   },
   "tests/model.test.mjs": {
@@ -234,9 +234,9 @@
     "semantic_hash": ""
   },
   "public/assets/CREDITS.md": {
-    "mtime": 1794923299.21,
-    "seen": 1794923683.331411,
-    "ast_hash": "f7a1e2f842c6ca9b4250d47358d5334e",
+    "mtime": 1795003570.18,
+    "seen": 1795003870.461239,
+    "ast_hash": "9fd261cc3cc8b7f3b788e16378752994",
     "semantic_hash": ""
   },
   "public/assets/audio/Kenney-CC0.txt": {
@@ -1806,15 +1806,15 @@
     "semantic_hash": ""
   },
   "src/voice-lines.js": {
-    "mtime": 1794310523.8,
-    "seen": 1794409856.8833039,
-    "ast_hash": "9a074b7b6fa245dc89c036622205690a",
+    "mtime": 1795003336.05,
+    "seen": 1795003870.4612029,
+    "ast_hash": "272617321d63dfa25848d6d8d9d9a664",
     "semantic_hash": ""
   },
   "tests/narration.test.mjs": {
-    "mtime": 1794744019.83,
-    "seen": 1794844072.2406871,
-    "ast_hash": "40bb290821ab980e3c541d5328dc775f",
+    "mtime": 1795003383.77,
+    "seen": 1795003870.461208,
+    "ast_hash": "f9f0d02b7211641076fe083d63e77867",
     "semantic_hash": ""
   },
   "docs/reviews/PLAY-REVIEW-20261110.md": {
@@ -2202,9 +2202,9 @@
     "semantic_hash": ""
   },
   "src/map-encounters.js": {
-    "mtime": 1794926085.04,
-    "seen": 1794945141.5344331,
-    "ast_hash": "927041aabb8d2c4bb6129313755bade5",
+    "mtime": 1795003353.09,
+    "seen": 1795003870.461192,
+    "ast_hash": "5adce1ceb1cb5e25c2b09974ec3cc7e3",
     "semantic_hash": ""
   },
   "docs/MAP-VILLAIN-HANDOFF-20261114.md": {
@@ -2697,6 +2697,600 @@
     "mtime": 1794926076.12,
     "seen": 1794945141.534591,
     "ast_hash": "518857cf6118a878976f1e9f447bc683",
+    "semantic_hash": ""
+  },
+  "docs/VOICE-FILL-20261118.json": {
+    "mtime": 1795003808.34,
+    "seen": 1795003870.461146,
+    "ast_hash": "56a25f4be48ebe18da802dbe758ac766",
+    "semantic_hash": ""
+  },
+  "thumbnails/thumbnail-16x8.png": {
+    "mtime": 1794994598.44,
+    "seen": 1795003870.461339,
+    "ast_hash": "9164dd7888f415d689179affc953c136",
+    "semantic_hash": ""
+  },
+  "thumbnails/thumbnail-1x1.png": {
+    "mtime": 1794994598.43,
+    "seen": 1795003870.461339,
+    "ast_hash": "96671e593bad4dff5a99d079222ba0d7",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-bridge-climate.mp3": {
+    "mtime": 1795003786.69,
+    "seen": 1795003870.461348,
+    "ast_hash": "8a3c842b02cbddf49beac8b61c0fb537",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-bridge-delivery.mp3": {
+    "mtime": 1795003786.82,
+    "seen": 1795003870.461349,
+    "ast_hash": "019ae2259b7afbb1a65884a11b94b6f1",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-bridge-engineering.mp3": {
+    "mtime": 1795003786.96,
+    "seen": 1795003870.461349,
+    "ast_hash": "dcfb4aeaa87e434cb301f1917e2d15eb",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-bridge-flow.mp3": {
+    "mtime": 1795003786.41,
+    "seen": 1795003870.46135,
+    "ast_hash": "b47b90d1510fc2334f23eb1cdf54b124",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-bridge-weight.mp3": {
+    "mtime": 1795003786.55,
+    "seen": 1795003870.46135,
+    "ast_hash": "4c813d5ead379792a1cf76ac407b7e59",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-brief-climate.mp3": {
+    "mtime": 1795003787.72,
+    "seen": 1795003870.461351,
+    "ast_hash": "1768ddde7a445f0baad67d964caae2c3",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-brief-delivery.mp3": {
+    "mtime": 1795003787.93,
+    "seen": 1795003870.461351,
+    "ast_hash": "8a2f997b705158654053541238b9138b",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-brief-engineering.mp3": {
+    "mtime": 1795003788.14,
+    "seen": 1795003870.461351,
+    "ast_hash": "4dd59538aedb74f502fd817be636013b",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-brief-flow.mp3": {
+    "mtime": 1795003787.32,
+    "seen": 1795003870.4613519,
+    "ast_hash": "d0eb5e02f258d63f8a10c7e46f433340",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-brief-weight.mp3": {
+    "mtime": 1795003787.51,
+    "seen": 1795003870.4613519,
+    "ast_hash": "a503890af9f67ad7a553eb40df043563",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-certificate.mp3": {
+    "mtime": 1795003787.13,
+    "seen": 1795003870.461353,
+    "ast_hash": "ef537fcd28ba2b46f7bd013edf1810af",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-concept-car-1.mp3": {
+    "mtime": 1795003792.36,
+    "seen": 1795003870.461353,
+    "ast_hash": "3732101a3316eb857796a5708be46f2b",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-concept-car-2.mp3": {
+    "mtime": 1795003792.48,
+    "seen": 1795003870.461354,
+    "ast_hash": "045d92133d3830cde78ff2f4549a235a",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-concept-car-3.mp3": {
+    "mtime": 1795003792.61,
+    "seen": 1795003870.461354,
+    "ast_hash": "d01ceb3aa72d03cd98cacb0d6fea009b",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-concept-carbon-1.mp3": {
+    "mtime": 1795003791.0,
+    "seen": 1795003870.461354,
+    "ast_hash": "bb0bf22b6c830e0239d26cee472e5b0f",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-concept-carbon-2.mp3": {
+    "mtime": 1795003791.15,
+    "seen": 1795003870.461355,
+    "ast_hash": "eeadd4d2ae89244afdce30ce95c83996",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-concept-carbon-3.mp3": {
+    "mtime": 1795003791.29,
+    "seen": 1795003870.461355,
+    "ast_hash": "757fd70ca6837e7f23c7a730a70152da",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-concept-engineering-1.mp3": {
+    "mtime": 1795003791.88,
+    "seen": 1795003870.461356,
+    "ast_hash": "e11af85486b252358d3e38abad5c0c9e",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-concept-engineering-2.mp3": {
+    "mtime": 1795003792.04,
+    "seen": 1795003870.461356,
+    "ast_hash": "ecc4de5d26027b5cef4c1ba6376e21f6",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-concept-engineering-3.mp3": {
+    "mtime": 1795003792.2,
+    "seen": 1795003870.461357,
+    "ast_hash": "6bd212f89df7da086ff2ae9dd159ee94",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-concept-extinguisher-1.mp3": {
+    "mtime": 1795003791.43,
+    "seen": 1795003870.461357,
+    "ast_hash": "2c66b387d8b97150502567282048d144",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-concept-extinguisher-2.mp3": {
+    "mtime": 1795003791.56,
+    "seen": 1795003870.461358,
+    "ast_hash": "09b47505ff7153e0136dd004b4fe0fcf",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-concept-extinguisher-3.mp3": {
+    "mtime": 1795003791.72,
+    "seen": 1795003870.461358,
+    "ast_hash": "fd13547dd5cfbf1447013ccaba34980c",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-concept-flow-1.mp3": {
+    "mtime": 1795003788.29,
+    "seen": 1795003870.461359,
+    "ast_hash": "d975d95afedc7e9cbd5bb5da17533f82",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-concept-flow-2.mp3": {
+    "mtime": 1795003788.41,
+    "seen": 1795003870.461359,
+    "ast_hash": "5806183be5b1f31989a4d2e4622029e1",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-concept-flow-3.mp3": {
+    "mtime": 1795003788.53,
+    "seen": 1795003870.461359,
+    "ast_hash": "0ad04d265a9050046654c715995455c6",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-concept-nitrogen-1.mp3": {
+    "mtime": 1795003790.17,
+    "seen": 1795003870.4613602,
+    "ast_hash": "e7622c5abf7fa7f82db1d5be856003d8",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-concept-nitrogen-2.mp3": {
+    "mtime": 1795003790.29,
+    "seen": 1795003870.4613602,
+    "ast_hash": "8eced1d15bfd064fccc946b5df5d7489",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-concept-nitrogen-3.mp3": {
+    "mtime": 1795003790.44,
+    "seen": 1795003870.461361,
+    "ast_hash": "8464ad8e23cef93dfe49ac81553b9e31",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-concept-oxygen-1.mp3": {
+    "mtime": 1795003790.58,
+    "seen": 1795003870.461361,
+    "ast_hash": "bc71a3c75b33c0aad5aef03c9608d779",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-concept-oxygen-2.mp3": {
+    "mtime": 1795003790.72,
+    "seen": 1795003870.461362,
+    "ast_hash": "bc6a0d592c77aafcaa983a26266e0678",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-concept-oxygen-3.mp3": {
+    "mtime": 1795003790.86,
+    "seen": 1795003870.461362,
+    "ast_hash": "6dcb957e26e4bb3d1e0ea2a0797f2e9b",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-concept-pressure-1.mp3": {
+    "mtime": 1795003789.66,
+    "seen": 1795003870.461362,
+    "ast_hash": "2c7ccaf4c9b0cbc72885dd72c3c50355",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-concept-pressure-2.mp3": {
+    "mtime": 1795003789.84,
+    "seen": 1795003870.4613628,
+    "ast_hash": "b5de9a38753350b91fab8af1cb424718",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-concept-pressure-3.mp3": {
+    "mtime": 1795003790.03,
+    "seen": 1795003870.4613628,
+    "ast_hash": "03968ddf8e77970840205ec18129e04e",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-concept-temperature-1.mp3": {
+    "mtime": 1795003789.15,
+    "seen": 1795003870.461364,
+    "ast_hash": "8bc5ac0fd7e3f61b7cbcac62b49f6e3e",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-concept-temperature-2.mp3": {
+    "mtime": 1795003789.3,
+    "seen": 1795003870.461364,
+    "ast_hash": "c4a2b0e2afee096fb6fe9aa0cd6ffcc3",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-concept-temperature-3.mp3": {
+    "mtime": 1795003789.48,
+    "seen": 1795003870.461365,
+    "ast_hash": "3f1118558c2d9f541981a9ffaecc0b85",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-concept-weight-1.mp3": {
+    "mtime": 1795003788.67,
+    "seen": 1795003870.461365,
+    "ast_hash": "c3bbaf66b7f9cb54794df6136506f1af",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-concept-weight-2.mp3": {
+    "mtime": 1795003788.83,
+    "seen": 1795003870.461365,
+    "ast_hash": "881446ff2a0abb873cf088ce09e6a973",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-concept-weight-3.mp3": {
+    "mtime": 1795003789.0,
+    "seen": 1795003870.461366,
+    "ast_hash": "5b4c72264249d3a73fcab30ee95b2a20",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-ending-1.mp3": {
+    "mtime": 1795003782.85,
+    "seen": 1795003870.461366,
+    "ast_hash": "5c3b3fddd90f6c1f283d3f18c1fb66d7",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-ending-2.mp3": {
+    "mtime": 1795003783.06,
+    "seen": 1795003870.4613671,
+    "ast_hash": "30d09acc60a9c42995c80aefab049aa2",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-ending-3.mp3": {
+    "mtime": 1795003784.2,
+    "seen": 1795003870.4613671,
+    "ast_hash": "06c5a52547a7fa8fae53755cebe8389c",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-finale-charged.mp3": {
+    "mtime": 1795003782.69,
+    "seen": 1795003870.4613671,
+    "ast_hash": "15c11bf2bb74ed0d4a8336222c5b4be5",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-finale-ready.mp3": {
+    "mtime": 1795003782.54,
+    "seen": 1795003870.461368,
+    "ast_hash": "268bcf68855b3be1908d019249579122",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-hint-change.mp3": {
+    "mtime": 1795003794.21,
+    "seen": 1795003870.461368,
+    "ast_hash": "43ac59e58cf7bd84aaba3010eb8fb7b0",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-hint-retry.mp3": {
+    "mtime": 1795003794.42,
+    "seen": 1795003870.461369,
+    "ast_hash": "1c86460f348fa20146e799e1b07648a5",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-hint-saved.mp3": {
+    "mtime": 1795003794.67,
+    "seen": 1795003870.461369,
+    "ast_hash": "218ba8c541932310b6d8b279d746362e",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-map-blocked.mp3": {
+    "mtime": 1795003793.98,
+    "seen": 1795003870.4613702,
+    "ast_hash": "efaf71edc8272aac441f0de1508a9ec6",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-map-locked-climate.mp3": {
+    "mtime": 1795003792.99,
+    "seen": 1795003870.4613702,
+    "ast_hash": "75bdeebd3569bd19ca0da922050598c9",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-map-locked-core.mp3": {
+    "mtime": 1795003793.6,
+    "seen": 1795003870.461371,
+    "ast_hash": "c8602d37edbee45ce1bbe7433ce6fed8",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-map-locked-delivery.mp3": {
+    "mtime": 1795003793.19,
+    "seen": 1795003870.461371,
+    "ast_hash": "4a4a0ffd01cbb6be1d114a16c696692b",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-map-locked-engineering.mp3": {
+    "mtime": 1795003793.39,
+    "seen": 1795003870.461371,
+    "ast_hash": "d7d3c4616415a2a6bf154ed953b03616",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-map-locked-weight.mp3": {
+    "mtime": 1795003792.79,
+    "seen": 1795003870.461372,
+    "ast_hash": "2a75cbf1c63e9952326c1cf9da82c645",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-map-next-climate.mp3": {
+    "mtime": 1795003784.86,
+    "seen": 1795003870.461372,
+    "ast_hash": "fb779751ba0c38987ffebd70159c9d4d",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-map-next-core.mp3": {
+    "mtime": 1795003785.61,
+    "seen": 1795003870.4613729,
+    "ast_hash": "9f150646618028f3b9fab33f6e3cfc46",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-map-next-delivery.mp3": {
+    "mtime": 1795003785.1,
+    "seen": 1795003870.4613729,
+    "ast_hash": "49e9425a20202a802bbd228a082a59a1",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-map-next-engineering.mp3": {
+    "mtime": 1795003785.34,
+    "seen": 1795003870.461374,
+    "ast_hash": "334a31367d778761829afb2258d9cb4b",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-map-next-weight.mp3": {
+    "mtime": 1795003784.61,
+    "seen": 1795003870.461374,
+    "ast_hash": "2e2a1ab1254bcf183a5b5c3f25ddc94a",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-map-no-path.mp3": {
+    "mtime": 1795003793.79,
+    "seen": 1795003870.461374,
+    "ast_hash": "eb2291be3bebdec085ffa9d62b20ea78",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-retry-climate-1.mp3": {
+    "mtime": 1795003783.29,
+    "seen": 1795003870.461375,
+    "ast_hash": "9f88cec742bbaa00d573c6fdcc6430e7",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-retry-climate-2.mp3": {
+    "mtime": 1795003783.51,
+    "seen": 1795003870.461375,
+    "ast_hash": "d1d8c2cf719581e2e894a47c6128c3d7",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-retry-climate-3.mp3": {
+    "mtime": 1795003783.73,
+    "seen": 1795003870.461376,
+    "ast_hash": "ed26dbddc32c4067dd8a9526ffb6edda",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-retry-climate-4.mp3": {
+    "mtime": 1795003783.97,
+    "seen": 1795003870.461376,
+    "ast_hash": "b6151a52c8e0e60dbbf51b7e20cadce4",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-retry-delivery-reason.mp3": {
+    "mtime": 1795003784.38,
+    "seen": 1795003870.461377,
+    "ast_hash": "270efb8f1930400f2ebec99e2793974b",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-reward-climate.mp3": {
+    "mtime": 1795003785.99,
+    "seen": 1795003870.461377,
+    "ast_hash": "e385ef5b324bbaf02ab48c34c2781b02",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-reward-delivery.mp3": {
+    "mtime": 1795003786.13,
+    "seen": 1795003870.461377,
+    "ast_hash": "089f7b4de6db8c5726ea4adaebcb5f5a",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-reward-engineering.mp3": {
+    "mtime": 1795003786.29,
+    "seen": 1795003870.461378,
+    "ast_hash": "5c8729f82b4336ed41f9b41c1026669f",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-reward-flow.mp3": {
+    "mtime": 1795003785.77,
+    "seen": 1795003870.461378,
+    "ast_hash": "37e7c281cb16cc07b50310ca3b845796",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-reward-weight.mp3": {
+    "mtime": 1795003785.88,
+    "seen": 1795003870.461379,
+    "ast_hash": "cc6088dbcc341b01754b9c52050cc628",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-villain-1-1.mp3": {
+    "mtime": 1795003794.92,
+    "seen": 1795003870.461379,
+    "ast_hash": "f6f505791f7dbfd76fca5507b8dce784",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-villain-1-2.mp3": {
+    "mtime": 1795003795.15,
+    "seen": 1795003870.46138,
+    "ast_hash": "436fb92cf0560f0c53a5b8f3434dc302",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-villain-1-3.mp3": {
+    "mtime": 1795003795.3,
+    "seen": 1795003870.46138,
+    "ast_hash": "7f56e46fc20e50dd04bdd443986c22ed",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-villain-1-4.mp3": {
+    "mtime": 1795003795.43,
+    "seen": 1795003870.46138,
+    "ast_hash": "ef690249db320114117d8fd517d7e8be",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-villain-1-5.mp3": {
+    "mtime": 1795003795.64,
+    "seen": 1795003870.4613812,
+    "ast_hash": "d3eb610f18b49e76ee881bae9d361f85",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-villain-2-1.mp3": {
+    "mtime": 1795003795.83,
+    "seen": 1795003870.4613812,
+    "ast_hash": "42deb22d94e3ae2b62538f622155c282",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-villain-2-2.mp3": {
+    "mtime": 1795003796.0,
+    "seen": 1795003870.461382,
+    "ast_hash": "650ed2b95a6914d3435346b8dcdfbcfd",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-villain-2-3.mp3": {
+    "mtime": 1795003796.13,
+    "seen": 1795003870.461382,
+    "ast_hash": "19f35ada8affe5a199cebe1e7f415fb8",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-villain-2-4.mp3": {
+    "mtime": 1795003796.27,
+    "seen": 1795003870.4613829,
+    "ast_hash": "d0fd76e71a7b5bbd2802f24ba730e66e",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-villain-2-5.mp3": {
+    "mtime": 1795003796.41,
+    "seen": 1795003870.4613829,
+    "ast_hash": "8bb2e0edae6dbada6ace914b958771d4",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-villain-3-1.mp3": {
+    "mtime": 1795003796.59,
+    "seen": 1795003870.4613829,
+    "ast_hash": "59be52046f2970beb3fb0fa183a27bd8",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-villain-3-2.mp3": {
+    "mtime": 1795003796.84,
+    "seen": 1795003870.4613838,
+    "ast_hash": "5a3659d53b8e920f5bc0f8f82f532ce2",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-villain-3-3.mp3": {
+    "mtime": 1795003797.0,
+    "seen": 1795003870.4613838,
+    "ast_hash": "d17a25be3a917d31c9056c25bdd00476",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-villain-3-4.mp3": {
+    "mtime": 1795003797.13,
+    "seen": 1795003870.461385,
+    "ast_hash": "14ec875a7cc4fcd19549ca3391e28b1e",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-villain-3-5.mp3": {
+    "mtime": 1795003797.28,
+    "seen": 1795003870.461385,
+    "ast_hash": "92471b9b049f015729889c7554f8339f",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-villain-4-1.mp3": {
+    "mtime": 1795003797.45,
+    "seen": 1795003870.461385,
+    "ast_hash": "bb7b1c122b0fafef276c84680f2571b4",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-villain-4-2.mp3": {
+    "mtime": 1795003797.61,
+    "seen": 1795003870.461386,
+    "ast_hash": "16c22db319f5ee50a6e2781987cd8699",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-villain-4-3.mp3": {
+    "mtime": 1795003797.75,
+    "seen": 1795003870.461386,
+    "ast_hash": "da175123a9cce4054c51b2f7c0ce6dfc",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-villain-4-4.mp3": {
+    "mtime": 1795003797.94,
+    "seen": 1795003870.461387,
+    "ast_hash": "1ce38c6ad66be46e7d296e9a993ec45a",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-villain-4-5.mp3": {
+    "mtime": 1795003798.12,
+    "seen": 1795003870.461387,
+    "ast_hash": "f8b3e5a7001c705e8e32297526d514d3",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-villain-5-1.mp3": {
+    "mtime": 1795003798.32,
+    "seen": 1795003870.461388,
+    "ast_hash": "5c5b62fae0e18c716b1d39cfa98b1d41",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-villain-5-2.mp3": {
+    "mtime": 1795003798.51,
+    "seen": 1795003870.461388,
+    "ast_hash": "8fbfec9d5d178016da60b0615c49e4e1",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-villain-5-3.mp3": {
+    "mtime": 1795003798.67,
+    "seen": 1795003870.461388,
+    "ast_hash": "2c98a089526d9954094bab441cb3399c",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-villain-5-4.mp3": {
+    "mtime": 1795003798.8,
+    "seen": 1795003870.461389,
+    "ast_hash": "f02a401c5300053d3f05fbfe2f1ac5b4",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/voices/el-villain-5-5.mp3": {
+    "mtime": 1795003798.95,
+    "seen": 1795003870.461389,
+    "ast_hash": "124c95126c99d929a8770ed7ac17881f",
     "semantic_hash": ""
   }
 }
