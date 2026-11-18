@@ -90,9 +90,9 @@
     "semantic_hash": ""
   },
   "src/audio.js": {
-    "mtime": 1794926085.04,
-    "seen": 1794945141.534424,
-    "ast_hash": "066835211fe8f17929aa1ea099876d7d",
+    "mtime": 1795008168.25,
+    "seen": 1795009288.6595619,
+    "ast_hash": "fbd0df90656817c5624d45871270fd5e",
     "semantic_hash": ""
   },
   "src/concepts.js": {
@@ -114,15 +114,15 @@
     "semantic_hash": ""
   },
   "src/main.js": {
-    "mtime": 1795003346.18,
-    "seen": 1795003870.461189,
-    "ast_hash": "1fb9fca49547fa6fea378d659fa61854",
+    "mtime": 1795008184.7,
+    "seen": 1795009288.659568,
+    "ast_hash": "8517b2f614a8ff878449052c8003ae26",
     "semantic_hash": ""
   },
   "src/map.js": {
-    "mtime": 1795003353.09,
-    "seen": 1795003870.461195,
-    "ast_hash": "2165cb343781c1141983bdda34a6224e",
+    "mtime": 1795008168.24,
+    "seen": 1795009288.659575,
+    "ast_hash": "3d5a84de7196b11386d4150c2a7e9da4",
     "semantic_hash": ""
   },
   "src/model.js": {
@@ -180,15 +180,15 @@
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1794923299.21,
-    "seen": 1794923683.3313842,
-    "ast_hash": "1cd9d76ac8b02f2d941f422fb4a18d53",
+    "mtime": 1795008517.49,
+    "seen": 1795009288.6595929,
+    "ast_hash": "c356ff5c5068518dab9bfc6b148f2f7a",
     "semantic_hash": ""
   },
   "assets/CREDITS.md": {
-    "mtime": 1794926114.62,
-    "seen": 1794945141.534451,
-    "ast_hash": "881626e6a8b5956bb3268fc5da536930",
+    "mtime": 1795008213.04,
+    "seen": 1795009288.659594,
+    "ast_hash": "d6c316ab3a24b80eea00cc7337710384",
     "semantic_hash": ""
   },
   "docs/PRD.md": {
@@ -228,15 +228,15 @@
     "semantic_hash": ""
   },
   "index.html": {
-    "mtime": 1794676407.27,
-    "seen": 1794677291.1672971,
-    "ast_hash": "e0dd0ae78c25b0a1622ee92c4add8418",
+    "mtime": 1795008168.25,
+    "seen": 1795009288.65962,
+    "ast_hash": "99ff7acfc1210f3c90eb0ab7324ab727",
     "semantic_hash": ""
   },
   "public/assets/CREDITS.md": {
-    "mtime": 1795003570.18,
-    "seen": 1795003870.461239,
-    "ast_hash": "9fd261cc3cc8b7f3b788e16378752994",
+    "mtime": 1795008213.04,
+    "seen": 1795009288.65962,
+    "ast_hash": "fa103d40b616279bc0b324be85f6d4c8",
     "semantic_hash": ""
   },
   "public/assets/audio/Kenney-CC0.txt": {
@@ -2706,15 +2706,15 @@
     "semantic_hash": ""
   },
   "thumbnails/thumbnail-16x8.png": {
-    "mtime": 1794994598.44,
-    "seen": 1795003870.461339,
-    "ast_hash": "9164dd7888f415d689179affc953c136",
+    "mtime": 1795004155.47,
+    "seen": 1795009288.659721,
+    "ast_hash": "6144ed55ae5e74347d8b08dbc05ccd4d",
     "semantic_hash": ""
   },
   "thumbnails/thumbnail-1x1.png": {
-    "mtime": 1794994598.43,
-    "seen": 1795003870.461339,
-    "ast_hash": "96671e593bad4dff5a99d079222ba0d7",
+    "mtime": 1795004155.46,
+    "seen": 1795009288.659722,
+    "ast_hash": "00fb6cc52fc5758664c4e302f05e1327",
     "semantic_hash": ""
   },
   "public/assets/audio/voices/el-bridge-climate.mp3": {
@@ -3291,6 +3291,114 @@
     "mtime": 1795003798.95,
     "seen": 1795003870.461389,
     "ast_hash": "124c95126c99d929a8770ed7ac17881f",
+    "semantic_hash": ""
+  },
+  "src/map-reward-cards.js": {
+    "mtime": 1795008148.09,
+    "seen": 1795009288.659573,
+    "ast_hash": "d22f53fc23cb3fa5334b6786097f0446",
+    "semantic_hash": ""
+  },
+  "src/reward-cards.js": {
+    "mtime": 1795008925.57,
+    "seen": 1795009288.6595788,
+    "ast_hash": "a7435934c096e116e10a55e7de37db64",
+    "semantic_hash": ""
+  },
+  "tests/map-reward-cards.test.mjs": {
+    "mtime": 1795008184.7,
+    "seen": 1795009288.659589,
+    "ast_hash": "2f6c51ba986d7058667784b6ef17b939",
+    "semantic_hash": ""
+  },
+  "public/assets/reward-cards/card-1-flow.webp": {
+    "mtime": 1795009147.52,
+    "seen": 1795009288.6596868,
+    "ast_hash": "314224a2805876dca61ab6b5b72809b5",
+    "semantic_hash": ""
+  },
+  "public/assets/reward-cards/card-2-weight.webp": {
+    "mtime": 1795009147.65,
+    "seen": 1795009288.6596868,
+    "ast_hash": "3862293233a683cfcd424e1f59a67c46",
+    "semantic_hash": ""
+  },
+  "public/assets/reward-cards/card-3-climate.webp": {
+    "mtime": 1795009147.78,
+    "seen": 1795009288.659688,
+    "ast_hash": "92cacf26d99d7b02ceecce82767627a6",
+    "semantic_hash": ""
+  },
+  "public/assets/reward-cards/card-4-delivery.webp": {
+    "mtime": 1795009147.92,
+    "seen": 1795009288.659688,
+    "ast_hash": "339783f3599bc51a4f9ea04ce6108963",
+    "semantic_hash": ""
+  },
+  "public/assets/reward-cards/card-5-engineering.webp": {
+    "mtime": 1795009148.05,
+    "seen": 1795009288.659689,
+    "ast_hash": "d3178137c4947c9b3fb663ccb2e19e17",
+    "semantic_hash": ""
+  },
+  "public/assets/reward-cards/thumb-1-flow.webp": {
+    "mtime": 1795009147.57,
+    "seen": 1795009288.659689,
+    "ast_hash": "dda8039be87fcf524facb8fa6af80047",
+    "semantic_hash": ""
+  },
+  "public/assets/reward-cards/thumb-2-weight.webp": {
+    "mtime": 1795009147.69,
+    "seen": 1795009288.65969,
+    "ast_hash": "36d8134dc316370f07476e0af7c992f9",
+    "semantic_hash": ""
+  },
+  "public/assets/reward-cards/thumb-3-climate.webp": {
+    "mtime": 1795009147.82,
+    "seen": 1795009288.65969,
+    "ast_hash": "730b8dfaf18f2f825182cd8b47c4e968",
+    "semantic_hash": ""
+  },
+  "public/assets/reward-cards/thumb-4-delivery.webp": {
+    "mtime": 1795009147.96,
+    "seen": 1795009288.659691,
+    "ast_hash": "b150c012fd8f14a93add685d89367760",
+    "semantic_hash": ""
+  },
+  "public/assets/reward-cards/thumb-5-engineering.webp": {
+    "mtime": 1795009148.09,
+    "seen": 1795009288.659691,
+    "ast_hash": "322174596be4ce7e334029539418f11b",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/sfx/card-complete.mp3": {
+    "mtime": 1795008126.73,
+    "seen": 1795009288.659727,
+    "ast_hash": "c88de62ca1dd06a9042aca449afcfb38",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/sfx/card-epic.mp3": {
+    "mtime": 1795008126.71,
+    "seen": 1795009288.659727,
+    "ast_hash": "e8f6955ab9b49df8d47fcf9d966d2db6",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/sfx/card-reveal.mp3": {
+    "mtime": 1795008126.7,
+    "seen": 1795009288.6597278,
+    "ast_hash": "06bb355d648a48707909d36a1a3056d7",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/sfx/card-slot.mp3": {
+    "mtime": 1795008126.72,
+    "seen": 1795009288.6597278,
+    "ast_hash": "5ee150ab22c660ac7ccc32aef0923984",
+    "semantic_hash": ""
+  },
+  "public/assets/audio/sfx/card-whoosh.mp3": {
+    "mtime": 1795008126.69,
+    "seen": 1795009288.659729,
+    "ast_hash": "55bc6901473bfaa9afac185210413983",
     "semantic_hash": ""
   }
 }
