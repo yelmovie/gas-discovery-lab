@@ -1216,7 +1216,8 @@
    "file": "public/assets/audio/voices/el-concept-engineering-1.mp3",
    "priority": 3,
    "target": "new line: concept video cue",
-   "review": "ASR heard 노즈를: 노즐을 is pronounced [노즈를]; accepted. One extra take (generation FZB0uKNNEpuzMJ8R1mTF, 22 chars) heard the same and was not used."
+   "review": "ASR heard 노즈를: 노즐을 is pronounced [노즈를]; accepted. One extra take (generation FZB0uKNNEpuzMJ8R1mTF, 22 chars) heard the same and was not used.",
+   "userListening": "사용자 청취 확인(2026-11-18)"
   },
   {
    "key": "concept-engineering-2",
@@ -1343,7 +1344,8 @@
    "file": "public/assets/audio/voices/el-map-locked-weight.mp3",
    "priority": 4,
    "target": "new line: map locked",
-   "review": "ASR wrote homophones 맞춰/소리 for 마쳐/솔이 (same pronunciation); accepted."
+   "review": "ASR wrote homophones 맞춰/소리 for 마쳐/솔이 (same pronunciation); accepted.",
+   "userListening": "사용자 청취 확인(2026-11-18) (같은 문장 5개 대표)"
   },
   {
    "key": "map-locked-climate",
@@ -1365,7 +1367,8 @@
    "file": "public/assets/audio/voices/el-map-locked-climate.mp3",
    "priority": 4,
    "target": "new line: map locked",
-   "review": "ASR wrote homophones 맞춰/소리 for 마쳐/솔이 (same pronunciation); accepted."
+   "review": "ASR wrote homophones 맞춰/소리 for 마쳐/솔이 (same pronunciation); accepted.",
+   "userListening": "사용자 청취 확인(2026-11-18), 같은 문장 5개 중 map-locked-weight로 대표 청취"
   },
   {
    "key": "map-locked-delivery",
@@ -1387,7 +1390,8 @@
    "file": "public/assets/audio/voices/el-map-locked-delivery.mp3",
    "priority": 4,
    "target": "new line: map locked",
-   "review": "ASR wrote homophones 맞춰/소리 for 마쳐/솔이 (same pronunciation); accepted."
+   "review": "ASR wrote homophones 맞춰/소리 for 마쳐/솔이 (same pronunciation); accepted.",
+   "userListening": "사용자 청취 확인(2026-11-18), 같은 문장 5개 중 map-locked-weight로 대표 청취"
   },
   {
    "key": "map-locked-engineering",
@@ -1409,7 +1413,8 @@
    "file": "public/assets/audio/voices/el-map-locked-engineering.mp3",
    "priority": 4,
    "target": "new line: map locked",
-   "review": "ASR wrote homophones 맞춰/소리 for 마쳐/솔이 (same pronunciation); accepted."
+   "review": "ASR wrote homophones 맞춰/소리 for 마쳐/솔이 (same pronunciation); accepted.",
+   "userListening": "사용자 청취 확인(2026-11-18), 같은 문장 5개 중 map-locked-weight로 대표 청취"
   },
   {
    "key": "map-locked-core",
@@ -1431,7 +1436,8 @@
    "file": "public/assets/audio/voices/el-map-locked-core.mp3",
    "priority": 4,
    "target": "new line: map locked",
-   "review": "ASR wrote homophones 맞춰/소리 for 마쳐/솔이 (same pronunciation); accepted."
+   "review": "ASR wrote homophones 맞춰/소리 for 마쳐/솔이 (same pronunciation); accepted.",
+   "userListening": "사용자 청취 확인(2026-11-18), 같은 문장 5개 중 map-locked-weight로 대표 청취"
   },
   {
    "key": "map-no-path",
@@ -1600,7 +1606,8 @@
    "file": "public/assets/audio/voices/el-villain-1-3.mp3",
    "priority": 4,
    "target": "new line: map villain bubble",
-   "review": "ASR dropped the interjection 푸슉; a 0.45 s sound before the pause carries it; accepted."
+   "review": "ASR dropped the interjection 푸슉; a 0.45 s sound before the pause carries it; accepted.",
+   "userListening": "사용자 청취 확인(2026-11-18)"
   },
   {
    "key": "villain-1-4",
