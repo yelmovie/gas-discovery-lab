@@ -5,6 +5,7 @@ import { buildingReveal, paintRestoredBuildings } from './building-restoration.j
 import { drawMapSprite } from './map-sprite.js';
 import {bindDirectionPad,MAP_VECTORS} from './map-controls.js';
 import { narration, voiceForText } from './game-voices.js';
+import { voiceLines } from './voice-lines.js';
 import {mountRepair} from './map-repair.js';
 import {STAGES} from './data.js';
 import {isStageOpen,completeStage} from './model.js';
@@ -39,7 +40,7 @@ export function mountMap(host,ctx,[geometry,background,student,soli,atlas]){
   return [{...encounterStage(i,s.id,s.name,p),patrolRadius:18}];
  });
  const restoredIds=ctx.takeRestorations?.()??[];
- const encounters=mountMapEncounters({requiredFoes:5,host,clearStage:()=>restoredIds.filter(id=>id!=='core').at(-1),stages:encounterStages,progress:ctx.save.mapHits,onSave:patch=>{ctx.save.mapHits={...ctx.save.mapHits,...patch};ctx.persist();},blocked,reduced:()=>reduced,tone:encounterTone,reach:95,contact:24,canPatrol:p=>canStand(map,p),...encounterLook});
+ const encounters=mountMapEncounters({requiredFoes:5,host,clearStage:()=>restoredIds.filter(id=>id!=='core').at(-1),stages:encounterStages,progress:ctx.save.mapHits,onSave:patch=>{ctx.save.mapHits={...ctx.save.mapHits,...patch};ctx.persist();},blocked,reduced:()=>reduced,tone:encounterTone,voice:text=>{const line=voiceLines.find(l=>l.text===text);if(line)narration.play(line.id);},reach:95,contact:24,canPatrol:p=>canStand(map,p),...encounterLook});
  if(encounterStages.length)preloadCues();
  const heroPose=encounterStages.length?loadEncounterActor('hero'):null,allyPose=encounterStages.length?loadEncounterActor('ally'):null;
  const reveal=buildingReveal(reduced,restoredIds);

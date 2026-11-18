@@ -56,3 +56,7 @@ Kenney, **Interface Sounds 1.0** — https://kenney.nl/assets/interface-sounds
 「높은 산의 과자 봉지」의 3D 산길 그림(`run-stage/`)은 ChatGPT의 GPT 이미지 모델(Codex 경유)로 한 장씩 생성했다. 부푼 과자 봉지는 기존 `prop-packet.webp`를, 원경·관측소·기구 보관함·등불 기둥은 타이틀 그림을 화풍 참고로 썼고, 모두 글자·로고 없이 만들었다. 원본은 외장 SSD의 `asset-bank/original/generated-20261117/run-*.png`에 보관했고 `scripts/prepare-run-stage.mjs`로 여백 정리·크기 축소·WebP 변환을 했다. 프롬프트와 파일 대응은 `docs/RUN-STAGE-3D-PLAN-20261117.md`에 있다. 학생·루미·방해꾼은 기존 그림을 다시 썼다.
 
 3D 표시는 three.js r170(MIT License, Copyright 2010-2024 Three.js Authors)을 수정 없이 `vendor/three/three.module.min.js`로 함께 제공한다. 라이선스 전문은 `vendor/three/THREE-LICENSE.txt`.
+
+## 2026-11-18 캐릭터 목소리 통일·팝업 음성
+
+에어·루미·포포·솔이·바람 훼방꾼의 대사, 인트로·인증서, 시설 소개, 개념 영상 자막, 지도 안내·힌트·악당 말풍선 음성(`audio/voices/el-*.mp3`, 96줄)은 ElevenLabs(유료 Creator 요금제, 상업 이용 가능) `eleven_v4`로 만들었다. 캐릭터마다 한 목소리만 쓴다(에어 Klamon, 루미 Sora, 포포 Hun, 솔이 oki, 바람 훼방꾼 Harry). 실제 사람의 목소리를 복제하지 않았다. 줄마다 목소리·생성 ID·받아쓰기·SHA-256은 저장소 `docs/VOICE-FILL-20261118.json`에 있다.

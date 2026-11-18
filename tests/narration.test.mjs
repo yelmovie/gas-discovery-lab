@@ -38,6 +38,12 @@ test('자동재생 차단은 오류 상태로 돌아오고 글의 진행을 막�
  const f=fixture(Promise.reject(new Error('NotAllowedError')));assert.equal(await f.player.play('welcome'),false);assert.equal(f.player.state.status,'error');assert.equal(f.duck.at(-1),false);f.player.dispose();
 });
 test('33개 파일의 출처·SHA와 화면 대사 카탈로그가 일치한다',()=>{
- const manifest=JSON.parse(readFileSync(new URL('../docs/VOICE-PROVENANCE-20261110.json',import.meta.url),'utf8'));assert.equal(manifest.lines.length,33);assert.equal(voiceLines.length,33);
+ const manifest=JSON.parse(readFileSync(new URL('../docs/VOICE-PROVENANCE-20261110.json',import.meta.url),'utf8'));assert.equal(manifest.lines.length,33);
  for(const line of manifest.lines){const data=readFileSync(new URL('../'+line.target,import.meta.url));assert.equal(createHash('sha256').update(data).digest('hex'),line.sha256,line.id);assert.equal(voiceLines.find(x=>x.id===line.id).text,line.text);}
+});
+test('2026-11-18 ElevenLabs 채움 음원은 출처·SHA·화면 글자가 일치하고 모든 대사 파일이 있다',()=>{
+ const fill=JSON.parse(readFileSync(new URL('../docs/VOICE-FILL-20261118.json',import.meta.url),'utf8'));
+ for(const line of fill.lines){const v=voiceLines.find(x=>x.id===line.key);assert.ok(v,line.key);assert.equal(v.text,line.text,line.key);assert.equal(v.src,'/'+line.file.replace(/^public\//,''),line.key);const data=readFileSync(new URL('../'+line.file,import.meta.url));assert.equal(createHash('sha256').update(data).digest('hex'),line.sha256,line.key);}
+ for(const v of voiceLines)readFileSync(new URL('../public'+v.src,import.meta.url));
+ assert.equal(new Set(voiceLines.map(v=>v.text)).size,voiceLines.length);
 });

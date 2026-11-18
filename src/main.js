@@ -36,8 +36,9 @@ function navigate(route,{replace=false,fromHistory=false}={}){
   panel.querySelector('p').textContent=voiceLines.find(l=>l.id==='welcome').text;
   screen.querySelector('.title-copy').append(panel); welcomeCleanup=attachVoice(panel,'welcome',abort.signal,false);
  } else if(current.screen==='story')attachVoice(screen.querySelector('.story-card'),`story-${(current.index||0)+1}`,abort.signal);
- else if(current.screen==='stage')attachVoice(screen.querySelector('.stage-brief > p'),`stage-${current.stageId}`,abort.signal);
+ else if(current.screen==='stage')attachVoice(screen.querySelector('.stage-brief > p'),`brief-${current.stageId}`,abort.signal);
  else if(current.screen==='ending')attachVoice(screen.querySelector('.ending-copy'),`ending-${(current.index||0)+1}`,abort.signal);
+ else if(current.screen==='certificate')attachVoice(screen.querySelector('.certificate-options'),'certificate',abort.signal);
  if(store.save.settings.adminUnlockAll&&TEACHER_SCREENS.includes(current.screen)&&current.screen!=='activity'){
   screen.classList.add('teacher-mode');
   app.append(teacherDock());
@@ -212,7 +213,7 @@ function showActivity(host,stage,index,{mount,mountPlayer}){
    host.querySelector('.playback-controls').replaceWith(actions);
    host.classList.add('activity-complete');host.querySelectorAll('.activity-feedback').forEach(el=>el.hidden=true);
    host.querySelector('.mission-step').textContent='완료';host.querySelector('.mission-direction').textContent=nextIndex>=0?stage.tasks[nextIndex].title:stage.bridge;
-   if(nextIndex<0)attachVoice(actions,`reward-${stage.id}`,abort.signal);
+   if(nextIndex<0)attachVoice(actions,`bridge-${stage.id}`,abort.signal);
    hints=[summary,finished?stage.reward:'발견한 증거가 연구 가방에 남았어요. 다음 의뢰에서도 활용해 봐요.'];
    host.querySelectorAll('.mission-progress i')[index]?.classList.add('done');result.tabIndex=-1;result.focus({preventScroll:true});announce(`발견 성공! ${summary}`);
     actions.firstElementChild?.classList.add('is-next-action','success-next');
@@ -223,7 +224,7 @@ function showActivity(host,stage,index,{mount,mountPlayer}){
  const feedbackObserver=new MutationObserver(records=>{if(completing||player.state==='running')return;const changed=records.filter(r=>r.target.nodeType===1&&(r.target.matches?.('.activity-feedback')||r.target.closest?.('.activity-feedback')));if(changed.length){const text=host.querySelector('.activity-feedback:not(:empty)')?.textContent.trim();if(text)direction.textContent=text;}});
  feedbackObserver.observe(host.querySelector('.activity-host'),{childList:true,subtree:true,characterData:true});
  context.signal.addEventListener('abort',()=>feedbackObserver.disconnect(),{once:true});
- const hint=buddy('soli',()=>hints);hint.querySelector('.buddy-label').textContent='힌트';host.querySelector('.utility-tools').append(hint);
+ const hint=buddy('soli',()=>hints,(el,text)=>voiceForText(el,text,abort.signal));hint.querySelector('.buddy-label').textContent='힌트';host.querySelector('.utility-tools').append(hint);
 }
 function showResearch(){const body=html(`<div class="research-book">${STAGES.map(stage=>`<section><h3>${stage.name}</h3><p class="microcopy">${stage.evidence} · ${store.save.evidence[stage.id].length} / 4</p>${store.save.evidence[stage.id].length?store.save.evidence[stage.id].map(e=>`<details><summary>${stage.tasks.find(t=>t.id===e.taskId).title}</summary><p>${emphasizeConcept(e.summary,stage.keyTerms)}</p>${e.firstObservation&&e.firstObservation.date!==e.date?`<p class="microcopy">첫 탐구: ${escapeHTML(e.firstObservation.summary)}</p>`:''}${e.details.before?`<p>처음 ${Number(e.details.before.mass).toFixed(2)} g → 바꾼 뒤 ${Number(e.details.after.mass).toFixed(2)} g</p>`:''}</details>`).join(''):'<p>탐구를 마치면 내 기록이 여기에 남아요.</p>'}</section>`).join('')}</div>`);const footer=html('<div></div>');const dialog=openDialog('나의 연구 가방',body,{wide:true,footer});footer.append(button('기록 내려받기',async()=>{try{(await loadSettings()).exportResearch();}catch{announce('연구 기록을 내려받지 못했어요. 다시 눌러 주세요.');}},'button secondary'),button('닫기',()=>dialog.close()));}
 function showFinale(host){loadConceptVisuals().catch(()=>{});const demo=store.demo===true;host.innerHTML=`<img class="scene-background" src="/assets/ending.webp" alt=""><div class="scene-shade"></div><div class="finale-layout"><div class="core-visual"><img class="core-apparatus" src="/assets/visuals/air-core.webp" alt="여러 시설로 공기를 나누어 보내는 중앙 공기 코어"></div><section class="lab-panel finale-panel"><div class="eyebrow">마지막 의뢰 ${demo?'· 시연':''}</div><h1 tabindex="-1">공기 코어를<br>다시 움직여요</h1><div class="finale-body"></div></section></div>`;
