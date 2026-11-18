@@ -29,6 +29,10 @@ const cueFiles={attack:'attack-swing.mp3',hit:'hit-light.mp3',finish:'hit-heavy.
 // Files sit near -18 to -25 LUFS; these levels keep hits just above the theme music and the appear pop quiet.
 const cueLevel={attack:.45,hit:.6,finish:.75,exit:.4,appear:.3,contact:.5};
 const cueFallback={attack:'tap',hit:'tap',finish:'success',contact:'retry'};
+// Achievement card cues (map-reward-cards.js, same CC0 library): fly in and out, reveal (the two rarest cards use the longer jingle),
+// land in the slot, full set. The full-set jingle stops when the finale theme starts (setFinaleOverlay).
+Object.assign(cueFiles,{'card-whoosh':'card-whoosh.mp3','card-reveal':'card-reveal.mp3','card-epic':'card-epic.mp3','card-slot':'card-slot.mp3','card-complete':'card-complete.mp3'});
+Object.assign(cueLevel,{'card-whoosh':.4,'card-reveal':.55,'card-epic':.55,'card-slot':.5,'card-complete':.55});
 const buffers=new Map();
 const cueAllowed=()=>Boolean(ctx)&&config.sfx!==false&&!quiet&&!document.hidden;
 function cueBuffer(kind){if(!buffers.has(kind))buffers.set(kind,fetch(`/assets/audio/sfx/${cueFiles[kind]}`).then(r=>{if(!r.ok)throw Error(kind);return r.arrayBuffer();}).then(b=>ctx.decodeAudioData(b)).catch(()=>{buffers.delete(kind);return null;}));return buffers.get(kind);}

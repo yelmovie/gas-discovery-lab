@@ -13,8 +13,11 @@ import {canStand,findPath,movePoint,distance,validateMap} from './navigation.js'
 import {html,button,announce,SOLI_IMAGE} from './ui.js';
 import {icon} from './icons.js';
 import {sound,cue,preloadCues} from './audio.js';
+import {awardRewardCards,rewardCardDue,bindRewardSound} from './map-reward-cards.js';
 // Swing on the press; the hit lands on the flinch peak (~90 ms); the third hit lets the air out as the villain shrinks away.
 const encounterTone=(kind,hits)=>kind==='hit'?cue('hit',{delay:.09,rate:hits===2?.9:1}):kind==='finish'?(cue('finish',{delay:.09}),cue('exit',{delay:.3})):cue(kind);
+// Achievement card cues (map-reward-cards.js) go through the same cue player.
+bindRewardSound(cue);
 export function mountMap(host,ctx,[geometry,background,student,soli,atlas]){
  if(ctx.signal.aborted)return;
  const map=validateMap(geometry);
@@ -26,7 +29,8 @@ export function mountMap(host,ctx,[geometry,background,student,soli,atlas]){
  let follower={x:position.x-34,y:position.y+17},trail=[{...position}],path=[],goal=null,dir=0,walking=false,time=0,lastTime=0,frame=0,width=0,height=0,scale=1,cam={x:0,y:0},entered=false;
  const held=new Set(),reduced=ctx.save.settings.reduceMotion||matchMedia('(prefers-reduced-motion: reduce)').matches;
  const camera=createMapCamera({width:map.width,height:map.height,baseZoom:w=>w<1000?1.5:1.62,focusY:.57,reduced:()=>ctx.save.settings.reduceMotion||matchMedia('(prefers-reduced-motion: reduce)').matches});
- const blocked=()=>entered||document.hidden||!!document.querySelector('dialog[open]')||!!host.querySelector('.map-repair[open]');
+ // An open achievement card or card album makes #app inert: keys, the direction pad and the camera wait like under a dialog.
+ const blocked=()=>entered||document.hidden||!!document.querySelector('dialog[open]')||!!host.querySelector('.map-repair[open]')||!!host.closest('[inert]');
  // 시설마다 다른 주민이 문 옆에 서 있다(악당은 문 바깥 마당, 주민은 문 옆 반대쪽).
  const residents=new Map(map.buildings.filter(b=>STAGES.some(s=>s.id===b.id)).map(b=>{const image=new Image();image.src=`/assets/map-residents/${b.id}.webp`;const [x,y]=b.return,[ex,ey]=map.nodes[b.entry],d=Math.hypot(x-ex,y-ey)||1,dx=(x-ex)/d,dy=(y-ey)/d;const options=[{x:ex-dy*40+dx*4,y:ey+dx*40+dy*4},{x:ex+dy*40+dx*4,y:ey-dx*40+dy*4}];return [b.id,{image,point:options.find(p=>canStand(map,p))??options[0]}];}));
  const encounterStages=ctx.save.settings.adminUnlockAll?[]:STAGES.flatMap((s,i)=>{
@@ -40,7 +44,12 @@ export function mountMap(host,ctx,[geometry,background,student,soli,atlas]){
   return [{...encounterStage(i,s.id,s.name,p),patrolRadius:18}];
  });
  const restoredIds=ctx.takeRestorations?.()??[];
- const encounters=mountMapEncounters({requiredFoes:5,host,clearStage:()=>restoredIds.filter(id=>id!=='core').at(-1),stages:encounterStages,progress:ctx.save.mapHits,onSave:patch=>{ctx.save.mapHits={...ctx.save.mapHits,...patch};ctx.persist();},blocked,reduced:()=>reduced,tone:encounterTone,voice:text=>{const line=voiceLines.find(l=>l.text===text);if(line)narration.play(line.id);},reach:95,contact:24,canPatrol:p=>canStand(map,p),...encounterLook});
+ const encounters=mountMapEncounters({requiredFoes:5,host,clearStage:()=>restoredIds.filter(id=>id!=='core').at(-1),stages:encounterStages,progress:ctx.save.mapHits,
+  // A villain's third hit wins its achievement card: it opens once the exit has played, or after a dialog that opened meanwhile.
+  // The card is marked before the save is announced, so the header keeps its slot empty until the card lands.
+  onSave:patch=>{const before=ctx.save.mapHits;ctx.save.mapHits={...before,...patch};awardRewardCards(before,ctx.save.mapHits,{delay:reduced?520:760,hits:()=>ctx.save.mapHits,state:()=>ctx.signal.aborted?'gone':document.querySelector('dialog[open]')?'wait':'open'});ctx.persist();},
+  // A card that is due holds the villains, so the all-villains finale always follows the card.
+  blocked:()=>blocked()||rewardCardDue(),reduced:()=>reduced,tone:encounterTone,voice:text=>{const line=voiceLines.find(l=>l.text===text);if(line)narration.play(line.id);},reach:95,contact:24,canPatrol:p=>canStand(map,p),...encounterLook});
  if(encounterStages.length)preloadCues();
  const heroPose=encounterStages.length?loadEncounterActor('hero'):null,allyPose=encounterStages.length?loadEncounterActor('ally'):null;
  const reveal=buildingReveal(reduced,restoredIds);
@@ -129,7 +138,7 @@ export function mountMap(host,ctx,[geometry,background,student,soli,atlas]){
  }
  let lastLabelView='';
  function draw(now){if(ctx.signal.aborted)return;const dt=lastTime?Math.min((now-lastTime)/1000,.04):0;lastTime=now;time+=dt;
-  const paused=Boolean(document.querySelector('dialog[open]')||host.querySelector('.map-repair[open]'))||document.hidden;
+  const paused=Boolean(document.querySelector('dialog[open]')||host.querySelector('.map-repair[open]')||host.closest('[inert]'))||document.hidden;
   if(paused){held.clear();cancelRoute();walking=false;}else{
    const before={...position};let dx=0,dy=0;for(const code of held){if(['ArrowUp','KeyW','up'].includes(code))dy--;if(['ArrowDown','KeyS','down'].includes(code))dy++;if(['ArrowLeft','KeyA','left'].includes(code))dx--;if(['ArrowRight','KeyD','right'].includes(code))dx++;}
    if(dx||dy){const length=Math.hypot(dx,dy);position=movePoint(map,position,dx/length*185*dt,dy/length*185*dt);}

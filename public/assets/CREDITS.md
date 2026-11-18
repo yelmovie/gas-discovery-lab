@@ -60,3 +60,21 @@ Kenney, **Interface Sounds 1.0** — https://kenney.nl/assets/interface-sounds
 ## 2026-11-18 캐릭터 목소리 통일·팝업 음성
 
 에어·루미·포포·솔이·바람 훼방꾼의 대사, 인트로·인증서, 시설 소개, 개념 영상 자막, 지도 안내·힌트·악당 말풍선 음성(`audio/voices/el-*.mp3`, 96줄)은 ElevenLabs(유료 Creator 요금제, 상업 이용 가능) `eleven_v4`로 만들었다. 캐릭터마다 한 목소리만 쓴다(에어 Klamon, 루미 Sora, 포포 Hun, 솔이 oki, 바람 훼방꾼 Harry). 실제 사람의 목소리를 복제하지 않았다. 줄마다 목소리·생성 ID·받아쓰기·SHA-256은 저장소 `docs/VOICE-FILL-20261118.json`에 있다.
+
+## 2026-11-18 성취 카드
+
+지도 악당(바람 훼방꾼)을 세 번 맞혀 물리치면 받는 성취 카드 5장의 그림과 소리.
+
+- 그림 `public/assets/reward-cards/card-{1..5}-{flow,weight,climate,delivery,engineering}.webp`(640×960)와 `thumb-*.webp`(96×144): 2026-11-18 ChatGPT 앱의 Codex 내장 이미지 도구(GPT 이미지)로 이 프로젝트를 위해 생성했다. 지도 속 학생(`student-walk.webp`, `map-encounters/hero-redraw.png`)과 바람여우 솔이(`soli-character.webp`, `map-encounters/ally-redraw.png`), 각 시설 배경 그림을 화풍 참고로 붙였다. 글자 없이 생성했고 테두리·별·이름은 코드(`src/reward-cards.js`, `src/reward-cards.css`)로 올린다. 원본 PNG는 과학34 작업 폴더 `_scratch/reward-cards-20261118/gen/15/`에 있고 크기 맞춤과 WebP 변환만 했다. 학습용 장면 그림이며 과학 사실의 증거로 쓰지 않는다.
+- 소리: 과학34 공통 효과음 라이브러리(`_shared/sfx-library-20261117`)에서 이름만 바꿔 복사했다. 모두 CC0 1.0이며 원본 페이지에서 라이선스를 다시 확인한 파일이다(라이브러리 `manifest.json`의 `license_rechecked: true`). 가공은 라이브러리에서 한 앞뒤 무음 제거·짧은 페이드·음량 정규화·모노 MP3 변환뿐이다.
+
+| 파일 | 쓰는 곳 | 라이브러리 파일 | 원본 · 제작자 | 라이선스 | 출처 |
+|---|---|---|---|---|---|
+| `public/assets/audio/sfx/card-whoosh.mp3` | 카드가 날아올 때·보관함 칸으로 날아갈 때 | `sfx/wind-whoosh-03.mp3` | Slow Swosh 40 · qubodup | CC0 | https://freesound.org/people/qubodup/sounds/60027 |
+| `public/assets/audio/sfx/card-reveal.mp3` | 카드 공개(브론즈·실버·골드) | `sfx/reward-01.mp3` | Fantasy_ui_Button_3.wav · ZenithInfinitiveStudios | CC0 | https://freesound.org/people/ZenithInfinitiveStudios/sounds/376745 |
+| `public/assets/audio/sfx/card-epic.mp3` | 카드 공개(홀로·레전드, 긴 징글) | `sfx/reward-03.mp3` | Achievement Happy Beeps Jingle · CogFireStudios | CC0 | https://freesound.org/people/CogFireStudios/sounds/619838 |
+| `public/assets/audio/sfx/card-slot.mp3` | 카드가 보관함 칸에 들어갈 때 | `sfx/pickup-01.mp3` | item-pickup-v1.wav · DeltaCode | CC0 | https://freesound.org/people/DeltaCode/sounds/678384 |
+| `public/assets/audio/sfx/card-complete.mp3` | 다섯 장을 모두 모았을 때(지도 파이널 배경음이 시작되면 멈춤) | `sfx/victory-jingle-01.mp3` | Game Success Fanfare Short · el_boss | CC0 | https://freesound.org/people/el_boss/sounds/677858 |
+
+- 재생: `src/audio.js`의 `cue()`(지도 악당 효과음과 같은 경로). 효과음 스위치·전체 소리 끄기·탭 숨김을 따른다.
+- 공통 모듈 `src/reward-cards.js`·`src/reward-cards.css`는 과학34 공통 폴더(`_shared/reward-cards`)의 자체 제작 코드를 그대로 복사한 것이다.
