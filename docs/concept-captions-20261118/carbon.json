@@ -1,0 +1,35 @@
+{
+ "note": "개념 영상 carbon — 탄산음료 속 이산화 탄소. 문구·시점은 src/concept-clips.js 그대로. 셋째 큐는 영상 끝 뒤 0.5초까지 늘려 마지막 프레임에도 자막이 남게 함(앱은 끝난 뒤 마지막 프레임을 보여 줌). 셋째 상자는 영상 속 결론 말풍선(가로 397–1521, 세로 858–985, 1920x1080 기준)을 덮도록 min_w로 넓힘.",
+ "src": "../../../_scratch/caption-motion-20261118/concepts/15/src/carbon.mp4",
+ "out": "../../public/assets/concepts-v2/carbon.mp4",
+ "out_webm": "../../public/assets/concepts-v2/carbon.webm",
+ "theme": {
+  "box": "#0d2a22",
+  "accent": "#ffd35c",
+  "hot": "#ffd35c"
+ },
+ "bottom": 24,
+ "sweep": false,
+ "cues": [
+  {
+   "s": 0,
+   "e": 3.9,
+   "text": "[이산화 탄소]를 물에 녹여 탄산음료를 만들어요."
+  },
+  {
+   "s": 4,
+   "e": 7.9,
+   "text": "뚜껑을 열면 [녹아] 있던 [이산화 탄소]가 빠져나와요."
+  },
+  {
+   "s": 8,
+   "e": 12.5,
+   "text": "눈에 보이는 작은 [기포]가 되어\n위로 올라와요.",
+   "min_w": 1156,
+   "speech": [
+    8,
+    12
+   ]
+  }
+ ]
+}

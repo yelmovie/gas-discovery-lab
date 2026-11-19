@@ -1,0 +1,35 @@
+{
+ "note": "개념 영상 nitrogen — 질소와 식품 포장. 문구·시점은 src/concept-clips.js 그대로. 셋째 큐는 영상 끝 뒤 0.5초까지 늘려 마지막 프레임에도 자막이 남게 함(앱은 끝난 뒤 마지막 프레임을 보여 줌). 셋째 상자는 영상 속 결론 말풍선(가로 360–1558, 세로 858–985, 1920x1080 기준)을 덮도록 min_w로 넓힘.",
+ "src": "../../../_scratch/caption-motion-20261118/concepts/15/src/nitrogen.mp4",
+ "out": "../../public/assets/concepts-v2/nitrogen.mp4",
+ "out_webm": "../../public/assets/concepts-v2/nitrogen.webm",
+ "theme": {
+  "box": "#0d2a22",
+  "accent": "#ffd35c",
+  "hot": "#ffd35c"
+ },
+ "bottom": 24,
+ "sweep": false,
+ "cues": [
+  {
+   "s": 0,
+   "e": 3.9,
+   "text": "과자 포장에 [질소]를 넣어요."
+  },
+  {
+   "s": 4,
+   "e": 7.9,
+   "text": "[질소]는 다른 물질과 쉽게 [반응]하지 않아요."
+  },
+  {
+   "s": 8,
+   "e": 12.5,
+   "text": "이 성질을 이용해 과자가\n쉽게 변하지 않도록 도와요.",
+   "min_w": 1230,
+   "speech": [
+    8,
+    12
+   ]
+  }
+ ]
+}

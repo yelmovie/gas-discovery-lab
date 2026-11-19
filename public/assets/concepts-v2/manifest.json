@@ -4,8 +4,8 @@
   "files": [
     {
       "file": "flow.mp4",
-      "bytes": 598574,
-      "sha256": "3a09e4f4ff5df4c8d9aca07ab3b2094d8ca84165792544c54e55d10f6ff9a75e",
+      "bytes": 687048,
+      "sha256": "2d51d4595cc8e94a70dcf4860b9987545fa5f18cf45decbfc04ad48bf716695c",
       "seconds": 12,
       "width": 1280,
       "height": 720,
@@ -13,8 +13,8 @@
     },
     {
       "file": "flow.webm",
-      "bytes": 671604,
-      "sha256": "b8f1fe59f2980084194103dbb515825e1384838ed35293415b9ded2799c729f0",
+      "bytes": 850717,
+      "sha256": "322e4ef35975e956b9846ce7a8137cdb15b2f1fb9475cec082410f0e4884087b",
       "seconds": 12,
       "width": 1280,
       "height": 720,
@@ -27,8 +27,8 @@
     },
     {
       "file": "weight.mp4",
-      "bytes": 353645,
-      "sha256": "ebb615b75780efae49d75a0034dc08eb79de3d1801c02d3bdac7c196d978c46c",
+      "bytes": 497041,
+      "sha256": "b9de2f95fee1a63b080a504cfc7139fe2d52d45ff3479206c0b91cf51e655ef8",
       "seconds": 12,
       "width": 1280,
       "height": 720,
@@ -36,8 +36,8 @@
     },
     {
       "file": "weight.webm",
-      "bytes": 285487,
-      "sha256": "c7401a02e56dd0293ffbf46f6003a2a609fdf472530a3aeff005665f07f0c1c7",
+      "bytes": 459329,
+      "sha256": "421eb3f02bf525ad87fcf2412b5b33812eb05fef906a48415154b9a9f0ed1d85",
       "seconds": 12,
       "width": 1280,
       "height": 720,
@@ -50,8 +50,8 @@
     },
     {
       "file": "temperature.mp4",
-      "bytes": 307557,
-      "sha256": "c5cad21347ce95112d67ce3e27ba8410e1dacbc61f70b965be642f6e13883e24",
+      "bytes": 444930,
+      "sha256": "bd63cf93e4e8ccf06437aa33ae65d0ee730e10c5328124121ce64f9691b174c8",
       "seconds": 12,
       "width": 1280,
       "height": 720,
@@ -59,8 +59,8 @@
     },
     {
       "file": "temperature.webm",
-      "bytes": 221363,
-      "sha256": "398898957d66d41a8612cb4979b60d94e83fd139c72a76b93d8ba0e89916f255",
+      "bytes": 362884,
+      "sha256": "37e97a2642d3acf637abf33d19d3416f8ce5a6cdadc1a4638842a677e311cec1",
       "seconds": 12,
       "width": 1280,
       "height": 720,
@@ -73,8 +73,8 @@
     },
     {
       "file": "pressure.mp4",
-      "bytes": 307217,
-      "sha256": "62c82301935d657829660be1349dae30b22d1fb890284118314bd24a49f07a77",
+      "bytes": 443732,
+      "sha256": "86db94c0001025a9187c77fddfc824de45acdf486ca922cf115a9b687079cb9a",
       "seconds": 12,
       "width": 1280,
       "height": 720,
@@ -82,8 +82,8 @@
     },
     {
       "file": "pressure.webm",
-      "bytes": 233210,
-      "sha256": "1ebefe18fce9d0dfb5be7e0a71614c73ccaaf94d07de28d876e7b4226e647cb1",
+      "bytes": 408005,
+      "sha256": "7cff88c286257557cb9272cc01c761c8c01d604995f3c5f635bb08a5e3a7ac23",
       "seconds": 12,
       "width": 1280,
       "height": 720,
@@ -96,8 +96,8 @@
     },
     {
       "file": "nitrogen.mp4",
-      "bytes": 353182,
-      "sha256": "773f1fc222695f71a0f3618b0099dd9f543a416d99c367e0d5384c254637dff1",
+      "bytes": 472501,
+      "sha256": "e8f3e8dc8b9c33b83f0fcf29d37c7d5310a6d1dc6ffe885957cdbebd55e57a68",
       "seconds": 12,
       "width": 1280,
       "height": 720,
@@ -105,8 +105,8 @@
     },
     {
       "file": "nitrogen.webm",
-      "bytes": 304450,
-      "sha256": "a515529e2ed6585fcd60b2cfd00305aa0fa0a7842f6b5ef2762491522cdaaf4d",
+      "bytes": 443792,
+      "sha256": "f35880e01f275815e2a0051be583a4c4c7b8742e25298be76a4f15b8657f8e21",
       "seconds": 12,
       "width": 1280,
       "height": 720,
@@ -119,8 +119,8 @@
     },
     {
       "file": "oxygen.mp4",
-      "bytes": 360032,
-      "sha256": "59b20da5a2931fbaec0c936f3c65c03219ded92ece01cd3e79a4b87b709cdcf4",
+      "bytes": 491590,
+      "sha256": "d8f2d5a4afd3b74531dac743b0aa37e99bc8aec60979b1ac0fe9ded113a2c5e0",
       "seconds": 12,
       "width": 1280,
       "height": 720,
@@ -128,8 +128,8 @@
     },
     {
       "file": "oxygen.webm",
-      "bytes": 302327,
-      "sha256": "759a7a9760ce2781f0954f1f08816aca9caf63e833937c2d59507bb6f7a08a84",
+      "bytes": 448698,
+      "sha256": "03bb278ddbc72d875e08a99e94d830e917ff9b5d83824e2ab02f9323725a3f99",
       "seconds": 12,
       "width": 1280,
       "height": 720,
@@ -142,8 +142,8 @@
     },
     {
       "file": "carbon.mp4",
-      "bytes": 361179,
-      "sha256": "06b4f88f21f0aa9628d1923b69dc794f65bd1f7375247189d1eba37bd4f8c79a",
+      "bytes": 503067,
+      "sha256": "f891eef34823d08e7aee19d81fe2a1da8f6515873a450d3abffe554af88940d0",
       "seconds": 12,
       "width": 1280,
       "height": 720,
@@ -151,8 +151,8 @@
     },
     {
       "file": "carbon.webm",
-      "bytes": 317603,
-      "sha256": "0d33bca204f3b5e66722a59b4f43182866cbb0d635182b6a4d770d6811851408",
+      "bytes": 467658,
+      "sha256": "ba0466940143d70a0fc5b00c39cdfd84e5a7d208af6230a5644511f95e3c674b",
       "seconds": 12,
       "width": 1280,
       "height": 720,
@@ -165,8 +165,8 @@
     },
     {
       "file": "extinguisher.mp4",
-      "bytes": 344513,
-      "sha256": "8242b65cca23de14dc466720e9c5227905630a41d712f27f556efb6688f9b1a0",
+      "bytes": 459593,
+      "sha256": "135f8adcb189f6746ee579427d2f4b4715dbaa321c4cf60e3fdbab0ea6916ca5",
       "seconds": 12,
       "width": 1280,
       "height": 720,
@@ -174,8 +174,8 @@
     },
     {
       "file": "extinguisher.webm",
-      "bytes": 291133,
-      "sha256": "107da1da99bcce35cf6deb7b2b9580dd932e15b708500e0bdef018dec31bc8e6",
+      "bytes": 453670,
+      "sha256": "c0aad444f047aa28ac0470e1e21e5b486dd22cd32d2cd0f3d35efb3a4fb1cff9",
       "seconds": 12,
       "width": 1280,
       "height": 720,
@@ -188,8 +188,8 @@
     },
     {
       "file": "engineering.mp4",
-      "bytes": 639702,
-      "sha256": "c3cad2acecacd6cb2ef7352fcebc51846e974e4cb98386f901d94ef2f4b657f2",
+      "bytes": 710977,
+      "sha256": "a91d10c5208dba98dbba9c008ad5ec4272fb758a41020aadaf05e3f021c50a4a",
       "seconds": 12,
       "width": 1280,
       "height": 720,
@@ -197,8 +197,8 @@
     },
     {
       "file": "engineering.webm",
-      "bytes": 745588,
-      "sha256": "9f81a2236b12276ef0c35f9a2c1785296bc7942e612164899643cdd710bdefd1",
+      "bytes": 956080,
+      "sha256": "789de2f0161b7cde64b4e895ee793f09f8f34b07a3933bfc3c5211183e7164bd",
       "seconds": 12,
       "width": 1280,
       "height": 720,
@@ -211,8 +211,8 @@
     },
     {
       "file": "car.mp4",
-      "bytes": 354619,
-      "sha256": "b45b1a3c6e31014a7fac9ee103a5f50a4eba154f89918920b1ae649ca9a7ce47",
+      "bytes": 470404,
+      "sha256": "32c37f072c0ed5405b3623e0addc0bf15dcf618e3e458dc4f25cd333841c47b5",
       "seconds": 12,
       "width": 1280,
       "height": 720,
@@ -220,8 +220,8 @@
     },
     {
       "file": "car.webm",
-      "bytes": 270740,
-      "sha256": "0ce86630e7e6b0e880a9e7c4e8a5d54df2e43a9ffd9cd13727a7273ab5f72c75",
+      "bytes": 416492,
+      "sha256": "a967189eedd8fb263bf47a47869b925679ef789a9d29d2d6c32b6c366d7e6f24",
       "seconds": 12,
       "width": 1280,
       "height": 720,
@@ -232,5 +232,6 @@
       "bytes": 41034,
       "sha256": "a5350a9fcb6c69efde023243e50f68a8a311039cf224f0dd857bea868d4f237b"
     }
-  ]
+  ],
+  "captions": "2026-11-18: mp4·webm에 대사 자막을 영상 안에 입힘(docs/concept-captions-20261118, _shared/caption-motion-20261118/burn.py). 자막 없는 원본은 _scratch/caption-motion-20261118/concepts/15/src/ 보관."
 }

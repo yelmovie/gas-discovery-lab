@@ -18,10 +18,12 @@ export function openConcept(stage,task,{nextLabel='활동으로 돌아가기',on
  const footer=html('<div class="concept-actions"></div>');let closed=false,failed=false,bufferTimer=0,last=-1,visiblePlaying=false;
  let releaseFocus=()=>{},mediaRequest=null,mediaUrl=null;
  // Each caption cue is read once by the stage character; the muted clip waits while a line is still speaking.
- const voiced=new Set(),lineId=i=>`concept-${clip.id}-${i+1}`;let release=()=>{};
+ const voiced=new Set(),lineId=i=>`concept-${clip.id}-${i+1}`;let release=()=>{},held=false;
+ // The clip pauses a little before its next scene while a line is still speaking, so the paused frame keeps the burned-in caption of that line.
+ const HOLD_LEAD=.6;
  function speak(i){if(closed||failed||i<0||voiced.has(i))return;voiced.add(i);narration.play(lineId(i));}
- function unhold(){release();release=()=>{};}
- function hold(){if(closed)return;unhold();video.pause();let off=()=>{};off=narration.subscribe(s=>{if(s.id===lineId(last)&&s.status==='playing')return;queueMicrotask(()=>{off();release=()=>{};if(!closed&&!failed)start();});});release=()=>off();}
+ function unhold(){release();release=()=>{};held=false;chrome();}
+ function hold(){if(closed)return;unhold();held=true;video.pause();chrome();let off=()=>{};off=narration.subscribe(s=>{if(s.id===lineId(last)&&s.status==='playing')return;queueMicrotask(()=>{off();release=()=>{};held=false;if(!closed&&!failed)start();});});release=()=>off();}
  function userPause(){unhold();narration.stop();voiced.delete(last);}
  function releaseMedia(){
   mediaRequest?.abort();mediaRequest=null;
@@ -32,15 +34,17 @@ export function openConcept(stage,task,{nextLabel='활동으로 돌아가기',on
  const replay=button('다시 보기',()=>{unhold();narration.stop();voiced.clear();if(failed){failed=false;fallback.hidden=true;load();}else{video.currentTime=0;cue(0);start();}},'button secondary');
  const next=button(`${nextLabel} ${icon('arrow')}`,()=>{dialog.close();onNext();});footer.append(replay,next);
  function cue(index){if(index===last)return;last=index;caption.textContent=clip.cues[index];body.querySelectorAll('.concept-dots i').forEach((d,i)=>d.classList.toggle('on',i===index));}
- function update(){const target=Math.min(2,Math.floor(video.currentTime/CUE_SECONDS));if(target>last&&!video.paused&&narration.state.id===lineId(last)&&narration.state.status==='playing'){hold();return;}cue(target);if(!video.paused)speak(target);}
- function fail(){if(closed||failed)return;failed=true;mediaRequest?.abort();releaseFocus();clearTimeout(bufferTimer);video.pause();end.hidden=false;play.hidden=true;fallback.hidden=false;fallback.innerHTML=`<p>영상 대신 핵심 장면을 살펴봐요.</p><ol>${clip.cues.map(c=>`<li>${emphasizeConcept(c,words)}</li>`).join('')}</ol>`;cue(2);quietAudio(false);}
+ function update(){const target=Math.min(2,Math.floor(video.currentTime/CUE_SECONDS)),ahead=Math.min(2,Math.floor((video.currentTime+HOLD_LEAD)/CUE_SECONDS));if(ahead>last&&!video.paused&&narration.state.id===lineId(last)&&narration.state.status==='playing'){hold();return;}cue(target);if(!video.paused)speak(target);}
+ function fail(){if(closed||failed)return;failed=true;dialog.classList.remove('film-captions');held=false;mediaRequest?.abort();releaseFocus();clearTimeout(bufferTimer);video.pause();end.hidden=false;play.hidden=true;fallback.hidden=false;fallback.innerHTML=`<p>영상 대신 핵심 장면을 살펴봐요.</p><ol>${clip.cues.map(c=>`<li>${emphasizeConcept(c,words)}</li>`).join('')}</ol>`;cue(2);quietAudio(false);chrome();}
+ // Full screen: while the clip runs only the close button sits on it (top corner); the burned-in caption speaks for the DOM line.
+ function chrome(){dialog.classList.toggle('is-playing',!failed&&(held||!video.paused));}
  function arm(){clearTimeout(bufferTimer);bufferTimer=setTimeout(fail,6000);}
- async function start(){if(closed||failed)return;end.hidden=true;try{await video.play();if(closed){video.pause();return;}play.hidden=true;play.textContent='잠깐 멈추기';quietAudio(true);}catch{if(!closed){play.hidden=false;play.textContent='영상 재생';quietAudio(false);}}}
+ async function start(){if(closed||failed)return;end.hidden=true;try{await video.play();if(closed){video.pause();return;}play.hidden=true;play.textContent='잠깐 멈추기';quietAudio(true);}catch{if(!closed){play.hidden=false;play.textContent='영상 재생';quietAudio(false);chrome();}}}
  play.onclick=()=>video.paused?start():(userPause(),video.pause(),play.textContent='이어서 보기',quietAudio(false));
- video.addEventListener('click',()=>{if(!video.paused){userPause();video.pause();play.hidden=false;play.textContent='이어서 보기';quietAudio(false);}});
+ video.addEventListener('click',()=>{if(!video.paused||held){userPause();video.pause();play.hidden=false;play.textContent='이어서 보기';quietAudio(false);}});
  let autoStarted=false;video.addEventListener('loadeddata',()=>{clearTimeout(bufferTimer);if(!autoStarted){autoStarted=true;if(!matchMedia('(prefers-reduced-motion: reduce)').matches)start();}});
- video.addEventListener('playing',()=>{clearTimeout(bufferTimer);quietAudio(true);speak(last);});video.addEventListener('waiting',arm);video.addEventListener('error',fail);
- video.addEventListener('timeupdate',update);video.addEventListener('seeked',update);video.addEventListener('ended',()=>{clearTimeout(bufferTimer);end.hidden=false;play.hidden=true;cue(2);quietAudio(false);next.focus({preventScroll:true});sound('success');});
+ video.addEventListener('playing',()=>{clearTimeout(bufferTimer);quietAudio(true);if(!failed)dialog.classList.add('film-captions');chrome();speak(last);});video.addEventListener('waiting',arm);video.addEventListener('error',fail);
+ video.addEventListener('timeupdate',update);video.addEventListener('seeked',update);video.addEventListener('ended',()=>{clearTimeout(bufferTimer);play.hidden=true;chrome();cue(2);quietAudio(false);next.focus({preventScroll:true});sound('success');});
  function visibility(){if(document.hidden){visiblePlaying=!video.paused;video.pause();clearTimeout(bufferTimer);}else if(visiblePlaying){visiblePlaying=false;start();}}
  document.addEventListener('visibilitychange',visibility);
  function cleanup(){releaseFocus();closed=true;unhold();if(narration.state.id?.startsWith(`concept-${clip.id}-`))narration.stop();clearTimeout(bufferTimer);video.pause();video.removeAttribute('src');video.load();releaseMedia();document.removeEventListener('visibilitychange',visibility);signal?.removeEventListener('abort',dismiss);quietAudio(false);}
@@ -62,6 +66,6 @@ export function openConcept(stage,task,{nextLabel='활동으로 돌아가기',on
  const words=CONCEPT_WORDS[clip.id];
  const labels=CONCEPT_LABELS[clip.id];
  load();
- video.addEventListener('pause',()=>quietAudio(false));
+ video.addEventListener('pause',()=>{quietAudio(false);chrome();});
  return dialog;
 }

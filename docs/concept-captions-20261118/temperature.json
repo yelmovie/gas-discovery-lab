@@ -1,0 +1,35 @@
+{
+ "note": "개념 영상 temperature — 온도에 따라 부피가 달라져요. 문구·시점은 src/concept-clips.js 그대로. 셋째 큐는 영상 끝 뒤 0.5초까지 늘려 마지막 프레임에도 자막이 남게 함(앱은 끝난 뒤 마지막 프레임을 보여 줌). 셋째 상자는 영상 속 결론 말풍선(가로 331–1587, 세로 858–985, 1920x1080 기준)을 덮도록 min_w로 넓힘.",
+ "src": "../../../_scratch/caption-motion-20261118/concepts/15/src/temperature.mp4",
+ "out": "../../public/assets/concepts-v2/temperature.mp4",
+ "out_webm": "../../public/assets/concepts-v2/temperature.webm",
+ "theme": {
+  "box": "#0d2a22",
+  "accent": "#ffd35c",
+  "hot": "#ffd35c"
+ },
+ "bottom": 24,
+ "sweep": false,
+ "cues": [
+  {
+   "s": 0,
+   "e": 3.9,
+   "text": "입구를 막아 [기체의 양]은 같게 유지해요."
+  },
+  {
+   "s": 4,
+   "e": 7.9,
+   "text": "[따뜻]하게 하면 기체가 차지하는 공간이 커져요."
+  },
+  {
+   "s": 8,
+   "e": 12.5,
+   "text": "다시 [차갑]게 하면 [부피]가 작아져요.\n기체가 생기거나 사라진 건 아니에요.",
+   "min_w": 1288,
+   "speech": [
+    8,
+    12
+   ]
+  }
+ ]
+}
