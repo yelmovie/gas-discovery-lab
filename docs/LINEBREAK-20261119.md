@@ -57,3 +57,4 @@
 - 배포: `_scratch/deploy-20261118/deploy.sh 15 "15 gas" worker-cfg gas-discovery-lab` → Cloudflare 버전 `905eaaa0-466f-4a1a-802a-fadfd0625db5`, 소스 `33f62de`(중간 배포 `d092e75b`는 955cec6).
 - 운영 확인: `cmp.sh` — `src/korean-linebreak.css` build=live `6e5bc23c90fbc583` MATCH, `sw.js` MATCH, index MATCH. 운영 index에서 `korean-linebreak.css`가 첫 스타일시트.
 - 운영 측정: `_scratch/linebreak-audit-20261119/run.mjs 15 - 18 1280x800`(첫 화면·이야기·공기 장치 미션 등 18단계) → 표시 2건 모두 `<br>` 오탐(첫 화면 소개, 미션 펌프 버튼 「꾹 눌러<br>공기 넣기」). 실제 문제 0.
+- 추가 수정(2026-11-20, 지침 8절): 성취 카드 보관함 잠긴 카드 「악당을 물리치면 / 열려요」 → `src/reward-cards.css`에 좁은 카드(안쪽 152px 이하, 화면 높이 600px 이상)만 낱말마다 한 줄씩 쌓는 네 줄 추가(`ad16cd3`). 로컬 확인: 1280×800·1920×1080 한 줄, 1024×768 「악당을 / 물리치면 / 열려요」 세 줄, 카드 5장 넘침 0. 배포 `lbk-deploy-2` → Cloudflare 버전 `d9de27dd-905f-4141-968c-db8e60bc669b`(소스 `ad16cd3`), `cmp.sh` reward-cards.css·sw.js·index MATCH.
