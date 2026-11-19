@@ -56,3 +56,4 @@
 - 커밋: `955cec6`(줄바꿈 균형), `33f62de`(마지막 의뢰 음성 줄 원복).
 - 배포: `_scratch/deploy-20261118/deploy.sh 15 "15 gas" worker-cfg gas-discovery-lab` → Cloudflare 버전 `905eaaa0-466f-4a1a-802a-fadfd0625db5`, 소스 `33f62de`(중간 배포 `d092e75b`는 955cec6).
 - 운영 확인: `cmp.sh` — `src/korean-linebreak.css` build=live `6e5bc23c90fbc583` MATCH, `sw.js` MATCH, index MATCH. 운영 index에서 `korean-linebreak.css`가 첫 스타일시트.
+- 운영 측정: `_scratch/linebreak-audit-20261119/run.mjs 15 - 18 1280x800`(첫 화면·이야기·공기 장치 미션 등 18단계) → 표시 2건 모두 `<br>` 오탐(첫 화면 소개, 미션 펌프 버튼 「꾹 눌러<br>공기 넣기」). 실제 문제 0.
