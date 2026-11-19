@@ -219,7 +219,7 @@
  /* 낮은 가로 화면(높이 680px 이하)은 카드가 스크롤되므로 주 버튼이 밀려 내려가지 않게 원래 순서를 둔다. */
  .story-card,.ending-copy{display:flex;flex-direction:column}
  .story-card>.story-actions,.ending-copy>.ending-actions{order:1;margin-top:auto;padding-top:16px;display:flex;justify-content:flex-end}
- .story-card{min-height:min(62vh,100%)}
+ .story-card{min-height:min(64vh,100%)}
  /* 엔딩 친구들 그림(왼쪽 끝 약 58%)과 카드가 겹쳐 주 버튼이 가려지지 않게 카드 오른쪽 끝을 56%에 둔다. */
  .ending-copy{width:49%}
 }
@@ -242,3 +242,33 @@
  .certificate-options{align-self:center}
  .ending-copy{padding:44px 52px}
 }
+
+/* 남은 화면 문제 정리(2026-11-19) */
+/* 카드가 스크롤되는 크기에서도 주 버튼(의뢰 시작·내 장치 연결하기·인증서 인쇄)은 카드 아래에 붙어 늘 보이게 한다. */
+.stage-brief .stage-start,.finale-panel .final-action,.certificate-options .certificate-actions{position:sticky;bottom:0;z-index:2;padding-top:10px;background:linear-gradient(#fffdf500,#fffdf5f2 10px)}
+/* 마지막 의뢰: 넓은 화면은 제목을 한 줄로 두고 기록 칸 간격을 줄여 1280·1024·906에서 버튼까지 한 화면에 들어오게 한다. */
+@media(min-width:1051px){.finale-panel h1 br{display:none}.finale-panel h1{font-size:clamp(32px,2.9vw,44px)}}
+@media(min-height:681px){.finale-panel .final-evidence{gap:6px}.finale-panel .evidence-review{min-height:48px}}
+@media(max-height:680px){.finale-screen .finale-panel{padding-top:12px;padding-bottom:12px}}
+/* 높이 501~680px: 보상 안내 줄은 ≤500px처럼 숨기고 의뢰 줄 간격을 줄여 시설 소개 카드가 한 화면에 들어오게 한다. */
+@media(max-height:680px) and (min-height:501px){.stage-brief .stage-reward-note{display:none}.stage-brief .stage-tasks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}#app .stage-brief .stage-task{min-height:44px;margin:0;padding:4px 8px;gap:6px}.stage-brief .stage-task>span:nth-child(2){white-space:normal;overflow:visible;text-overflow:clip;line-height:1.25}}
+@media(max-width:1050px) and (min-height:681px){.finale-screen .finale-panel{padding-top:18px;padding-bottom:18px}}
+/* 인증서 선택 칸: 음성 줄(다시 듣기)은 질문 바로 아래로 올리고, 인쇄 버튼을 맨 끝에 두어 카드 아래에 붙게 한다. */
+.certificate-options{display:flex;flex-direction:column}
+.certificate-options>*{order:2}
+.certificate-options>:is(.eyebrow,h2){order:0}
+.certificate-options>.npc-dialogue-voice{order:1;align-self:flex-start;margin:0 0 10px}
+.certificate-options>.certificate-actions{order:3}
+/* 학생이 읽는 글자 18px 하한: 높이 680px 이하에서 14~16px로 줄어들던 활동·인증서 글자를 18px로 둔다. */
+#app .gas-orb.gas-tank>b{font-size:18px}
+@media(max-height:680px),(max-width:1050px){#app .certificate :is(.certificate-top,.certificate-sign,.certificate-badges>span){font-size:18px}}
+@media(max-height:680px){
+ #app .activity-screen :is(.mission-step,.buddy-label){font-size:18px}
+ #app .activity-host :is(.button,.choice,.part-card,.record-stage,.record-condition,.climate-constants,figcaption,p,.slot-caption,.drag-cue,.facility-copy p){font-size:18px}
+ #app .activity-host :is(.button,.choice,.part-card,.slot-caption,.drag-cue)>span{font-size:inherit}
+ #app .stage-brief>p,#app .stage-brief .stage-task,#app .stage-brief .concept-revisit{font-size:18px}
+}
+/* 기후 연구소의 산길 걷기(run-stage): 낮은 화면에서 14~15px로 줄던 안내·선택지를 18px로 둔다. */
+@media(max-height:680px),(max-width:900px){html body #app .activity-screen .activity-host .run-stage :is(.run-classic,.run-predict p,.run-predict-choices .choice,.run-bag figcaption,.run-place,.climate-constants,.run-label,.run-speech,.volume-record,.run-prediction-note){font-size:18px}}
+/* 1280·906처럼 높이 681~849px: 인증서 칸 위아래 여백과 선택지 안쪽 여백을 줄여 별명 칸까지 스크롤 없이 보이게 한다. */
+@media(min-height:681px) and (max-height:849px){.certificate-layout{top:96px;bottom:22px}.certificate-options .choice{padding-top:7px;padding-bottom:7px}.certificate-options>.npc-dialogue-voice{margin-bottom:6px}.certificate-options h2{margin-bottom:10px}}
