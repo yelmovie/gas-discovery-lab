@@ -12,12 +12,16 @@ import {isStageOpen,completeStage} from './model.js';
 import {canStand,findPath,movePoint,distance,validateMap} from './navigation.js';
 import {html,button,announce,SOLI_IMAGE} from './ui.js';
 import {icon} from './icons.js';
-import {sound,cue,preloadCues} from './audio.js';
+import {sound,cue,preloadCues,footstep,stageOpened} from './audio.js';
 import {awardRewardCards,rewardCardDue,bindRewardSound} from './map-reward-cards.js';
 // Swing on the press; the hit lands on the flinch peak (~90 ms); the third hit lets the air out as the villain shrinks away.
 const encounterTone=(kind,hits)=>kind==='hit'?cue('hit',{delay:.09,rate:hits===2?.9:1}):kind==='finish'?(cue('finish',{delay:.09}),cue('exit',{delay:.3})):cue(kind);
 // Achievement card cues (map-reward-cards.js) go through the same cue player.
 bindRewardSound(cue);
+// One voice at a time: a villain's short reaction never cuts another speaker. It waits up to 2 s for that line to end,
+// otherwise it is skipped (the bubble still shows). A guide line that arrives while a villain speaks waits the same way.
+const VILLAIN='바람 훼방꾼',isVillain=id=>voiceLines.find(l=>l.id===id)?.speaker===VILLAIN;
+function afterVoice(ready,go,signal,skip=false){const until=performance.now()+2000;(function check(){if(signal.aborted)return;if(ready())go();else if(performance.now()<until)setTimeout(check,100);else if(!skip)go();})();}
 export function mountMap(host,ctx,[geometry,background,student,soli,atlas]){
  if(ctx.signal.aborted)return;
  const map=validateMap(geometry);
@@ -26,7 +30,7 @@ export function mountMap(host,ctx,[geometry,background,student,soli,atlas]){
  if(ctx.save.settings.adminUnlockAll||STAGES.some(s=>completeStage(ctx.save,s.id)))mountRepair(host,{state:ctx.save,save:()=>ctx.persist(),kind:'valve',preview:ctx.save.settings.adminUnlockAll,available:STAGES.map((s,i)=>({id:i,label:s.name,stage:s.id})).filter(s=>ctx.save.settings.adminUnlockAll||completeStage(ctx.save,s.stage))});
  const canvas=host.querySelector('canvas'),g=canvas.getContext('2d'),next=host.querySelector('.map-next'),speech=host.querySelector('.map-speech');
  const returnBuilding=map.buildings.find(b=>b.id===ctx.returnFrom);let position=returnBuilding?{x:returnBuilding.return[0],y:returnBuilding.return[1]}:{...map.spawn};if(!canStand(map,position))position={...map.spawn};
- let follower={x:position.x-34,y:position.y+17},trail=[{...position}],path=[],goal=null,dir=0,walking=false,time=0,lastTime=0,frame=0,width=0,height=0,scale=1,cam={x:0,y:0},entered=false;
+ let follower={x:position.x-34,y:position.y+17},trail=[{...position}],path=[],goal=null,dir=0,walking=false,time=0,lastTime=0,frame=0,width=0,height=0,scale=1,cam={x:0,y:0},entered=false,stepWait=0;
  const held=new Set(),reduced=ctx.save.settings.reduceMotion||matchMedia('(prefers-reduced-motion: reduce)').matches;
  const camera=createMapCamera({width:map.width,height:map.height,baseZoom:w=>w<1000?1.5:1.62,focusY:.57,reduced:()=>ctx.save.settings.reduceMotion||matchMedia('(prefers-reduced-motion: reduce)').matches});
  // An open achievement card or card album makes #app inert: keys, the direction pad and the camera wait like under a dialog.
@@ -47,9 +51,12 @@ export function mountMap(host,ctx,[geometry,background,student,soli,atlas]){
  const encounters=mountMapEncounters({requiredFoes:5,host,clearStage:()=>restoredIds.filter(id=>id!=='core').at(-1),stages:encounterStages,progress:ctx.save.mapHits,
   // A villain's third hit wins its achievement card: it opens once the exit has played, or after a dialog that opened meanwhile.
   // The card is marked before the save is announced, so the header keeps its slot empty until the card lands.
-  onSave:patch=>{const before=ctx.save.mapHits;ctx.save.mapHits={...before,...patch};awardRewardCards(before,ctx.save.mapHits,{delay:reduced?520:760,hits:()=>ctx.save.mapHits,state:()=>ctx.signal.aborted?'gone':document.querySelector('dialog[open]')?'wait':'open'});ctx.persist();},
+  // The card also waits for the villain's exit line to finish (at most 6 s), so the reveal never talks over it.
+  onSave:patch=>{const before=ctx.save.mapHits,lineCap=performance.now()+6000;ctx.save.mapHits={...before,...patch};awardRewardCards(before,ctx.save.mapHits,{delay:reduced?520:760,hits:()=>ctx.save.mapHits,state:()=>ctx.signal.aborted?'gone':document.querySelector('dialog[open]')||performance.now()<lineCap&&narration.state.status==='playing'&&isVillain(narration.state.id)?'wait':'open'});ctx.persist();},
   // A card that is due holds the villains, so the all-villains finale always follows the card.
-  blocked:()=>blocked()||rewardCardDue(),reduced:()=>reduced,tone:encounterTone,voice:text=>{const line=voiceLines.find(l=>l.text===text);if(line)narration.play(line.id);},reach:95,contact:24,canPatrol:p=>canStand(map,p),...encounterLook});
+  blocked:()=>blocked()||rewardCardDue(),reduced:()=>reduced,tone:encounterTone,voice:text=>{const line=voiceLines.find(l=>l.text===text);if(!line)return;const free=()=>narration.state.status!=='playing'||isVillain(narration.state.id),say=()=>afterVoice(free,()=>narration.play(line.id),ctx.signal,true);
+   // The exit line starts 300 ms after the third hit lands (the hit cue sits 90 ms after the press).
+   if(encounterStages.some(s=>s.finish===text))setTimeout(say,390);else say();},reach:95,contact:24,canPatrol:p=>canStand(map,p),...encounterLook});
  if(encounterStages.length)preloadCues();
  const heroPose=encounterStages.length?loadEncounterActor('hero'):null,allyPose=encounterStages.length?loadEncounterActor('ally'):null;
  const reveal=buildingReveal(reduced,restoredIds);
@@ -60,7 +67,11 @@ export function mountMap(host,ctx,[geometry,background,student,soli,atlas]){
  const labels=new Map();const completed=()=>STAGES.filter(s=>completeStage(ctx.save,s.id)).length;
  const allDone=()=>completed()===5;
  const nextId=()=>STAGES.find(s=>!completeStage(ctx.save,s.id))?.id||'core';
- function hint(text){speech.textContent=text;speech.hidden=false;announce(text);voiceForText(speech,text,ctx.signal);}
+ // The facility (or the core) that a just-finished stage opens gets one open-and-sparkle once the map settles.
+ // restoredIds hold only this session's first completions and are taken once, so a redraw, reload or revisit stays quiet.
+ const opened=ctx.save.settings.adminUnlockAll?[]:restoredIds.map(id=>STAGES.findIndex(s=>s.id===id)).filter(i=>i>=0&&(i+1<STAGES.length?isStageOpen(ctx.save,i+1)&&!completeStage(ctx.save,STAGES[i+1].id):allDone()&&!ctx.save.finaleCompleted));
+ if(opened.length){let timer=setTimeout(function ring(){if(ctx.signal.aborted)return;if(blocked())timer=setTimeout(ring,300);else stageOpened();},900);ctx.signal.addEventListener('abort',()=>clearTimeout(timer),{once:true});}
+ function hint(text){speech.textContent=text;speech.hidden=false;announce(text);const free=()=>!(narration.state.status==='playing'&&isVillain(narration.state.id));afterVoice(free,()=>{if(speech.textContent===text&&!speech.hidden)voiceForText(speech,text,ctx.signal);},ctx.signal);}
  function guideBusy(busy){
   if(busy===next.hasAttribute('aria-busy'))return;
   if(busy){next.setAttribute('aria-busy','true');next.setAttribute('aria-disabled','true');next.textContent='길을 따라 이동 중…';}
@@ -101,7 +112,7 @@ export function mountMap(host,ctx,[geometry,background,student,soli,atlas]){
  handButton.onclick=()=>{if(blocked())return;clearPointer();cancelRoute();held.clear();camera.hand(position);sound();syncTools();announce(camera.mode==='hand'?'손 모드예요. 지도를 끌어서 둘러봐요.':'걷기 모드예요. 길을 누르면 걸어가요.');};
  overviewButton.onclick=()=>{if(blocked())return;clearPointer();cancelRoute();held.clear();camera.overview(position);sound();syncTools();};
  recenter.onclick=()=>{clearPointer();cancelRoute();follow();canvas.focus({preventScroll:true});};
- host.querySelector('.map-companion').onclick=()=>{cancelRoute();if(!speech.hidden){speech.hidden=true;narration.stop();return;}hint(ctx.save.finaleCompleted?'마을이 다시 움직여요! 시설에 들어가 다른 방법으로도 탐구해 보아요.':`다음은 ${STAGES.find(s=>s.id===nextId())?.name||'중앙 공기 코어'}예요. 시설 이름이나 흙길을 누르면 같이 걸어가요. 방향키로도 걸을 수 있어요.`);};
+ host.querySelector('.map-companion').onclick=()=>{cancelRoute();if(!speech.hidden){speech.hidden=true;if(!isVillain(narration.state.id))narration.stop();return;}hint(ctx.save.finaleCompleted?'마을이 다시 움직여요! 시설에 들어가 다른 방법으로도 탐구해 보아요.':`다음은 ${STAGES.find(s=>s.id===nextId())?.name||'중앙 공기 코어'}예요. 시설 이름이나 흙길을 누르면 같이 걸어가요. 방향키로도 걸을 수 있어요.`);};
  const onKey=e=>{if(e.type==='keyup'){held.delete(e.code);return;}if(blocked()||e.ctrlKey||e.altKey||e.metaKey||e.target.closest?.('input,textarea,select,[contenteditable]:not([contenteditable="false"])'))return;const keys={ArrowUp:'up',KeyW:'up',ArrowDown:'down',KeyS:'down',ArrowLeft:'left',KeyA:'left',ArrowRight:'right',KeyD:'right'};if(keys[e.code]){e.preventDefault();cancelRoute();follow();held.add(e.code);}if(e.code==='Enter'&&e.type==='keydown'&&!e.repeat&&!e.target.closest('button,a')){const b=map.buildings.find(b=>distance(position,{x:map.nodes[b.entry][0],y:map.nodes[b.entry][1]})<48);if(b)tryEnter(b.id);}};
  window.addEventListener('keydown',onKey,{signal:ctx.signal});window.addEventListener('keyup',onKey,{signal:ctx.signal});
  window.addEventListener('blur',()=>{held.clear();cancelRoute();},{signal:ctx.signal});document.addEventListener('visibilitychange',()=>{held.clear();cancelRoute();lastTime=0;},{signal:ctx.signal});
@@ -139,11 +150,14 @@ export function mountMap(host,ctx,[geometry,background,student,soli,atlas]){
  let lastLabelView='';
  function draw(now){if(ctx.signal.aborted)return;const dt=lastTime?Math.min((now-lastTime)/1000,.04):0;lastTime=now;time+=dt;
   const paused=Boolean(document.querySelector('dialog[open]')||host.querySelector('.map-repair[open]')||host.closest('[inert]'))||document.hidden;
-  if(paused){held.clear();cancelRoute();walking=false;}else{
+  if(paused){held.clear();cancelRoute();walking=false;stepWait=0;}else{
    const before={...position};let dx=0,dy=0;for(const code of held){if(['ArrowUp','KeyW','up'].includes(code))dy--;if(['ArrowDown','KeyS','down'].includes(code))dy++;if(['ArrowLeft','KeyA','left'].includes(code))dx--;if(['ArrowRight','KeyD','right'].includes(code))dx++;}
    if(dx||dy){const length=Math.hypot(dx,dy);position=movePoint(map,position,dx/length*185*dt,dy/length*185*dt);}
    else if(path.length){const target=path[0],d=distance(position,target);if(d<5){position={...target};path.shift();}else position=movePoint(map,position,(target.x-position.x)/d*185*dt,(target.y-position.y)/d*185*dt);}
-   walking=distance(before,position)>.05;if(walking){const dx=position.x-before.x,dy=position.y-before.y;dir=Math.abs(dx)>Math.abs(dy)?dx>0?2:1:dy>0?0:3;if(distance(trail.at(-1),position)>5)trail.push({...position});if(trail.length>80)trail.shift();let d=0,target=trail[0];for(let i=trail.length-1;i>0;i--){d+=distance(trail[i],trail[i-1]);if(d>59){target=trail[i-1];break;}}follower={...target};}
+   walking=distance(before,position)>.05;
+   // Footsteps every 0.3 s while the walker really moves (held keys, pad or a tapped route); none when a wall stops it.
+   if(walking){stepWait-=dt;if(stepWait<=0){stepWait=.3;footstep();}}else stepWait=0;
+   if(walking){const dx=position.x-before.x,dy=position.y-before.y;dir=Math.abs(dx)>Math.abs(dy)?dx>0?2:1:dy>0?0:3;if(distance(trail.at(-1),position)>5)trail.push({...position});if(trail.length>80)trail.shift();let d=0,target=trail[0];for(let i=trail.length-1;i>0;i--){d+=distance(trail[i],trail[i-1]);if(d>59){target=trail[i-1];break;}}follower={...target};}
    if(goal&&!path.length){const b=map.buildings.find(b=>b.id===goal);if(distance(position,{x:map.nodes[b.entry][0],y:map.nodes[b.entry][1]})<35)tryEnter(goal);else cancelRoute();}
    if(entered||ctx.signal.aborted)return;
   }

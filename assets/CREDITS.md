@@ -45,7 +45,7 @@ Kenney, **Interface Sounds 1.0** — https://kenney.nl/assets/interface-sounds
 | `public/assets/audio/sfx/card-reveal.mp3` | 카드 공개(브론즈·실버·골드) | `sfx/reward-01.mp3` | Fantasy_ui_Button_3.wav · ZenithInfinitiveStudios | CC0 | https://freesound.org/people/ZenithInfinitiveStudios/sounds/376745 |
 | `public/assets/audio/sfx/card-epic.mp3` | 카드 공개(홀로·레전드, 긴 징글) | `sfx/reward-03.mp3` | Achievement Happy Beeps Jingle · CogFireStudios | CC0 | https://freesound.org/people/CogFireStudios/sounds/619838 |
 | `public/assets/audio/sfx/card-slot.mp3` | 카드가 보관함 칸에 들어갈 때 | `sfx/pickup-01.mp3` | item-pickup-v1.wav · DeltaCode | CC0 | https://freesound.org/people/DeltaCode/sounds/678384 |
-| `public/assets/audio/sfx/card-complete.mp3` | 다섯 장을 모두 모았을 때(지도 파이널 배경음이 시작되면 멈춤) | `sfx/victory-jingle-01.mp3` | Game Success Fanfare Short · el_boss | CC0 | https://freesound.org/people/el_boss/sounds/677858 |
+| `public/assets/audio/sfx/card-complete.mp3` | 다섯 장을 모두 모았을 때(모든 악당 격퇴 축하음. 지도 파이널 배경음은 이 소리 위로 1.2초에 걸쳐 커짐) | `sfx/victory-jingle-01.mp3` | Game Success Fanfare Short · el_boss | CC0 | https://freesound.org/people/el_boss/sounds/677858 |
 
 - 재생: `src/audio.js`의 `cue()`(지도 악당 효과음과 같은 경로). 효과음 스위치·전체 소리 끄기·탭 숨김을 따른다.
 - 공통 모듈 `src/reward-cards.js`·`src/reward-cards.css`는 과학34 공통 폴더(`_shared/reward-cards`)의 자체 제작 코드를 그대로 복사한 것이다.
@@ -66,3 +66,17 @@ Kenney, **Interface Sounds 1.0** — https://kenney.nl/assets/interface-sounds
 
 - `public/assets/title.webp`, `public/assets/air-portrait.webp`: Figma AI 이미지 생성(gpt-image-2.5)으로 이번 프로젝트용 새로 제작. 원본 PNG는 `asset-bank/original/`(배포 제외), 프롬프트는 `docs/review/IMAGE-GENERATION-PROMPTS.json`의 `title-v2` 항목.
 - 여우 이미지는 흰 배경을 가장자리부터 지워 투명 처리했어. 실존 캐릭터·브랜드를 참고하지 않은 자체 디자인이야.
+
+## 발자국·스테이지 열림·산길 기록 소리 (2026-11-19)
+
+과학34 공통 효과음 라이브러리(`_shared/sfx-library-20261117`)에서 골라 이름만 바꿔 복사했다. 모두 CC0 1.0이며 원본 페이지에서 라이선스를 다시 확인한 파일이다(라이브러리 `manifest.json`의 `license_rechecked: true`). 가공은 라이브러리에서 한 앞뒤 무음 제거·짧은 페이드·음량 정규화·모노 MP3 변환뿐이다.
+
+| 파일 | 쓰는 곳 | 라이브러리 파일 | 원본 · 제작자 | 라이선스 | 출처 |
+|---|---|---|---|---|---|
+| `public/assets/audio/sfx/step-1.mp3` | 지도·3D 산길에서 걷는 동안 0.3초마다(두 파일을 번갈아) | `sfx/step-01.mp3` | Footstep on Stone · sgossner | CC0 | https://freesound.org/people/sgossner/sounds/197778 |
+| `public/assets/audio/sfx/step-2.mp3` | 위와 같음 | `sfx/step-02.mp3` | concrete footstep 4 · Yoyodaman234 | CC0 | https://freesound.org/people/Yoyodaman234/sounds/166506 |
+| `public/assets/audio/sfx/stage-open.mp3` | 시설을 처음 마치고 지도로 돌아와 다음 시설(또는 중앙 코어)이 열릴 때 | `sfx/open-01.mp3` | maximize_008 · Kenney | CC0 | https://kenney.nl/assets/interface-sounds |
+| `public/assets/audio/sfx/stage-twinkle.mp3` | 위 열림 소리 0.12초 뒤 반짝 | `sfx/twinkle-02.mp3` | anime.wav · 1urker | CC0 | https://freesound.org/people/1urker/sounds/457306 |
+| `public/assets/audio/sfx/pickup.mp3` | 3D 산길 꼭대기에서 봉지 크기를 기록할 때 | `sfx/pickup-03.mp3` | Pickup Sound · Davidsraba | CC0 | https://freesound.org/people/Davidsraba/sounds/347175 |
+
+- 재생: `src/audio.js`의 `cue()`·`footstep()`. 효과음 스위치·전체 소리 끄기·개념 영상 재생 중·탭 숨김을 따른다. 발자국은 다른 소리를 끊지 않고 다른 소리에 끊기지도 않으며, 대사 중에는 절반 크기다.

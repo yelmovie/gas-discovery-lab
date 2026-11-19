@@ -6,7 +6,7 @@ import {volumeFor} from '../model.js';
 import {bindDirectionPad,mapKeyDirection,MAP_VECTORS} from '../map-controls.js';
 import {choices,escapeHTML,announce,html} from '../ui.js';
 import {icon} from '../icons.js';
-import {sound,cue} from '../audio.js';
+import {sound,cue,footstep} from '../audio.js';
 
 const ART='/assets/run-stage/';
 const LABELS=['낮은 압력','보통 압력','높은 압력'];
@@ -158,7 +158,7 @@ export function mountMountainRun(host,task,ctx,textures,{toClassic}){
  function record(){
   if(completed||phase!=='run'||signal.aborted||stationAt(runner)!=='summit')return;
   if(!recordStation(state,task,'summit'))return;
-  sound();save();setPhase('compare');renderCompare();say('');
+  cue('pickup');save();setPhase('compare');renderCompare();say('');
   announce('달라진 모습이 기록됐어요. 두 크기를 비교해 새로운 상황에도 적용해요.');
   root.querySelector('.transfer-slot .choice')?.focus({preventScroll:true});
  }
@@ -195,7 +195,7 @@ export function mountMountainRun(host,task,ctx,textures,{toClassic}){
 
  // ── 한 프레임 ──
  const cameraAt=new THREE.Vector3(),lookAt=new THREE.Vector3(),projected=new THREE.Vector3();
- let last=performance.now(),clock=0,stuck=0,stuckHint=null,cameraFloor=runner.y,facing=3,walkTime=0,atSummit=false,placeText='',hintGiven=false,width=0,height=0;
+ let last=performance.now(),clock=0,stuck=0,stuckHint=null,cameraFloor=runner.y,facing=3,walkTime=0,stepWait=0,atSummit=false,placeText='',hintGiven=false,width=0,height=0;
  const labels=[...root.querySelectorAll('.run-label')].map(el=>({el,point:el.dataset.station==='base'?at(-3.6,1.9,1.2):at(-3.5,COURSE.summit+1.7,37.4)}));
  function resize(){
   const w=Math.max(1,Math.round(root.clientWidth)),h=Math.max(1,Math.round(root.clientHeight));if(w===width&&h===height)return;
@@ -231,6 +231,8 @@ export function mountMountainRun(host,task,ctx,textures,{toClassic}){
   }else if(!obstacle&&stuckHint&&(moving||!runner.ground)){stuckHint=null;say('');guide();}
   if(input.x||input.f)facing=Math.abs(input.x)>Math.abs(input.f)?(input.x<0?1:2):input.f<0?0:3;
   walkTime=moving?walkTime+dt:0;
+  // Footsteps every 0.3 s while walking on the ground, the same lane as the map walk; quiet in the air or against a wall.
+  if(moving&&runner.ground&&!blocked()){stepWait-=dt;if(stepWait<=0){stepWait=.3;footstep();}}else stepWait=0;
   setFrame(facing,runner.ground?(moving?Math.floor(walkTime*8)%4:0):1);
   const flinch=runner.stun>0?Math.sin(clock*60)*.06:0;
   student.position.copy(at(runner.x+flinch,runner.y,runner.f));
