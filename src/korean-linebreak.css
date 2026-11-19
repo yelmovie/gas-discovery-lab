@@ -33,10 +33,3 @@
   text-wrap-style: balance;
 }
 
-/* 마지막 의뢰 문장 뒤에 붙는 「다시 듣기」 줄(인라인 스타일 inline-flex)이 같은 줄 계산에 끼어 「움직여요.」「당겨요.」만 떨어진다.
-   음성 줄은 원래도 다음 줄로 내려가 있으므로, 키가 넉넉한 화면에서만 블록으로 떼어 문장만 균형을 맞춘다(높이 변화 없음).
-   짧은 화면(681px 미만)의 압축 배치(stage-layout.css의 inline-flex)는 그대로 둔다. */
-@media (min-height: 681px) {
-  .finale-body > p > .npc-dialogue-voice,
-  .finale-body .final-status > .npc-dialogue-voice { display: flex !important; }
-}
