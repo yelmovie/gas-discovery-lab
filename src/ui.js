@@ -15,7 +15,8 @@ export function openDialog(title,body,{wide=false,footer,close=true,onClose}={})
  const d=html(`<dialog class="dialog ${wide?'wide':''}" aria-label="${escapeHTML(title)}"><div class="dialog-head"><h2>${escapeHTML(title)}</h2>${close?`<button class="icon-button close-dialog" aria-label="닫기">${icon('close')}</button>`:''}</div><div class="dialog-body"></div><div class="dialog-foot"></div></dialog>`);
  d.querySelector('.dialog-body').append(typeof body==='string'?html(`<div>${body}</div>`):body);
  const end=()=>d.close();if(close)d.querySelector('.close-dialog').onclick=end;
- if(footer)d.querySelector('.dialog-foot').append(footer);else d.querySelector('.dialog-foot').append(button('닫기',end,'button secondary'));
+ // 같은 일을 하는 닫기 버튼을 두 곳에 두지 않는다: 오른쪽 위 X가 있으면 아래 '닫기'는 만들지 않는다(2026-11-18).
+ if(footer)d.querySelector('.dialog-foot').append(footer);else if(!close)d.querySelector('.dialog-foot').append(button('닫기',end,'button secondary'));
  d.addEventListener('close',()=>{d.remove();focus?.isConnected&&focus.focus();onClose?.();},{once:true});
  d.addEventListener('click',e=>{if(e.target===d&&close){const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close();}});
  document.body.append(d);d.showModal();return d;
