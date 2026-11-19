@@ -41,6 +41,8 @@ test('footsteps keep their own lane, the stage opening layers a sparkle, and the
  started.length=0;audio.stageOpened();await new Promise(r=>setTimeout(r,0));
  assert.deepEqual(started.map(s=>[s.file,s.when]),[['stage-open.mp3',10],['stage-twinkle.mp3',10.12]]);
  audio.syncAudio({...settings,sfx:false});started.length=0;await audio.footstep();assert.equal(started.length,0,'SFX off');
+ // SFX level: 100 % is the old level; 50 % halves cues and footsteps.
+ audio.syncAudio({...settings,sfxVolume:50});started.length=0;await audio.footstep();await audio.cue('hit');assert.deepEqual(started.map(s=>s.gain),[.08,.3]);audio.syncAudio({...settings,sfxVolume:100});started.length=0;await audio.cue('hit');assert.equal(started[0].gain,.6);started.length=0;
  audio.syncAudio(settings);doc.hidden=true;await audio.footstep();assert.equal(started.length,0,'hidden tab');doc.hidden=false;
  // Finale screen: the finale theme plays once, then the main theme carries on at x0.45; leaving restores the main level.
  audio.setScreenMusic('finale');

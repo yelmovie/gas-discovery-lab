@@ -1,10 +1,12 @@
 import { createThemeEffects } from './theme-effects.js';
-let ctx,master,sfxGain,active=[],config={music:true,sfx:true,musicVolume:35},quiet=false,narrating=false,started=false;
-const effects = createThemeEffects('gas', () => ({ enabled: config.sfx, muted: quiet, volume: .75 }));
+let ctx,active=[],config={music:true,sfx:true,musicVolume:35,sfxVolume:100},quiet=false,narrating=false,started=false;
+// SFX level (settings, 0-100 %, default 100 = the level before the slider existed) multiplies every effect lane: UI tones, cues, card sounds, footsteps.
+const sfxLevel=()=>{const v=Number(config.sfxVolume);return Number.isFinite(v)?Math.min(100,Math.max(0,v))/100:1;};
+const effects = createThemeEffects('gas', () => ({ enabled: config.sfx, muted: quiet, volume: .75*sfxLevel() }));
 // Suno tracks (originals in references/suno). The main theme loops; the finale plays once and then rests.
 const musicFiles={main:'/assets/audio/bgm/main-theme.mp3',finale:'/assets/audio/bgm/final-theme.mp3'};
 const players={};let screenTrack='main',overlay=false,finaleDone=false,jingleEnd=0,fadeFrom=0,fadeTimer=0;
-function init(){if(ctx)return;try{ctx=new AudioContext();master=ctx.createGain();master.gain.value=.55;master.connect(ctx.destination);sfxGain=ctx.createGain();sfxGain.gain.value=.22;sfxGain.connect(master);}catch{/* Audio is optional; interactions remain available. */}}
+function init(){if(ctx)return;try{ctx=new AudioContext();}catch{/* Audio is optional; interactions remain available. */}}
 function stopNotes(list){for(const n of list){try{n.stop();n.disconnect();}catch{}}list.length=0;}
 function player(track){let a=players[track];if(!a){a=players[track]=new Audio(musicFiles[track]);a.dataset.track=track;a.loop=track==='main';a.preload='auto';a.onended=()=>{if(track==='finale'){finaleDone=true;syncMusic();}};}return a;}
 function syncMusic(){
@@ -55,7 +57,7 @@ export async function cue(kind,{delay=0,rate=1}={}){
  if(!cueAllowed()||ctx.state!=='running')return;
  if(!buffer){if(cueFallback[kind])effects.play(cueFallback[kind]);return;}
  const source=ctx.createBufferSource(),gain=ctx.createGain();
- source.buffer=buffer;source.playbackRate.value=rate;gain.gain.value=cueLevel[kind];
+ source.buffer=buffer;source.playbackRate.value=rate;gain.gain.value=cueLevel[kind]*sfxLevel();
  source.connect(gain);gain.connect(ctx.destination);
  source.onended=()=>{source.disconnect();gain.disconnect();active=active.filter(x=>x!==source);};
  active.push(source);source.start(Math.max(ctx.currentTime,at));
@@ -73,7 +75,7 @@ export async function footstep({rate=1}={}){
  const buffer=await stepBuffer(stepFiles[stepTurn++%2]);
  if(!buffer||!cueAllowed()||ctx.state!=='running')return;
  const source=ctx.createBufferSource(),gain=ctx.createGain();
- source.buffer=buffer;source.playbackRate.value=rate*(.95+Math.random()*.1);gain.gain.value=.16*(narrating?.5:1);
+ source.buffer=buffer;source.playbackRate.value=rate*(.95+Math.random()*.1);gain.gain.value=.16*(narrating?.5:1)*sfxLevel();
  source.connect(gain);gain.connect(ctx.destination);
  source.onended=()=>{source.disconnect();gain.disconnect();};
  source.start();

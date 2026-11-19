@@ -1,12 +1,14 @@
 import { voiceLines } from './voice-lines.js';
 
 // One active dialogue at a time. Late play promises must never restart a disposed line.
-export function createNarration({ isMuted, duck = () => {}, makeAudio = () => new Audio(), doc = document, page = window }) {
-  let player = null, request = 0, disposed = false, state = { id: null, status: 'idle' };
+// Before the first tap or key the browser refuses play(); a line asked for then waits for that input instead of failing.
+// If the input changes the screen (stop() runs), the waiting line is dropped.
+export function createNarration({ isMuted, duck = () => {}, makeAudio = () => new Audio(), doc = document, page = window, activated = () => page.navigator?.userActivation?.hasBeenActive ?? true }) {
+  let player = null, request = 0, disposed = false, state = { id: null, status: 'idle' }, pending = null;
   const listeners = new Set();
   const emit = () => listeners.forEach(listener => listener(state));
   function stop() {
-    request++;
+    request++; pending = null;
     const previous = player; player = null;
     if (previous) { previous.pause(); previous.removeAttribute('src'); previous.load(); }
     duck(false); state = { id: null, status: 'idle' }; emit();
@@ -16,6 +18,7 @@ export function createNarration({ isMuted, duck = () => {}, makeAudio = () => ne
     stop();
     if (!line || disposed) return false;
     if (doc.hidden || isMuted()) { state = { id, status: 'muted' }; emit(); return false; }
+    if (!activated()) { pending = id; return false; }
     const token = request, audio = makeAudio(); player = audio;
     audio.preload = 'none'; audio.src = line.src;
     const finish = () => { if (token === request) stop(); };
@@ -38,12 +41,14 @@ export function createNarration({ isMuted, duck = () => {}, makeAudio = () => ne
   }
   const hidden = () => { if (doc.hidden) stop(); };
   const muted = () => { if (isMuted()) stop(); };
+  const input = () => setTimeout(() => { if (pending && !disposed && activated()) play(pending); }, 0);
   doc.addEventListener('visibilitychange', hidden); doc.addEventListener('change', muted);
+  page.addEventListener('pointerup', input); page.addEventListener('keydown', input);
   page.addEventListener('pagehide', stop); page.addEventListener('popstate', stop); page.addEventListener('hashchange', stop);
   return {
     play, stop, get state() { return state; },
     subscribe(listener) { listeners.add(listener); listener(state); return () => listeners.delete(listener); },
-    dispose() { disposed = true; stop(); listeners.clear(); doc.removeEventListener('visibilitychange', hidden); doc.removeEventListener('change', muted); page.removeEventListener('pagehide', stop); page.removeEventListener('popstate', stop); page.removeEventListener('hashchange', stop); }
+    dispose() { disposed = true; stop(); listeners.clear(); doc.removeEventListener('visibilitychange', hidden); doc.removeEventListener('change', muted); page.removeEventListener('pagehide', stop); page.removeEventListener('popstate', stop); page.removeEventListener('hashchange', stop); page.removeEventListener('pointerup', input); page.removeEventListener('keydown', input); }
   };
 }
 

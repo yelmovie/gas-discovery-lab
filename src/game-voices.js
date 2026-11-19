@@ -2,7 +2,7 @@ import { createNarration, mountNarrationControl } from './narration.js';
 import { voiceLines } from './voice-lines.js';
 import { store } from './state.js';
 import { duckNarration } from './audio.js';
-export const narration = createNarration({ isMuted: () => !store.save.settings.sfx, duck: duckNarration });
+export const narration = createNarration({ isMuted: () => store.save.settings.voice === false, duck: duckNarration });
 const controls = new WeakMap();
 export function attachVoice(host, id, signal, autoplay = true) {
   if (!host) return;

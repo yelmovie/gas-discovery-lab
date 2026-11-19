@@ -20,3 +20,12 @@ test('classroom motion preference defaults safely and survives reload and reset'
  const malformed=freshSave();malformed.settings.reduceMotion='true';
  s.setItem(APP.saveKey,JSON.stringify(malformed));assert.equal(loadSave(s).save.settings.reduceMotion,false);
 });
+test('3차 소리 설정: 예전 저장은 목소리=효과음 값, 효과음 크기=100으로 이어받고 새 학생은 모두 켜짐',()=>{
+ const f=freshSave();assert.equal(f.settings.voice,true);assert.equal(f.settings.sfxVolume,100);
+ const old=sfx=>{const s=memory(),save=freshSave();delete save.settings.voice;delete save.settings.sfxVolume;if(sfx===undefined)delete save.settings.sfx;else save.settings.sfx=sfx;s.setItem(APP.saveKey,JSON.stringify(save));return loadSave(s).save.settings;};
+ assert.deepEqual([old(false).sfx,old(false).voice,old(false).sfxVolume],[false,false,100]);
+ assert.deepEqual([old(true).sfx,old(true).voice,old(true).sfxVolume],[true,true,100]);
+ assert.deepEqual([old(undefined).sfx,old(undefined).voice,old(undefined).sfxVolume],[true,true,100]);
+ const s=memory(),save=freshSave();save.settings.sfx=false;save.settings.voice=true;save.settings.sfxVolume=42;s.setItem(APP.saveKey,JSON.stringify(save));
+ const kept=loadSave(s).save.settings;assert.deepEqual([kept.sfx,kept.voice,kept.sfxVolume],[false,true,40]);
+});

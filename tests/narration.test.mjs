@@ -47,3 +47,13 @@ test('2026-11-18 ElevenLabs 채움 음원은 출처·SHA·화면 글자가 일�
  for(const v of voiceLines)readFileSync(new URL('../public'+v.src,import.meta.url));
  assert.equal(new Set(voiceLines.map(v=>v.text)).size,voiceLines.length);
 });
+test('첫 입력 전 대사는 거부되지 않고 기다렸다가 입력 뒤 한 번 나오며, 그 입력이 화면을 바꾸면 버린다',async()=>{
+ const doc=new EventTarget(),page=new EventTarget();doc.hidden=false;let active=false;const audios=[];
+ class FakeAudio extends EventTarget { play(){this.playing=true;return Promise.resolve();} pause(){this.playing=false;} removeAttribute(){} load(){} }
+ const player=createNarration({doc,page,isMuted:()=>false,activated:()=>active,makeAudio:()=>{const a=new FakeAudio();audios.push(a);return a;}});
+ assert.equal(await player.play('welcome'),false);assert.equal(audios.length,0);assert.equal(player.state.status,'idle');
+ active=true;page.dispatchEvent(new Event('pointerup'));await new Promise(r=>setTimeout(r,5));
+ assert.equal(audios.length,1);assert.equal(player.state.id,'welcome');
+ active=false;await player.play('story-2');player.stop();active=true;page.dispatchEvent(new Event('keydown'));await new Promise(r=>setTimeout(r,5));
+ assert.equal(audios.length,1,'screen change drops the waiting line');player.dispose();
+});
