@@ -56,7 +56,7 @@ html body #app .map-screen {
   html body #app .map-screen { --map-key-size: 64px; --map-key-gap: 10px; --map-cta-height: 66px; --map-cta-font: 22px; }
 }
 @media (max-width: 760px), (max-height: 560px) {
-  html body #app .map-screen { --map-key-size: 44px; --map-key-gap: 4px; --map-cta-height: 52px; --map-cta-font: 16px; }
+  html body #app .map-screen { --map-key-size: 48px; --map-key-gap: 4px; --map-cta-height: 52px; --map-cta-font: 18px; }
 }
 html body #app .map-screen .map-controls .map-dpad {
   display: grid;
@@ -215,7 +215,7 @@ html body #app .map-screen .map-next-card {
 .title-v2 .title-actions .button.secondary,.title-v2 .title-actions .play-mission-entry{min-height:48px;padding:8px 18px;font-size:18px;border-radius:999px}
 .title-v2 .npc-welcome-voice{margin:8px 0;padding:10px 14px;max-width:480px}
 .title-v2 .npc-welcome-voice p{margin:4px 0 6px;font-size:18px;line-height:1.45}
-.title-v2 .npc-welcome-voice .npc-dialogue-voice .button{min-height:44px;padding:6px 14px;font-size:18px}
+.title-v2 .npc-welcome-voice .npc-dialogue-voice .button{min-height:48px;padding:6px 14px;font-size:18px}
 
 /* =====================================================================
    2026-11-17 디자인 고도화 (yelsam-design · 일러스트 게임 화면 예외: 그림 톤에 맞춘 금색·청록)

@@ -63,7 +63,7 @@
  .run-stage .run-bag{width:104px;top:calc(var(--run-edge) + 54px)}
  .run-stage .run-bag figcaption{font-size:14px}
  .run-stage .run-place,.run-stage .climate-constants{font-size:14px;padding:4px 8px}
- #app .activity-screen .activity-host .run-stage .run-classic{font-size:14px;min-height:44px;padding:6px 10px}
+ #app .activity-screen .activity-host .run-stage .run-classic{font-size:14px;min-height:48px;padding:6px 10px}
  .run-stage .run-speech{font-size:15px;padding:6px 12px;top:calc(var(--run-edge) + 52px)}
  .run-stage .run-label{font-size:14px}
  .run-stage .run-predict h2{font-size:18px}.run-stage .run-predict p{font-size:14px}

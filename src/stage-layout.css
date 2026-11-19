@@ -10,7 +10,7 @@
 .activity-screen .activity-host>div{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);grid-template-rows:minmax(0,1fr);align-items:stretch;width:100%;height:100%;max-width:none;max-height:none;margin:0;gap:var(--stage-gap);min-width:0;min-height:0}
 :where(.activity-screen) .activity-host :where(.lab-panel){min-width:0;min-height:0;height:100%;max-height:none;padding:var(--panel-pad);overflow:visible;scrollbar-gutter:auto;border-radius:20px;background:#fffdf5f5}
 .activity-screen .activity-host .lab-panel{height:100%;min-height:0;max-height:none;grid-template-columns:minmax(0,1fr);padding:var(--panel-pad);overflow:visible;scrollbar-gutter:auto}
-.activity-screen .activity-host :is(.button,.choice){min-height:44px;font-size:clamp(18px,1.25vw,23px);padding:8px 12px;line-height:1.25;gap:8px;min-width:0}
+.activity-screen .activity-host :is(.button,.choice){min-height:48px;font-size:clamp(18px,1.25vw,23px);padding:8px 12px;line-height:1.25;gap:8px;min-width:0}
 .activity-screen .activity-host :is(.section-label,.microcopy){font-size:var(--text-small);line-height:1.25}
 .activity-screen .activity-host :is(.button,.choice)>span{min-width:0}
 .activity-host :is(button,.choice,.supply-port)>.icon{flex:none}
@@ -23,15 +23,15 @@
 .activity-screen .mission-step{font:18px/1.35 var(--font-display);white-space:nowrap;color:#f5daa1}
 .activity-screen .mission-direction{display:block;font-size:clamp(18px,1.1vw,21px);line-height:1.35;min-width:0}
 .activity-actions,.playback-controls,.utility-tools{display:flex;align-items:center;gap:8px;flex:none;min-width:0}
-.activity-actions .button{min-height:44px;padding:8px 12px;font-size:18px;line-height:1.2;gap:6px;border-radius:12px}
+.activity-actions .button{min-height:48px;padding:8px 12px;font-size:18px;line-height:1.2;gap:6px;border-radius:12px}
 .autoplay-button{min-width:136px}
-.teacher-menu-button{min-width:44px}
+.teacher-menu-button{min-width:48px}
 .activity-actions .icon{width:21px;height:21px}
 .playback-speed{display:flex;align-items:center}
-.playback-speed select{height:44px;width:112px;padding:6px;border:2px solid #b7ad87;border-radius:12px;background:#fffdf5;color:#235f63;font:16px/1.2 var(--font-display);cursor:pointer}
+.playback-speed select{height:48px;width:112px;padding:6px;border:2px solid #b7ad87;border-radius:12px;background:#fffdf5;color:#235f63;font:16px/1.2 var(--font-display);cursor:pointer}
 .activity-screen[data-playback=running] .autoplay-button{background:#ffe7b2;border-color:#c09235;color:#143f43}
 .activity-screen .buddy{position:static;width:auto;height:auto;margin:0}
-.activity-screen .buddy-button{position:static;inset:auto;display:flex;align-items:center;justify-content:center;gap:4px;min-width:64px;min-height:44px;height:44px;padding:4px 8px;border-radius:12px;background:#fff4d9;border:2px solid #b7ad87}
+.activity-screen .buddy-button{position:static;inset:auto;display:flex;align-items:center;justify-content:center;gap:4px;min-width:64px;min-height:48px;height:48px;padding:4px 8px;border-radius:12px;background:#fff4d9;border:2px solid #b7ad87}
 .activity-screen .soli-portrait{width:24px;height:30px;filter:none}
 .activity-screen .buddy-label{position:static;padding:0;border:0;background:none;font:18px/1.2 var(--font-display)}
 .activity-screen .buddy-speech{position:fixed;left:auto;right:16px;bottom:88px;width:min(430px,calc(100vw - 32px));max-height:calc(100dvh - 120px);overflow:auto;font-size:20px}
@@ -57,7 +57,7 @@
 .teacher-nav-dialog .teacher-key{width:48px;height:48px}
 .teacher-nav-dialog .teacher-where{display:none}
 .teacher-dock .teacher-keys{display:flex;gap:4px}
-.teacher-dock .teacher-key{width:44px;height:44px;min-width:44px;min-height:44px}
+.teacher-dock .teacher-key{width:48px;height:48px;min-width:48px;min-height:48px}
 /* Facility introductions and the finale retain their own reading layout. */
 .stage-task{display:grid;grid-template-columns:36px minmax(0,1fr) 24px;gap:12px;min-width:0}
 .stage-task>.icon{width:24px;height:24px}
@@ -95,7 +95,7 @@
  .activity-screen .mission-heading h1{font-size:24px}
  .activity-screen .mission-heading .eyebrow{font-size:14px}
  .activity-screen~.global-controls{inset:8px 12px auto}
- .activity-screen~.global-controls .icon-button{width:44px;height:44px}
+ .activity-screen~.global-controls .icon-button{width:48px;height:48px}
  .activity-screen .activity-host :is(.button,.choice){font-size:14px;padding:6px 8px}
  .activity-screen .mission-rail{min-height:56px}
  .activity-screen .mission-step,.activity-screen .mission-direction{font-size:14px}
@@ -121,7 +121,7 @@
  .activity-actions .button{font-size:14px;padding:8px}
  .autoplay-button{min-width:112px}
  .playback-speed select{width:96px}
- .activity-screen .buddy-button{min-width:44px;padding:4px 6px}
+ .activity-screen .buddy-button{min-width:48px;padding:4px 6px}
  .activity-screen .soli-portrait{display:none}
  .activity-screen .buddy-label{font-size:14px}
  .activity-screen .completed-actions{flex:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.85fr);align-items:start}
@@ -144,7 +144,7 @@
  .stage-screen:has(~.save-status) .stage-intro,.finale-screen:has(~.save-status) .finale-layout{top:120px}
  .teacher-pad{left:12px;padding:4px}
  .teacher-skip{right:12px;padding:8px}
- .teacher-skip-actions .button{font-size:16px;padding:8px;min-height:44px}
+ .teacher-skip-actions .button{font-size:16px;padding:8px;min-height:48px}
 }
 @media(prefers-reduced-motion:reduce){.activity-screen *,.activity-screen *::before,.activity-screen *::after{animation:none!important;transition:none!important}}
 @media print{.activity-screen{display:none}}
@@ -179,8 +179,8 @@
  .delivery-layout .facility-request p{font-size:14px;line-height:1.3}
  .delivery-layout .facility-request .supply-port{grid-column:auto;margin:0;min-height:36px;min-width:44px;padding:2px 8px}
  .delivery-layout .facility-request .supply-port>span{display:none}
- .delivery-layout .reason-slot .choice-group{grid-auto-rows:minmax(44px,auto);gap:2px}
- .delivery-layout .reason-slot .choice{min-height:44px;padding:2px 8px;font-size:14px;line-height:1.2}
+ .delivery-layout .reason-slot .choice-group{grid-auto-rows:minmax(48px,auto);gap:2px}
+ .delivery-layout .reason-slot .choice{min-height:48px;padding:2px 8px;font-size:14px;line-height:1.2}
  /* 바람길: 오른쪽 기록 칸이 몇 픽셀 넘치지 않게 */
  #app .activity-screen .activity-host>.flow-layout>.experiment-side{gap:6px;padding:6px 8px}
  /* 공작소: 빈 칸의 큰 더하기표가 칸 이름을 가리지 않게 */
@@ -248,7 +248,7 @@
 @media(min-height:681px){.finale-panel .final-evidence{gap:6px}.finale-panel .evidence-review{min-height:48px}}
 @media(max-height:680px){.finale-screen .finale-panel{padding-top:12px;padding-bottom:12px}}
 /* 높이 501~680px: 보상 안내 줄은 ≤500px처럼 숨기고 의뢰 줄 간격을 줄여 시설 소개 카드가 한 화면에 들어오게 한다. */
-@media(max-height:680px) and (min-height:501px){.stage-brief .stage-reward-note{display:none}.stage-brief .stage-tasks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}#app .stage-brief .stage-task{min-height:44px;margin:0;padding:4px 8px;gap:6px}.stage-brief .stage-task>span:nth-child(2){white-space:normal;overflow:visible;text-overflow:clip;line-height:1.25}}
+@media(max-height:680px) and (min-height:501px){.stage-brief .stage-reward-note{display:none}.stage-brief .stage-tasks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}#app .stage-brief .stage-task{min-height:48px;margin:0;padding:4px 8px;gap:6px}.stage-brief .stage-task>span:nth-child(2){white-space:normal;overflow:visible;text-overflow:clip;line-height:1.25}}
 @media(max-width:1050px) and (min-height:681px){.finale-screen .finale-panel{padding-top:18px;padding-bottom:18px}}
 /* 인증서 선택 칸: 음성 줄(다시 듣기)은 질문 바로 아래로 올리고, 인쇄 버튼을 맨 끝에 두어 카드 아래에 붙게 한다. */
 .certificate-options{display:flex;flex-direction:column}
@@ -287,19 +287,19 @@
 @media(max-height:540px){#app .title-v2 .title-copy:has(.npc-welcome-voice) .title-tagline{display:none}#app .title-v2 .title-copy:has(.npc-welcome-voice) .game-logo{width:min(100%,190px)}#app .title-v2 .title-actions .start-button{min-height:52px}}
 /* 폰 가로(높이 540px 이하): 카드 안 버튼을 스크롤 없이 모두 보이게 줄 수를 줄인다. */
 @media(max-height:540px) and (min-width:761px){
- .stage-screen .stage-intro{inset:70px 3% 10px;grid-template-columns:19% minmax(0,1fr);gap:12px}
- .stage-screen .stage-brief{position:relative;padding:12px 18px}
+ .stage-screen .stage-intro{inset:66px 3% 8px;grid-template-columns:19% minmax(0,1fr);gap:12px}
+ .stage-screen .stage-brief{position:relative;padding:10px 18px}
  .stage-brief>.eyebrow{position:absolute;top:14px;right:18px;margin:0}
- #app .stage-brief h1{font-size:26px;margin:0 7em 6px 0}
- #app .stage-brief>p{margin-bottom:6px;line-height:1.35}
+ #app .stage-brief h1{font-size:26px;margin:0 7em 4px 0}
+ #app .stage-brief>p{margin-bottom:4px;line-height:1.35}
  .stage-brief>p .npc-dialogue-voice{display:inline-flex!important;vertical-align:middle;margin-left:8px}
- .stage-brief>p .npc-dialogue-voice .button{min-height:44px;padding:4px 14px}
- .stage-brief .stage-tasks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
- #app .stage-brief .stage-task{min-height:44px;margin:0;padding:4px 8px;gap:6px}
+ .stage-brief>p .npc-dialogue-voice .button{min-height:48px;padding:4px 14px}
+ .stage-brief .stage-tasks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}
+ #app .stage-brief .stage-task{min-height:48px;margin:0;padding:4px 8px;gap:6px}
  #app .stage-brief .stage-task .task-marker{font-size:18px}
  .stage-brief .stage-task>span:nth-child(2){white-space:normal;overflow:visible;text-overflow:clip;line-height:1.25}
  .stage-brief .stage-reward-note{display:none}
- #app .stage-brief .concept-revisit,#app .stage-brief .stage-start{margin-top:8px}
+ #app .stage-brief .concept-revisit,#app .stage-brief .stage-start{margin-top:6px}
  .stage-brief:has(>.concept-revisit){display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:8px;align-content:start}
  .stage-brief:has(>.concept-revisit)>*{grid-column:1/-1}
  .stage-brief>.concept-revisit{grid-column:1;width:auto;padding:6px 14px}
@@ -314,7 +314,7 @@
  .finale-body>p{margin:0 0 6px;font-size:18px}
  .finale-body>p .npc-dialogue-voice{display:inline-flex!important;vertical-align:middle;margin-left:8px}
  #app .finale-panel .final-evidence{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
- #app .finale-panel .evidence-review{min-height:44px;padding:4px 8px;line-height:1.2}
+ #app .finale-panel .evidence-review{min-height:48px;padding:4px 8px;line-height:1.2}
  .story-layout{inset:72px 4% 12px}
  #app .story-card{padding:14px 20px}
  #app .story-card h1{font-size:26px;margin-bottom:6px}
@@ -345,15 +345,15 @@
  .certificate-options>.certificate-actions{grid-column:2;order:4}
 }
 @media(max-height:680px) and (min-width:761px){
- .certificate-options{row-gap:6px;padding:12px 16px}
+ .certificate-options{row-gap:6px;padding:10px 16px}
  #app .certificate-options h2{font-size:22px;margin:0 0 2px}
  .certificate-options h2 br{display:none}
- #app .certificate-options .choice{min-height:44px;padding:4px 10px;line-height:1.25}
- #app .certificate-options .ability-options .choice-group{gap:6px}
+ #app .certificate-options .choice{min-height:48px;padding:4px 10px;line-height:1.25}
+ #app .certificate-options .ability-options .choice-group{gap:4px}
  .certificate-options>.eyebrow{display:none}
  .certificate-layout{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
  .certificate .certificate-seal{display:none}
- #app .certificate{padding-top:14px;padding-bottom:14px}
+ #app .certificate{padding-top:8px;padding-bottom:8px}
  .certificate-options>.npc-dialogue-voice{display:contents!important}
  .certificate-options>.npc-dialogue-voice>.button{grid-column:1;order:3;align-self:end}
  .certificate-options>.npc-dialogue-voice>[role=status]{grid-column:1/-1;order:5}
@@ -361,11 +361,18 @@
 }
 @media(max-height:540px) and (min-width:761px){
  .certificate-layout{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr)}
- .certificate-options{row-gap:4px;grid-template-columns:auto minmax(0,1fr)}
+ .certificate-options{row-gap:2px;padding:8px 16px;grid-template-columns:auto minmax(0,1fr)}
+ #app .certificate>p{margin:2px 0}
+ #app .certificate .certificate-ability{margin:2px 0}
  .certificate-options>.nickname-label{grid-column:1;order:2;margin:0;align-self:center}
- .certificate-options>#nickname{grid-column:2;order:2;min-height:44px}
+ .certificate-options>#nickname{grid-column:2;order:2;min-height:48px}
  #app .certificate .certificate-badges{line-height:1.25}
  #app .certificate .certificate-sign{margin:0}
 }
 /* 기후 연구소 산길 걷기(높이 440px 이하): 선택지 세 개가 스크롤 없이 보이게 예측 칸 설명 문장은 숨긴다(같은 안내가 아래 안내줄에 있다). */
 @media(max-height:440px){#app .activity-screen .activity-host .run-stage .run-predict p{display:none}}
+/* 남은 문제 정리(2026-11-19 저녁): 활동 화면의 단발 조작은 모든 크기에서 48px 이상(C3), 지도 복구 작업대 글자는 18px 이상(C20). */
+html body #app .activity-screen :is(.button,.buddy-button,.choice,select){min-height:48px}
+html body .map-repair{font-size:18px}
+html body #app .certificate-options #nickname{min-height:48px}
+@media(max-height:560px){html body .map-repair .repair-body{padding-bottom:6px}}
