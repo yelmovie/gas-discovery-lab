@@ -12,7 +12,7 @@ import {isStageOpen,completeStage} from './model.js';
 import {canStand,findPath,movePoint,distance,validateMap} from './navigation.js';
 import {html,button,announce,SOLI_IMAGE} from './ui.js';
 import {icon} from './icons.js';
-import {sound,cue,preloadCues,footstep,stageOpened} from './audio.js';
+import {sound,cue,preloadCues,footstep,preloadFootsteps,stageOpened} from './audio.js';
 import {awardRewardCards,rewardCardDue,bindRewardSound} from './map-reward-cards.js';
 // Swing on the press; the hit lands on the flinch peak (~90 ms); the third hit lets the air out as the villain shrinks away.
 const encounterTone=(kind,hits)=>kind==='hit'?cue('hit',{delay:.09,rate:hits===2?.9:1}):kind==='finish'?(cue('finish',{delay:.09}),cue('exit',{delay:.3})):cue(kind);
@@ -58,6 +58,7 @@ export function mountMap(host,ctx,[geometry,background,student,soli,atlas]){
    // The exit line starts 300 ms after the third hit lands (the hit cue sits 90 ms after the press).
    if(encounterStages.some(s=>s.finish===text))setTimeout(say,390);else say();},reach:95,contact:24,canPatrol:p=>canStand(map,p),...encounterLook});
  if(encounterStages.length)preloadCues();
+ preloadFootsteps();
  const heroPose=encounterStages.length?loadEncounterActor('hero'):null,allyPose=encounterStages.length?loadEncounterActor('ally'):null;
  const reveal=buildingReveal(reduced,restoredIds);
  const isRestored=id=>id==='core'?ctx.save.finaleCompleted:completeStage(ctx.save,id);

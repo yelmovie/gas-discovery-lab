@@ -28,7 +28,7 @@ export function setFinaleOverlay(value){
  setTrack(screenTrack,Boolean(value));
 }
 export function syncAudio(settings){config={...settings};effects.sync();syncMusic();if(ctx&&(!config.sfx||quiet))stopNotes(active);}
-export function unlockAudio(settings){started=true;init();effects.unlock();ctx?.resume().catch(()=>{});syncAudio(settings);}
+export function unlockAudio(settings){started=true;init();effects.unlock();ctx?.resume().catch(()=>{});syncAudio(settings);preloadFootsteps();}
 export function sound(kind='tap'){ if(ctx) effects.play(kind); }
 // Map encounter cues: CC0 samples (assets/CREDITS.md) on the same SFX switch, mute and hidden-tab rules.
 // They may layer (swing, then hit); a file that fails falls back to the themed tone.
@@ -66,6 +66,8 @@ export function stageOpened(){cue('stage-open');cue('stage-twinkle',{delay:.12})
 // alternate with a slight rate change, and drop to half under a character voice.
 const stepFiles=['step-1.mp3','step-2.mp3'],steps=new Map();let stepTurn=0;
 function stepBuffer(file){if(!steps.has(file))steps.set(file,fetch(`/assets/audio/sfx/${file}`).then(r=>{if(!r.ok)throw Error(file);return r.arrayBuffer();}).then(b=>ctx.decodeAudioData(b)).catch(()=>{steps.delete(file);return null;}));return steps.get(file);}
+// Warm both steps where walking starts, so the first step lands on time.
+export function preloadFootsteps(){if(ctx)for(const file of stepFiles)stepBuffer(file);}
 export async function footstep({rate=1}={}){
  if(!cueAllowed()||ctx.state!=='running')return;
  const buffer=await stepBuffer(stepFiles[stepTurn++%2]);

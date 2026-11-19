@@ -6,7 +6,7 @@ import {volumeFor} from '../model.js';
 import {bindDirectionPad,mapKeyDirection,MAP_VECTORS} from '../map-controls.js';
 import {choices,escapeHTML,announce,html} from '../ui.js';
 import {icon} from '../icons.js';
-import {sound,cue,footstep} from '../audio.js';
+import {sound,cue,footstep,preloadFootsteps} from '../audio.js';
 
 const ART='/assets/run-stage/';
 const LABELS=['낮은 압력','보통 압력','높은 압력'];
@@ -153,7 +153,7 @@ export function mountMountainRun(host,task,ctx,textures,{toClassic}){
  }
  root.querySelector('.run-predict-choices').append(choices(PREDICTIONS,value=>{
   if(phase!=='predict')return;
-  state.prediction=value;save();sound();setPhase('run');say('출발! 위쪽 방향 버튼으로 산길을 올라요.',4200);canvas.focus({preventScroll:true});
+  state.prediction=value;save();sound();preloadFootsteps();setPhase('run');say('출발! 위쪽 방향 버튼으로 산길을 올라요.',4200);canvas.focus({preventScroll:true});
  },{group:'예상 고르기'}));
  function record(){
   if(completed||phase!=='run'||signal.aborted||stationAt(runner)!=='summit')return;
