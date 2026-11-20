@@ -4,7 +4,7 @@ import * as THREE from '/assets/vendor/three/three.module.min.js';
 import {COURSE,PREDICTIONS,restoreRun,recordStation,readyToCompare,runDraft,bagRatio,observedChange,createRunner,advanceRunner,stationAt,heightFraction,patrolX,touchPatrol,groundAt,obstacleAhead} from './mountain-rules.js';
 import {volumeFor} from '../model.js';
 import {bindDirectionPad,mapKeyDirection,MAP_VECTORS} from '../map-controls.js';
-import {choices,escapeHTML,announce,html} from '../ui.js';
+import {choices,escapeHTML,announce} from '../ui.js';
 import {icon} from '../icons.js';
 import {sound,cue,footstep,preloadFootsteps} from '../audio.js';
 

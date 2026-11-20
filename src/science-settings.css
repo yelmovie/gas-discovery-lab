@@ -55,3 +55,6 @@ html .science-settings-body>*{flex:none}
 html [data-science-settings] .science-settings-label{grid-column:1/-1;margin:0 0 4px}
 html [data-science-settings] .science-settings-body > .science-settings-guides{display:flex;flex-direction:column;gap:9px}
 html [data-science-settings] :is(h2,.settings-title,.settings-header){color:var(--settings-ink)}
+
+/* 설정 소리 줄 아래 안내 문구: 인라인 style 대신 클래스(2026-11-21). */
+html [data-science-settings] .sound-row-note{grid-column:1/-1}

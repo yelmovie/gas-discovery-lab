@@ -62,7 +62,7 @@
 .weight-layout .pump-actions .button{flex:1;min-height:44px;padding:6px 4px;font-size:clamp(18px,1.2vw,22px);line-height:1.2;gap:4px}
 .weight-layout .pump-actions .button .icon{width:18px;height:18px;flex:none}
 .weight-layout .record-button{width:auto}
-.weight-layout .weight-record-heading{display:flex;align-items:center;justify-content:space-between;gap:6px;min-height:20px;font:clamp(18px,1.1vw,21px)/1.2 var(--font-display);color:#49645b;flex:none}
+.weight-layout .weight-record-heading{display:flex;align-items:center;justify-content:space-between;gap:6px;min-height:20px;font:clamp(18px,1.1vw,21px)/1.2 var(--font-display);color:#405850;flex:none}
 .weight-layout .record-pagination{display:flex;align-items:center;gap:4px;min-width:0}
 .weight-layout .record-page{display:grid;place-items:center;min-width:44px;min-height:44px;border:1px solid #a6bca9;border-radius:8px;background:#edf5e9;color:#2a6556;padding:6px}
 .weight-layout .record-page .icon{width:20px;height:20px}

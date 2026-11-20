@@ -7,7 +7,7 @@
 .delivery-layout .gas-card.is-observing{outline:3px dashed #bc8b38;outline-offset:-5px}
 .delivery-layout .gas-read-state{display:none}
 .delivery-layout .gas-orb{display:grid;place-items:center;flex:none;width:auto;min-width:clamp(26px,6dvh,68px);padding:0 .18em;height:clamp(26px,6dvh,68px);border:3px solid #ffffffab;box-shadow:inset 0 -4px 0 #173a2e26,0 2px 5px #283e3420;font:clamp(18px,1.8vw,29px)/1 var(--font-display)}
-.delivery-layout .gas-color-note{font-size:clamp(18px,1.1vw,20px);line-height:1.2;color:#5d6c5e;margin:0;text-align:center}
+.delivery-layout .gas-color-note{font-size:clamp(18px,1.1vw,20px);line-height:1.2;color:#4a564b;margin:0;text-align:center}
 .delivery-layout .gas-information{padding:clamp(7px,1vw,18px);height:100%;min-width:0;min-height:0;background:linear-gradient(135deg,#f0f5e8,#e6efdf);border:1px solid #becdb8;border-radius:16px}
 .delivery-layout .gas-use-card,.delivery-layout .gas-use-result{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.3fr);align-items:center;gap:clamp(7px,1.2vw,20px);height:100%;min-width:0;min-height:0}
 .delivery-layout .gas-use-visual{height:100%;min-width:0;min-height:0;display:grid;grid-template-rows:minmax(0,1fr) auto;gap:4px;justify-items:center}

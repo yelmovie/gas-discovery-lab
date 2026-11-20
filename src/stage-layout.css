@@ -386,3 +386,38 @@ html body #app .activity-screen :is(.button,.buddy-button,.choice,select){min-he
 html body .map-repair{font-size:18px}
 html body #app .certificate-options #nickname{min-height:48px}
 @media(max-height:560px){html body .map-repair .repair-body{padding-bottom:6px}}
+
+/* 교사 시연 모드 시설 소개(2026-11-21): 아래 교사 도구 때문에 카드가 낮아져 「발견한 개념 다시 보기」가 고정 주 버튼 밑에 깔렸다(35~91px 넘침). 시연 모드에서만 낮은 화면(501~680px)과 같은 2열 의뢰 목록을 쓴다. 1920×1080 등 넉넉한 화면은 그대로. */
+@media(max-height:860px) and (min-height:501px){
+ html body #app .stage-screen.teacher-mode .stage-brief .stage-tasks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+ html body #app .stage-screen.teacher-mode .stage-brief .stage-task{min-height:48px;margin:0;padding:4px 8px;gap:6px}
+ html body #app .stage-screen.teacher-mode .stage-brief .stage-task>span:nth-child(2){white-space:normal;overflow:visible;text-overflow:clip;line-height:1.25}
+}
+/* 같은 교사 시연 모드, 높이 501~680px: 아래 교사 도구와의 틈이 12px뿐이라 폰 가로(540px 이하)와 같은 압축 배치를 쓴다(제목 줄 압축, 「발견한 개념 다시 보기」와 주 버튼 한 줄). */
+@media(max-height:680px) and (min-height:501px){
+ html body #app .stage-screen.teacher-mode .stage-brief{position:relative}
+ html body #app .stage-screen.teacher-mode .stage-brief>.eyebrow{position:absolute;top:14px;right:18px;margin:0}
+ html body #app .stage-screen.teacher-mode .stage-brief h1{margin:0 7em 4px 0}
+ html body #app .stage-screen.teacher-mode .stage-brief>p{margin-bottom:4px}
+ html body #app .stage-screen.teacher-mode .stage-brief .concept-revisit,html body #app .stage-screen.teacher-mode .stage-brief .stage-start{margin-top:6px}
+ html body #app .stage-screen.teacher-mode .stage-brief:has(>.concept-revisit){display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:8px;align-content:start}
+ html body #app .stage-screen.teacher-mode .stage-brief:has(>.concept-revisit)>*{grid-column:1/-1}
+ html body #app .stage-screen.teacher-mode .stage-brief>.concept-revisit{grid-column:1;width:auto;padding:6px 14px}
+ html body #app .stage-screen.teacher-mode .stage-brief>.concept-revisit+.stage-start{grid-column:2}
+ html body #app .stage-screen.teacher-mode .stage-brief .stage-start{flex-wrap:nowrap}
+ html body #app .stage-screen.teacher-mode .stage-brief .stage-start>.button{flex:1 1 auto;min-width:0;width:auto}
+ html body #app .stage-screen.teacher-mode .stage-brief .stage-start>.play-mission-entry{flex:none;padding:6px 10px}
+}
+@media(max-height:680px) and (min-height:501px){
+ html body #app .stage-screen.teacher-mode .stage-brief{padding:10px 18px}
+ html body #app .stage-screen.teacher-mode .stage-brief h1{font-size:26px}
+ html body #app .stage-screen.teacher-mode .stage-brief .stage-tasks{gap:4px}
+ html body #app .stage-screen.teacher-mode .stage-brief>.concept-revisit{max-width:8.5em;white-space:normal;line-height:1.2}
+ html body #app .stage-screen.teacher-mode .stage-brief .stage-start>.button{flex:1 1 auto;min-width:8.5em;white-space:normal;line-height:1.2}
+}
+/* 교사 시연 모드 마지막 의뢰(높이 681~860px): 아래 교사 도구 때문에 「공기 장치 설계도」가 고정 버튼 줄 밑에 깔렸다. 낮은 화면(680px 이하)의 압축 규칙과 같게. */
+@media(max-height:860px) and (min-height:681px){
+ html body #app .finale-screen.teacher-mode .finale-panel{padding:18px 22px}
+ html body #app .finale-screen.teacher-mode .finale-panel h1{font-size:30px}
+ html body #app .finale-screen.teacher-mode .finale-panel h1 br{display:none}
+}

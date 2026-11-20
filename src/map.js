@@ -10,7 +10,7 @@ import {mountRepair} from './map-repair.js';
 import {STAGES} from './data.js';
 import {isStageOpen,completeStage} from './model.js';
 import {canStand,findPath,movePoint,distance,validateMap} from './navigation.js';
-import {html,button,announce,SOLI_IMAGE} from './ui.js';
+import {button,announce,SOLI_IMAGE} from './ui.js';
 import {icon} from './icons.js';
 import {sound,cue,preloadCues,footstep,preloadFootsteps,stageOpened} from './audio.js';
 import {awardRewardCards,rewardCardDue,bindRewardSound} from './map-reward-cards.js';
@@ -27,7 +27,7 @@ export function mountMap(host,ctx,[geometry,background,student,soli,atlas]){
  const map=validateMap(geometry);
  if(background.naturalWidth!==map.width||background.naturalHeight!==map.height)throw new Error('배경 크기');
  host.innerHTML=`<canvas class="map-canvas" tabindex="0" aria-label="자연 속 연구 마을. 길이나 시설 이름을 누르면 걸어가요. 방향키와 WASD로 이동하고 Enter로 입장해요."></canvas><div class="map-labels"></div><section class="map-controls" aria-label="지도 조작"><div class="map-controls-head"><img src="${SOLI_IMAGE}" alt=""><span>솔이와 함께 탐험해요</span></div><div class="map-controls-body"><div class="map-dpad" role="group" aria-label="이동 방향"><button data-dir="up" aria-label="위로 이동">${icon('arrow')}</button><button data-dir="left" aria-label="왼쪽으로 이동">${icon('arrow')}</button><button data-dir="down" aria-label="아래로 이동">${icon('arrow')}</button><button data-dir="right" aria-label="오른쪽으로 이동">${icon('arrow')}</button></div><button class="map-tool map-recenter" aria-label="내 위치로" title="내 위치로" hidden>${icon('target')}</button></div></section><section class="map-next-card" aria-label="다음 목적지"><div class="map-camera-actions" role="group" aria-label="지도 보기"><button class="map-tool map-overview" aria-label="지도 전체 보기" title="지도 전체 보기" aria-pressed="false">${icon('fit')}</button><button class="map-tool map-hand" aria-label="손으로 지도 이동" title="손으로 지도 이동" aria-pressed="false">${icon('hand')}</button></div><button class="map-next button gold"></button></section><button class="map-companion" aria-label="함께 걷는 바람여우 솔이에게 힌트 받기"><span>···</span></button><div class="map-speech" hidden></div>`;
- if(ctx.save.settings.adminUnlockAll||STAGES.some(s=>completeStage(ctx.save,s.id)))mountRepair(host,{state:ctx.save,save:()=>ctx.persist(),kind:'valve',preview:ctx.save.settings.adminUnlockAll,available:STAGES.map((s,i)=>({id:i,label:s.name,stage:s.id})).filter(s=>ctx.save.settings.adminUnlockAll||completeStage(ctx.save,s.stage))});
+ if(ctx.save.settings.adminUnlockAll||STAGES.some(s=>completeStage(ctx.save,s.id)))mountRepair(host,{signal:ctx.signal,state:ctx.save,save:()=>ctx.persist(),kind:'valve',preview:ctx.save.settings.adminUnlockAll,available:STAGES.map((s,i)=>({id:i,label:s.name,stage:s.id})).filter(s=>ctx.save.settings.adminUnlockAll||completeStage(ctx.save,s.stage))});
  const canvas=host.querySelector('canvas'),g=canvas.getContext('2d'),next=host.querySelector('.map-next'),speech=host.querySelector('.map-speech');
  const returnBuilding=map.buildings.find(b=>b.id===ctx.returnFrom);let position=returnBuilding?{x:returnBuilding.return[0],y:returnBuilding.return[1]}:{...map.spawn};if(!canStand(map,position))position={...map.spawn};
  let follower={x:position.x-34,y:position.y+17},trail=[{...position}],path=[],goal=null,dir=0,walking=false,time=0,lastTime=0,frame=0,width=0,height=0,scale=1,cam={x:0,y:0},entered=false,stepWait=0;
