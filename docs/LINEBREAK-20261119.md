@@ -64,3 +64,12 @@
   - ③ 캔버스·3D 글: 캔버스에 그리는 글 없음(`fillText`·`wordWrap`·텍스트 스프라이트 없음, 3D 산길 CanvasTexture는 그림자뿐). 확인함, 문제없음.
   - ④ 커밋 `fd9ea9e` → `lbk-deploy-2` 배포, Cloudflare 버전 `e5552e66-0956-4a08-8774-8e7b55bef6af`, `cmp.sh` korean-linebreak.css(`ca47c23821563c77`)·sw.js·index MATCH. 다른 세션의 미커밋 `src/map-encounters.js`(말풍선 폭 260px)는 건드리지 않음.
 - 악당 글자 18px 뒤 다시 재기(2026-11-20, 지침 10절): 18px 커밋 `d272d6e`(말풍선 18px·폭 260px, 격퇴 안내 18px·폭 440px)가 반영된 `origin/main`에서 말풍선 25줄 + 격퇴 안내 `.map-encounter-clear` 5줄을 1280×800·1024×768·1920×1080에서 잼(90줄). `measure.js` 문제 0건, 낱말 끊김 없음, 줄 수 1~3줄(3줄 3개, 18px 지침 최대 3줄 안), 화면 안·캐릭터 안 가림. 지난번 `.map-encounter-say` balance 보정 유지 확인(격퇴 안내는 role=status라 공통 balance). 공격 버튼은 아이콘만 있고 보이는 글이 없음(체력 표시는 ●○ 3자 한 줄). 고친 것 없음 → 배포 안 함.
+
+## 최종 상태 (2026-11-21, 지침 11절)
+
+- **운영**: Cloudflare 버전 `e5552e66-0956-4a08-8774-8e7b55bef6af`가 마지막 줄바꿈 배포(소스 `fd9ea9e`). 그 뒤 운영에 반영된 코드 커밋은 다른 세션의 악당 18px `d272d6e`뿐이고 이미 운영에 있다. `origin/main`의 `src/korean-linebreak.css`(`ca47c23821563c77`)·`src/reward-cards.css`(`7bf850473c4e60f3`)·`src/map-encounters.js`·`src/main.js`·index를 운영 파일과 대조해 모두 MATCH. 운영보다 앞선 커밋은 문서뿐(`70a8f81`·`968085c`·이 기록). 미배포 코드 없음 → 배포 안 함.
+- **고친 것(전체)**: 공통 줄바꿈 CSS 적용과 짧은 안내 문단 balance(`955cec6`), 마지막 의뢰 음성 줄 원복(`33f62de`), 성취 카드 잠긴 문구 세 줄 쌓기(`ad16cd3`), 지도 악당 말풍선 balance(`fd9ea9e`). 실제 줄바꿈 문제 26→0, 악당 글 18px 뒤 90줄 0건.
+- **11절 4번 점검(깨끗한 `origin/main` 사본, `--mute-audio`, `lbk-browser-3`)**: `npm test` 92/92, 빌드 371파일, `qa:layout` 0건. `qa:responsive` 보고 94개 상태와 `qa:screens` 7건(지도 표지판 화면 밖·복구 작업대가 표지판 덮음·375×812)은 원래 있던 것이다. responsive는 `docs/reviews/RELEASE-REVIEW-20261120.md` C4·C7(교사 시연 모드, 390×844 세로, 740×360)과 상태 수까지 같다. screens는 줄바꿈 변경(`korean-linebreak.css` 링크·잠긴 카드 네 줄)을 뺀 사본에서도 같은 7건이 나온다. 이 작업 때문인 회귀 없음 → 보고만.
+- **그대로 둔 것**: `<br>`로 뜻 단위로 끊은 문장(첫 화면 소개, 저울·기체 정보 빈칸, 미션 펌프 버튼), 두 줄 길이가 고른 짧은 라벨(「여기로 / 끌어 놓기」「밀봉한 / 과자 봉지」「이산화 / 탄소」), 마지막 의뢰 「…당겨요. [다시 듣기]」(음성 버튼이 둘째 줄을 채움, 떼면 906×755에서 넘쳐 원복), 영상에 구운 자막. 한 줄로 만들려면 칸·글자 크기나 문구를 바꿔야 해서 기준상 그대로.
+- **미확인**: 실물 태블릿·전자칠판 확인(할 수 없음).
+- 저장소의 미커밋 CSS 4개(`climate-visuals.css`·`delivery-visuals.css`·`flow-weight-visuals.css`·`reward-cards.css`, 잠긴 카드 글자색 65→85% 등)는 「100점 계획 2단계」(`_shared/SCORE-100-FIX-20261121.md`, `fc-*` 차로) 세션 것이라 건드리지 않았다.
