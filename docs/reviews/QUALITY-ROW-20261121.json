@@ -1,0 +1,13 @@
+{
+  "no": "15", "name": "기체 도시 대작전", "appCommit": "031de66", "measuredAt": "2026-11-21T07:18+09:00",
+  "score": {"total": 85, "noDevice": 92,
+    "items": {"learning": 9, "fun": 6, "function": 9, "code": 9, "design": 9, "a11y": 8, "perf": 8, "firstScreen": 10, "data": 7, "deploy": 10}},
+  "structure": {"zones": 5, "activities": 20, "stepsPerActivityMedian": 4, "autoRunSeconds": 119},
+  "interaction": {"kinds": ["누르기", "끌기", "꾹 누르기", "슬라이더", "지도 걷기", "3D"], "kindsCount": 6, "zonesWithOwnInteraction": 5},
+  "feedback": {"wrongAnswerLevels": 3, "hintBeforeAnswer": true, "retryGoal": false, "rewardEffects": 4, "transitionEffects": null},
+  "screen": {"playAreaHeightPctMedian": 78.5, "playAreaAreaPctMedian": 75.4, "bodyTextMinPx": 18, "bodyTextMedianPx": 18, "imagesOnScreenMedian": 11},
+  "sound": {"bgm": true, "sfx": true, "voice": true, "voiceLines": 129},
+  "weight": {"firstScreenKB": 1272, "distMB": 69.4},
+  "robust": {"reloadRestores": true, "corruptSaveHandled": true, "offlineRevisit": true, "backButtonStaysInApp": false, "certificatePrintsOnePage": true},
+  "notes": "transitionEffects는 세는 기준을 정하지 못해 null. stepsPerActivityMedian은 구역별 완료 조작 수(관 회전은 1단계로 셈)의 가운데 값. autoRunSeconds는 운영 qa:learning 20개 의뢰 완주(영상 확인 포함). backButtonStaysInApp: 활동→지도→홈까지는 앱 안이지만 그다음 뒤로 가기는 앱을 벗어남(3-2단계). 첫 화면 1.30MB·로딩 1.77~1.88초(11-20 운영). 보상 효과: 발견 도장, 성취 카드 공개, 시설 열림 소리·반짝임, 지도 복구."
+}
