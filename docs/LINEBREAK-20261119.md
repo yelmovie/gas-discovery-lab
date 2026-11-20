@@ -58,3 +58,8 @@
 - 운영 확인: `cmp.sh` — `src/korean-linebreak.css` build=live `6e5bc23c90fbc583` MATCH, `sw.js` MATCH, index MATCH. 운영 index에서 `korean-linebreak.css`가 첫 스타일시트.
 - 운영 측정: `_scratch/linebreak-audit-20261119/run.mjs 15 - 18 1280x800`(첫 화면·이야기·공기 장치 미션 등 18단계) → 표시 2건 모두 `<br>` 오탐(첫 화면 소개, 미션 펌프 버튼 「꾹 눌러<br>공기 넣기」). 실제 문제 0.
 - 추가 수정(2026-11-20, 지침 8절): 성취 카드 보관함 잠긴 카드 「악당을 물리치면 / 열려요」 → `src/reward-cards.css`에 좁은 카드(안쪽 152px 이하, 화면 높이 600px 이상)만 낱말마다 한 줄씩 쌓는 네 줄 추가(`ad16cd3`). 로컬 확인: 1280×800·1920×1080 한 줄, 1024×768 「악당을 / 물리치면 / 열려요」 세 줄, 카드 5장 넘침 0. 배포 `lbk-deploy-2` → Cloudflare 버전 `d9de27dd-905f-4141-968c-db8e60bc669b`(소스 `ad16cd3`), `cmp.sh` reward-cards.css·sw.js·index MATCH.
+- 남은 것 정리(2026-11-20, 지침 9절):
+  - ① 지도 악당 말풍선 `.map-encounter-say`: 악당 5명 대사·맞을 때·물러날 때 25줄 + 물리친 뒤 상단 상태줄 `.map-encounter-clear` 5줄을 실제 스타일로 지도에 띄워 1280×800·1024×768에서 잼. 도구 기준(끝줄 4자 이하·34% 미만) 0건이었지만 7줄이 「그럼 내 공기 주머니는 저울에 / 올리지 마!」「…못 찾을 / 줄 알았지!」처럼 긴 줄 뒤 대여섯 글자로 끝나서 `src/korean-linebreak.css` 보정에 `.map-encounter-say { text-wrap-style: balance; }` 추가 → 7줄 모두 고르게(「그럼 내 공기 주머니는 / 저울에 올리지 마!」), 줄 수·상자 폭 그대로. 화면 안·캐릭터 안 가림 확인.
+  - ② 1차 때 못 잰 DOM: 성취 카드 획득 장면 5장(같은 모듈·카드 목록으로 reveal), 다 모은 보관함, 카드 크게 보기 5장, 상단 상태줄 → 1280·1024 모두 0건(82화면).
+  - ③ 캔버스·3D 글: 캔버스에 그리는 글 없음(`fillText`·`wordWrap`·텍스트 스프라이트 없음, 3D 산길 CanvasTexture는 그림자뿐). 확인함, 문제없음.
+  - ④ 커밋 `fd9ea9e` → `lbk-deploy-2` 배포, Cloudflare 버전 `e5552e66-0956-4a08-8774-8e7b55bef6af`, `cmp.sh` korean-linebreak.css(`ca47c23821563c77`)·sw.js·index MATCH. 다른 세션의 미커밋 `src/map-encounters.js`(말풍선 폭 260px)는 건드리지 않음.
