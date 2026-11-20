@@ -63,3 +63,4 @@
   - ② 1차 때 못 잰 DOM: 성취 카드 획득 장면 5장(같은 모듈·카드 목록으로 reveal), 다 모은 보관함, 카드 크게 보기 5장, 상단 상태줄 → 1280·1024 모두 0건(82화면).
   - ③ 캔버스·3D 글: 캔버스에 그리는 글 없음(`fillText`·`wordWrap`·텍스트 스프라이트 없음, 3D 산길 CanvasTexture는 그림자뿐). 확인함, 문제없음.
   - ④ 커밋 `fd9ea9e` → `lbk-deploy-2` 배포, Cloudflare 버전 `e5552e66-0956-4a08-8774-8e7b55bef6af`, `cmp.sh` korean-linebreak.css(`ca47c23821563c77`)·sw.js·index MATCH. 다른 세션의 미커밋 `src/map-encounters.js`(말풍선 폭 260px)는 건드리지 않음.
+- 악당 글자 18px 뒤 다시 재기(2026-11-20, 지침 10절): 18px 커밋 `d272d6e`(말풍선 18px·폭 260px, 격퇴 안내 18px·폭 440px)가 반영된 `origin/main`에서 말풍선 25줄 + 격퇴 안내 `.map-encounter-clear` 5줄을 1280×800·1024×768·1920×1080에서 잼(90줄). `measure.js` 문제 0건, 낱말 끊김 없음, 줄 수 1~3줄(3줄 3개, 18px 지침 최대 3줄 안), 화면 안·캐릭터 안 가림. 지난번 `.map-encounter-say` balance 보정 유지 확인(격퇴 안내는 role=status라 공통 balance). 공격 버튼은 아이콘만 있고 보이는 글이 없음(체력 표시는 ●○ 3자 한 줄). 고친 것 없음 → 배포 안 함.
