@@ -259,6 +259,9 @@
 /* 학생이 읽는 글자 18px 하한: 높이 680px 이하에서 14~16px로 줄어들던 활동·인증서 글자를 18px로 둔다. */
 #app .gas-orb.gas-tank>b{font-size:18px}
 @media(max-height:680px),(max-width:1050px){#app .certificate :is(.certificate-top,.certificate-sign,.certificate-badges>span){font-size:18px}}
+/* 인증서 서명은 한 줄: 카드 안쪽이 서명보다 좁으면(폰 가로 288px) 서명 글자만 조금 줄인다. */
+#app .certificate .certificate-sign{container-type:inline-size}
+@container (min-width:240px){.certificate-sign>span{white-space:nowrap;font-size:clamp(14px,5.9cqw,1em)}}
 @media(max-height:680px){
  #app .activity-screen :is(.mission-step,.buddy-label){font-size:18px}
  #app .activity-host :is(.button,.choice,.part-card,.record-stage,.record-condition,.climate-constants,figcaption,p,.slot-caption,.drag-cue,.facility-copy p){font-size:18px}

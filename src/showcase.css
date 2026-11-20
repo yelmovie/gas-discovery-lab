@@ -18,6 +18,8 @@
 .title-v2 .start-button .icon{transition:transform .2s}@media(hover:hover) and (pointer:fine){.title-v2 .start-button:hover .icon{transform:translateX(4px)}}
 .title-v2 .title-actions .button.secondary{min-height:70px;border-radius:20px;background:#fffdf3e6;backdrop-filter:blur(4px)}
 .title-v2 .title-save-hint{display:inline-flex;align-items:center;margin:22px 0 0 6px;padding:6px 14px;border-radius:999px;background:#0b2f3373;color:#e6f0e3}
+/* 제작·저작권 표기: 시작 화면 우측 하단에 작게. 조작 요소가 아니다. */
+.title-v2 .title-credit{position:absolute;right:calc(clamp(12px,1.9vw,32px) + env(safe-area-inset-right,0px));bottom:calc(clamp(8px,1.5vh,16px) + env(safe-area-inset-bottom,0px));margin:0;padding:3px 9px;border-radius:999px;background:#0b2f33b8;color:#f2f7ea;font-size:clamp(10px,calc(5px + .5vw),13px);font-weight:700;line-height:1.4;letter-spacing:0;white-space:nowrap;pointer-events:none;user-select:none}
 .title-v2 .title-characters{right:5%;bottom:1.5%;width:34%;height:84%}
 .title-v2 .title-air{left:auto;right:0;bottom:0;height:100%;max-width:100%;filter:drop-shadow(0 18px 14px #0b2d2a66);transform-origin:50% 100%;animation:hero-in .8s .1s cubic-bezier(.2,1.2,.4,1) both,hero-breathe 4.5s 1s ease-in-out infinite}
 .title-v2 .title-soli{position:absolute;left:0;top:18%;width:30%;max-width:150px;filter:drop-shadow(0 10px 10px #0b2d2a55);animation:soli-float 3.6s ease-in-out infinite}
