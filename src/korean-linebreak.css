@@ -33,3 +33,8 @@
   text-wrap-style: balance;
 }
 
+
+/* 지도 악당 말풍선(map-encounters.js가 넣는 .map-encounter-say): 184px 안에서 「…저울에 / 올리지 마!」처럼 끝줄이 짧게 남아 줄 길이를 고르게 나눈다. */
+.map-encounter-say {
+  text-wrap-style: balance;
+}
