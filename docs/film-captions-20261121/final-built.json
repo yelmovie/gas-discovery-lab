@@ -1,12 +1,12 @@
 {
  "film": "final",
  "seconds": 30.07,
- "bytes": 5352565,
+ "bytes": 6228135,
  "scenes": [
   {
    "name": "final-1",
    "len": 7.0,
-   "source": "kb"
+   "source": "flow"
   },
   {
    "name": "final-2",
@@ -16,7 +16,7 @@
   {
    "name": "final-3",
    "len": 8.32,
-   "source": "kb"
+   "source": "flow"
   },
   {
    "name": "card",
