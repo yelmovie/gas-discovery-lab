@@ -1,5 +1,5 @@
 import { createThemeEffects } from './theme-effects.js';
-let ctx,active=[],config={music:true,sfx:true,musicVolume:35,sfxVolume:100},quiet=false,narrating=false,started=false;
+let filmOn=false,ctx,active=[],config={music:true,sfx:true,musicVolume:35,sfxVolume:100},quiet=false,narrating=false,started=false;
 // SFX level (settings, 0-100 %, default 100 = the level before the slider existed) multiplies every effect lane: UI tones, cues, card sounds, footsteps.
 const sfxLevel=()=>{const v=Number(config.sfxVolume);return Number.isFinite(v)?Math.min(100,Math.max(0,v))/100:1;};
 const effects = createThemeEffects('gas', () => ({ enabled: config.sfx, muted: quiet, volume: .75*sfxLevel() }));
@@ -14,7 +14,7 @@ function syncMusic(){
  // Once the finale theme has played through, the main theme carries on at x0.45 under the finale window, ending or certificate.
  if(track==='finale'&&finaleDone){track='main';level=.45;}
  for(const [name,a] of Object.entries(players))if(name!==track)a.pause();
- if(!started||!config.music||config.musicVolume<=0||document.hidden){players[track]?.pause();return;}
+ if(!started||filmOn||!config.music||config.musicVolume<=0||document.hidden){players[track]?.pause();return;}
  const a=player(track);
  // Ducked under character voices and concept clips instead of stopping.
  // While the full-set card jingle still rings, the finale theme rises from 0 over 1.2 s instead of cutting it.
@@ -23,6 +23,8 @@ function syncMusic(){
  if(a.paused)a.play().catch(()=>{});
 }
 function setTrack(nextScreen,nextOverlay){const before=overlay?'finale':screenTrack,after=nextOverlay?'finale':nextScreen;screenTrack=nextScreen;overlay=nextOverlay;if(after!==before&&after==='finale'){finaleDone=false;if(players.finale)players.finale.currentTime=0;}syncMusic();}
+// 소리 있는 이야기 영상이 도는 동안(영상 속 배경음이 대신한다) 앱 배경음을 멈춘다.
+export function filmAudio(value){filmOn=value;syncMusic();}
 export function setScreenMusic(track){setTrack(track==='finale'?'finale':'main',overlay);}
 export function setFinaleOverlay(value){
  clearInterval(fadeTimer);fadeFrom=0;

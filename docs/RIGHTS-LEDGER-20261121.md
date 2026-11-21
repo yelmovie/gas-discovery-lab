@@ -36,8 +36,7 @@
 |---|---|---|---|---|---|
 | `concepts/` 개념 영상 10편(WebM·MP4·WebP) | 프로젝트 자체 SVG 모션 그래픽(`scripts/render-concepts.mjs`) | 해시 `concepts/manifest.json` | 자체 제작 | CREDITS 「개념 영상과 동물 친구」 | 확인됨 |
 | `concepts-v2/` 개념 영상 10편 | 자체 모션 그래픽(`scripts/render-concepts-v2.mjs`). 그림은 위 소품 그림을 씀 | 2026-10-28 | 자체 제작 + 소품 그림 조건 | CREDITS 「2026-10-28」 | 확인됨(자체 모션 그래픽 + 확인된 소품 그림) |
-| `films-story/intro-1.mp4` 인트로 1 장면 영상(2026-11-21) | Google Flow, Veo 3.1 Fast. 첫 장면은 GPT 이미지(Codex) 그림 | 2026-11-21, Aside 세션 `FfvuZxu9…`, 프롬프트 `scripts/films-story/video-prompts.json`·`image-prompts.json` | Google AI Pro 유료 요금제(사용자 확인 2026-11-21 09:25) | `public/assets/CREDITS.md` 「인트로·파이널 장면 영상」 | 확인됨 |
-| `films-story/intro-2·3.mp4`, `final-1~3.mp4`(임시본) | GPT 이미지(Codex) 그림을 ffmpeg로 확대·이동(자체 가공) | 2026-11-21, `scripts/films-story/finish.sh` | 그림: Codex 유료 요금제(사용자 확인) | 같은 CREDITS 절 | 확인됨 |
+| `films-story/intro-film.mp4`·`final-film.mp4` 인트로·파이널 한 편 영상(2026-11-21 마무리) | 장면: 인트로 1 Google Flow(Veo 3.1 Fast, 주 계정, 화면 표시 PRO) / 인트로 2·3·파이널 1~3 임시(GPT 이미지 그림을 ffmpeg로 확대·이동). 합성·자막·모션그래픽 자체(`scripts/films-story/compose-film.py`, 공용 `burn.py`) | 2026-11-21. 장면 1: Aside 세션 `FfvuZxu9…`. SHA-256 앞 16자 intro `5b15b1e2051d73b4`, final `719c9b76a377b730` | Google AI Pro 유료(사용자 확인 2026-11-21 09:25), 그림 Codex 유료, 주아체 OFL | `public/assets/CREDITS.md` 「인트로·파이널 영상」, `docs/film-captions-20261121/` | 확인됨 |
 | `map-encounters/map-finale.mp4` 지도 마지막 영상 | 제미나이(영상) — 사용자 확인 | 2026-11-14 | 제미나이 유료 요금제(사용자 확인 2026-11-21 09:25 「전부 맞아」) | — | 확인됨(사용자 확인) |
 
 ## 음악
@@ -61,6 +60,7 @@
 | 파일(묶음) | 만든 곳 | 기록 | 이용 조건 | 근거 파일 | 상태 |
 |---|---|---|---|---|---|
 | `audio/voices/el-*.mp3` 96줄(에어·루미·포포·솔이·바람 훼방꾼) | ElevenLabs `eleven_v4`, 목소리 Klamon·Sora·Hun·oki·Harry | 2026-11-18. 줄마다 생성 ID·받아쓰기·SHA-256 | 유료 Creator 요금제, 상업 이용 가능(CREDITS 문장). 실제 사람 목소리 복제 없음 | `docs/VOICE-FILL-20261118.json`, CREDITS 「캐릭터 목소리 통일」, `_shared/voice-provenance-20261118.md` | 근거 약함(요금제 화면 증빙 없음) |
+| `audio/voices/el-film-invite.mp3`, `el-film-cheer.mp3` (영상 끝 초대·축하 2줄) | ElevenLabs `eleven_v4`, 에어 Klamon `dnZGOA54w68T7vLLPFTp` / 포포 Hun `AjALR5PRxl87zOoe9Q31` | 2026-11-21, 요청 ID `SuytOO6axIDo7RKjTr0y`·`8A6iA9ZiGAncXLhYU2nU`, SHA-256 앞 16자 `7ac156adebc63b10`·`36962e1abc246c9f`, 받아쓰기 일치 | 유료 Creator 요금제(상업 이용) | `docs/film-captions-20261121/README.md` | 확인됨 |
 | `audio/voices/` 이름 있는 13줄(welcome, title-buddy, story-1~3, stage-* 등) | ElevenLabs v4, Klamon 등 | 2026-11-12 | 「ElevenLabs account and Voice Library terms」 | `docs/VOICE-PROVENANCE-20261110.json` | 근거 약함(위와 같음) |
 | `audio/voices/` reward-*·retry-* 17줄 | Qwen3-TTS 1.7B VoiceDesign(로컬 모모) | 2026-11-10 | Apache-2.0(Qwen3-TTS) | `docs/VOICE-PROVENANCE-20261110.json` | 근거 약함(모델 라이선스 원문 파일이 저장소에 없음) |
 | `audio/voices/ending-1~3.mp3` | Qwen3-TTS 0.6B Base, 참조 음성 합성 | 2026-11-10 | Apache-2.0. 참조 음성은 ElevenLabs 조건을 따름 | 같은 파일 | 근거 약함 |

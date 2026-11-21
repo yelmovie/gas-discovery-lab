@@ -198,6 +198,18 @@ export const voiceLines = [
     "src": "/assets/audio/voices/el-ending-3.mp3"
   },
   {
+    "id": "film-invite",
+    "speaker": "에어",
+    "text": "멈춘 바람의 비밀을 함께 찾아 줄래요? 친구의 도움이 꼭 필요해요. 같이 출발해요!",
+    "src": "/assets/audio/voices/el-film-invite.mp3"
+  },
+  {
+    "id": "film-cheer",
+    "speaker": "포포",
+    "text": "우리가 해냈어요! 함께 탐구해서 정말 재미있었어요. 고마워요, 공기 엔지니어!",
+    "src": "/assets/audio/voices/el-film-cheer.mp3"
+  },
+  {
     "id": "bridge-flow",
     "speaker": "에어",
     "text": "다음은 공기의 무게를 비교해요.",

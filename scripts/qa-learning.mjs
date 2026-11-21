@@ -55,7 +55,8 @@ for(const stage of STAGES)for(const task of stage.tasks){
 // Finale and certificate are checked through the real completion flow.
 await p.goto(QA+'/#finale');assert.equal(await p.locator('.begin-repair').isVisible(),true,'All five evidence popups are optional');
 await p.getByRole('button',{name:'내 장치 연결하기'}).click();await press('.final-pump');await p.getByRole('button',{name:'복구 레버 당기기'}).click();
-for(let i=0;i<3;i++){const next=p.locator('.ending-actions button');await next.click();}
+// 2026-11-21: 파이널은 전체 화면 한 편 영상(자막 포함) → 끝나거나 건너뛰면 인증서.
+await p.locator('.story-film video').waitFor();await p.waitForFunction(()=>{const v=document.querySelector('.story-film video');return v&&v.readyState>=2&&v.videoWidth>0;});await p.locator('.story-film .film-skip').click();
 await p.locator('.certificate').waitFor();await p.screenshot({path:'.tmp/qa/certificate.png'});await bounds('certificate');
 // Reopening a completed task starts a new experiment, without auto-awarding stale drafts.
 for(const stage of STAGES){

@@ -1,0 +1,108 @@
+{
+ "bgm": "final-theme",
+ "lead": 0.4,
+ "tail": 0.4,
+ "minScene": 7.0,
+ "theme": {
+  "box": "#143f43",
+  "accent": "#f5daa1",
+  "hot": "#ffd35c"
+ },
+ "speakers": {
+  "에어": [
+   "#e07a3c",
+   "#ffffff"
+  ],
+  "루미": [
+   "#6f86d6",
+   "#ffffff"
+  ],
+  "포포": [
+   "#3f9f86",
+   "#ffffff"
+  ]
+ },
+ "scenes": [
+  {
+   "name": "final-1",
+   "voice": "el-ending-1",
+   "gain": 0,
+   "who": "에어",
+   "cues": [
+    {
+     "speech": [
+      0,
+      4.8
+     ],
+     "text": "직접 이은 관을 따라 [공기가 흐르고],\n멈췄던 시설이 다시 움직여요."
+    }
+   ]
+  },
+  {
+   "name": "final-2",
+   "voice": "el-ending-2",
+   "gain": 0,
+   "who": "루미",
+   "cues": [
+    {
+     "speech": [
+      0,
+      4.68
+     ],
+     "text": "무게를 재고, 부피를 비교하고, [기체의 쓰임]을 찾았어요."
+    },
+    {
+     "speech": [
+      5.08,
+      7.64
+     ],
+     "text": "다섯 연구시설이 모두 빛나요."
+    }
+   ]
+  },
+  {
+   "name": "final-3",
+   "voice": "el-ending-3",
+   "gain": 0,
+   "who": "포포",
+   "cues": [
+    {
+     "speech": [
+      0,
+      3.56
+     ],
+     "text": "예측하고, 해 보고, 결과를 바꾸어 보았어요."
+    },
+    {
+     "speech": [
+      3.96,
+      7.08
+     ],
+     "text": "새로운 문제도 [근거]를 찾아 해결할 수 있어요."
+    }
+   ]
+  },
+  {
+   "name": "card",
+   "voice": "el-film-cheer",
+   "gain": 0,
+   "who": "포포",
+   "cues": [
+    {
+     "speech": [
+      0,
+      3.84
+     ],
+     "text": "우리가 [해냈어요]! 함께 탐구해서 정말 재미있었어요."
+    },
+    {
+     "speech": [
+      4.16,
+      5.66
+     ],
+     "text": "고마워요, 공기 엔지니어!"
+    }
+   ]
+  }
+ ]
+}

@@ -61,14 +61,15 @@ Kenney, **Interface Sounds 1.0** — https://kenney.nl/assets/interface-sounds
 
 에어·루미·포포·솔이·바람 훼방꾼의 대사, 인트로·인증서, 시설 소개, 개념 영상 자막, 지도 안내·힌트·악당 말풍선 음성(`audio/voices/el-*.mp3`, 96줄)은 ElevenLabs(유료 Creator 요금제, 상업 이용 가능) `eleven_v4`로 만들었다. 캐릭터마다 한 목소리만 쓴다(에어 Klamon, 루미 Sora, 포포 Hun, 솔이 oki, 바람 훼방꾼 Harry). 실제 사람의 목소리를 복제하지 않았다. 줄마다 목소리·생성 ID·받아쓰기·SHA-256은 저장소 `docs/VOICE-FILL-20261118.json`에 있다.
 
-## 2026-11-21 인트로·파이널 장면 영상
+## 2026-11-21 인트로·파이널 영상 (한 편 영상으로 마무리)
 
-처음 이야기 3장과 엔딩 3장의 배경 영상(`films-story/intro-1~3.mp4`, `final-1~3.mp4`, 각 7.9초·1280×720·소리 없음, 첫·끝 장면 JPG).
+처음 시작할 때 한 번 나오는 인트로 영상(`films-story/intro-film.mp4`, 35.0초)과 마지막 과제를 처음 끝냈을 때 나오는 파이널 영상(`final-film.mp4`, 30.1초). 1280×720·24fps·H.264+AAC, 자막은 영상 안에 구웠다. 포스터 `*-film.jpg`, 카드 화면(움직임 줄이기·영상을 못 열 때)용 장면 끝 그림 `intro-1~3-end.jpg`, `final-1~3-end.jpg`.
 
-- 첫 장면 그림 6장: ChatGPT의 GPT 이미지(Codex 경유, `gpt-imagegen`). 기존 타이틀·엔딩·인물 그림을 참고로 붙였다. 글자 없이 만들었다. 원본과 프롬프트는 외장 SSD `asset-bank/original/generated-20261121-films/`(`prompts.json`)에 있다.
-- 영상: `intro-1`은 Google Flow의 Veo 3.1 Fast(유료 Google AI Pro)로 그 그림을 첫 장면으로 넣어 만들었다. 나머지 5편(`intro-2·3`, `final-1~3`)은 Flow 크레딧이 바닥나 같은 그림을 ffmpeg로 천천히 확대·이동한 임시본이다(2026-11-21). Flow 영상이 생기면 같은 이름으로 바꾼다. 프롬프트는 같은 폴더의 `video-prompts.json`에 있다. Veo가 넣는 작은 「Veo」 표시는 그대로 두었다.
-- 마감: ffmpeg로 크기·프레임을 맞추고 비네트를 넣었다. 앞 장면 끝 프레임에서 0.7초 녹아 들어가는 전환, 인트로 첫 장면과 파이널 끝 장면의 제목 로고(`logo.webp`) 등장도 ffmpeg로 넣었다(`scripts/films-story/finish.sh`, 프롬프트 `scripts/films-story/*-prompts.json`).
-- 자막과 목소리는 영상에 굽지 않고 앱이 그대로 낸다(이야기·엔딩 글과 기존 ElevenLabs 목소리).
+- 첫 장면 그림 6장: ChatGPT의 GPT 이미지(Codex 경유, `gpt-imagegen`). 기존 타이틀·엔딩·인물 그림을 참고로 붙였고 글자 없이 만들었다. 원본과 프롬프트는 외장 SSD `asset-bank/original/generated-20261121-films/`(`prompts.json`, `video-prompts.json`).
+- 장면 움직임: 인트로 1은 Google Flow의 Veo 3.1 Fast(유료 Google AI Pro). 인트로 2·3, 파이널 1~3은 아직 그 그림을 ffmpeg로 천천히 확대·이동한 임시 장면이다(Flow 크레딧·Gemini 앱 한도). 실제 영상이 생기면 같은 큐로 다시 합성한다. Veo가 넣는 작은 「Veo」 표시는 그대로 두었다.
+- 목소리: 앱과 같은 ElevenLabs 목소리 파일(에어 Klamon `story-1`, 루미 Sora `story-2`·`el-ending-2`, 포포 Hun `story-3`·`el-ending-3`, 에어 `el-ending-1`). 인트로 끝 초대 한 줄(`el-film-invite.mp3`, 에어 Klamon)과 파이널 끝 축하 한 줄(`el-film-cheer.mp3`, 포포 Hun)은 2026-11-21에 ElevenLabs(유료 Creator 요금제) `eleven_v4`로 새로 만들었다(요청 ID `SuytOO6axIDo7RKjTr0y`, `8A6iA9ZiGAncXLhYU2nU`).
+- 배경음: 게임 곡 `main-theme.mp3`(인트로), `final-theme.mp3`(파이널). 목소리가 나올 때 낮춘다. 영상 생성기가 붙인 소리는 쓰지 않았다.
+- 자막·모션그래픽: ffmpeg + libass. 공용 자막 도구(`_shared/caption-motion-20261118/burn.py`, 주아체 OFL)의 화자 이름표·말 속도 스윕·[키워드] 강조·진행 줄. 0.4초 교차 페이드, 인트로 끝 제목 로고(`logo.webp`)와 호기심 한 줄, 파이널 끝 「임무 완료!」 도장·반짝임·공기 방울(PIL로 그린 투명 프레임). 스크립트 `scripts/films-story/compose-film.py`, 큐 `docs/film-captions-20261121/`.
 
 ## 2026-11-21 포포 힌트 2줄 새 녹음
 
