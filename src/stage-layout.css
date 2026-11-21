@@ -429,3 +429,23 @@ html body #app .certificate-options #nickname{min-height:48px}
 .certificate .certificate-first-try .icon{width:18px;height:18px}
 @media print{.certificate .certificate-first-try{font-size:18px}}
 @media screen and (max-height:540px){.certificate .certificate-first-try{display:none}}
+
+/* 인트로·파이널 장면 영상(2026-11-21): 영상이 보이도록 글 카드를 아래 자막 칸으로 줄이고 초상·장식은 숨긴다. 글자 18px 이상, 버튼 48px 유지. */
+html body #app .has-film .scene-film{object-fit:cover}
+html body #app .has-film .scene-shade{background:linear-gradient(0deg,#0b1d24cc 0%,#0b1d2466 26%,#0b1d2400 52%)}
+html body #app .has-film .ending-glow,html body #app .has-film .ending-friends,html body #app .has-film .story-layout>.npc-art-frame{display:none}
+html body #app .has-film .story-layout{inset:auto max(16px,4%) max(14px,3%);display:block}
+html body #app .has-film .story-card,html body #app .has-film .ending-copy{position:relative;min-height:0;max-height:none;width:min(880px,100%);margin:0 auto;padding:16px 22px;display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:18px;align-items:end;background:#fffdf5f0}
+html body #app .has-film .ending-copy{position:absolute;top:auto;bottom:max(14px,3%);left:50%;right:auto;transform:translateX(-50%);width:min(880px,calc(100% - 32px))}
+html body #app .has-film :is(.story-card,.ending-copy)>*{grid-column:1}
+html body #app .has-film :is(.story-card,.ending-copy)>.eyebrow{margin:0}
+html body #app .has-film :is(.story-card,.ending-copy) h1{font-size:clamp(22px,2.2vw,30px);margin:2px 0 4px}
+html body #app .has-film :is(.story-card,.ending-copy) p{font-size:clamp(18px,1.6vw,22px);margin:0;line-height:1.45}
+html body #app .has-film :is(.story-card>.story-actions,.ending-copy>.ending-actions){grid-column:2;grid-row:1/span 4;align-self:end;position:static;margin:0;padding:0;background:none}
+@media(max-width:760px),(max-height:540px){
+ html body #app .has-film :is(.story-card,.ending-copy){grid-template-columns:minmax(0,1fr);padding:10px 16px}
+ html body #app .has-film :is(.story-card>.story-actions,.ending-copy>.ending-actions){grid-column:1;grid-row:auto;justify-content:flex-end;margin-top:6px}
+ html body #app .has-film :is(.story-card,.ending-copy) h1{font-size:22px}
+ html body #app .has-film :is(.story-card,.ending-copy)>.eyebrow{display:none}
+}
+html body #app .has-film :is(.story-card,.ending-copy) :is(h1,p){text-wrap:balance}
