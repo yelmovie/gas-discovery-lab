@@ -116,14 +116,14 @@ export const voiceLines = [
   {
     "id": "retry-delivery-gas",
     "speaker": "포포",
-    "text": "성질과 쓰임을 살펴보고 기체를 바꿔요.",
-    "src": "/assets/audio/voices/retry-delivery-gas.mp3"
+    "text": "시설이 부탁한 일을 다시 읽고, 그 일에 맞는 성질을 가진 기체를 찾아봐요.",
+    "src": "/assets/audio/voices/el-retry-delivery-gas-v2.mp3"
   },
   {
     "id": "retry-delivery-reason",
     "speaker": "포포",
-    "text": "조사한 성질과 비교해서 이유를 다시 골라요.",
-    "src": "/assets/audio/voices/el-retry-delivery-reason.mp3"
+    "text": "고른 기체 카드에 적힌 성질 두 가지 중, 이 시설에 필요한 것은 어느 쪽일까요?",
+    "src": "/assets/audio/voices/el-retry-delivery-reason-v2.mp3"
   },
   {
     "id": "map-next-flow",

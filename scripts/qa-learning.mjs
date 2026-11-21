@@ -26,7 +26,7 @@ for(const stage of STAGES)for(const task of stage.tasks){
   if(task.runStage)await classicScreen(p);
   await p.locator('.condition-slider').fill(String(task.target));await p.locator('.condition-slider').dispatchEvent('change');await bounds(task.id+'-question');await p.getByRole('button',{name:task.answer,exact:true}).click();
  }else if(stage.id==='delivery'){
-  const names={nitrogen:'질소',oxygen:'산소',carbon:'이산화 탄소'};await p.locator('.gas-card').filter({hasText:names[task.gas]}).click();await p.getByRole('button',{name:task.reason,exact:true}).click();
+  const names={nitrogen:'질소',oxygen:'산소',carbon:'이산화 탄소'};const card=p.locator('.gas-card').filter({hasText:names[task.gas]});if(task.id==='delivery-4'){await card.click();assert.equal(await p.locator('.reason-slot .choice[aria-pressed=true]').count(),0);assert.equal(await p.locator('.gas-card.selected').count(),0,'4번은 눌러서는 실리지 않고 살펴보기만');await drag(`.gas-card[data-gas="${task.gas}"]`,'.facility-request');await p.locator('.gas-card.selected').waitFor();}else await card.click();await p.getByRole('button',{name:task.reason,exact:true}).click();
  }else{
   for(const part of [task.requireSource==='balloon'?'풍선 공급부':'손 펌프',task.requireElbow?'굽은 관':'일자 관','노즐'])await p.locator('.part-card').filter({hasText:part}).click();
   if(task.nozzle==='backward')await p.locator('.direction-control').click();await p.locator('.valve-control').click();

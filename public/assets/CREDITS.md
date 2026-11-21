@@ -61,6 +61,10 @@ Kenney, **Interface Sounds 1.0** — https://kenney.nl/assets/interface-sounds
 
 에어·루미·포포·솔이·바람 훼방꾼의 대사, 인트로·인증서, 시설 소개, 개념 영상 자막, 지도 안내·힌트·악당 말풍선 음성(`audio/voices/el-*.mp3`, 96줄)은 ElevenLabs(유료 Creator 요금제, 상업 이용 가능) `eleven_v4`로 만들었다. 캐릭터마다 한 목소리만 쓴다(에어 Klamon, 루미 Sora, 포포 Hun, 솔이 oki, 바람 훼방꾼 Harry). 실제 사람의 목소리를 복제하지 않았다. 줄마다 목소리·생성 ID·받아쓰기·SHA-256은 저장소 `docs/VOICE-FILL-20261118.json`에 있다.
 
+## 2026-11-21 포포 힌트 2줄 새 녹음
+
+기체 배송소의 다시 생각하기 힌트 두 줄(`audio/voices/el-retry-delivery-gas-v2.mp3`, `el-retry-delivery-reason-v2.mp3`)은 학습 문구를 바꾸면서 ElevenLabs(유료 Creator 요금제) `eleven_v4`, 포포 목소리 Hun으로 다시 만들었다. 줄마다 요청 ID·SHA-256은 `docs/VOICE-PROVENANCE-20261110.json`과 `docs/VOICE-FILL-20261118.json`에 있다. 예전 두 파일은 지웠다.
+
 ## 2026-11-18 성취 카드
 
 지도 악당(바람 훼방꾼)을 세 번 맞혀 물리치면 받는 성취 카드 5장의 그림과 소리.

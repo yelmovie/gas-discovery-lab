@@ -113,3 +113,6 @@
 .reduce-motion .delivery-layout .gas-awaiting-hand{animation:none}
 @media(prefers-reduced-motion:reduce){.delivery-layout .gas-awaiting-hand{animation:none}}
 @media(min-width:1600px){.delivery-layout .gas-orb.gas-tank b{font-size:18px}}
+
+/* 4번 안전 시설(2026-11-21, 3-3b): 기체는 공급관으로 끌어 넣는다. 키보드 사용자는 시설 카드에 초점을 두고 Enter. */
+.delivery-layout .facility-request[role="button"]:focus-visible{outline:3px solid #a8771f;outline-offset:3px}

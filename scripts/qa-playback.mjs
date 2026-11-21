@@ -45,7 +45,7 @@ for(const s of STAGES)for(let i=0;i<s.tasks.length;i++){
    }
    if(s.id==='delivery'){
     assert.equal(after.selected,null);assert.equal(after.reason,null);assert.deepEqual(after.read,[]);assert.equal(await p.locator('.is-observing').count(),0);
-    await p.locator(`.gas-card[data-gas=${t.gas}]`).tap();await p.getByRole('button',{name:t.reason,exact:true}).tap();await p.locator('.discovery-result').waitFor();
+    await p.locator(`.gas-card[data-gas=${t.gas}]`).tap();if(t.id==='delivery-4'){await p.locator('.facility-request').focus();await p.keyboard.press('Enter');}await p.getByRole('button',{name:t.reason,exact:true}).tap();await p.locator('.discovery-result').waitFor();
    }
   }
  }
