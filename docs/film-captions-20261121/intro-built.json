@@ -1,7 +1,7 @@
 {
  "film": "intro",
  "seconds": 34.98,
- "bytes": 5863469,
+ "bytes": 7225489,
  "scenes": [
   {
    "name": "intro-1",
@@ -11,12 +11,12 @@
   {
    "name": "intro-2",
    "len": 10.09,
-   "source": "kb"
+   "source": "flow"
   },
   {
    "name": "intro-3",
    "len": 9.54,
-   "source": "kb"
+   "source": "flow"
   },
   {
    "name": "card",

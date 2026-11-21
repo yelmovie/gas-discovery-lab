@@ -121,8 +121,10 @@ def compose(film):
                 '-map', '[v]', '-t', L, '-c:v', 'libx264', '-crf', 14, '-preset', 'fast', seg)
             src_kind = 'card'
         else:
-            f, src_kind = source(sc['name']); stretch = L / 7.9
-            run('-i', f, '-an', '-vf', f"scale={W}:{H}:flags=lanczos,setsar=1,trim=duration=7.9,setpts={stretch:.4f}*(PTS-STARTPTS),fps={FPS},vignette=angle=PI/6",
+            f, src_kind = source(sc['name'])
+            d = min(dur(f), 10.0)  # Flow 8초, Gemini 10초. 장면보다 길면 자르고, 짧으면 천천히 늘인다
+            stretch = max(1.0, L / d)
+            run('-i', f, '-an', '-vf', f"scale={W}:{H}:flags=lanczos,setsar=1,trim=duration={d:.2f},setpts={stretch:.4f}*(PTS-STARTPTS),fps={FPS},vignette=angle=PI/6",
                 '-t', L, '-c:v', 'libx264', '-crf', 14, '-preset', 'fast', seg)
             # 카드 화면(움직임 줄이기·영상 못 열 때)용 장면 끝 그림
             run('-sseof', '-0.06', '-i', seg, '-frames:v', 1, '-update', 1, '-q:v', 4, OUT / f"{sc['name']}-end.jpg")
