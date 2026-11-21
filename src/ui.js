@@ -17,7 +17,9 @@ export function openDialog(title,body,{wide=false,footer,close=true,onClose}={})
  const end=()=>d.close();if(close)d.querySelector('.close-dialog').onclick=end;
  // 같은 일을 하는 닫기 버튼을 두 곳에 두지 않는다: 오른쪽 위 X가 있으면 아래 '닫기'는 만들지 않는다(2026-11-18).
  if(footer)d.querySelector('.dialog-foot').append(footer);else if(!close)d.querySelector('.dialog-foot').append(button('닫기',end,'button secondary'));
- d.addEventListener('close',()=>{d.remove();focus?.isConnected&&focus.focus();onClose?.();},{once:true});
+ // 브라우저 뒤로 가기로 화면이 바뀌면 열린 창도 닫는다(2026-11-21, 3-2a A).
+ const pop=()=>{if(d.open)d.close();};addEventListener('popstate',pop);
+ d.addEventListener('close',()=>{removeEventListener('popstate',pop);d.remove();focus?.isConnected&&focus.focus();onClose?.();},{once:true});
  d.addEventListener('click',e=>{if(e.target===d&&close){const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close();}});
  document.body.append(d);d.showModal();return d;
 }
@@ -29,5 +31,7 @@ export function buddy(npc,getText,voice=()=>{}){
  speech.querySelector('.hint-more').onclick=()=>{const hints=getText();index=Array.isArray(hints)?Math.min(index+1,hints.length-1):0;render();};
  speech.querySelector('.hint-close').onclick=()=>{speech.hidden=true;voice(speech.querySelector('.buddy-voice'),'');trigger.setAttribute('aria-expanded','false');trigger.focus();};return box;
 }
+/** 고르기 선택지·카드 순서를 화면을 열 때마다 섞는다(정답이 늘 같은 자리에 오지 않게). */
+export function shuffle(list){const a=[...list];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 export function choices(options,onChoose,{selected=null,group='하나를 골라 눌러요',terms=[]}={}){const el=html(`<div class="choice-group" role="group" aria-label="${escapeHTML(group)}"></div>`);for(const option of options){const value=typeof option==='string'?option:option.value,label=typeof option==='string'?option:option.label;const b=button(`<span class="radio-dot"></span><span>${emphasizeConcept(label,terms)}</span>`,()=>{el.querySelectorAll('button').forEach(x=>{x.classList.remove('selected');x.setAttribute('aria-pressed','false');});b.classList.add('selected');b.setAttribute('aria-pressed','true');onChoose(value);},'choice');b.setAttribute('aria-pressed',String(value===selected));if(value===selected)b.classList.add('selected');el.append(b);}return el;}
 export function holdButton(el,onProgress,onComplete,signal){let start=0,frame=0,running=false,finished=false;const stop=()=>{running=false;cancelAnimationFrame(frame);if(!finished){onProgress(0);start=0;}};const tick=time=>{if(!running)return;if(el.disabled||signal?.aborted){stop();return;}const p=Math.min(1,(time-start)/1050);onProgress(p);if(p>=1){finished=true;running=false;onComplete();}else frame=requestAnimationFrame(tick);};const begin=e=>{if(finished||running||el.disabled||signal?.aborted)return;if(e.type==='keydown'&&!['Space','Enter'].includes(e.code))return;if(e.type==='keydown')e.preventDefault();start=performance.now();running=true;if(Number.isInteger(e.pointerId))el.setPointerCapture?.(e.pointerId);frame=requestAnimationFrame(tick);};el.addEventListener('pointerdown',begin,{signal});el.addEventListener('pointerup',stop,{signal});el.addEventListener('pointercancel',stop,{signal});el.addEventListener('lostpointercapture',stop,{signal});el.addEventListener('blur',stop,{signal});el.addEventListener('keydown',begin,{signal});el.addEventListener('keyup',stop,{signal});document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();},{signal});window.addEventListener('blur',stop,{signal});signal?.addEventListener('abort',stop,{once:true});return stop;}

@@ -1,6 +1,6 @@
 import {volumeFor,validVolumePair} from '../model.js';
 import {supportsRun} from '../run-stage/mountain-rules.js';
-import {prop,choices,escapeHTML,announce} from '../ui.js';
+import {prop,choices,escapeHTML,announce,shuffle} from '../ui.js';
 import {sound} from '../audio.js';
 // 받침 유무로 '이에요/예요'를 고른다(예: 보통 온도예요, 보통 압력이에요).
 const iyeyo=word=>{const code=word.charCodeAt(word.length-1)-0xAC00;return code>=0&&code<11172&&code%28?'이에요':'예요';};
@@ -31,7 +31,7 @@ export function mountClimate(host,task,ctx){
 }
 function mountClassic(host,task,ctx){
  const draft=ctx.draft||{},baseline=task.baseline??1;
- let condition=Number.isInteger(draft.condition)&&draft.condition>=0&&draft.condition<=2?draft.condition:baseline,records=Array.isArray(draft.records)?draft.records.filter(r=>[0,1,2].includes(r.condition)):[],completed=false,pistonPointer=null;
+ let condition=Number.isInteger(draft.condition)&&draft.condition>=0&&draft.condition<=2?draft.condition:baseline,records=Array.isArray(draft.records)?draft.records.filter(r=>[0,1,2].includes(r.condition)):[],completed=false,pistonPointer=null,misses=Number.isFinite(draft.misses)?Math.max(0,draft.misses):0;
  if(!records.some(r=>r.condition===baseline))records.unshift({condition:baseline,ratio:volumeFor(task.mode,baseline)});
  // A drag is committed on release; resume from a recorded condition after an interrupted gesture.
  if(!records.some(r=>r.condition===condition))condition=records.at(-1).condition;
@@ -59,7 +59,7 @@ function mountClassic(host,task,ctx){
    apparatus.style.setProperty('--plunger-top',(84-airHeight-40.48)+'%');
    apparatus.setAttribute('aria-label',`공기는 그대로 있고, 차지하는 부피가 ${condition===2?'줄어든':condition===0?'늘어난':'보통인'} 밀폐 피스톤`);
   }
-  ctx.saveDraft({condition,records});renderRecords();
+  ctx.saveDraft({condition,records,...(misses?{misses}:{})});renderRecords();
   if(!completed)ctx.nextAction?.(both?'.transfer-slot .choice':'.condition-slider');
  }
  function renderRecords(){
@@ -70,11 +70,11 @@ function mountClassic(host,task,ctx){
   }).join('');
   if(validVolumePair(records,task)&&!host.querySelector('.transfer-question')){
    const slot=host.querySelector('.transfer-slot');host.querySelector('.comparison-panel').classList.add('has-transfer');slot.innerHTML=`<div class="transfer-question"><h3>${escapeHTML(task.transfer)}</h3></div>`;
-   slot.append(choices(task.choices,value=>{
+   slot.append(choices(shuffle(task.choices),value=>{
     if(completed)return;
     if(value===task.answer){
-     completed=true;slider.disabled=true;scene.setAttribute('aria-disabled','true');host.querySelector('.comparison-panel').classList.add('answered');feedback.replaceChildren();ctx.guide?.('3 · 발견 완료','같은 공기가 차지하는 공간의 변화를 발견했어요.');sound('success');ctx.complete(task.why,{mode:task.mode,records,transfer:value});
-    }else{const retry=task.retry||'두 부피 막대를 다시 비교해 보아요.';feedback.replaceChildren();ctx.guide?.('2 · 다시 생각해요',retry);announce(retry);sound('retry');}
+     completed=true;slider.disabled=true;scene.setAttribute('aria-disabled','true');host.querySelector('.comparison-panel').classList.add('answered');feedback.replaceChildren();ctx.guide?.('3 · 발견 완료','같은 공기가 차지하는 공간의 변화를 발견했어요.');sound('success');ctx.complete(task.why,{mode:task.mode,records,transfer:value,attempts:misses+1,firstTry:misses===0});
+    }else{misses++;ctx.saveDraft({condition,records,...(misses?{misses}:{})});const retry=task.retry||'두 부피 막대를 다시 비교해 보아요.';feedback.replaceChildren();ctx.guide?.('2 · 다시 생각해요',retry);announce(retry);sound('retry');}
    },{terms:ctx.terms}));
   }
  }

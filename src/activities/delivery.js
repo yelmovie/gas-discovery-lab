@@ -2,7 +2,7 @@ import {emphasizeConcept} from '../concept-focus.js';
 import {touchDrag} from '../touch.js';
 import {GASES} from '../data.js';
 import {validateDelivery} from '../model.js';
-import {button,choices,escapeHTML,announce} from '../ui.js';
+import {button,choices,escapeHTML,announce,shuffle} from '../ui.js';
 import {icon} from '../icons.js';
 import {sound} from '../audio.js';
 const USE_VISUALS={
@@ -16,17 +16,17 @@ const FACILITY_ART={'delivery-1':'/assets/visuals/facility-snack-v1.webp','deliv
 const useVisual=(gas,task)=>USE_VISUALS[gas==='carbon'&&task.id==='delivery-4'?'extinguisher':gas];
 const useImage=(visual,cls='gas-use-image')=>`<img class="${cls}" src="${visual.src}" alt="${escapeHTML(visual.alt)}" draggable="false">`;
 export function mountDelivery(host,task,ctx){
- let selected=ctx.draft?.selected||null,reason=ctx.draft?.reason||null,read=new Set(ctx.draft?.read||[]),delivered=false,previewId=null;
+ let selected=ctx.draft?.selected||null,reason=ctx.draft?.reason||null,read=new Set(ctx.draft?.read||[]),delivered=false,previewId=null,misses=Number.isFinite(ctx.draft?.misses)?Math.max(0,ctx.draft.misses):0;
  const reasons=[task.reason,...['다른 물질과 쉽게 반응하지 않아요.','사람의 호흡에 필요해요.','물에 녹아 탄산음료를 만들어요.','불이 타는 것을 돕지 않아요.'].filter(x=>x!==task.reason).slice(0,2)];
- // A fixed permutation prevents the first position from always being the answer.
- const orderedReasons=task.id.endsWith('2')?[reasons[1],reasons[0],reasons[2]]:task.id.endsWith('3')?[reasons[1],reasons[2],reasons[0]]:reasons;
+ // 이유와 기체 카드 순서는 화면을 열 때마다 섞는다(2026-11-21: 정답이 늘 첫 자리여서 첫 칸만 눌러도 통과하던 문제).
+ const orderedReasons=shuffle(reasons);
  host.innerHTML=`<div class="delivery-layout"><section class="lab-panel research-panel"><div class="gas-cards" role="group" aria-label="조사할 기체"></div><div class="gas-information"></div><p class="gas-color-note">카드의 색은 구분용 표시예요.</p></section><aside class="lab-panel facility-panel"><div class="facility-request" aria-label="${escapeHTML(task.facility)}의 부탁"><img class="facility-art" src="${FACILITY_ART[task.id]}" alt="${escapeHTML(task.facility)}" draggable="false"><div class="facility-copy"><strong>${escapeHTML(task.facility)}</strong><p>${escapeHTML(task.goal)}</p></div><div class="supply-port" role="status">${icon('flask')}<span>여기로 끌어 넣기</span></div></div><div class="reason-slot" aria-label="시설에 필요한 기체의 성질"></div><div class="activity-feedback"></div><div class="evidence-slot"></div></aside></div>`;
  const cards=host.querySelector('.gas-cards'),information=host.querySelector('.gas-information'),feedback=host.querySelector('.activity-feedback'),port=host.querySelector('.supply-port');
- function save(){ctx.saveDraft({selected,reason,read:[...read]});}
+ function save(){ctx.saveDraft({selected,reason,read:[...read],...(misses?{misses}:{})});}
  function chooseGas(id){if(delivered||ctx.signal.aborted)return;previewId=null;
   if(selected!==id){reason=null;host.querySelectorAll('.reason-slot .choice').forEach(button=>{button.classList.remove('selected');button.setAttribute('aria-pressed','false');});}
   selected=id;read.add(id);sound();render();port.classList.remove('just-loaded');void port.offsetWidth;port.classList.add('just-loaded');}
- for(const gas of GASES){
+ for(const gas of shuffle(GASES)){
   const b=button(`<span class="gas-orb gas-tank" style="--gas-color:${gas.color}" aria-hidden="true"><img src="/assets/visuals/gas-${gas.id}-v1.webp" alt="" draggable="false"><b>${escapeHTML(gas.symbol)}</b></span><strong>${gas.name}</strong><span class="gas-read-state"></span>`,()=>chooseGas(gas.id),'gas-card');
   b.dataset.gas=gas.id;b.setAttribute('aria-label',`${gas.name} 조사`);
   touchDrag(b,{signal:ctx.signal,selector:'.facility-request',onDrop:()=>chooseGas(gas.id)});
@@ -58,6 +58,7 @@ export function mountDelivery(host,task,ctx){
   if(delivered||ctx.signal.aborted||!selected||!reason)return;
   const result=validateDelivery(selected,reason,task);
   if(!result.ok){
+   if(byLearner){misses++;save();}
    const hint=result.kind==='gas'?'성질과 쓰임을 살펴보고 기체를 바꿔요.':'조사한 성질과 비교해서 이유를 다시 골라요.';
    ctx.guide?.('다시 살펴봐요',hint);ctx.nextAction?.(result.kind==='gas'?'.gas-card':'.reason-slot .choice');announce(hint);if(byLearner)sound('retry');
    return;
@@ -72,7 +73,7 @@ export function mountDelivery(host,task,ctx){
   information.innerHTML=`<div class="gas-use-result" aria-label="기체의 성질에 맞는 쓰임">${useImage(visual)}<div class="gas-use-copy"><span class="gas-use-complete">${icon('check')} 배송 완료</span><h3>${escapeHTML(gas.name)}</h3><p>${emphasizeConcept(task.reason,ctx.terms)}</p><div class="gas-use-link">${icon('arrow')}<strong>${escapeHTML(visual.caption)}</strong></div></div></div>`;
   port.classList.add('connected');port.querySelector('span').textContent='배송 성공 · 시설이 작동해요';
   feedback.replaceChildren();sound('connect');
-  ctx.complete(task.why,{gas:selected,reason,investigated:[...read]});
+  ctx.complete(task.why,{gas:selected,reason,investigated:[...read],attempts:misses+1,firstTry:misses===0});
  }
  host.querySelector('.facility-request').addEventListener('dragover',event=>{if(delivered)return;event.preventDefault();port.classList.add('drag-over');},{signal:ctx.signal});
  host.querySelector('.facility-request').addEventListener('dragleave',()=>port.classList.remove('drag-over'),{signal:ctx.signal});

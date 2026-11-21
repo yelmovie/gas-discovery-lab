@@ -4,7 +4,7 @@ import * as THREE from '/assets/vendor/three/three.module.min.js';
 import {COURSE,PREDICTIONS,restoreRun,recordStation,readyToCompare,runDraft,bagRatio,observedChange,createRunner,advanceRunner,stationAt,heightFraction,patrolX,touchPatrol,groundAt,obstacleAhead} from './mountain-rules.js';
 import {volumeFor} from '../model.js';
 import {bindDirectionPad,mapKeyDirection,MAP_VECTORS} from '../map-controls.js';
-import {choices,escapeHTML,announce} from '../ui.js';
+import {choices,escapeHTML,announce,shuffle} from '../ui.js';
 import {icon} from '../icons.js';
 import {sound,cue,footstep,preloadFootsteps} from '../audio.js';
 
@@ -27,6 +27,7 @@ export async function prepareMountainRun(){
 }
 
 export function mountMountainRun(host,task,ctx,textures,{toClassic}){
+ let misses=Number.isFinite(ctx.draft?.misses)?Math.max(0,ctx.draft.misses):0;
  const state=restoreRun(task,ctx.draft),baseline=task.baseline??1,local=new AbortController(),{signal}=local;
  ctx.signal.addEventListener('abort',()=>local.abort(),{once:true});
  let phase=readyToCompare(state,task)?'compare':state.prediction?'run':'predict',completed=false,disposed=false,frame=0;
@@ -123,7 +124,7 @@ export function mountMountainRun(host,task,ctx,textures,{toClassic}){
 
  // ── 겹침 화면 ──
  function say(text,hold=0){speech.textContent=text;speech.hidden=!text;if(text)announce(text);clearTimeout(say.timer);if(text&&hold)say.timer=setTimeout(()=>{speech.hidden=true;},hold);}
- function save(){ctx.saveDraft(runDraft(state,task));}
+ function save(){ctx.saveDraft({...runDraft(state,task),...(misses?{misses}:{})});}
  function setPhase(next){phase=next;root.dataset.phase=next;held.clear();jumpQueued=false;guide();}
  function guide(){
   if(completed)return;
@@ -143,12 +144,12 @@ export function mountMountainRun(host,task,ctx,textures,{toClassic}){
   const slot=root.querySelector('.transfer-slot');
   if(slot.childElementCount)return;
   slot.innerHTML=`<div class="transfer-question"><h3>${escapeHTML(task.transfer)}</h3></div>`;
-  slot.append(choices(task.choices,value=>{
+  slot.append(choices(shuffle(task.choices),value=>{
    if(completed)return;
    if(value===task.answer){
     completed=true;feedback.replaceChildren();root.classList.add('answered');ctx.guide?.('3 · 발견 완료','같은 공기가 차지하는 공간의 변화를 발견했어요.');sound('success');
-    ctx.complete(task.why,{mode:task.mode,records:state.records,transfer:value});
-   }else{const retry=task.retry||'두 부피 막대를 다시 비교해 보아요.';feedback.replaceChildren();ctx.guide?.('2 · 다시 생각해요',retry);announce(retry);sound('retry');}
+    ctx.complete(task.why,{mode:task.mode,records:state.records,transfer:value,attempts:misses+1,firstTry:misses===0});
+   }else{misses++;save();const retry=task.retry||'두 부피 막대를 다시 비교해 보아요.';feedback.replaceChildren();ctx.guide?.('2 · 다시 생각해요',retry);announce(retry);sound('retry');}
   },{terms:ctx.terms}));
  }
  root.querySelector('.run-predict-choices').append(choices(PREDICTIONS,value=>{
