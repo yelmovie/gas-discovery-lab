@@ -17,13 +17,16 @@
 | `run-stage/` 3D 산길 그림 20장 | ChatGPT GPT 이미지(Codex 경유) | 2026-11-17. 프롬프트 `docs/RUN-STAGE-3D-PLAN-20261117.md`, `.tmp/run-stage/prompt-table.md`. 원본 `asset-bank/original/generated-20261117/` | 요금제 문구 없음 | CREDITS 「2026-11-17 3D 산길」 | 근거 약함(요금제 기록 없음) |
 | `reward-cards/` 카드 5장 + 썸네일 5장 | ChatGPT Codex 내장 이미지 도구 | 2026-11-18. 원본 `_scratch/reward-cards-20261118/gen/15/` | 요금제 문구 없음 | CREDITS 「2026-11-18 성취 카드」 | 근거 약함 |
 | `soli-character.webp`(바람여우 솔이) | Codex 기본 이미지 생성 도구 | 2026-11-13 | 요금제 문구 없음 | CREDITS 「개념 영상과 동물 친구」 | 근거 약함 |
+| `visuals/` 실험 장면 13장: `workshop-bg-v1`, `climate-warm-v1`·`climate-cold-v1`, `facility-snack·breathing·soda·safety-v1`, `weight-bench-v1.jpg`, `gas-nitrogen·oxygen·carbon-v1`, `hand-point-v1`, `rock-block-v1` | ChatGPT GPT 이미지(`gpt-imagegen` 스킬, Codex 경유) | 2026-11-16 14:56~15:39(UTC). Claude Code 세션 `48870090…`·`11d21a6f…`(파일 이름 `workshop-bg.png`, `climate-warm.png`, `facility-*.png`, `weight-bench.png`, `ui-icons.png`). 기체 통·손·바위 5장은 `ui-icons.png` 한 장을 나눈 것(같은 세션). 커밋 `845925e`·`908b23f` | 요금제 증빙 없음 | `_shared/codex-image-records-20261121/index-claude.jsonl` | 근거 약함(만든 곳 확인). 11-21 첫 장부에서 빠졌던 줄을 3-2a에서 더함 |
 | `air-portrait.webp` | 내장 image_gen(`air-fox-v2.png`) | 2026-10-28 프롬프트 기록 | 없음 | `docs/review/IMAGE-GENERATION-PROMPTS.json` | 근거 약함 |
 | 배경 7장 `title.webp`, `village.webp`, `flow/weight/climate/delivery/engineering.webp`, `ending.webp`, `logo.webp` | 「사용자 제공 이미지 및 기존 프로젝트의 AI 생성 에셋」이라고만 적힘 | 2026-10-28 이전(`d6f259a`에서 한꺼번에 들어옴) | 없음 | CREDITS 「기존 이미지와 글꼴」 | **출처 미확인**(어느 도구·누가 만들었는지 파일별 기록 없음) |
 | 인물 `student-walk.webp`, `air-walk.webp`, `lumi-portrait.webp`, `popo-portrait.webp` | 위와 같은 한 줄 | 2026-10-28 이전 | 없음 | 위와 같음 | **출처 미확인** |
 | 실험 소품 `prop-*.webp` 12장(풍선, 병, 팬, 병, 노즐, 봉지, 피스톤, 펌프, 저울, 탄산, 공구함, 풍차) | 위와 같은 한 줄 | 2026-10-28 이전 | 없음 | 위와 같음 | **출처 미확인** |
-| `npc-dialogue/` 인물 4장(에어·루미·포포·솔이) | 기록 없음(커밋 `fe51772` 「Update character dialogue, portraits」) | 2026-11-13 | 없음 | — | **출처 미확인** |
-| `map-residents/` 시설 주민 5장 | 기록 없음(커밋 `ace86b1`) | 2026-11-17 | 없음 | — | **출처 미확인** |
-| `map-encounters/` 학생·솔이·악당 그림 6장(`hero`, `ally`, `villain`의 원본·다시 그린 판) | 기록 없음(커밋 `783c62a` 「newly drawn encounter poses」) | 2026-11-14 | 없음 | — | **출처 미확인** |
+| `npc-dialogue/` 인물 4장(에어·루미·포포·솔이) | Codex 내장 이미지 도구(`image_gen`) | 2026-11-12. Codex 세션 `rollout-2026-11-12T21-49-45-01a1cfce…`: 생성 원본 `exec-a776d9eb…png`를 `_scratch/npc-14-16-20261112/sheet-15-clear.png`로 복사한 뒤 4장으로 나눠 `15 gas/public/assets/npc-dialogue/`에 씀. `_scratch/npc-dialogue-plan-20261112/HANDOFF-5-16.md` 40행. 커밋 `fe51772` | 요금제 증빙 없음 | 세션 기록(3-2a G에서 대조) | 근거 약함(만든 곳 확인, 요금제 증빙 없음) |
+| `map-residents/` 시설 주민 5장 | ChatGPT GPT 이미지(`gpt-imagegen` 스킬, Codex 경유) | 2026-11-16 15:16(UTC). Claude Code 세션 `48870090…`의 `map-residents.png`(「A single horizontal character sheet … exactly five small full-body chibi」), 커밋 `ace86b1` | 요금제 증빙 없음 | `_shared/codex-image-records-20261121/index-claude.jsonl` | 근거 약함(만든 곳 확인) |
+| `map-encounters/hero-redraw.png`·`ally-redraw.png`·`villain-redraw.png`(지도에서 씀) | Codex 기본 이미지 도구 | 2026-11-14. `_scratch/redraw-12-15-20261114/README.md`(「동일한 운영 캐릭터의 새 자세를 Codex 기본 이미지 도구로」, 15행 커밋 `783c62a`·배포 `58bdade4`) | 요금제 증빙 없음 | 위 README·`RELEASE-12-15.json` | 근거 약함(만든 곳 확인) |
+| `map-encounters/villain-left.png`(3D 산길에서 씀) | Codex 내장 이미지 도구(악당 콘셉트 시트에서 잘라냄) | 2026-11-13. `_scratch/villain-concepts-20261114/prompts-v2.md`, `villains-12-16-v2.png`. Codex 세션 `rollout-2026-11-14T01-24-29-01a1d5b9…`의 자르기 스크립트(`cutouts-12-16.png` → `15 gas/public/assets/map-encounters/villain-left.png`). 커밋 `a1f5344` | 요금제 증빙 없음 | 세션 기록·콘셉트 폴더 | 근거 약함(만든 곳 확인) |
+| `map-encounters/hero.png`·`ally.png`(코드에서 쓰지 않음) | 기록 없음(커밋 `a1f5344`) | 2026-11-14 | 없음 | — | **출처 미확인**(빌드에는 들어감. 3-4 정리에서 빼는 것이 맞음) |
 | `og-image.jpg` 공유 그림 | 프로젝트 합성(기존 `title.webp`·로고) | 2026-11-10, 커밋 `3c0f33e` | 원 그림을 따름 | 커밋 메시지 | 근거 약함(원 그림이 출처 미확인) |
 | `app-icon.svg`, `soli.svg` | 프로젝트 직접 제작 SVG | — | 자체 제작 | CREDITS 「개념 영상과 동물 친구」(솔이 SVG) | 확인됨(`soli.svg`). `app-icon.svg`는 기록 없음 → 근거 약함 |
 
@@ -68,27 +71,37 @@
 |---|---|---|---|---|
 | `fonts/jua-korean-400.woff2`, `jua-latin-400.woff2` | Jua, Woowahan Brothers / Google Fonts | SIL OFL 1.1 | `fonts/Jua-OFL.txt` | 확인됨 |
 | `fonts/NanumSquareNeoTTF-bRg·cBd.woff2` | 네이버 나눔스퀘어 네오 공식 배포 | SIL OFL 1.1 | `fonts/NanumSquareNeo-OFL.txt`, CREDITS | 확인됨 |
-| `fonts/title-400.woff2`, `title-700.woff2`(글꼴 이름 「Gas City Title」) | 기록 없음. 커밋 `3c96402` 「Lighten gas city title fonts」에서 새로 들어옴. 원 글꼴 이름 미기록 | 모름 | — | **출처 미확인** |
+| `fonts/title-400.woff2`, `title-700.woff2`(글꼴 이름 「Gas City Title」) | 나눔스퀘어 네오를 쓰는 글자만 남겨 줄인 파생본(fontTools `subset.Subsetter`) | SIL OFL 1.1(원 글꼴과 같음, 이름을 바꾼 파생본) | Codex 세션 `rollout-2026-11-13T21-43-10-01a1d4ee…`: 같은 세션의 서브셋 스크립트(`NanumSquareNeoTTF-*.woff2` → 제목 서브셋)와 15번 커밋 명령 「Lighten gas city title fonts」(`3c96402`) | 확인됨 |
 | `vendor/three/three.module.min.js` | three.js r170 | MIT | `vendor/three/THREE-LICENSE.txt` | 확인됨 |
 | 공통 성취 카드 코드 `src/reward-cards.*` | 과학34 공통 자체 제작 | 자체 제작 | CREDITS | 확인됨 |
 
 ## 집계
 
-**출처 미확인 8줄:**
-1. 배경 그림 7장
-2. 인물 그림 4장
-3. 소품 그림 12장
-4. `npc-dialogue` 인물 그림 4장
-5. `map-residents` 주민 그림 5장
-6. `map-encounters` 그림 6장
-7. `map-finale.mp4`
-8. 제목 글꼴 2개
+**출처 미확인: 8줄 → 5줄(3-2a G, 2026-11-21).** Codex·Claude Code 생성 기록(`_shared/CODEX-IMAGE-RECORDS-20261121.md` 방법, 읽기 전용)과 대조했다.
+
+새로 근거를 찾은 것:
+
+- 대화창 인물 4장
+- 지도 주민 5장
+- 지도 다시 그린 그림 3장 + 산길 악당 1장
+- 제목 글꼴 2개(→ 확인됨)
+- 첫 장부에서 빠졌던 `visuals/` 13장(근거 약함으로 새로 올림)
+
+남은 출처 미확인 5줄:
+
+1. 배경 7장
+2. 인물 4장
+3. 소품 12장. 1~3은 2026-10-28 이전에 들어와서 이 맥에 생성 기록이 남는 2026-11-05보다 앞선다.
+4. `map-finale.mp4`. 「영상은 제미나이」라는 사용자 말은 조율 세션이 다시 확인한 뒤에만 쓴다.
+5. 쓰지 않는 `hero.png`·`ally.png`
+
+**「근거 약함」 줄 대부분은 요금제 증빙만 빠져 있다.** 10번 세션 기록의 사용자 말 「다 유료 요금제고」는 다른 프로젝트에 쓰려면 다시 확인받아야 해서 여기에는 쓰지 않았다.
 
 ## 사용자가 줘야 하는 자료
 
 1. 2026-10-28 이전 그림의 출처: 배경·인물·소품 23장(`d6f259a`). 직접 그리거나 생성했다면 도구 이름과 날짜를, 업체가 줬다면 계약서나 메일을 주면 된다.
-2. 11-13·11-14·11-17에 들어온 그림의 생성 도구와 날짜: `npc-dialogue`, `map-residents`, `map-encounters`, `map-finale.mp4`.
-3. 제목 글꼴(`title-400/700.woff2`)의 원 글꼴 이름과 라이선스.
+2. `map-finale.mp4`의 생성 도구와 날짜(11-14). 그림 쪽은 3-2a에서 생성 기록을 찾았다.
+3. (해결) 제목 글꼴은 나눔스퀘어 네오 서브셋으로 확인했다.
 4. 요금제 증빙 화면(생성 당시 유료·상업 이용 가능): ChatGPT(Codex 이미지), Higgsfield, ElevenLabs Creator, Suno Premier.
 5. Qwen3-TTS 라이선스 원문. 받으면 저장소에 넣는다(Apache-2.0 사본).
 

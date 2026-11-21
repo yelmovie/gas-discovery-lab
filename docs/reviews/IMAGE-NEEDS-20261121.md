@@ -6,7 +6,7 @@
 - 사용자 결정(2026-11-21): 출처 모르는 옛 그림은 자료가 있으면 장부에 연결하고, 없으면 새로 만들어 교체한다(3-3단계).
 - 그래서 (가)는 「자료가 끝내 없을 때」 만들 목록이다.
 
-## (가) 권리 장부에서 출처 미확인인 그림 — 37장 + 영상 1편
+## (가) 권리 장부에서 출처 미확인인 그림 — 24장 + 영상 1편 (3-2a G 뒤, 처음 37장)
 
 | 쓰이는 화면 | 지금 파일 | 필요한 크기·비율 | 화풍 참고 그림 | 왜 필요한가 |
 |---|---|---|---|---|
@@ -18,9 +18,6 @@
 | 지도·3D 산길 학생 | `student-walk.webp` | 1274×1234 걷기 스프라이트(프레임 배치는 `sprite-manifest.json`) | `map-encounters/hero-redraw.png` | 출처 미확인. 프레임 위치가 코드와 묶여 있다 |
 | 연구원 초상 | `lumi-portrait.webp`, `popo-portrait.webp` | 462×650, 투명 배경 상반신 | `soli-character.webp`(Codex) | 출처 미확인 |
 | 실험 소품 12장 | `prop-balloon/bottle/fan/jar/nozzle/packet/piston/pump/scale/soda/toolbox/windmill.webp` | 각 362×362, 투명 배경 단일 소품 | `visuals/pressure-chamber-v1.webp`(같은 소품 화풍, 기록 있음) | 출처 미확인 |
-| 대화 창 인물 4장 | `npc-dialogue/air·lumi·popo·soli.webp` | 880×440 | 각 인물의 현재 초상 | 출처 미확인 |
-| 지도 주민 5장 | `map-residents/*.webp` | 약 160×240, 투명 배경 | `npc-dialogue/` 같은 인물 | 출처 미확인 |
-| 지도 악당·학생·솔이 | `map-encounters/hero-redraw.png`, `ally-redraw.png`, `villain-redraw.png`, `villain-left.png`(3D 산길에서 씀) | 672×112 스프라이트 줄(6프레임) | 지금 파일 | 출처 미확인 |
 | 지도 마지막 영상 | `map-encounters/map-finale.mp4` | 영상(지금 길이·해상도 그대로) | — | 출처 미확인. 그림이 아니라 영상이라 다시 만드는 방식은 따로 정해야 한다 |
 
 이번에 찾은 것: `map-encounters/hero.png`, `ally.png`, `air-walk.webp`는 코드 검색에서 쓰는 곳이 나오지 않았다. 빌드에는 들어간다. 교체가 아니라 빌드에서 빼는 것이 맞는지는 3-4단계 정리에서 본다.
@@ -39,6 +36,6 @@
 
 ## 합계
 
-- (가) 37장 + 영상 1편: 자료가 오면 줄어든다.
+- (가) 24장 + 영상 1편(처음 37장). 3-2a G에서 생성 기록을 찾아 13장을 뺐다: 대화 창 인물 4, 지도 주민 5, 지도 악당·학생·솔이 4. 이 13장은 권리 장부에서 「근거 약함(만든 곳 확인)」이 됐다. 남은 24장은 2026-10-28 이전 그림이라 생성 기록이 없다.
 - (나) 0장.
 - (다) 0장.
