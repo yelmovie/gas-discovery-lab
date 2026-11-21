@@ -94,10 +94,12 @@ export function mountMountainRun(host,task,ctx,textures,{toClassic}){
   sprite.center.set(.5,center);sprite.scale.set(height*(aspect??texture.image.width/texture.image.height),height,1);sprite.position.copy(at(x,y??(Math.abs(x)>edge?slopeAt(f):groundAt(x,f)),f));scene.add(sprite);return sprite;
  }
  // 낮은 곳에는 잎이 넓은 나무, 높은 곳에는 소나무를 심는다.
- for(const [x,f,size] of [[-9.5,1.5,5],[6.8,2.2,5.4],[-8.2,6.5,5.2],[7.4,8,4.6],[-6.6,10.4,4.4]])standing(textures['leafy-tree'],size,{x,f});
- for(const [x,f,size] of [[6.4,13.5,4.6],[-7,15.6,5.2],[5.6,25.5,4.8],[-6.6,28.5,4.6],[7,32.5,5.4],[-6.2,37.5,4.8],[6.8,39.5,4.4],[-9.5,45,6],[9,47,5.6],[-12,52,6.4],[13,54,6]])standing(textures['pine-tree'],size,{x,f});
+ // 나무와 바위는 3D 모형이 오면 그 자리에서 모형으로 바뀐다(아래 dressWithModels).
+ const props={'leafy-tree':[],'pine-tree':[],boulder:[]};
+ for(const [x,f,size] of [[-9.5,1.5,5],[6.8,2.2,5.4],[-8.2,6.5,5.2],[7.4,8,4.6],[-6.6,10.4,4.4]])props['leafy-tree'].push({sprite:standing(textures['leafy-tree'],size,{x,f}),size});
+ for(const [x,f,size] of [[6.4,13.5,4.6],[-7,15.6,5.2],[5.6,25.5,4.8],[-6.6,28.5,4.6],[7,32.5,5.4],[-6.2,37.5,4.8],[6.8,39.5,4.4],[-9.5,45,6],[9,47,5.6],[-12,52,6.4],[13,54,6]])props['pine-tree'].push({sprite:standing(textures['pine-tree'],size,{x,f}),size});
  for(const [x,f,size] of [[-3.8,-.4,.9],[4.6,4.2,1],[-4.6,7.6,.9],[4.2,11.6,.9],[-4.4,12.4,1],[3.9,16.2,.9],[-3.9,25,1],[4.4,30.6,.9],[-4.8,33.2,1],[3.9,35.2,.9],[-4.2,40.4,1],[4.8,38.2,.9]])standing(textures['flower-clump'],size,{x,f});
- for(const [x,f,size] of [[5.2,-.6,1.5],[-5.4,5.6,1.3],[4.9,14.9,1.6],[-4.6,16.4,1.2],[-5.2,24.6,1.5],[5.4,27.8,1.3],[-4.4,36.2,1.2],[5.6,41,1.6]])standing(textures.boulder,size,{x,f});
+ for(const [x,f,size] of [[5.2,-.6,1.5],[-5.4,5.6,1.3],[4.9,14.9,1.6],[-4.6,16.4,1.2],[-5.2,24.6,1.5],[5.4,27.8,1.3],[-4.4,36.2,1.2],[5.6,41,1.6]])props.boulder.push({sprite:standing(textures.boulder,size,{x,f}),size});
  for(const [x,f] of [[4.4,3.6],[-4.1,14.9],[4.6,40.4]])standing(textures.pinwheel,1.5,{x,f});
  for(const [x,f] of [[-3.6,11.6],[3.6,28.4],[-3.7,41.2],[3.7,41.2]])standing(textures['lantern-post'],2.5,{x,f});
  standing(textures['base-shelter'],2.4,{x:-6.8,f:3.4});
@@ -119,6 +121,34 @@ export function mountMountainRun(host,task,ctx,textures,{toClassic}){
  const bagNormal=standing(textures['bag-normal'],.62,{x:0,f:0,center:.5}),bagPuffed=standing(textures['bag-puffed'],.62,{x:0,f:0,center:.5,opacity:0});
  const shadowCanvas=document.createElement('canvas');shadowCanvas.width=shadowCanvas.height=64;const paint=shadowCanvas.getContext('2d'),glow=paint.createRadialGradient(32,32,2,32,32,30);glow.addColorStop(0,'rgba(20,40,35,.5)');glow.addColorStop(1,'rgba(20,40,35,0)');paint.fillStyle=glow;paint.fillRect(0,0,64,64);
  const shadow=new THREE.Mesh(keep(new THREE.PlaneGeometry(1.3,1.3)),keep(new THREE.MeshBasicMaterial({map:keep(new THREE.CanvasTexture(shadowCanvas)),transparent:true,depthWrite:false})));shadow.rotation.x=-Math.PI/2;scene.add(shadow);
+ // Meshy 3D 모형(바위·잎나무·소나무). 모형마다 한 번만 받아 여러 자리에 복제한다. 보이는 모습만 바꾸고(충돌·발판은 그대로),
+ // 못 받으면 세운 그림이 그대로 남는다. 받는 동안에도 게임은 진행된다.
+ const MODEL_FILL={boulder:.95,'leafy-tree':.97,'pine-tree':.97};
+ async function dressWithModels(){
+  let GLTFLoader;
+  try{({GLTFLoader}=await import('/assets/vendor/three/addons/loaders/GLTFLoader.js'));}catch{return;}
+  const loader=new GLTFLoader();
+  // 운영 CSP(connect-src 'self')는 blob 주소 fetch를 막으므로, 모형 안 텍스처는 <img>(img-src blob:)로 읽는다.
+  loader.register(parser=>{parser.textureLoader=new THREE.TextureLoader(parser.options.manager);return {name:'run-stage-image-textures'};});
+  await Promise.allSettled(Object.entries(MODEL_FILL).map(async([name,fill])=>{
+   const gltf=await loader.loadAsync(`${ART}models/${name}.glb`),owned=new Set();
+   gltf.scene.traverse(o=>{if(!o.isMesh)return;owned.add(o.geometry);for(const m of [o.material].flat()){m.metalness=0;owned.add(m);for(const t of Object.values(m))if(t?.isTexture)owned.add(t);}});
+   if(disposed){for(const item of owned)item.dispose();return;}
+   disposables.push(...owned);
+   gltf.scene.updateMatrixWorld(true);
+   const box=new THREE.Box3().setFromObject(gltf.scene),height=box.max.y-box.min.y,width=Math.max(box.max.x-box.min.x,box.max.z-box.min.z);
+   if(!(height>0&&width>0))return;
+   for(const [i,{sprite,size}] of props[name].entries()){
+    // 그림과 같은 높이로 맞추되, 폭이 그림보다 넓어지면 줄여서 길·시야를 더 가리지 않게 한다.
+    const holder=new THREE.Group(),model=gltf.scene.clone();
+    model.position.set(-(box.min.x+box.max.x)/2,-box.min.y,-(box.min.z+box.max.z)/2);
+    holder.add(model);holder.scale.setScalar(Math.min(size*fill/height,Math.abs(sprite.scale.x)/width));holder.rotation.y=i*2.4;holder.position.copy(sprite.position);
+    scene.add(holder);sprite.visible=false;
+   }
+   root.dataset[`model${name.replace(/(^|-)(\w)/g,(_,__,c)=>c.toUpperCase())}`]='ready';
+  }));
+ }
+ dressWithModels();
  const villainTexture=keep(textures.villain.clone());villainTexture.repeat.set(1/6,1);villainTexture.needsUpdate=true;
  const villain=standing(villainTexture,2.5,{x:0,f:COURSE.patrol.f,aspect:1,center:.07});
 

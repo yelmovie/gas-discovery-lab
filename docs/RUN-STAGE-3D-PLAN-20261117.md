@@ -287,3 +287,12 @@
 - 학교 태블릿·전자칠판 실기기, Safari, 실제 손가락 터치.
 - 배송소 폰 가로 화면에서 "넣는 자리" 글을 숨기고 그림 칸만 남긴 것, 공작소 폰 가로 완료 화면에서 부품 칸을 접은 것이 아이에게 충분히 읽히는지(사용자 확인 전).
 
+
+## Meshy 3D 장식 (2026-11-21)
+
+공통 지침 `_shared/MESHY-3D-UPGRADE-20261121.md`의 15번 줄. 길가의 세운 그림 중 바위(8곳)·잎나무(5곳)·소나무(11곳)를 Meshy 3D 모형으로 바꿨다. 과자 봉지·관측 표지대·관측소는 그림 그대로다.
+
+- 모형: `public/assets/run-stage/models/boulder.glb`(1,664면, 262KB), `leafy-tree.glb`(2,021면, 282KB), `pine-tree.glb`(1,793면, 353KB). 합계 897KB. 원본·작업 ID·크레딧은 `asset-bank/original/meshy-20261121/README.md`(Git 제외).
+- 코드: `mountain-run.js`의 `dressWithModels()`. 모형마다 한 번 받아 `clone()`으로 각 자리에 놓고, 그 자리의 세운 그림을 숨긴다. 높이는 그림과 같게, 폭은 그림보다 넓지 않게 맞춰 길·조작 버튼을 더 가리지 않는다. 충돌·발판·판정은 그대로다.
+- 대체: 로더나 모형을 못 받으면 세운 그림이 그대로 남고 게임은 끝까지 된다(404 상태로 확인).
+- three: vendor r170에 맞춰 같은 버전의 `GLTFLoader.js`·`BufferGeometryUtils.js`를 `public/assets/vendor/three/addons/`에 복사(import만 vendor 경로로). 운영 CSP 때문에 meshopt 압축(WASM)은 쓰지 않고, 모형 텍스처는 blob fetch 대신 `<img>`(TextureLoader)로 읽는다.
