@@ -36,6 +36,8 @@
 |---|---|---|---|---|---|
 | `concepts/` 개념 영상 10편(WebM·MP4·WebP) | 프로젝트 자체 SVG 모션 그래픽(`scripts/render-concepts.mjs`) | 해시 `concepts/manifest.json` | 자체 제작 | CREDITS 「개념 영상과 동물 친구」 | 확인됨 |
 | `concepts-v2/` 개념 영상 10편 | 자체 모션 그래픽(`scripts/render-concepts-v2.mjs`). 그림은 위 소품 그림을 씀 | 2026-10-28 | 자체 제작 + 소품 그림 조건 | CREDITS 「2026-10-28」 | 확인됨(자체 모션 그래픽 + 확인된 소품 그림) |
+| `films-story/intro-1.mp4` 인트로 1 장면 영상(2026-11-21) | Google Flow, Veo 3.1 Fast. 첫 장면은 GPT 이미지(Codex) 그림 | 2026-11-21, Aside 세션 `FfvuZxu9…`, 프롬프트 `scripts/films-story/video-prompts.json`·`image-prompts.json` | Google AI Pro 유료 요금제(사용자 확인 2026-11-21 09:25) | `public/assets/CREDITS.md` 「인트로·파이널 장면 영상」 | 확인됨 |
+| `films-story/intro-2·3.mp4`, `final-1~3.mp4`(임시본) | GPT 이미지(Codex) 그림을 ffmpeg로 확대·이동(자체 가공) | 2026-11-21, `scripts/films-story/finish.sh` | 그림: Codex 유료 요금제(사용자 확인) | 같은 CREDITS 절 | 확인됨 |
 | `map-encounters/map-finale.mp4` 지도 마지막 영상 | 제미나이(영상) — 사용자 확인 | 2026-11-14 | 제미나이 유료 요금제(사용자 확인 2026-11-21 09:25 「전부 맞아」) | — | 확인됨(사용자 확인) |
 
 ## 음악
