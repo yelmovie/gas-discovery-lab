@@ -12,31 +12,31 @@
 
 | 파일(묶음) | 만든 곳 | 만든 날·기록 위치 | 이용 조건 | 근거 파일 | 상태 |
 |---|---|---|---|---|---|
-| `visuals/` 실험 소품 12종(관 3, 피스톤 2, 풍선 자동차, 중앙 코어, 산소 장치, 소화기, 빈 병, 팬 하우징·날개) + `air-jar-v2.webp` | 내장 image_gen(Codex) | 2026-10-28. 프롬프트 `docs/review/IMAGE-GENERATION-PROMPTS.json`, `asset-bank/original/*-prompts.json`. 해시 `visuals/manifest.json` | 이용 조건 문구 없음 | `public/assets/CREDITS.md` 「2026-10-28 개념 시각 자료」 | 근거 약함(도구 요금제·이용 조건 기록 없음) |
-| `visuals/pneumatic-bellows-v1.webp`, `cargo-crate-v1.webp` | Higgsfield GPT Image 2.6 | 2026-11-12. 작업 ID·SHA-256 `visuals/manifest.json`. 원본 `asset-bank/original/generated-20261112/` | 요금제 문구 없음 | CREDITS 「2026-11-12 공기 장치 공방 소품」 | 근거 약함(Higgsfield 요금제 기록 없음) |
-| `run-stage/` 3D 산길 그림 20장 | ChatGPT GPT 이미지(Codex 경유) | 2026-11-17. 프롬프트 `docs/RUN-STAGE-3D-PLAN-20261117.md`, `.tmp/run-stage/prompt-table.md`. 원본 `asset-bank/original/generated-20261117/` | 요금제 문구 없음 | CREDITS 「2026-11-17 3D 산길」 | 근거 약함(요금제 기록 없음) |
-| `reward-cards/` 카드 5장 + 썸네일 5장 | ChatGPT Codex 내장 이미지 도구 | 2026-11-18. 원본 `_scratch/reward-cards-20261118/gen/15/` | 요금제 문구 없음 | CREDITS 「2026-11-18 성취 카드」 | 근거 약함 |
-| `soli-character.webp`(바람여우 솔이) | Codex 기본 이미지 생성 도구 | 2026-11-13 | 요금제 문구 없음 | CREDITS 「개념 영상과 동물 친구」 | 근거 약함 |
-| `visuals/` 실험 장면 13장: `workshop-bg-v1`, `climate-warm-v1`·`climate-cold-v1`, `facility-snack·breathing·soda·safety-v1`, `weight-bench-v1.jpg`, `gas-nitrogen·oxygen·carbon-v1`, `hand-point-v1`, `rock-block-v1` | ChatGPT GPT 이미지(`gpt-imagegen` 스킬, Codex 경유) | 2026-11-16 14:56~15:39(UTC). Claude Code 세션 `48870090…`·`11d21a6f…`(파일 이름 `workshop-bg.png`, `climate-warm.png`, `facility-*.png`, `weight-bench.png`, `ui-icons.png`). 기체 통·손·바위 5장은 `ui-icons.png` 한 장을 나눈 것(같은 세션). 커밋 `845925e`·`908b23f` | 요금제 증빙 없음 | `_shared/codex-image-records-20261121/index-claude.jsonl` | 근거 약함(만든 곳 확인). 11-21 첫 장부에서 빠졌던 줄을 3-2a에서 더함 |
-| `air-portrait.webp` | 내장 image_gen(`air-fox-v2.png`) | 2026-10-28 프롬프트 기록 | 없음 | `docs/review/IMAGE-GENERATION-PROMPTS.json` | 근거 약함 |
-| 배경 7장 `title.webp`, `village.webp`, `flow/weight/climate/delivery/engineering.webp`, `ending.webp`, `logo.webp` | 「사용자 제공 이미지 및 기존 프로젝트의 AI 생성 에셋」이라고만 적힘 | 2026-10-28 이전(`d6f259a`에서 한꺼번에 들어옴) | 없음 | CREDITS 「기존 이미지와 글꼴」 | **출처 미확인**(어느 도구·누가 만들었는지 파일별 기록 없음) |
-| 인물 `student-walk.webp`, `air-walk.webp`, `lumi-portrait.webp`, `popo-portrait.webp` | 위와 같은 한 줄 | 2026-10-28 이전 | 없음 | 위와 같음 | **출처 미확인** |
-| 실험 소품 `prop-*.webp` 12장(풍선, 병, 팬, 병, 노즐, 봉지, 피스톤, 펌프, 저울, 탄산, 공구함, 풍차) | 위와 같은 한 줄 | 2026-10-28 이전 | 없음 | 위와 같음 | **출처 미확인** |
-| `npc-dialogue/` 인물 4장(에어·루미·포포·솔이) | Codex 내장 이미지 도구(`image_gen`) | 2026-11-12. Codex 세션 `rollout-2026-11-12T21-49-45-01a1cfce…`: 생성 원본 `exec-a776d9eb…png`를 `_scratch/npc-14-16-20261112/sheet-15-clear.png`로 복사한 뒤 4장으로 나눠 `15 gas/public/assets/npc-dialogue/`에 씀. `_scratch/npc-dialogue-plan-20261112/HANDOFF-5-16.md` 40행. 커밋 `fe51772` | 요금제 증빙 없음 | 세션 기록(3-2a G에서 대조) | 근거 약함(만든 곳 확인, 요금제 증빙 없음) |
-| `map-residents/` 시설 주민 5장 | ChatGPT GPT 이미지(`gpt-imagegen` 스킬, Codex 경유) | 2026-11-16 15:16(UTC). Claude Code 세션 `48870090…`의 `map-residents.png`(「A single horizontal character sheet … exactly five small full-body chibi」), 커밋 `ace86b1` | 요금제 증빙 없음 | `_shared/codex-image-records-20261121/index-claude.jsonl` | 근거 약함(만든 곳 확인) |
-| `map-encounters/hero-redraw.png`·`ally-redraw.png`·`villain-redraw.png`(지도에서 씀) | Codex 기본 이미지 도구 | 2026-11-14. `_scratch/redraw-12-15-20261114/README.md`(「동일한 운영 캐릭터의 새 자세를 Codex 기본 이미지 도구로」, 15행 커밋 `783c62a`·배포 `58bdade4`) | 요금제 증빙 없음 | 위 README·`RELEASE-12-15.json` | 근거 약함(만든 곳 확인) |
-| `map-encounters/villain-left.png`(3D 산길에서 씀) | Codex 내장 이미지 도구(악당 콘셉트 시트에서 잘라냄) | 2026-11-13. `_scratch/villain-concepts-20261114/prompts-v2.md`, `villains-12-16-v2.png`. Codex 세션 `rollout-2026-11-14T01-24-29-01a1d5b9…`의 자르기 스크립트(`cutouts-12-16.png` → `15 gas/public/assets/map-encounters/villain-left.png`). 커밋 `a1f5344` | 요금제 증빙 없음 | 세션 기록·콘셉트 폴더 | 근거 약함(만든 곳 확인) |
-| `map-encounters/hero.png`·`ally.png`(코드에서 쓰지 않음) | 기록 없음(커밋 `a1f5344`) | 2026-11-14 | 없음 | — | **출처 미확인**(빌드에는 들어감. 3-4 정리에서 빼는 것이 맞음) |
-| `og-image.jpg` 공유 그림 | 프로젝트 합성(기존 `title.webp`·로고) | 2026-11-10, 커밋 `3c0f33e` | 원 그림을 따름 | 커밋 메시지 | 근거 약함(원 그림이 출처 미확인) |
-| `app-icon.svg`, `soli.svg` | 프로젝트 직접 제작 SVG | — | 자체 제작 | CREDITS 「개념 영상과 동물 친구」(솔이 SVG) | 확인됨(`soli.svg`). `app-icon.svg`는 기록 없음 → 근거 약함 |
+| `visuals/` 실험 소품 12종(관 3, 피스톤 2, 풍선 자동차, 중앙 코어, 산소 장치, 소화기, 빈 병, 팬 하우징·날개) + `air-jar-v2.webp` | 내장 image_gen(Codex) | 2026-10-28. 프롬프트 `docs/review/IMAGE-GENERATION-PROMPTS.json`, `asset-bank/original/*-prompts.json`. 해시 `visuals/manifest.json` | Codex 쪽 유료 요금제(사용자 확인 2026-11-21 09:25 「전부 맞아」, `_shared/CODEX-IMAGE-RECORDS-20261121.md`) | `public/assets/CREDITS.md` 「2026-10-28 개념 시각 자료」 | 확인됨(생성 기록 + 사용자 확인) |
+| `visuals/pneumatic-bellows-v1.webp`, `cargo-crate-v1.webp` | Higgsfield GPT Image 2.6 | 2026-11-12. 작업 ID·SHA-256 `visuals/manifest.json`. 원본 `asset-bank/original/generated-20261112/` | 요금제 문구 없음 | CREDITS 「2026-11-12 공기 장치 공방 소품」 | 근거 약함: 저장소 기록(`visuals/manifest.json` `tool: Higgsfield connector`, `model: gpt_image_2_6`)은 Higgsfield 경유 GPT 이미지다. 「전부 Codex」 확인과 서비스가 달라 덮어쓰지 않고 그대로 둠(보고) |
+| `run-stage/` 3D 산길 그림 20장 | ChatGPT GPT 이미지(Codex 경유) | 2026-11-17. 프롬프트 `docs/RUN-STAGE-3D-PLAN-20261117.md`, `.tmp/run-stage/prompt-table.md`. 원본 `asset-bank/original/generated-20261117/` | Codex 쪽 유료 요금제(사용자 확인 2026-11-21 09:25 「전부 맞아」, `_shared/CODEX-IMAGE-RECORDS-20261121.md`) | CREDITS 「2026-11-17 3D 산길」 | 확인됨(생성 기록 + 사용자 확인) |
+| `reward-cards/` 카드 5장 + 썸네일 5장 | ChatGPT Codex 내장 이미지 도구 | 2026-11-18. 원본 `_scratch/reward-cards-20261118/gen/15/` | Codex 쪽 유료 요금제(사용자 확인 2026-11-21 09:25 「전부 맞아」, `_shared/CODEX-IMAGE-RECORDS-20261121.md`) | CREDITS 「2026-11-18 성취 카드」 | 확인됨(생성 기록 + 사용자 확인) |
+| `soli-character.webp`(바람여우 솔이) | Codex 기본 이미지 생성 도구 | 2026-11-13 | Codex 쪽 유료 요금제(사용자 확인 2026-11-21 09:25 「전부 맞아」, `_shared/CODEX-IMAGE-RECORDS-20261121.md`) | CREDITS 「개념 영상과 동물 친구」 | 확인됨(생성 기록 + 사용자 확인) |
+| `visuals/` 실험 장면 13장: `workshop-bg-v1`, `climate-warm-v1`·`climate-cold-v1`, `facility-snack·breathing·soda·safety-v1`, `weight-bench-v1.jpg`, `gas-nitrogen·oxygen·carbon-v1`, `hand-point-v1`, `rock-block-v1` | ChatGPT GPT 이미지(`gpt-imagegen` 스킬, Codex 경유) | 2026-11-16 14:56~15:39(UTC). Claude Code 세션 `48870090…`·`11d21a6f…`(파일 이름 `workshop-bg.png`, `climate-warm.png`, `facility-*.png`, `weight-bench.png`, `ui-icons.png`). 기체 통·손·바위 5장은 `ui-icons.png` 한 장을 나눈 것(같은 세션). 커밋 `845925e`·`908b23f` | Codex 쪽 유료 요금제(사용자 확인 2026-11-21 09:25 「전부 맞아」, `_shared/CODEX-IMAGE-RECORDS-20261121.md`) | `_shared/codex-image-records-20261121/index-claude.jsonl` | 확인됨(생성 기록 + 사용자 확인) |
+| `air-portrait.webp` | 내장 image_gen(`air-fox-v2.png`) | 2026-10-28 프롬프트 기록 | Codex 쪽 유료 요금제(사용자 확인 2026-11-21 09:25 「전부 맞아」, `_shared/CODEX-IMAGE-RECORDS-20261121.md`) | `docs/review/IMAGE-GENERATION-PROMPTS.json` | 확인됨(생성 기록 + 사용자 확인) |
+| 배경 7장 `title.webp`, `village.webp`, `flow/weight/climate/delivery/engineering.webp`, `ending.webp`, `logo.webp` | Codex(GPT 이미지) — 사용자 확인 | 2026-10-28 이전(`d6f259a`에서 한꺼번에 들어옴) | Codex 쪽 유료 요금제(사용자 확인 2026-11-21 09:25 「전부 맞아」, `_shared/CODEX-IMAGE-RECORDS-20261121.md`) | CREDITS 「기존 이미지와 글꼴」 | 확인됨(사용자 확인) |
+| 인물 `student-walk.webp`, `air-walk.webp`, `lumi-portrait.webp`, `popo-portrait.webp` | Codex(GPT 이미지) — 사용자 확인 | 2026-10-28 이전 | Codex 쪽 유료 요금제(사용자 확인 2026-11-21 09:25 「전부 맞아」, `_shared/CODEX-IMAGE-RECORDS-20261121.md`) | 위와 같음 | 확인됨(사용자 확인) |
+| 실험 소품 `prop-*.webp` 12장(풍선, 병, 팬, 병, 노즐, 봉지, 피스톤, 펌프, 저울, 탄산, 공구함, 풍차) | Codex(GPT 이미지) — 사용자 확인 | 2026-10-28 이전 | Codex 쪽 유료 요금제(사용자 확인 2026-11-21 09:25 「전부 맞아」, `_shared/CODEX-IMAGE-RECORDS-20261121.md`) | 위와 같음 | 확인됨(사용자 확인) |
+| `npc-dialogue/` 인물 4장(에어·루미·포포·솔이) | Codex 내장 이미지 도구(`image_gen`) | 2026-11-12. Codex 세션 `rollout-2026-11-12T21-49-45-01a1cfce…`: 생성 원본 `exec-a776d9eb…png`를 `_scratch/npc-14-16-20261112/sheet-15-clear.png`로 복사한 뒤 4장으로 나눠 `15 gas/public/assets/npc-dialogue/`에 씀. `_scratch/npc-dialogue-plan-20261112/HANDOFF-5-16.md` 40행. 커밋 `fe51772` | Codex 쪽 유료 요금제(사용자 확인 2026-11-21 09:25 「전부 맞아」, `_shared/CODEX-IMAGE-RECORDS-20261121.md`) | 세션 기록(3-2a G에서 대조) | 확인됨(생성 기록 + 사용자 확인) |
+| `map-residents/` 시설 주민 5장 | ChatGPT GPT 이미지(`gpt-imagegen` 스킬, Codex 경유) | 2026-11-16 15:16(UTC). Claude Code 세션 `48870090…`의 `map-residents.png`(「A single horizontal character sheet … exactly five small full-body chibi」), 커밋 `ace86b1` | Codex 쪽 유료 요금제(사용자 확인 2026-11-21 09:25 「전부 맞아」, `_shared/CODEX-IMAGE-RECORDS-20261121.md`) | `_shared/codex-image-records-20261121/index-claude.jsonl` | 확인됨(생성 기록 + 사용자 확인) |
+| `map-encounters/hero-redraw.png`·`ally-redraw.png`·`villain-redraw.png`(지도에서 씀) | Codex 기본 이미지 도구 | 2026-11-14. `_scratch/redraw-12-15-20261114/README.md`(「동일한 운영 캐릭터의 새 자세를 Codex 기본 이미지 도구로」, 15행 커밋 `783c62a`·배포 `58bdade4`) | Codex 쪽 유료 요금제(사용자 확인 2026-11-21 09:25 「전부 맞아」, `_shared/CODEX-IMAGE-RECORDS-20261121.md`) | 위 README·`RELEASE-12-15.json` | 확인됨(생성 기록 + 사용자 확인) |
+| `map-encounters/villain-left.png`(3D 산길에서 씀) | Codex 내장 이미지 도구(악당 콘셉트 시트에서 잘라냄) | 2026-11-13. `_scratch/villain-concepts-20261114/prompts-v2.md`, `villains-12-16-v2.png`. Codex 세션 `rollout-2026-11-14T01-24-29-01a1d5b9…`의 자르기 스크립트(`cutouts-12-16.png` → `15 gas/public/assets/map-encounters/villain-left.png`). 커밋 `a1f5344` | Codex 쪽 유료 요금제(사용자 확인 2026-11-21 09:25 「전부 맞아」, `_shared/CODEX-IMAGE-RECORDS-20261121.md`) | 세션 기록·콘셉트 폴더 | 확인됨(생성 기록 + 사용자 확인) |
+| `map-encounters/hero.png`·`ally.png`(코드에서 쓰지 않음) | Codex(GPT 이미지) — 사용자 확인 | 2026-11-14 | Codex 쪽 유료 요금제(사용자 확인 2026-11-21 09:25 「전부 맞아」, `_shared/CODEX-IMAGE-RECORDS-20261121.md`) | — | 확인됨(사용자 확인) |
+| `og-image.jpg` 공유 그림 | 프로젝트 합성(기존 `title.webp`·로고) | 2026-11-10, 커밋 `3c0f33e` | 원 그림을 따름 | 커밋 메시지 | 확인됨(원 그림이 사용자 확인으로 확인됨) |
+| `app-icon.svg`, `soli.svg` | 프로젝트 직접 제작 SVG | — | 자체 제작 | CREDITS 「개념 영상과 동물 친구」(솔이 SVG) | 확인됨(`app-icon.svg`는 손으로 쓴 벡터 코드, `d6f259a`) |
 
 ## 영상
 
 | 파일(묶음) | 만든 곳 | 만든 날·기록 | 이용 조건 | 근거 파일 | 상태 |
 |---|---|---|---|---|---|
 | `concepts/` 개념 영상 10편(WebM·MP4·WebP) | 프로젝트 자체 SVG 모션 그래픽(`scripts/render-concepts.mjs`) | 해시 `concepts/manifest.json` | 자체 제작 | CREDITS 「개념 영상과 동물 친구」 | 확인됨 |
-| `concepts-v2/` 개념 영상 10편 | 자체 모션 그래픽(`scripts/render-concepts-v2.mjs`). 그림은 위 소품 그림을 씀 | 2026-10-28 | 자체 제작 + 소품 그림 조건 | CREDITS 「2026-10-28」 | 근거 약함(쓰인 소품 그림이 근거 약함·출처 미확인) |
-| `map-encounters/map-finale.mp4` 지도 마지막 영상 | 기록 없음(커밋 `31731a4`) | 2026-11-14 | 없음 | — | **출처 미확인** |
+| `concepts-v2/` 개념 영상 10편 | 자체 모션 그래픽(`scripts/render-concepts-v2.mjs`). 그림은 위 소품 그림을 씀 | 2026-10-28 | 자체 제작 + 소품 그림 조건 | CREDITS 「2026-10-28」 | 확인됨(자체 모션 그래픽 + 확인된 소품 그림) |
+| `map-encounters/map-finale.mp4` 지도 마지막 영상 | 제미나이(영상) — 사용자 확인 | 2026-11-14 | 제미나이 유료 요금제(사용자 확인 2026-11-21 09:25 「전부 맞아」) | — | 확인됨(사용자 확인) |
 
 ## 음악
 
@@ -77,32 +77,29 @@
 
 ## 집계
 
-**출처 미확인: 8줄 → 5줄(3-2a G, 2026-11-21).** Codex·Claude Code 생성 기록(`_shared/CODEX-IMAGE-RECORDS-20261121.md` 방법, 읽기 전용)과 대조했다.
+**출처 미확인 줄 수**
 
-새로 근거를 찾은 것:
+| 시점 | 줄 수 | 근거 |
+|---|---|---|
+| 11-21 첫 장부 | 8 | — |
+| 3-2a G | 5 | 생성 기록 대조 |
+| 3-2a 뒤 | **0** | 사용자 확인 2026-11-21 09:25: 「16곳 그림은 전부 Codex(GPT), 영상은 제미나이, 모두 유료 요금제로 만든 게 맞아?」 → 「전부 맞아」 |
 
-- 대화창 인물 4장
-- 지도 주민 5장
-- 지도 다시 그린 그림 3장 + 산길 악당 1장
-- 제목 글꼴 2개(→ 확인됨)
-- 첫 장부에서 빠졌던 `visuals/` 13장(근거 약함으로 새로 올림)
+- **생성 로그가 없는 옛 그림 25장과 영상 1편:** 배경 7, 인물 4, 소품 12, 쓰지 않는 지도 그림 2, `map-finale.mp4`. 위 확인을 근거로 「확인됨(사용자 확인)」으로 적었다. CREDITS의 「사용자 제공 이미지 및 기존 프로젝트의 AI 생성 에셋」과 어긋나지 않는다.
+- **생성 기록이 있던 Codex·GPT 이미지 줄:** 요금제가 확인돼 「확인됨」으로 바꿨다.
 
-남은 출처 미확인 5줄:
+**어긋나서 덮어쓰지 않은 줄(보고):**
+- `pneumatic-bellows-v1.webp`, `cargo-crate-v1.webp` 2장. 저장소 기록은 Higgsfield 경유 GPT Image 2.6이다. 「Codex」 확인과 서비스가 달라서 근거 약함으로 둔다. Higgsfield 요금제 기록이 있으면 확인됨이 된다.
 
-1. 배경 7장
-2. 인물 4장
-3. 소품 12장. 1~3은 2026-10-28 이전에 들어와서 이 맥에 생성 기록이 남는 2026-11-05보다 앞선다.
-4. `map-finale.mp4`. 「영상은 제미나이」라는 사용자 말은 조율 세션이 다시 확인한 뒤에만 쓴다.
-5. 쓰지 않는 `hero.png`·`ally.png`
-
-**「근거 약함」 줄 대부분은 요금제 증빙만 빠져 있다.** 10번 세션 기록의 사용자 말 「다 유료 요금제고」는 다른 프로젝트에 쓰려면 다시 확인받아야 해서 여기에는 쓰지 않았다.
+**이 확인의 범위 밖(음악·목소리):** 각자의 출처 문서를 따른다. 그대로 둔 줄은 다음과 같다.
+- Suno 음악: 사용자 확인 Premier(CREDITS)
+- ElevenLabs 목소리: Creator(CREDITS)
+- Qwen3-TTS: 라이선스 원문 사본이 저장소에 없다
 
 ## 사용자가 줘야 하는 자료
 
-1. 2026-10-28 이전 그림의 출처: 배경·인물·소품 23장(`d6f259a`). 직접 그리거나 생성했다면 도구 이름과 날짜를, 업체가 줬다면 계약서나 메일을 주면 된다.
-2. `map-finale.mp4`의 생성 도구와 날짜(11-14). 그림 쪽은 3-2a에서 생성 기록을 찾았다.
-3. (해결) 제목 글꼴은 나눔스퀘어 네오 서브셋으로 확인했다.
-4. 요금제 증빙 화면(생성 당시 유료·상업 이용 가능): ChatGPT(Codex 이미지), Higgsfield, ElevenLabs Creator, Suno Premier.
-5. Qwen3-TTS 라이선스 원문. 받으면 저장소에 넣는다(Apache-2.0 사본).
+1. Higgsfield 요금제 기록. 공방 소품 2장(`pneumatic-bellows-v1`, `cargo-crate-v1`)에 필요하다. 없으면 3-3단계에서 Codex로 다시 그려 바꿀 수 있다.
+2. Qwen3-TTS 라이선스 원문(Apache-2.0) 사본. 저장소 `docs/`에 넣는다.
+3. 요금제 화면 캡처(ChatGPT·제미나이·ElevenLabs·Suno). 납품 때 붙이는 증빙이고, 장부를 채우는 데는 필요하지 않다.
 
-저장소만으로 바로 할 수 있는 일도 있다. 지도 악당 효과음 6줄을 CREDITS에 적는 것이다. 근거는 라이브러리에 있다. 다음 단계에서 문서로 보충한다.
+저장소만으로 할 일: 지도 악당 효과음 6줄을 CREDITS에 적는다. 근거는 공통 라이브러리 `manifest.json`이다.
