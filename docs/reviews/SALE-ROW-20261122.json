@@ -3,7 +3,7 @@
   "name": "기체 도시 대작전",
   "folder": "15 gas",
   "grade": "4학년",
-  "semester": null,
+  "semester": "2학기",
   "subject": "과학",
   "unit": "여러 가지 기체",
   "standards": [
@@ -21,7 +21,11 @@
   "consistency": {
     "creditLine": {
       "text": "기획·제작: 옐샘 & ⓒ 아이스크림미디어",
-      "where": ["settings", "certificate", "start"]
+      "where": [
+        "settings",
+        "certificate",
+        "start"
+      ]
     },
     "settings": {
       "items": [
@@ -43,13 +47,20 @@
         "이미지·소리·저작권 고지",
         "탐구 기록 초기화"
       ],
-      "close": ["esc"],
+      "close": [
+        "esc"
+      ],
       "closeLabel": "닫기",
       "note": "위 X는 제거, 아래 「닫기」 버튼과 Esc. 바깥 눌러 닫기는 코드에서 확인하지 못함. 「탐구 기록 초기화」가 아래 줄 왼쪽, 「닫기」가 오른쪽."
     },
     "certificate": {
-      "fields": ["별명(선택, 16자)", "내가 발견한 힘(3개 중 선택)"],
-      "buttons": ["인증서 인쇄"],
+      "fields": [
+        "별명(선택, 16자)",
+        "내가 발견한 힘(3개 중 선택)"
+      ],
+      "buttons": [
+        "인증서 인쇄"
+      ],
       "note": "내려받기 버튼 없이 인쇄만. 날짜 칸은 코드에서 확인하지 못함. 첫 시도에 맞힌 탐구 수 표시, 하단에 크레딧."
     },
     "rewardCards": {
@@ -60,11 +71,19 @@
     },
     "modalButtons": {
       "primarySide": "right",
-      "order": ["취소", "기록 지우기"],
+      "order": [
+        "취소",
+        "기록 지우기"
+      ],
       "note": "초기화 확인 창 기준(DOM 순서)."
     },
     "startScreen": {
-      "buttons": ["탐험 시작(진행 있으면 모험 이어가기)", "처음 이야기 보기", "공기 장치 미션", "에어와 친구들 이야기"]
+      "buttons": [
+        "탐험 시작(진행 있으면 모험 이어가기)",
+        "처음 이야기 보기",
+        "공기 장치 미션",
+        "에어와 친구들 이야기"
+      ]
     }
   },
   "ledger": {
@@ -84,7 +103,6 @@
   },
   "teacherGuide": {
     "needsConfirm": [
-      "학기(저장소에 없음)",
       "예상 수업 시간(실측 없음)",
       "바람 동력소와 성취기준 연결",
       "저울 모형 값의 현실성",
@@ -94,5 +112,8 @@
   "files": {
     "teacherGuide": "docs/TEACHER-GUIDE.md",
     "handoff": "docs/DELIVERY-HANDOFF.md"
-  }
+  },
+  "gradeRepo": "4학년",
+  "unitRepo": "여러 가지 기체",
+  "gradeUnitSource": "운영 시트 「이예리 선생님」 탭, 2026-11-22 확인"
 }
