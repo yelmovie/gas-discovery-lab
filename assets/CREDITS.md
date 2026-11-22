@@ -80,3 +80,7 @@ Kenney, **Interface Sounds 1.0** — https://kenney.nl/assets/interface-sounds
 | `public/assets/audio/sfx/pickup.mp3` | 3D 산길 꼭대기에서 봉지 크기를 기록할 때 | `sfx/pickup-03.mp3` | Pickup Sound · Davidsraba | CC0 | https://freesound.org/people/Davidsraba/sounds/347175 |
 
 - 재생: `src/audio.js`의 `cue()`·`footstep()`. 효과음 스위치·전체 소리 끄기·개념 영상 재생 중·탭 숨김을 따른다. 발자국은 다른 소리를 끊지 않고 다른 소리에 끊기지도 않으며, 대사 중에는 절반 크기다.
+
+## 인증서 테두리 · 2026-11-22
+
+- `public/assets/certificate-frame-20261122.webp`: Codex 기본 imagegen(GPT 이미지), 풍선·바람개비·공기 펌프·구름 도시 수채 테두리. 글자 없음, 1회 생성. 원본 `assets/generated/certificate-20261122.png`, 프롬프트 `assets/generated/PROMPT-15.txt`. 1800×1273, 146,200 bytes.

@@ -119,3 +119,7 @@ Kenney, **Interface Sounds 1.0** — https://kenney.nl/assets/interface-sounds
 | `public/assets/audio/sfx/villain-exit.mp3` | 악당이 물러날 때 | `sfx/spray-hiss-02.mp3` | Spray Paint.wav · sKydran | CC0 | https://freesound.org/people/sKydran/sounds/240899 |
 | `public/assets/audio/sfx/villain-appear.mp3` | 악당이 나타날 때 | `sfx/villain-appear-02.mp3` | Mouth Pop 1 · michorvath | CC0 | https://freesound.org/people/michorvath/sounds/269501 |
 | `public/assets/audio/sfx/hurt-bump.mp3` | 주인공이 악당에 부딪힐 때 | `sfx/hurt-bump-01.mp3` | LowHit_01.wav · Faulkin | CC0 | https://freesound.org/people/Faulkin/sounds/336495 |
+
+## 인증서 테두리 · 2026-11-22
+
+- `public/assets/certificate-frame-20261122.webp`: Codex 기본 imagegen(GPT 이미지), 풍선·바람개비·공기 펌프·구름 도시 수채 테두리. 글자 없음, 1회 생성. 원본 `assets/generated/certificate-20261122.png`, 프롬프트 `assets/generated/PROMPT-15.txt`. 1800×1273, 146,200 bytes.

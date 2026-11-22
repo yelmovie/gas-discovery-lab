@@ -117,3 +117,11 @@
   - 지도 악당 효과음 6줄: 근거는 공통 라이브러리 `manifest.json`에 있으나 `public/assets/CREDITS.md`에 빠져 있다. 저장소 안에서 채울 수 있지만 배포 폴더(`public/`) 파일이라 이번 문서 작업에서는 고치지 않았다.
   - 목소리 묶음 3줄(ElevenLabs 96줄, 이름 있는 13줄, Qwen3-TTS 17줄)과 `ending-1~3.mp3`: 요금제 화면 증빙과 Qwen3-TTS 라이선스 원문(Apache-2.0) 사본은 사용자 자료 대기.
 - 사용자 자료 대기: Higgsfield 요금제, Qwen3-TTS 라이선스 원문 사본, ChatGPT·제미나이·ElevenLabs·Suno 요금제 화면 캡처.
+
+## 인증서 그림 추가 · 2026-11-22
+
+| 파일 | 도구·소재 | 원본·기록 | 상태 |
+|---|---|---|---|
+| `public/assets/certificate-frame-20261122.webp` | Codex 기본 imagegen(GPT 이미지), 풍선·바람개비·공기 펌프·구름 도시 수채 테두리. 글자 없음, 1회 생성, 1800×1273, 146,200 bytes | 2026-11-22. 원본 `assets/generated/certificate-20261122.png`, 프롬프트 `assets/generated/PROMPT-15.txt` | 생성 도구·외장 파일 직접 확인. 기존 Codex 사용자 확인(2026-11-21), 요금제 증빙 대기는 유지 |
+
+- 추가 뒤 전체36줄, 확인됨29줄·근거 약함7줄·출처 미확인0줄. 기존 대기 항목은 그대로입니다.
