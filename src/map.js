@@ -48,7 +48,7 @@ export function mountMap(host,ctx,[geometry,background,student,soli,atlas]){
   return [{...encounterStage(i,s.id,s.name,p),patrolRadius:18}];
  });
  const restoredIds=ctx.takeRestorations?.()??[];
- const encounters=mountMapEncounters({requiredFoes:5,host,clearStage:()=>restoredIds.filter(id=>id!=='core').at(-1),stages:encounterStages,progress:ctx.save.mapHits,
+ const encounters=mountMapEncounters({requiredFoes:0,host,clearStage:()=>restoredIds.filter(id=>id!=='core').at(-1),stages:encounterStages,progress:ctx.save.mapHits,
   // A villain's third hit wins its achievement card: it opens once the exit has played, or after a dialog that opened meanwhile.
   // The card is marked before the save is announced, so the header keeps its slot empty until the card lands.
   // The card also waits for the villain's exit line to finish (at most 6 s), so the reveal never talks over it.
