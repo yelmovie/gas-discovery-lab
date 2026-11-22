@@ -4,6 +4,12 @@ import {store,persist} from './state.js';
 import {button,choices,escapeHTML} from './ui.js';
 import {icon} from './icons.js';
 
+// 완료한 날짜: 마지막으로 기록한 탐구의 날짜(저장 형식은 그대로). 없으면 오늘. 형식 「2026. 11. 22.」
+function doneDate(){
+	const last=STAGES.flatMap(s=>store.save.evidence[s.id]||[]).map(e=>Date.parse(e.date)).filter(Number.isFinite).sort((a,b)=>b-a)[0];
+	const d=new Date(last??Date.now());return `${d.getFullYear()}. ${d.getMonth()+1}. ${d.getDate()}.`;
+}
+
 export function renderCertificate(host,navigate){
 	if(!store.save.finaleCompleted){navigate({screen:'map'},{replace:true});return;}
 	host.innerHTML=
@@ -13,6 +19,7 @@ export function renderCertificate(host,navigate){
 		`<div class="certificate-badges">${STAGES.map(s=>`<span>${icon('check')}${s.badge}</span>`).join('')}</div>` +
 		`${(n=>n?`<p class="certificate-first-try">${icon('star')} 첫 시도에 맞힌 탐구 ${n}개</p>`:'')(
 			STAGES.reduce((sum,st)=>sum+store.save.evidence[st.id].filter(e=>e.details?.firstTry===true).length,0))}` +
+		`<div class="certificate-date">${doneDate()}</div>` +
 		`<div class="certificate-sign">` +
 		`<span>기획·제작: 옐샘 & ⓒ 아이스크림미디어</span></div></section><aside class="lab-panel certificate-options"><div class="eyebrow">내가 발견한 힘</div><h2>이제 무엇을 <br>할 수 있나요?</h2>` +
 		`<div class="ability-options"></div><label class="nickname-label" for="nickname">별명 (선택 · 16자까지)</label><input id="nickname" maxlength="16" autocomplete="off" value="${escapeHTML(store.save.nickname)}" placeholder="공기 엔지니어">` +
@@ -21,5 +28,5 @@ export function renderCertificate(host,navigate){
 	host.querySelector('.certificate-ability').textContent='나는 이제 '+value;},{selected:store.save.ability}));
 	host.querySelector('#nickname').oninput=e=>{store.save.nickname=e.target.value.slice(0,16);persist();
 	host.querySelector('.certificate-name').textContent=store.save.nickname||'멋진 공기 엔지니어';};
-	host.querySelector('.certificate-actions').append(button(`${icon('print')} 인증서 인쇄`,()=>window.print()));
+	host.querySelector('.certificate-actions').append(button(`${icon('print')} 인증서 인쇄 / PDF 저장`,()=>window.print()));
 }
