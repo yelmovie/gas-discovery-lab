@@ -8,7 +8,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 // 3D 산길로 먼저 열리는 의뢰는 「기존 방식으로 하기」로 바꿔 기존 조작을 검사한다(3D 경로는 qa-run-stage.mjs).
 const classicScreen=async page=>{await page.locator('.run-classic,.condition-slider').first().waitFor();if(await page.locator('.run-classic').count())await page.locator('.run-classic').click();};
-const b=await chromium.launch({channel:'chrome',headless:true}),isolated=await b.newContext({storageState:{cookies:[],origins:[]},viewport:{width:Number(process.env.QA_WIDTH)||1280,height:Number(process.env.QA_HEIGHT)||800}}),p=await isolated.newPage(),errors=[],report=[];
+const b=await chromium.launch({channel:'chrome',headless:true,args:['--mute-audio']}),isolated=await b.newContext({storageState:{cookies:[],origins:[]},viewport:{width:Number(process.env.QA_WIDTH)||1280,height:Number(process.env.QA_HEIGHT)||800}}),p=await isolated.newPage(),errors=[],report=[];
 await fs.mkdir('.tmp/qa',{recursive:true});
 p.on('pageerror',e=>errors.push(e.message));
 await p.addInitScript(() => {
@@ -26,7 +26,12 @@ async function voice(id){
  if(id==='welcome'){await p.waitForTimeout(350);assert.ok(await p.evaluate(()=>window.__gains[1].gain.value>.04),'BGM returns after dialogue');}
  verified.push(id); console.log('Voice ended',id);
 }
-await p.goto(QA); await voice('welcome');await p.locator('.title-buddy').click();await voice('title-buddy');await p.keyboard.press('Escape');
+// 첫 화면 우당탕 양식(2026-11-22): 환영 인사는 설정 「안내 목소리 듣기」, 친구들 이야기는 설정 「에어와 친구들 이야기」에서 연다.
+await p.goto(QA);await p.locator('.settings-button').click();await p.evaluate(()=>window.__voiceEnded=[]);await p.locator('.welcome-voice').click();
+await p.waitForTimeout(650);assert.ok(await p.evaluate(()=>window.__gains[1].gain.value<.02),'BGM ducks under dialogue');
+await p.waitForFunction(()=>window.__voiceEnded.some(url=>url.endsWith('/welcome.mp3')),null,{timeout:30000});
+await p.waitForTimeout(350);assert.ok(await p.evaluate(()=>window.__gains[1].gain.value>.04),'BGM returns after dialogue');verified.push('welcome');console.log('Voice ended','welcome');
+await p.locator('.npc-talk').click();await voice('title-buddy');await p.keyboard.press('Escape');
 await p.locator('.start-button').click();for(let i=1;i<=3;i++){await voice('story-'+i);await p.locator('.story-actions button').click();}
 await p.evaluate(()=>localStorage.clear());
 await p.goto(QA);assert.equal(await p.evaluate(()=>localStorage.length),0,'QA must use a new isolated empty browser context');await p.evaluate(async()=>{const {store}=await import('/src/state.js');store.save.introSeen=true;store.save.settings.music=false;store.save.settings.sfx=true;localStorage.setItem('gas-city-adventure-v1',JSON.stringify(store.save));});await p.reload();

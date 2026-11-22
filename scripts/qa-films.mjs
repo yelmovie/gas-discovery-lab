@@ -4,7 +4,7 @@
 import assert from 'node:assert/strict'; import fs from 'node:fs/promises'; import {createRequire} from 'node:module';
 const {chromium}=createRequire(import.meta.url)(process.env.PLAYWRIGHT_MODULE||'playwright-core');
 const QA=process.env.QA_URL||'http://127.0.0.1:4176',OUT='.tmp/films-finish-20261121/qa';await fs.mkdir(OUT,{recursive:true});
-const browser=await chromium.launch({channel:'chrome',headless:true,args:['--autoplay-policy=no-user-gesture-required']});
+const browser=await chromium.launch({channel:'chrome',headless:true,args:['--autoplay-policy=no-user-gesture-required','--mute-audio']});
 const errors=[],report=[];
 const hook=()=>{window.__media=new Set();const play=HTMLMediaElement.prototype.play;HTMLMediaElement.prototype.play=function(){window.__media.add(this);return play.apply(this,arguments);};};
 const media=p=>p.evaluate(()=>[...window.__media].map(m=>({tag:m.tagName,src:(m.currentSrc||m.src).replace(location.origin,''),paused:m.paused,muted:m.muted,volume:+m.volume.toFixed(2)})));
@@ -21,7 +21,7 @@ async function filmState(p){return p.evaluate(()=>{const v=document.querySelecto
 const toEnd=p=>p.evaluate(()=>{const v=document.querySelector('.story-film video');v.currentTime=v.duration-0.25;});
 for(const vp of [{width:1280,height:800},{width:1024,height:768},{width:1920,height:1080},{width:844,height:390}]){
  const tag=`${vp.width}x${vp.height}`;const {ctx,p}=await page(vp,{settings:{music:true,voice:true}});
- await p.getByRole('button',{name:/탐험 시작/}).click();await p.locator('.story-film video').waitFor();
+ await p.getByRole('button',{name:'시작하기',exact:true}).click();await p.locator('.story-film video').waitFor();
  await p.waitForFunction(()=>{const v=document.querySelector('.story-film video');return v&&!v.paused&&v.currentTime>3.6;},null,{timeout:20000});
  const s=await filmState(p);await p.screenshot({path:`${OUT}/intro-${tag}.png`});
  assert.equal(s.fill[0],vp.width,`${tag} film width`);assert.equal(s.fill[1],vp.height,`${tag} film height`);assert.equal(s.fit,'contain');
@@ -33,22 +33,22 @@ for(const vp of [{width:1280,height:800},{width:1024,height:768},{width:1920,hei
  report.push({tag,intro:s,bgmAfter:after.map(x=>x.src)});console.log('ok',tag);await ctx.close();
 }
 { // 목소리 끔: 영상 음소거, 배경음은 평소대로
- const {ctx,p}=await page({width:1280,height:800},{settings:{music:true,voice:false}});await p.getByRole('button',{name:/탐험 시작/}).click();
+ const {ctx,p}=await page({width:1280,height:800},{settings:{music:true,voice:false}});await p.getByRole('button',{name:'시작하기',exact:true}).click();
  await p.waitForFunction(()=>{const v=document.querySelector('.story-film video');return v&&!v.paused&&v.currentTime>1;},null,{timeout:20000});
  const s=await filmState(p);assert.equal(s.muted,true,'voice off → muted film');await p.waitForTimeout(500);const m=(await media(p)).filter(x=>x.tag==='AUDIO'&&/bgm/.test(x.src)&&!x.paused);
  assert.ok(m.length>=1,'voice off → app music keeps playing');report.push({voiceOff:{muted:s.muted,bgm:m}});
  await p.locator('.film-skip').click();await p.waitForURL(/#map/);
- // 다시 보기: 처음 이야기 보기 → 영상 → 건너뛰기 → 지도
- await p.goto(QA+'/#home');await p.getByRole('button',{name:'처음 이야기 보기'}).click();await p.locator('.story-film video').waitFor();await p.locator('.film-skip').click();await p.waitForURL(/#map/);
+ // 다시 보기: 설정 「이 모험을 하는 이유 다시 보기」 → 영상 → 건너뛰기 → 연 화면(시작 화면)으로 돌아감
+ await p.goto(QA+'/#home');await p.locator('.settings-button').click();await p.getByRole('button',{name:'이 모험을 하는 이유 다시 보기'}).click();await p.locator('.story-film video').waitFor();await p.locator('.film-skip').click();await p.waitForURL(/#home/);
  // 뒤로 가기: 영상 중 뒤로 → 영상이 남지 않고 배경음 복귀
- await p.goto(QA+'/#home');await p.getByRole('button',{name:'처음 이야기 보기'}).click();await p.locator('.story-film video').waitFor();await p.goBack();await p.waitForTimeout(800);
+ await p.goto(QA+'/#home');await p.locator('.settings-button').click();await p.getByRole('button',{name:'이 모험을 하는 이유 다시 보기'}).click();await p.locator('.story-film video').waitFor();await p.goBack();await p.waitForTimeout(800);
  console.log('ok voice-off+replay');assert.equal(await p.locator('.story-film').count(),0,'back leaves no film');report.push({back:p.url()});
  // 새로고침: 지도에서 새로고침해도 영상이 다시 뜨지 않는다
  await p.goto(QA+'/#map');await p.reload();await p.waitForTimeout(800);assert.equal(await p.locator('.story-film').count(),0,'reload on map shows no film');
  await ctx.close();
 }
 { // 움직임 줄이기 → 예전 카드 화면(장면 끝 그림)
- const {ctx,p}=await page({width:1280,height:800},{settings:{reduceMotion:true}});await p.getByRole('button',{name:/탐험 시작/}).click();await p.locator('.story-card').waitFor();
+ const {ctx,p}=await page({width:1280,height:800},{settings:{reduceMotion:true}});await p.getByRole('button',{name:'시작하기',exact:true}).click();await p.locator('.story-card').waitFor();
  assert.equal(await p.locator('.story-film').count(),0);report.push({reduceMotion:await p.locator('img.scene-film').getAttribute('src')});await ctx.close();
 }
 console.log('ok reduce/back');
