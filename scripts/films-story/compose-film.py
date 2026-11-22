@@ -136,6 +136,10 @@ def compose(film):
     # 자막 큐 → burn.py ASS (1920×1080 좌표, libass가 1280×720으로 줄여 그린다)
     cues = [{'s': round(c['s_abs'], 2), 'e': round(c['e_abs'], 2), 'speech': [round(c['s_abs'] + .15, 2), round(c['e_abs'] - .35, 2)], 'who': sc['who'], 'text': c['text']}
             for sc in cfg['scenes'] for c in sc['cues']]
+    # 앞 자막이 (사라짐 효과까지) 완전히 끝난 뒤 다음 자막이 나오게: 끝을 다음 시작 한 프레임 앞으로 당긴다(목소리·시작 시점은 그대로).
+    for a, b in zip(cues, cues[1:]):
+        if a['e'] > b['s'] - .05:
+            a['e'] = round(b['s'] - .05, 2); a['speech'][1] = min(a['speech'][1], round(a['e'] - .1, 2))
     ass = WORK / f'{film}.ass'
     ass.write_text(burn.build_ass({'theme': cfg['theme'], 'speakers': cfg['speakers'], 'bottom': cfg.get('bottom', 64), 'sweep': True, 'cues': cues}), encoding='utf-8')
     # 영상: 교차 페이드 체인 + 처음·끝 페이드 + 자막
