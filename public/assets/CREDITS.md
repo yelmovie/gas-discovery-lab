@@ -106,3 +106,16 @@ Kenney, **Interface Sounds 1.0** — https://kenney.nl/assets/interface-sounds
 | `public/assets/audio/sfx/pickup.mp3` | 3D 산길 꼭대기에서 봉지 크기를 기록할 때 | `sfx/pickup-03.mp3` | Pickup Sound · Davidsraba | CC0 | https://freesound.org/people/Davidsraba/sounds/347175 |
 
 - 재생: `src/audio.js`의 `cue()`·`footstep()`. 효과음 스위치·전체 소리 끄기·개념 영상 재생 중·탭 숨김을 따른다. 발자국은 다른 소리를 끊지 않고 다른 소리에 끊기지도 않으며, 대사 중에는 절반 크기다.
+
+## 지도 악당 효과음 (2026-11-17 적용, 2026-11-22 기록 보충)
+
+과학34 공통 효과음 라이브러리(`_shared/sfx-library-20261117`)에서 골라 이름만 바꿔 복사했다(파일 해시가 라이브러리 파일과 같다). 모두 CC0 1.0이며 원본 페이지에서 라이선스를 다시 확인한 파일이다(라이브러리 `manifest.json`의 `license_rechecked`).
+
+| 파일 | 쓰는 곳 | 라이브러리 파일 | 원본 · 제작자 | 라이선스 | 출처 |
+|---|---|---|---|---|---|
+| `public/assets/audio/sfx/attack-swing.mp3` | 공격 버튼을 휘두를 때 | `sfx/wind-whoosh-01.mp3` | Swoosh 15 Windy · qubodup | CC0 | https://freesound.org/people/qubodup/sounds/60002 |
+| `public/assets/audio/sfx/hit-light.mp3` | 악당을 가볍게 맞힐 때 | `sfx/hit-light-02.mp3` | cartoon pop or drip · AlaskaRobotics | CC0 | https://freesound.org/people/AlaskaRobotics/sounds/221091 |
+| `public/assets/audio/sfx/hit-heavy.mp3` | 마지막 공격으로 악당을 물리칠 때 | `sfx/hit-heavy-02.mp3` | Loud Pillow Hit 2.wav · saturdaysoundguy | CC0 | https://freesound.org/people/saturdaysoundguy/sounds/388035 |
+| `public/assets/audio/sfx/villain-exit.mp3` | 악당이 물러날 때 | `sfx/spray-hiss-02.mp3` | Spray Paint.wav · sKydran | CC0 | https://freesound.org/people/sKydran/sounds/240899 |
+| `public/assets/audio/sfx/villain-appear.mp3` | 악당이 나타날 때 | `sfx/villain-appear-02.mp3` | Mouth Pop 1 · michorvath | CC0 | https://freesound.org/people/michorvath/sounds/269501 |
+| `public/assets/audio/sfx/hurt-bump.mp3` | 주인공이 악당에 부딪힐 때 | `sfx/hurt-bump-01.mp3` | LowHit_01.wav · Faulkin | CC0 | https://freesound.org/people/Faulkin/sounds/336495 |
