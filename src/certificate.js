@@ -3,6 +3,8 @@ import {STAGES} from './data.js';
 import {store,persist} from './state.js';
 import {button,choices,escapeHTML} from './ui.js';
 import {saveCertificatePng} from './certificate-png.js';
+import {mountCertificateWax} from './certificate-wax.js';
+import {cue} from './audio.js';
 
 function doneDate(){
  const last=STAGES.flatMap(s=>store.save.evidence[s.id]||[]).map(e=>Date.parse(e.date)).filter(Number.isFinite).sort((a,b)=>b-a)[0];
@@ -43,6 +45,7 @@ export function renderCertificate(host,navigate){
   store.save.ability=value;persist();host.querySelector('.certificate-ability').textContent='나는 이제 '+value;
  },{selected:store.save.ability}));
  const actions=host.querySelector('.certificate-actions'),paper=host.querySelector('.cert-paper'),message=host.querySelector('.cert-error');
+ mountCertificateWax(paper,{label:'공기 코어\n복구 인증',reduced:store.save.settings.reduceMotion,onImpact:()=>void cue('hit')});
  actions.append(button('인증서 인쇄 / PDF 저장',()=>window.print()));
  const png=button('PNG 저장',async()=>{
   if(png.disabled)return;png.disabled=true;message.textContent='';
