@@ -4,7 +4,7 @@ import { voiceLines } from './voice-lines.js';
 let welcomeCleanup = () => {};
 import {APP,STAGES,STORY,stageById} from './data.js';
 import {playStoryFilm} from './story-film.js';
-import {store,persist,award,allComplete,resetProgress} from './state.js';
+import {store,persist,award,allComplete,completeFinale,resetProgress} from './state.js';
 import {completeStage,isStageOpen,teacherRoute} from './model.js';
 import {html,button,openDialog,portrait,prop,buddy,choices,escapeHTML,announce,holdButton,SOLI_IMAGE} from './ui.js';
 import {icon} from './icons.js';
@@ -268,7 +268,7 @@ function showFinale(host){loadConceptVisuals().catch(()=>{});const demo=store.de
   
   holdButton(supply,p=>{gauge.style.width=`${p*100}%`;},()=>{
    if(charged||contextSignal.aborted)return;charged=true;supply.disabled=true;supply.textContent='공기 공급 완료';host.querySelector('.core-apparatus').classList.add('core-active');status.textContent='코어까지 공기가 도착했어요! 마지막 레버를 당겨요.';attachVoice(status,'finale-charged',abort.signal);sound('success');
-   body.querySelector('.final-lever').append(button(`복구 레버 당기기 ${icon('arrow')}`,()=>{if(restored||contextSignal.aborted)return;restored=true;if(!demo){if(!store.save.finaleCompleted)pendingRestoration.add('core');store.save.finaleCompleted=true;persist();}sound('award');if(demo)openDialog('시연이 끝났어요','<p>예시 장치가 코어를 움직였어요. 실제 탐구 기록은 바뀌지 않았어요.</p>');else navigate({screen:'ending',index:0});},'button gold repair-lever'));
+   body.querySelector('.final-lever').append(button(`복구 레버 당기기 ${icon('arrow')}`,()=>{if(restored||contextSignal.aborted)return;restored=true;if(!demo){if(!store.save.finaleCompleted)pendingRestoration.add('core');completeFinale();}sound('award');if(demo)openDialog('시연이 끝났어요','<p>예시 장치가 코어를 움직였어요. 실제 탐구 기록은 바뀌지 않았어요.</p>');else navigate({screen:'ending',index:0});},'button gold repair-lever'));
   },contextSignal);
  }
 

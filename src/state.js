@@ -1,7 +1,8 @@
 import { APP, STAGES } from './data.js';
 import {completeStage} from './model.js';
 import { normalizeMapHits } from './map-encounter-progress.js';
-export const freshSave=()=>({version:1,mapRepairs:[],mapHits:{},introSeen:false,evidence:Object.fromEntries(STAGES.map(s=>[s.id,[]])),drafts:{},finaleCompleted:false,ability:'실험 기록을 비교해 설명할 수 있어요.',nickname:'',settings:{music:true,sfx:true,musicVolume:35,sfxVolume:100,voice:true,reduceMotion:false,adminUnlockAll:false}});
+import {validCompletionTimestamp} from './completion-date.js';
+export const freshSave=()=>({version:1,mapRepairs:[],mapHits:{},introSeen:false,evidence:Object.fromEntries(STAGES.map(s=>[s.id,[]])),drafts:{},finaleCompleted:false,finaleCompletedAt:null,ability:'실험 기록을 비교해 설명할 수 있어요.',nickname:'',settings:{music:true,sfx:true,musicVolume:35,sfxVolume:100,voice:true,reduceMotion:false,adminUnlockAll:false}});
 export function validateSave(value){
  if(!value||typeof value!=='object'||value.version!==1)throw Error('저장 형식이 달라요.');
  const clean=freshSave();clean.introSeen=value.introSeen===true;
@@ -15,6 +16,7 @@ export function validateSave(value){
  clean.settings.reduceMotion=value.settings?.reduceMotion===true;
  clean.settings.adminUnlockAll=false;
  clean.finaleCompleted=value.finaleCompleted===true&&STAGES.every(s=>completeStage(clean,s.id));
+ clean.finaleCompletedAt=clean.finaleCompleted?validCompletionTimestamp(value.finaleCompletedAt):null;
  clean.nickname=typeof value.nickname==='string'?value.nickname.slice(0,16):'';
  if(typeof value.ability==='string')clean.ability=value.ability.slice(0,120);
  if(value.drafts&&typeof value.drafts==='object')for(const task of STAGES.flatMap(s=>s.tasks)){const draft=value.drafts[task.id];if(draft&&typeof draft==='object'&&!Array.isArray(draft))clean.drafts[task.id]=draft;}
@@ -66,5 +68,12 @@ export function resetProgress(storage){
   const next={...freshSave(),settings:{...store.save.settings,adminUnlockAll:false}},encoded=JSON.stringify(next);
   storage.setItem(APP.saveKey,encoded);Object.assign(store,{save:next,baseline:encoded,recoveryPending:false,problem:null,recovery:raw});return true;
  }catch{store.problem='원래 기록을 안전하게 보관하지 못해 초기화를 멈췄어요.';return false;}
+}
+// 이미 완료한 옛 저장에는 실제 완료 시각이 없으므로 나중 시각을 채워 넣지 않는다.
+export function completeFinale(at=new Date().toISOString(),storage){
+ const timestamp=validCompletionTimestamp(at);
+ if(store.demo||store.save.settings.adminUnlockAll||!allComplete()||!timestamp)return false;
+ if(!store.save.finaleCompleted){store.save.finaleCompleted=true;store.save.finaleCompletedAt=timestamp;}
+ persist(storage);return true;
 }
 export function allComplete(){return STAGES.every(s=>completeStage(store.save,s.id));}

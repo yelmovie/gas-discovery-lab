@@ -30,7 +30,7 @@ export function mountEngineering(host,task,ctx){
  function guideNext(){
   if(lastResult){ctx.guide?.('다시 살펴봐요',lastResult.message);ctx.nextAction?.(errorTarget(lastResult.kind));return;}
   const placed=Boolean(design.source&&design.pipe&&design.nozzle);
-  ctx.guide?.(successful?'장치 완성':placed?'밸브 열기':'부품 선택',successful?'공기의 힘으로 장치가 움직여요.':placed?'밸브를 눌러 열면 공기가 바로 흘러 시험돼요.':!design.source?'공기를 보내는 공급부 카드를 1번 칸으로 끌어 끼워요. 눌러도 돼요.':!design.pipe?'공기가 지나갈 관 카드를 2번 칸으로 끌어 끼워요.':'공기가 나오는 노즐 카드를 3번 칸으로 끌어 끼워요.',['공기 공급부, 관, 노즐이 차례로 이어져야 해요.','공기가 통과할 수 있는 관인지, 밸브가 열렸는지 살펴봐요.',task.target==='car'?'자동차가 갈 방향과 공기가 나갈 방향을 비교해 봐요.':'노즐의 출구가 움직일 장치를 향하는지 확인해요.']);
+  ctx.guide?.(successful?'장치 완성':placed?'밸브 열기':'부품 선택',successful?'공기의 힘으로 장치가 움직여요.':placed?'밸브를 눌러 열고 공기가 장치까지 가는지 시험해요.':!design.source?'공기를 보내는 공급부 카드를 1번 칸으로 끌어 끼워요. 눌러도 돼요.':!design.pipe?'공기가 지나갈 관 카드를 2번 칸으로 끌어 끼워요.':'공기가 나오는 노즐 카드를 3번 칸으로 끌어 끼워요.',['공기 공급부, 관, 노즐이 차례로 이어져야 해요.','공기가 통과할 수 있는 관인지, 밸브가 열렸는지 살펴봐요.',task.target==='car'?'자동차가 갈 방향과 공기가 나갈 방향을 비교해 봐요.':'노즐의 출구가 움직일 장치를 향하는지 확인해요.']);
   ctx.nextAction?.(successful?[]:nextParts()||'.valve-control');
  }
  function render(){
@@ -45,7 +45,7 @@ export function mountEngineering(host,task,ctx){
    box.ondrop=event=>{event.preventDefault();const part=PARTS.find(p=>p.id===event.dataTransfer.getData('text/plain'));if(part)assign(part,slot);};slots.append(box);
   }
   for(const b of tray.children){const part=PARTS.find(p=>p.id===b.dataset.part),placed=part.slot==='nozzle'?design.nozzle:design[part.slot]===part.id;b.classList.toggle('selected',Boolean(placed));b.setAttribute('aria-pressed',String(Boolean(placed)));b.disabled=successful;}
-  valveButton.innerHTML=`<span class="control-state">${design.valve?'밸브 열림 · 공기 흐름':'밸브 열어 시험하기'}</span>`;valveButton.setAttribute('aria-label',`밸브 ${design.valve?'닫기':'열기'}`);valveButton.setAttribute('aria-pressed',String(design.valve));valveButton.disabled=successful;
+  valveButton.innerHTML=`<span class="control-state">${design.valve?'밸브 열림':'밸브 열어 시험하기'}</span>`;valveButton.setAttribute('aria-label',`밸브 ${design.valve?'닫기':'열기'}`);valveButton.setAttribute('aria-pressed',String(design.valve));valveButton.disabled=successful;
   directionButton.innerHTML=`<span class="control-state">공기 방향 ${design.direction==='forward'?'→':'←'}</span>`;directionButton.setAttribute('aria-label',`공기 방향 ${design.direction==='forward'?'앞쪽':'뒤쪽'}, 눌러 바꾸기`);directionButton.disabled=successful;
   const scene=host.querySelector('.assembly-scene');scene.dataset.direction=design.direction;scene.dataset.valve=design.valve?'open':'closed';
   host.querySelector('.target-caption').textContent=task.target==='car'&&successful?'자동차 →':targetName;

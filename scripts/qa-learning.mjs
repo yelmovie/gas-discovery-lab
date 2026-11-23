@@ -7,7 +7,7 @@ import {createPipePuzzle,PIPE_PATTERNS} from '../src/model.js';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 // 3D 산길로 먼저 열리는 의뢰는 「기존 방식으로 하기」로 바꿔 기존 조작을 검사한다(3D 경로는 qa-run-stage.mjs).
-const classicScreen=async page=>{await page.locator('.run-classic,.condition-slider').first().waitFor();if(await page.locator('.run-classic').count())await page.locator('.run-classic').click();};
+const classicScreen=async page=>{await page.locator('.run-classic,.condition-slider,.mountain-classic').first().waitFor();if(await page.locator('.run-classic').count())await page.locator('.run-classic').click();};
 const b=await chromium.launch({channel:'chrome',headless:true}),isolated=await b.newContext({storageState:{cookies:[],origins:[]},viewport:{width:Number(process.env.QA_WIDTH)||1280,height:Number(process.env.QA_HEIGHT)||800}}),p=await isolated.newPage(),errors=[],report=[];
 await fs.mkdir('.tmp/qa',{recursive:true});
 p.on('pageerror',e=>errors.push(e.message));
@@ -24,7 +24,8 @@ for(const stage of STAGES)for(const task of stage.tasks){
   for(let n=0;n<task.minDelta;n++)await p.locator(`[data-action=${task.direction>0?'add':'remove'}]`).click();await p.locator('.record-button').click();
  }else if(stage.id==='climate'){
   if(task.runStage)await classicScreen(p);
-  await p.locator('.condition-slider').fill(String(task.target));await p.locator('.condition-slider').dispatchEvent('change');await bounds(task.id+'-question');await p.getByRole('button',{name:task.answer,exact:true}).click();
+  if(task.runStage){await p.getByRole('button',{name:'더 부풀어요',exact:true}).click();await p.locator('.mountain-stations [data-station="summit"]').click();await p.locator('.mountain-record').click();}
+  else{await p.locator('.condition-slider').fill(String(task.target));await p.locator('.condition-slider').dispatchEvent('change');}await bounds(task.id+'-question');await p.getByRole('button',{name:task.answer,exact:true}).click();
  }else if(stage.id==='delivery'){
   const names={nitrogen:'질소',oxygen:'산소',carbon:'이산화 탄소'};const card=p.locator('.gas-card').filter({hasText:names[task.gas]});if(task.id==='delivery-4'){await card.click();assert.equal(await p.locator('.reason-slot .choice[aria-pressed=true]').count(),0);assert.equal(await p.locator('.gas-card.selected').count(),0,'4번은 눌러서는 실리지 않고 살펴보기만');await drag(`.gas-card[data-gas="${task.gas}"]`,'.facility-request');await p.locator('.gas-card.selected').waitFor();}else await card.click();await p.getByRole('button',{name:task.reason,exact:true}).click();
  }else{

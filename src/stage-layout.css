@@ -34,7 +34,7 @@
 .activity-screen .buddy-button{position:static;inset:auto;display:flex;align-items:center;justify-content:center;gap:4px;min-width:64px;min-height:48px;height:48px;padding:4px 8px;border-radius:12px;background:#fff4d9;border:2px solid #b7ad87}
 .activity-screen .soli-portrait{width:24px;height:30px;filter:none}
 .activity-screen .buddy-label{position:static;padding:0;border:0;background:none;font:18px/1.2 var(--font-display)}
-.activity-screen .buddy-speech{position:fixed;left:auto;right:16px;bottom:88px;width:min(430px,calc(100vw - 32px));max-height:calc(100dvh - 120px);overflow:auto;font-size:20px}
+.activity-screen .buddy-speech{position:fixed;left:auto;right:16px;bottom:88px;width:min(430px,calc(100vw - 32px));max-height:calc(100dvh - 120px);overflow:auto;font-size:20px;color:var(--teal-950)}
 .activity-screen .activity-host .is-next-action{outline:3px solid #d4a447;outline-offset:2px}
 .activity-screen .activity-host button.is-next-action,.activity-screen .activity-host button.is-next-action:hover:not(:disabled){background:#fff0cc;border-color:#a67722;color:#143f43;transition:transform .12s,box-shadow .12s}
 .activity-screen .discovery-result{gap:8px;height:auto;min-height:0}
@@ -452,5 +452,5 @@ html body #app .has-film :is(.story-card,.ending-copy) :is(h1,p){text-wrap:balan
 /* 인트로·파이널 한 편 영상(2026-11-21 마무리): 전체 화면, 자막은 영상 안. 건너뛰기는 오른쪽 위(자막 자리인 아래쪽 22%를 비운다). */
 .story-film{position:fixed;inset:0;width:100dvw;height:100dvh;background:#000;z-index:60;display:flex;align-items:center;justify-content:center}
 .story-film-video{width:100%;height:100%;object-fit:contain;background:#000}
-.story-film .film-skip.button{position:absolute;top:max(16px,env(safe-area-inset-top));right:max(16px,env(safe-area-inset-right));min-width:120px;min-height:52px;font-size:22px;background:#143f43e6!important;color:#fff4d9!important;border:2px solid #d5aa58!important;border-radius:999px;padding:8px 22px;box-shadow:0 4px 12px #0007}
+.story-film .film-skip.button{position:absolute;top:max(16px,env(safe-area-inset-top));right:max(16px,env(safe-area-inset-right));min-width:120px;min-height:52px;font-size:22px;background:#143f43!important;color:#fff4d9!important;border:2px solid #d5aa58!important;border-radius:999px;padding:8px 22px;box-shadow:0 4px 12px #0007}
 .certificate-date{margin:12px 0 0;font-size:16px;color:#6d5e3d;letter-spacing:.04em}
