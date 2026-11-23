@@ -6,6 +6,13 @@ import {saveCertificatePng} from './certificate-png.js';
 import {mountCertificateWax} from './certificate-wax.js';
 import {cue} from './audio.js';
 
+const certificateAbilities=new Map([
+ ['실험 기록을 비교해 설명할 수 있어요.','실험 기록을 비교하여 설명할 수 있음.'],
+ ['조건을 바꾸고 부피 변화를 관찰할 수 있어요.','조건을 바꾸어 부피 변화를 관찰할 수 있음.'],
+ ['공기의 성질로 장치를 만들 수 있어요.','공기의 성질을 활용하여 장치를 만들 수 있음.']
+]);
+const certificateAbility=value=>certificateAbilities.get(value)??value;
+
 export function renderCertificate(host,navigate){
  if(!store.save.finaleCompleted){navigate({screen:'map'},{replace:true});return;}
  host.innerHTML=`
@@ -21,12 +28,12 @@ export function renderCertificate(host,navigate){
        <div class="cert-class"><span class="cert-blank school" data-cert-blank="school"></span> 학교 <span class="cert-blank" data-cert-blank="grade"></span> 학년 <span class="cert-blank" data-cert-blank="class"></span> 반 <span class="cert-blank" data-cert-blank="number"></span> 번</div>
        <div class="cert-name">이름 <span class="cert-blank name" data-cert-blank="name"></span></div>
       </div>
-      <p class="cert-award">위 엔지니어는 연구시설에서 증거를 모으고,<br>직접 만든 공기 장치로 마을을 되살렸으므로<br>이 인증서를 드립니다.</p>
-      <p class="certificate-ability">나는 이제 ${escapeHTML(store.save.ability)}</p>
+      <p class="cert-award">위 엔지니어는 연구시설에서 증거를 수집하고,<br>직접 제작한 공기 장치로 마을을 복구하였으므로<br>이 인증서를 수여함.</p>
+      <p class="certificate-ability">탐구 역량: ${escapeHTML(certificateAbility(store.save.ability))}</p>
       <div class="cert-bottom">
        <p class="cert-date"><small>모험을 마친 날</small>${completionDateText(store.save)}</p>
        <div class="cert-stamp"><b>공기 코어</b><span>복구 인증</span></div>
-       <p class="cert-issuer"><small>주는 이</small>여우 에어</p>
+       <p class="cert-issuer"><small>수여자</small>여우 에어</p>
       </div>
       <p class="cert-credit">기획·제작: 옐샘 &amp; ⓒ 아이스크림미디어</p>
      </div>
@@ -37,7 +44,7 @@ export function renderCertificate(host,navigate){
    <aside class="lab-panel certificate-options"><div class="eyebrow">내가 발견한 힘</div><h2>이제 무엇을 <br>할 수 있나요?</h2><div class="ability-options"></div></aside>
   </div>`;
  host.querySelector('.ability-options').append(choices(['실험 기록을 비교해 설명할 수 있어요.','조건을 바꾸고 부피 변화를 관찰할 수 있어요.','공기의 성질로 장치를 만들 수 있어요.'],value=>{
-  store.save.ability=value;persist();host.querySelector('.certificate-ability').textContent='나는 이제 '+value;
+  store.save.ability=value;persist();host.querySelector('.certificate-ability').textContent='탐구 역량: '+certificateAbility(value);
  },{selected:store.save.ability}));
  const actions=host.querySelector('.certificate-actions'),paper=host.querySelector('.cert-paper'),message=host.querySelector('.cert-error');
  mountCertificateWax(paper,{label:'공기 코어\n복구 인증',reduced:store.save.settings.reduceMotion,onImpact:()=>void cue('hit')});
