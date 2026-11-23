@@ -7,7 +7,7 @@ import {createPipePuzzle,PIPE_PATTERNS} from '../src/model.js';
 
 const {chromium}=createRequire(import.meta.url)(process.env.PLAYWRIGHT_MODULE||'playwright-core');
 // 3D 산길로 먼저 열리는 의뢰는 「기존 방식으로 하기」로 바꿔 기존 조작을 검사한다(3D 경로는 qa-run-stage.mjs).
-const classicScreen=async page=>{await page.locator('.run-classic,.condition-slider').first().waitFor();if(await page.locator('.run-classic').count())await page.locator('.run-classic').click();};
+const classicScreen=async page=>{await page.locator('.run-classic,.condition-slider,.mountain-classic').first().waitFor();if(await page.locator('.run-classic').count())await page.locator('.run-classic').click();};
 const root=path.resolve(import.meta.dirname,'..');
 const output=path.resolve(root,process.env.QA_OUTPUT||'.tmp/qa/responsive');
 await fs.mkdir(output,{recursive:true});
@@ -142,8 +142,8 @@ for(const [width,height] of viewports){
       }
       if(stage.id==='climate'){
         if(stage.tasks[i].runStage)await classicScreen(page);
-        await page.locator('.condition-slider').fill(String(stage.tasks[i].target));
-        await page.locator('.condition-slider').dispatchEvent('change');
+        if(stage.tasks[i].runStage){await page.getByRole('button',{name:'더 부풀어요',exact:true}).click();await page.locator('.mountain-stations [data-station="summit"]').click();await page.locator('.mountain-record').click();}
+        else{await page.locator('.condition-slider').fill(String(stage.tasks[i].target));await page.locator('.condition-slider').dispatchEvent('change');}
         await check(null,'comparison',i===0);
       }
       if(stage.id==='delivery'){

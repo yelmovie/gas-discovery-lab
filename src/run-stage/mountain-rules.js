@@ -5,6 +5,8 @@ import {volumeFor,validVolumePair} from '../model.js';
 /** 산 아래(보통 압력)에서 산꼭대기(낮은 압력)로 가는 의뢰에만 쓴다. 높은 압력은 걸어서 갈 수 있는 높이가 아니다. */
 export function supportsRun(task){return task?.runStage===true&&task.mode==='pressure'&&(task.baseline??1)===1&&task.target===0;}
 
+export const PRESSURE_LABELS=['낮은 압력','보통 압력','높은 압력'];
+export const MOUNTAIN_HINTS=['기체의 양과 온도는 같게 두고 바깥 압력만 바꿔요.','한 조건만 바꾸고 처음과 나중을 비교해요.','기체가 사라졌는지, 차지하는 공간이 달라졌는지 생각해 봐요.'];
 export const PREDICTIONS=[
  {value:'bigger',label:'더 부풀어요'},
  {value:'same',label:'그대로예요'},
@@ -13,13 +15,15 @@ export const PREDICTIONS=[
 /** 예상과 비교할 결과도 기존 모형에서 읽는다. */
 export function observedChange(task){const before=volumeFor(task.mode,task.baseline??1),after=volumeFor(task.mode,task.target);return after>before?'bigger':after<before?'smaller':'same';}
 
-/** 기존 2D 화면(mountClimate)과 같은 방식으로 초안을 되살린다. */
+/** 산악 3D·2D가 같은 예상·기록·안전 지점으로 초안을 되살린다. */
 export function restoreRun(task,draft){
  const baseline=task.baseline??1,source=draft&&typeof draft==='object'?draft:{};
  const records=Array.isArray(source.records)?source.records.filter(r=>r&&[0,1,2].includes(r.condition)).map(r=>({condition:r.condition,ratio:volumeFor(task.mode,r.condition)})):[];
  if(!records.some(r=>r.condition===baseline))records.unshift({condition:baseline,ratio:volumeFor(task.mode,baseline)});
  const prediction=PREDICTIONS.some(p=>p.value===source.prediction)?source.prediction:null;
- return {records,prediction};
+ const reached=validVolumePair(records,task);
+ const checkpoint=reached?COURSE.checkpoints.length-1:prediction&&Number.isInteger(source.checkpoint)&&source.checkpoint>=0&&source.checkpoint<COURSE.checkpoints.length?source.checkpoint:0;
+ return {records,prediction,checkpoint};
 }
 /** 관측 지점의 '기록'. 기존 화면에서 슬라이더를 놓았을 때와 같은 모양의 기록을 남긴다. */
 export function recordStation(state,task,station){
@@ -29,10 +33,16 @@ export function recordStation(state,task,station){
 }
 export function stationCondition(task,station){return station==='base'?(task.baseline??1):station==='summit'?task.target:null;}
 export function readyToCompare(state,task){return validVolumePair(state.records,task);}
-/** 저장 필드는 기존 초안 그대로이고 예상만 덧붙인다. */
+/** 관찰 기록과 별도로 도달한 안전 지점을 보존한다. 도달만으로 관찰을 기록하지 않는다. */
 export function runDraft(state,task){
  const condition=readyToCompare(state,task)?task.target:(task.baseline??1);
- return {condition,records:state.records.map(r=>({...r})),...(state.prediction?{prediction:state.prediction}:{})};
+ return {condition,records:state.records.map(r=>({...r})),...(state.prediction?{prediction:state.prediction}:{}),...(state.checkpoint>0?{checkpoint:state.checkpoint}:{})};
+}
+/** 3D와 2D가 함께 쓰는 관찰·정답 판정. 이동만으로는 완료 증거를 만들 수 없다. */
+export function runEvidence(state,task,transfer,misses=0){
+ if(!readyToCompare(state,task)||transfer!==task.answer)return null;
+ const attempts=(Number.isFinite(misses)?Math.max(0,Math.trunc(misses)):0)+1;
+ return {mode:task.mode,records:state.records.map(r=>({...r})),transfer,attempts,firstTry:attempts===1};
 }
 /** 손에 든 봉지가 보여 주는 부피 비율. 두 관측 지점의 모형 값 사이를 높이에 따라 잇는다(표시용, 기록되지 않는다). */
 export function bagRatio(task,heightFraction){

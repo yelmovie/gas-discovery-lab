@@ -1,22 +1,24 @@
 import {volumeFor,validVolumePair} from '../model.js';
 import {supportsRun} from '../run-stage/mountain-rules.js';
+import {mountMountainClassic} from '../run-stage/mountain-classic.js';
 import {prop,choices,escapeHTML,announce,shuffle} from '../ui.js';
 import {sound} from '../audio.js';
 // 받침 유무로 '이에요/예요'를 고른다(예: 보통 온도예요, 보통 압력이에요).
 const iyeyo=word=>{const code=word.charCodeAt(word.length-1)-0xAC00;return code>=0&&code<11172&&code%28?'이에요':'예요';};
-// 「높은 산의 과자 봉지」는 3D 산길을 먼저 열고, 쓸 수 없으면 아래의 기존 화면으로 진행한다.
+// 「높은 산의 과자 봉지」는 3D 산길을 먼저 열고, 쓸 수 없으면 같은 봉지를 비교하는 2D 화면으로 진행한다.
 function canRun3D(){
  if(document.documentElement.classList.contains('reduce-motion')||matchMedia('(prefers-reduced-motion: reduce)').matches)return false;
  try{const probe=document.createElement('canvas');return Boolean(probe.getContext('webgl2')||probe.getContext('webgl'));}catch{return false;}
 }
 export function mountClimate(host,task,ctx){
- if(!supportsRun(task)||!canRun3D()){mountClassic(host,task,ctx);return;}
+ if(!supportsRun(task)){mountClassic(host,task,ctx);return;}
+ if(!canRun3D()){mountMountainClassic(host,task,ctx);return;}
  let classic=false,run=null,spec=null;
  // 달리기 화면에서 넘어올 때는 그때까지의 초안을 넘기고, 자동재생 단계는 기존 화면의 것을 그대로 쓴다.
  function toClassic(draft=ctx.draft){
   if(classic||ctx.signal.aborted)return spec;
   classic=true;run?.dispose();host.replaceChildren();
-  mountClassic(host,task,{...ctx,draft,playback:value=>{spec=value;ctx.playback?.(value);}});
+  mountMountainClassic(host,task,{...ctx,draft,playback:value=>{spec=value;ctx.playback?.(value);}});
   return spec;
  }
  host.innerHTML='<div class="map-loading"><span class="boot-orbit" aria-hidden="true"></span><p role="status">산길을 준비해요…</p></div>';

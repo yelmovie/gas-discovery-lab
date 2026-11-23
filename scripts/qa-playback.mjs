@@ -30,6 +30,7 @@ for(const s of STAGES)for(let i=0;i<s.tasks.length;i++){
   await p.locator('.discovery-result').waitFor();
  }else{
   await play();
+  if(t.runStage){await settled();assert.equal(await p.locator('.discovery-result').count(),0);await p.getByRole('button',{name:'더 부풀어요',exact:true}).tap();await play();await settled();assert.equal(await p.locator('.discovery-result').count(),0,'Observing the summit cannot record it');await p.locator('.mountain-record').tap();}
   if(s.id==='weight'){
    // 자동재생은 준비까지만 하고, 다시 재기는 학생이 직접 누른다(2026-11-16).
    await settled();assert.equal(await p.locator('.discovery-result').count(),0,'Observing cannot record the comparison');assert.equal((await evidence(t)).date,'before');
@@ -40,7 +41,7 @@ for(const s of STAGES)for(let i=0;i<s.tasks.length;i++){
    // 바람길은 관을 돌리기 전에는 초안을 저장하지 않는다(2026-11-16). 초안이 없으면 처음 배치 그대로다.
    if(s.id==='flow')assert.deepEqual((after?.cells||createPipePuzzle(t.pattern)).map(x=>x.rotation),(before?.cells||createPipePuzzle(t.pattern)).map(x=>x.rotation),'Replay cannot solve the pipe puzzle');
    if(s.id==='climate'){
-    assert.equal(await p.locator('.choice').count(),t.choices.length);assert.equal(await p.locator('.choice[aria-pressed=true]').count(),0);
+    assert.equal(await p.locator('.transfer-slot .choice').count(),t.choices.length);assert.equal(await p.locator('.transfer-slot .choice[aria-pressed=true]').count(),0);
     assert.ok(after.records.some(x=>x.condition===t.target));await p.getByRole('button',{name:t.answer,exact:true}).tap();await p.locator('.discovery-result').waitFor();
    }
    if(s.id==='delivery'){

@@ -61,7 +61,7 @@ try{
   assert.equal((await saved(p)).drafts[task.id].records.length,1,'nothing is recorded by walking');
   await p.waitForTimeout(500);await shot(p,'5-summit');await layout(p,'summit');
   await p.keyboard.press('Enter');await phase(p,'compare');
-  assert.deepEqual((await saved(p)).drafts[task.id],{condition:0,records:expected,prediction:'same'});
+  assert.deepEqual((await saved(p)).drafts[task.id],{condition:0,records:expected,prediction:'same',checkpoint:3});
   assert.match(await p.locator('.run-prediction-note').textContent(),/기록과 달라요/);
   assert.equal(await p.locator('.run-compare .choice').count(),task.choices.length);
   await p.waitForTimeout(300);await shot(p,'6-compare');await layout(p,'compare');
@@ -107,23 +107,23 @@ try{
  {
   const {c,p}=await context();await open(p);await phase(p,'predict');
   await p.getByRole('button',{name:'줄어들어요',exact:true}).click();await phase(p,'run');
-  await p.getByRole('button',{name:'기존 방식으로 하기',exact:true}).click();await p.locator('.condition-slider').waitFor();
+  await p.getByRole('button',{name:'기존 방식으로 하기',exact:true}).click();await p.locator('.mountain-classic').waitFor();
   assert.equal(await p.locator('.run-stage').count(),0);assert.equal(await p.locator('canvas').count(),0,'the 3D canvas is released');
-  await p.locator('.condition-slider').fill('0');await p.locator('.condition-slider').dispatchEvent('change');
+  await p.locator('.mountain-stations [data-station="summit"]').click();await p.locator('.mountain-record').click();
   await shot(p,'9-classic');
   await p.getByRole('button',{name:task.answer,exact:true}).click();await p.locator('.discovery-result').waitFor();
   assert.deepEqual((await saved(p)).evidence.climate.find(e=>e.taskId===task.id).details.records,expected);
   await open(p);await p.reload();await p.locator('.activity-screen').waitFor();await phase(p,'predict');
   await p.getByRole('combobox',{name:'자동재생 속도'}).selectOption('2');await p.locator('.autoplay-button').click();
-  await p.locator('.condition-slider').waitFor();
+  await p.locator('.mountain-classic').waitFor();
   await p.waitForFunction(()=>['finished','waiting'].includes(document.querySelector('.activity-screen')?.dataset.playback));
   assert.equal(await p.locator('.run-stage').count(),0);assert.equal(await p.locator('.discovery-result').count(),0,'observing cannot answer');
-  assert.equal(await p.locator('.choice').count(),task.choices.length);
+  assert.equal(await p.locator('.mountain-predict .choice').count(),3,'autoplay asks for a prediction without choosing it');
   console.log('classic fallback and autoplay');await c.close();
  }
  // 4. 움직임 줄이기에서는 처음부터 기존 화면이다.
  for(const options of [{settings:{reduceMotion:true}},{reducedMotion:'reduce'}]){
-  const {c,p}=await context(options);await open(p);await p.locator('.condition-slider').waitFor();
+  const {c,p}=await context(options);await open(p);await p.locator('.mountain-classic').waitFor();
   assert.equal(await p.locator('.run-stage').count(),0);await c.close();
  }
  console.log('reduced motion opens the classic screen');

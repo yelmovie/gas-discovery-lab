@@ -1,15 +1,10 @@
-// A4 가로 상장. 과학 내용·완료 판정·저장 형식은 그대로, 종이에는 진행 숫자를 표시하지 않는다.
-import {STAGES} from './data.js';
+// A4 가로 상장. 최초 코어 완료일을 화면·PDF·PNG에 같이 쓴다.
+import {completionDateText} from './completion-date.js';
 import {store,persist} from './state.js';
 import {button,choices,escapeHTML} from './ui.js';
 import {saveCertificatePng} from './certificate-png.js';
 import {mountCertificateWax} from './certificate-wax.js';
 import {cue} from './audio.js';
-
-function doneDate(){
- const last=STAGES.flatMap(s=>store.save.evidence[s.id]||[]).map(e=>Date.parse(e.date)).filter(Number.isFinite).sort((a,b)=>b-a)[0];
- const d=new Date(last??Date.now());return `${d.getFullYear()}. ${d.getMonth()+1}. ${d.getDate()}.`;
-}
 
 export function renderCertificate(host,navigate){
  if(!store.save.finaleCompleted){navigate({screen:'map'},{replace:true});return;}
@@ -29,7 +24,7 @@ export function renderCertificate(host,navigate){
       <p class="cert-award">위 엔지니어는 연구시설에서 증거를 모으고,<br>직접 만든 공기 장치로 마을을 되살렸으므로<br>이 인증서를 드립니다.</p>
       <p class="certificate-ability">나는 이제 ${escapeHTML(store.save.ability)}</p>
       <div class="cert-bottom">
-       <p class="cert-date"><small>모험을 마친 날</small>${doneDate()}</p>
+       <p class="cert-date"><small>모험을 마친 날</small>${completionDateText(store.save)}</p>
        <div class="cert-stamp"><b>공기 코어</b><span>복구 인증</span></div>
        <p class="cert-issuer"><small>주는 이</small>여우 에어</p>
       </div>
@@ -39,7 +34,7 @@ export function renderCertificate(host,navigate){
     <p class="cert-note">인쇄한 뒤 학교·반·번호·이름을 직접 적어요.</p>
     <div class="certificate-actions"></div><p class="cert-error" role="status" aria-live="polite"></p>
    </div>
-   <aside class="lab-panel certificate-options"><div class="eyebrow">내가 발견한 힘</div><h2>이제 무엇을<br>할 수 있나요?</h2><div class="ability-options"></div></aside>
+   <aside class="lab-panel certificate-options"><div class="eyebrow">내가 발견한 힘</div><h2>이제 무엇을 <br>할 수 있나요?</h2><div class="ability-options"></div></aside>
   </div>`;
  host.querySelector('.ability-options').append(choices(['실험 기록을 비교해 설명할 수 있어요.','조건을 바꾸고 부피 변화를 관찰할 수 있어요.','공기의 성질로 장치를 만들 수 있어요.'],value=>{
   store.save.ability=value;persist();host.querySelector('.certificate-ability').textContent='나는 이제 '+value;

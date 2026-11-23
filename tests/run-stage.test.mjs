@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {STAGES} from '../src/data.js';
 import {volumeFor,validVolumePair} from '../src/model.js';
-import {COURSE,PREDICTIONS,supportsRun,restoreRun,recordStation,readyToCompare,runDraft,bagRatio,observedChange,createRunner,advanceRunner,groundAt,stationAt,heightFraction,touchPatrol,patrolX,obstacleAhead} from '../src/run-stage/mountain-rules.js';
+import {COURSE,PREDICTIONS,runEvidence,supportsRun,restoreRun,recordStation,readyToCompare,runDraft,bagRatio,observedChange,createRunner,advanceRunner,groundAt,stationAt,heightFraction,touchPatrol,patrolX,obstacleAhead} from '../src/run-stage/mountain-rules.js';
 
 const climate=STAGES.find(s=>s.id==='climate'),task=climate.tasks.find(t=>t.id==='climate-4');
 const walk=(runner,input,seconds)=>{const seen={};for(let t=0;t<seconds;t+=1/60)Object.assign(seen,advanceRunner(runner,input,1/60));return seen;};
@@ -24,7 +24,7 @@ test('station records match the classic slider records and its completion rule',
  assert.equal(state.records.some(r=>r.condition===2),false,'the run never creates a high-pressure record');
 });
 
-test('the draft keeps the classic fields and only adds the prediction',()=>{
+test('a base draft keeps the classic fields and the prediction',()=>{
  const state=restoreRun(task,{prediction:'same'});
  assert.deepEqual(runDraft(state,task),{condition:1,records:[{condition:1,ratio:1}],prediction:'same'});
  recordStation(state,task,'summit');
@@ -109,4 +109,37 @@ test('a blocked runner is told whether to jump or to take the rocks',()=>{
  const atRock=createRunner(COURSE,2);walk(atRock,{x:0,f:1},1.5);
  assert.equal(obstacleAhead(atRock),'jump','the first rock is one jump');
  atRock.ground=false;assert.equal(obstacleAhead(atRock),null,'no hint in the air');
+});
+
+test('earned checkpoints survive serialization without creating an observation or completion',()=>{
+ for(const checkpoint of [1,2,3]){
+  const state=restoreRun(task,{prediction:'smaller'});
+  state.checkpoint=checkpoint;
+  const resumed=restoreRun(task,JSON.parse(JSON.stringify(runDraft(state,task))));
+  assert.equal(resumed.checkpoint,checkpoint);
+  assert.equal(resumed.prediction,'smaller');
+  assert.equal(readyToCompare(resumed,task),false,'arriving never records the summit automatically');
+  const runner=createRunner(COURSE,resumed.checkpoint);
+  assert.equal(runner.f,COURSE.checkpoints[checkpoint].f);
+  if(checkpoint===3)assert.equal(stationAt(runner),'summit');
+ }
+});
+test('invalid and old checkpoint drafts return safely, and comparisons still restore',()=>{
+ for(const checkpoint of [-1,4,1.5,'3',null,{},Infinity])assert.equal(restoreRun(task,{checkpoint,prediction:'same'}).checkpoint,0);
+ assert.equal(restoreRun(task,{checkpoint:3}).checkpoint,0,'a prediction is needed before travelling');
+ assert.equal(restoreRun(task,{prediction:'same'}).checkpoint,0);
+ const old={records:[{condition:1,ratio:1},{condition:0,ratio:1.35}]};
+ assert.equal(readyToCompare(restoreRun(task,old),task),true);
+ assert.equal(restoreRun(task,old).checkpoint,3);
+});
+test('3D and 2D share the same observation and answer requirements',()=>{
+ const state=restoreRun(task,{prediction:'smaller',checkpoint:3});
+ assert.equal(runEvidence(state,task,task.answer,0),null,'arrival and a correct answer alone are insufficient');
+ recordStation(state,task,'summit');
+ assert.equal(runEvidence(state,task,task.choices.find(x=>x!==task.answer),0),null);
+ const result=runEvidence(state,task,task.answer,2);
+ assert.equal(result.attempts,3);assert.equal(result.firstTry,false);
+ assert.deepEqual(result.records,[{condition:1,ratio:1},{condition:0,ratio:1.35}]);
+ assert.equal(result.transfer,task.answer);
+ result.records.length=0;assert.equal(state.records.length,2,'awarded records do not mutate the current observations');
 });

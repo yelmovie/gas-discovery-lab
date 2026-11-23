@@ -1,7 +1,7 @@
 // 「높은 산의 과자 봉지」 3D 산길. 무대·캐릭터·입력·겹침 화면을 맡고, 기록과 완료는 mountain-rules와 기존 ctx로 넘긴다.
 // 봉지 크기는 걸은 높이에 따라 보이기만 하고, 저장되는 값은 두 관측 지점의 모형 값뿐이다.
 import * as THREE from '/assets/vendor/three/three.module.min.js';
-import {COURSE,PREDICTIONS,restoreRun,recordStation,readyToCompare,runDraft,bagRatio,observedChange,createRunner,advanceRunner,stationAt,heightFraction,patrolX,touchPatrol,groundAt,obstacleAhead} from './mountain-rules.js';
+import {COURSE,PREDICTIONS,PRESSURE_LABELS,MOUNTAIN_HINTS,runEvidence,restoreRun,recordStation,readyToCompare,runDraft,bagRatio,observedChange,createRunner,advanceRunner,stationAt,heightFraction,patrolX,touchPatrol,groundAt,obstacleAhead} from './mountain-rules.js';
 import {volumeFor} from '../model.js';
 import {bindDirectionPad,mapKeyDirection,MAP_VECTORS} from '../map-controls.js';
 import {choices,escapeHTML,announce,shuffle} from '../ui.js';
@@ -9,8 +9,7 @@ import {icon} from '../icons.js';
 import {sound,cue,footstep,preloadFootsteps} from '../audio.js';
 
 const ART='/assets/run-stage/';
-const LABELS=['낮은 압력','보통 압력','높은 압력'];
-const HINTS=['기체의 양과 온도는 같게 두고 바깥 압력만 바꿔요.','한 조건만 바꾸고 처음과 나중을 비교해요.','기체가 사라졌는지, 차지하는 공간이 달라졌는지 생각해 봐요.'];
+const LABELS=PRESSURE_LABELS,HINTS=MOUNTAIN_HINTS;
 let sheet;
 function stylesheet(){
  return sheet??=new Promise((resolve,reject)=>{const link=document.createElement('link');link.rel='stylesheet';link.href=new URL('./run-stage.css',import.meta.url);link.onload=resolve;link.onerror=()=>{sheet=undefined;link.remove();reject(new Error('run-stage.css'));};document.head.append(link);});
@@ -27,11 +26,11 @@ export async function prepareMountainRun(){
 }
 
 export function mountMountainRun(host,task,ctx,textures,{toClassic}){
- let misses=Number.isFinite(ctx.draft?.misses)?Math.max(0,ctx.draft.misses):0;
+ let misses=Number.isFinite(ctx.draft?.misses)?Math.max(0,Math.trunc(ctx.draft.misses)):0;
  const state=restoreRun(task,ctx.draft),baseline=task.baseline??1,local=new AbortController(),{signal}=local;
  ctx.signal.addEventListener('abort',()=>local.abort(),{once:true});
  let phase=readyToCompare(state,task)?'compare':state.prediction?'run':'predict',completed=false,disposed=false,frame=0;
- const runner=createRunner(COURSE,phase==='compare'?COURSE.checkpoints.length-1:0);
+ const runner=createRunner(COURSE,phase==='compare'?COURSE.checkpoints.length-1:state.checkpoint);
  if(phase==='compare')runner.f=38;
  host.innerHTML=`<div class="run-stage" data-phase="${phase}">
   <canvas class="run-canvas" tabindex="0" aria-label="관측소에서 산꼭대기까지 이어진 산길. 방향 버튼이나 WASD·방향키로 걷고, 점프 버튼이나 스페이스로 뛰어요."></canvas>
@@ -154,7 +153,8 @@ export function mountMountainRun(host,task,ctx,textures,{toClassic}){
 
  // ── 겹침 화면 ──
  function say(text,hold=0){speech.textContent=text;speech.hidden=!text;if(text)announce(text);clearTimeout(say.timer);if(text&&hold)say.timer=setTimeout(()=>{speech.hidden=true;},hold);}
- function save(){ctx.saveDraft({...runDraft(state,task),...(misses?{misses}:{})});}
+ const draft=()=>({...runDraft(state,task),...(misses?{misses}:{})});
+ function save(){ctx.saveDraft(draft());}
  function setPhase(next){phase=next;root.dataset.phase=next;held.clear();jumpQueued=false;guide();}
  function guide(){
   if(completed)return;
@@ -176,9 +176,10 @@ export function mountMountainRun(host,task,ctx,textures,{toClassic}){
   slot.innerHTML=`<div class="transfer-question"><h3>${escapeHTML(task.transfer)}</h3></div>`;
   slot.append(choices(shuffle(task.choices),value=>{
    if(completed)return;
-   if(value===task.answer){
+   const evidence=runEvidence(state,task,value,misses);
+   if(evidence){
     completed=true;feedback.replaceChildren();root.classList.add('answered');ctx.guide?.('3 · 발견 완료','같은 공기가 차지하는 공간의 변화를 발견했어요.');sound('success');
-    ctx.complete(task.why,{mode:task.mode,records:state.records,transfer:value,attempts:misses+1,firstTry:misses===0});
+    ctx.complete(task.why,evidence);
    }else{misses++;save();const retry=task.retry||'두 부피 막대를 다시 비교해 보아요.';feedback.replaceChildren();ctx.guide?.('2 · 다시 생각해요',retry);announce(retry);sound('retry');}
   },{terms:ctx.terms}));
  }
@@ -194,7 +195,7 @@ export function mountMountainRun(host,task,ctx,textures,{toClassic}){
   root.querySelector('.transfer-slot .choice')?.focus({preventScroll:true});
  }
  recordButton.onclick=()=>{record();if(document.activeElement===recordButton)canvas.focus({preventScroll:true});};
- root.querySelector('.run-classic').onclick=()=>toClassic(runDraft(state,task));
+ root.querySelector('.run-classic').onclick=()=>toClassic(draft());
 
  // ── 입력: 화면 버튼과 키보드를 하나로 모은다 ──
  const held=new Set();let jumpQueued=false;
@@ -245,6 +246,7 @@ export function mountMountainRun(host,task,ctx,textures,{toClassic}){
    const events=advanceRunner(runner,{...input,jump:jumpQueued},dt);jumpQueued=false;
    cameraFloor=runner.ground?runner.y:Math.max(runner.y,cameraFloor-.6);
    if(events.jumped)sound('rotate');
+   if(events.checkpoint){state.checkpoint=runner.checkpoint;save();}
    if(events.respawned){cameraFloor=runner.y;follow(true);sound('retry');say(runner.falls>=3?'여기가 어렵다면 위의 「기존 방식으로 하기」를 눌러도 돼요. 통나무 가운데로 천천히 걸어 봐요.':'괜찮아요! 조금 앞에서 다시 걸어요.',runner.falls>=3?7000:2600);if(runner.falls>=3)root.querySelector('.run-classic').classList.add('is-next-action');}
    if(events.checkpoint===1&&!hintGiven){hintGiven=true;say('봉지를 봐요. 올라오는 동안 조금 부풀었어요.',4200);}
    if(touchPatrol(runner,clock)){cue('contact');say('앗, 깜짝이야! 그대로 다시 걸어요.',2200);}
@@ -304,9 +306,9 @@ export function mountMountainRun(host,task,ctx,textures,{toClassic}){
   renderer.dispose();renderer.forceContextLoss?.();
  }
  signal.addEventListener('abort',dispose,{once:true});
- canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();if(!disposed&&!completed)toClassic(runDraft(state,task));},{signal});
+ canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();if(!disposed&&!completed)toClassic(draft());},{signal});
  // 자동재생은 기존 화면에서 그대로 돈다.
- ctx.playback?.({steps:()=>{const spec=toClassic(runDraft(state,task));return spec?.steps?.()||[];}});
+ ctx.playback?.({steps:()=>{const spec=toClassic(draft());return spec?.steps?.()||[];}});
  save();resize();follow(true);
  if(phase==='compare')renderCompare();
  guide();frame=requestAnimationFrame(tick);
