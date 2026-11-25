@@ -57,7 +57,7 @@ console.log('ok reduce/back');
  // finaleCompleted는 저장을 다시 읽을 때 모든 시설 완료로 다시 계산되므로, 메모리의 저장 값만 켜고 해시로 들어간다(실제 완료 흐름은 qa-learning이 본다).
  await p.evaluate(async()=>{const {store}=await import('/src/state.js');store.save.finaleCompleted=true;location.hash='#ending';});await p.locator('.story-film video').waitFor();await p.waitForFunction(()=>{const v=document.querySelector('.story-film video');return v&&v.readyState>=2;});
  const s=await filmState(p);await p.evaluate(()=>{const v=document.querySelector('.story-film video');v.currentTime=27.5;});await p.waitForTimeout(700);await p.screenshot({path:`${OUT}/final-1280x800.png`});
- await toEnd(p);await p.locator('.certificate').waitFor();report.push({final:s,afterEnd:p.url()});await ctx.close();
+ await toEnd(p);await p.locator('.cert-paper').waitFor();report.push({final:s,afterEnd:p.url()});await ctx.close();
 }
 await browser.close();
 assert.deepEqual(errors,[]);await fs.writeFile(`${OUT}/report.json`,JSON.stringify(report,null,1));

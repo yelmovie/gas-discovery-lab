@@ -62,7 +62,7 @@ try{
   await p.waitForTimeout(500);await shot(p,'5-summit');await layout(p,'summit');
   await p.keyboard.press('Enter');await phase(p,'compare');
   assert.deepEqual((await saved(p)).drafts[task.id],{condition:0,records:expected,prediction:'same',checkpoint:3});
-  assert.match(await p.locator('.run-prediction-note').textContent(),/기록과 달라요/);
+  assert.equal(await p.locator('.run-prediction-note').textContent(),'내 예상: 그대로예요');
   assert.equal(await p.locator('.run-compare .choice').count(),task.choices.length);
   await p.waitForTimeout(300);await shot(p,'6-compare');await layout(p,'compare');
   await p.locator('.run-compare .choice').filter({hasNotText:task.answer}).first().click();
@@ -98,7 +98,7 @@ try{
   await climb(async()=>!await p.locator('.run-record').isDisabled());
   assert.equal(await p.locator('.run-record').isDisabled(),false,'the on-screen buttons reach the summit');
   await p.locator('.run-record').tap();await phase(p,'compare');
-  assert.match(await p.locator('.run-prediction-note').textContent(),/기록과 같아요/);
+  assert.equal(await p.locator('.run-prediction-note').textContent(),'내 예상: 더 부풀어요');
   await p.getByRole('button',{name:task.answer,exact:true}).tap();await p.locator('.discovery-result').waitFor();
   assert.deepEqual((await saved(p)).evidence.climate.find(e=>e.taskId===task.id).details.records,expected);
   console.log('touch run: pad, jump, respawn and record');await c.close();

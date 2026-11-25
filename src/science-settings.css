@@ -63,3 +63,28 @@ html [data-science-settings] .sound-row-note{grid-column:1/-1}
 html [data-science-settings] .science-settings-actions .welcome-voice-row{display:flex;align-items:center;gap:10px}
 html [data-science-settings] .welcome-voice-row .welcome-voice{flex:1;min-width:0}
 html [data-science-settings] .welcome-voice-row small{flex:none;font-size:14px;color:#4d6152}
+
+/* Leave the view around the settings dialog, with one line per control. */
+html body dialog:has([data-science-settings]) {
+ width:min(760px,calc(100vw - 24px));
+ max-height:min(86dvh,720px);
+}
+html body dialog:has([data-science-settings]) :is(.dialog-head,.dialog-body,.dialog-foot) {
+ background:var(--settings-paper);
+ box-shadow:none;
+}
+html body dialog:has([data-science-settings]) .dialog-head {padding:0 0 var(--space-2)}
+html body dialog:has([data-science-settings]) .dialog-head h2 {color:var(--teal-950)}
+html body dialog:has([data-science-settings]) .dialog-body {padding:0}
+html body [data-science-settings] .science-settings-body {gap:var(--space-2)}
+html body [data-science-settings] .science-settings-audio :is(.sound-row,.volume-row) {
+ min-height:48px;
+ background:none;
+ border:0;
+ border-bottom:1px solid var(--settings-line);
+ border-radius:0;
+ font-size:var(--text-small);
+}
+html body [data-science-settings] .science-settings-actions a,
+html body [data-science-settings] .science-settings-actions .button,
+html body [data-science-settings] .science-settings-body summary {font-size:var(--text-small)}

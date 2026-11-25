@@ -6,7 +6,6 @@
 .climate-layout .climate-scene.temperature[data-condition="2"]{background:linear-gradient(180deg,#fae5c9,#fff7e8 82%,#e8ddc2 83%,#f4eddd)}
 .climate-layout .climate-scene.pressure{background:linear-gradient(180deg,#e3eef0,#f5f9f7 82%,#dae3dd 83%,#eaf0e7)}
 .climate-scene-head{position:absolute;left:10px;right:10px;top:7px;display:flex;align-items:center;justify-content:space-between;gap:6px;z-index:4;pointer-events:none;line-height:1.3;font-size:clamp(18px,1.2vw,22px)}
-.climate-scene-head .condition-pill{position:static;flex:none;padding:3px 8px;border:1px solid #9dbdb6;border-radius:9px;background:#fffef7;color:#245d59;font-size:inherit;line-height:1.25;white-space:nowrap}
 .climate-constants{color:#3c625d;font-size:clamp(18px,1vw,20px);line-height:1.3;text-align:right;word-break:keep-all}
 .climate-layout .volume-visual{inset:36px 6px 5px;container-type:size}
 /* Container units preserve the image proportions at any available height. */
@@ -34,7 +33,6 @@
 .climate-layout .comparison-track>i{position:relative;display:block;height:100%;padding:0;background:linear-gradient(90deg,#49a69c,#8bc6b9);border:0;border-radius:4px;min-height:0;transition:width var(--climate-motion,350ms) ease-out}
 .climate-layout .volume-record.awaiting .comparison-track>i{width:0}
 .climate-layout .transfer-slot{min-height:0;display:flex;flex-direction:column;justify-content:center;gap:10px}
-.climate-layout .climate-awaiting{font-size:clamp(18px,1.6vw,28px);line-height:1.4;color:#3e5951;text-align:center;margin:0}
 .climate-layout .transfer-question{flex:none}
 .climate-layout .transfer-question h3{font-size:clamp(18px,1.55vw,28px);line-height:1.3;margin:0;overflow-wrap:anywhere}
 .climate-layout .choice-group{gap:8px;flex:none}
@@ -44,7 +42,6 @@
 @media(max-height:600px){
  .climate-layout .climate-panel{gap:4px}
  .climate-scene-head{top:5px;left:7px;right:7px}
- .climate-scene-head .condition-pill{padding:2px 5px}
  .climate-layout .volume-visual{inset:31px 3px 3px}
  .climate-layout .comparison-panel{gap:7px}
  .climate-layout .volume-records{gap:8px;padding:5px}
@@ -73,45 +70,90 @@
 .climate-layout .climate-scene.temperature::after{background-image:url('/assets/visuals/climate-warm-v1.webp')}
 .climate-layout .climate-scene.temperature[data-condition="0"]::before,.climate-layout .climate-scene.temperature[data-condition="2"]::after{opacity:1}
 .climate-layout .climate-scene.temperature .thermal-apparatus{filter:drop-shadow(0 10px 14px #1d3b4a33)}
-.climate-layout .climate-scene-head .condition-pill{box-shadow:0 3px 10px #1d3b4a26;font-weight:800}
 .reduce-motion .climate-layout .climate-scene.temperature::before,.reduce-motion .climate-layout .climate-scene.temperature::after{transition:none}
 .climate-layout .climate-scene-head .climate-constants{padding:3px 9px;border-radius:999px;background:#fffef7ea;color:#245d59;box-shadow:0 3px 10px #1d3b4a1f;font-weight:700}
 
-/* 2026-11-17 끌기 안내: 처음 한 번 끌기 전까지 손가락이 움직이는 방향을 보여 준다. */
-.climate-layout .drag-cue{position:absolute;left:50%;bottom:14%;z-index:5;display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:#163f3bdd;color:#fffaf0;font-weight:800;font-size:clamp(13px,1.2vw,18px);white-space:nowrap;transform:translateX(-50%);pointer-events:none;box-shadow:0 6px 18px #0004;transition:opacity .3s}
-.climate-layout .drag-cue-hand{width:22px;height:22px;border-radius:50%;background:#ffd76a;box-shadow:0 0 0 5px #ffd76a55;flex:none}
-.climate-layout .drag-cue-x .drag-cue-hand{animation:cue-x 1.4s ease-in-out infinite}
-.climate-layout .drag-cue-y{left:auto;right:10px;bottom:10px;transform:none}
-.climate-layout .drag-cue-y .drag-cue-hand{animation:cue-y 1.4s ease-in-out infinite}
-@keyframes cue-x{0%,100%{transform:translateX(-10px)}50%{transform:translateX(10px)}}
-@keyframes cue-y{0%,100%{transform:translateY(-8px)}50%{transform:translateY(8px)}}
-.climate-layout .climate-scene.was-dragged .drag-cue,.climate-layout .climate-scene[aria-disabled="true"] .drag-cue{opacity:0}
-.reduce-motion .climate-layout .drag-cue-hand{animation:none}
-@media(prefers-reduced-motion:reduce){.climate-layout .drag-cue-hand{animation:none}}
-@media(max-height:440px){.climate-layout .drag-cue{font-size:12px;padding:5px 10px;bottom:6px}.climate-layout .drag-cue-y{right:6px}}
-/* 끌기 안내는 그림을 가리지 않게 조작 줄 위에 둔다. */
-.climate-layout .climate-controls .drag-cue{position:static;transform:none;align-self:center;margin:0 auto 6px;font-size:var(--ui-text-label);box-shadow:none;width:max-content;max-width:100%}
-.climate-layout .climate-controls{display:flex;flex-direction:column}
-.climate-layout .climate-panel:has(.climate-scene.was-dragged) .drag-cue,.climate-layout .climate-panel:has(.climate-scene[aria-disabled="true"]) .drag-cue{display:none}
-@media(max-height:440px){.climate-layout .climate-controls .drag-cue{font-size:14px;padding:3px 10px;margin-bottom:2px}}
-.climate-layout img.drag-cue-hand{width:26px;height:30px;border-radius:0;background:none;box-shadow:none;object-fit:contain;filter:drop-shadow(0 2px 3px #0005)}
+/* 조건을 바꾸는 곳을 그림 안에서 표시한다. 선택지는 그룹으로만 안내한다. */
+#app .activity-screen .climate-layout > :is(.climate-panel, .mountain-observer, .comparison-panel) {
+ padding: 0;
+ border: 0;
+ background: none !important;
+ box-shadow: none;
+ backdrop-filter: none;
+}
+#app .activity-screen .climate-layout .comparison-panel {
+ height: auto;
+ align-self: start;
+ display: flex;
+ gap: var(--space-3);
+}
+#app .activity-screen .climate-layout .comparison-panel > [hidden] { display: none !important; }
+.climate-simulation .climate-scene-head { justify-content: flex-end; }
+.climate-layout .climate-scene-head .climate-constants { font-size: var(--text-small); }
+.climate-layout .climate-scene { cursor: ew-resize; }
+.climate-layout .climate-scene.pressure { cursor: ns-resize; }
+.climate-layout .climate-scene[aria-disabled="true"] { cursor: default; }
+.climate-simulation .climate-controls {
+ display: grid;
+ grid-template-rows: auto 44px;
+ gap: 0;
+ min-width: 0;
+ padding-inline: var(--space-2);
+ border-radius: var(--radius-small);
+ background: var(--cream-50);
+ box-shadow: var(--shadow);
+}
+.climate-simulation .drag-cue {
+ position: absolute;
+ bottom: var(--space-2);
+ right: var(--space-2);
+ display: inline-flex;
+ align-items: center;
+ gap: var(--space-1);
+ padding: var(--space-1) var(--space-2);
+ border-radius: var(--radius-small);
+ background: var(--teal-950);
+ color: var(--cream-50);
+ font: 700 24px/1 var(--font-display);
+ pointer-events: none;
+}
+.climate-simulation .drag-cue-hand { width: 22px; height: 28px; object-fit: contain; }
+.climate-simulation .climate-scene:is(.was-dragged, [aria-disabled="true"]) .drag-cue,
+.climate-simulation:has(.has-transfer) .drag-cue { display: none; }
+.climate-layout .transfer-slot,
+.climate-layout .mountain-predict {
+ padding: var(--space-3);
+ background: var(--cream-50);
+ border: 1px solid var(--line);
+ border-radius: var(--radius-small);
+ box-shadow: var(--shadow);
+}
+.climate-layout .choice-group { border-radius: var(--radius-small); }
+#app .activity-screen .climate-layout .choice,
+#app .activity-screen .climate-layout .transfer-question h3,
+.climate-layout .volume-record,
+.climate-layout .range-labels { font-size: var(--text-small); }
+@media (max-height: 500px) {
+ #app .activity-screen .climate-layout .comparison-panel { gap: var(--space-2); }
+ .climate-layout .transfer-slot,
+ .climate-layout .mountain-predict { padding: var(--space-2); }
+}
 
 /* 산악 의뢰의 2D 대체: 같은 봉지와 관측 조건을 WebGL 없이 비교한다. */
 .mountain-classic [hidden]{display:none!important}
 .mountain-classic .mountain-observer{display:grid;grid-template-rows:auto minmax(0,1fr) auto auto;gap:8px}
 .mountain-classic .climate-constants{justify-self:start;padding:4px 10px;background:#fffef7;color:#245d59;border:1px solid #9dbdb6;border-radius:9px}
 .mountain-classic .mountain-scene{position:relative;min-height:0;overflow:hidden;isolation:isolate;border:1px solid #9dbdb6;border-radius:14px;background:#d7e9ec}
-.mountain-classic .mountain-backdrop{position:absolute;inset:0;z-index:-1;width:100%;height:100%;object-fit:cover;opacity:.8}
-.mountain-classic .mountain-place{position:absolute;top:10px;left:10px;right:10px;z-index:1;padding:6px 10px;border-radius:9px;background:#fffef7ed;color:#245d59;font-size:18px;line-height:1.3;text-align:center}
-.mountain-classic .mountain-bag{height:100%;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0;padding:54px 12px 10px;gap:5px}
-.mountain-classic .mountain-bag img{height:calc(100% - 30px);min-height:0;max-width:70%;object-fit:contain;filter:drop-shadow(0 5px 5px #163f3b40)}
-.mountain-classic .mountain-bag figcaption{flex:none;padding:3px 8px;border-radius:6px;background:#fffef7ed;color:#245d59;font-size:18px;line-height:1.3}
+.mountain-classic .mountain-backdrop{position:absolute;inset:0;z-index:-1;width:100%;height:100%;object-fit:cover}
+.mountain-classic .mountain-place{position:absolute;top:8px;left:8px;z-index:1;padding:6px 10px;border-radius:9px;background:#fffef7ed;color:#245d59;font-size:18px;line-height:1.3;text-align:center}
+.mountain-classic .mountain-bag{height:100%;min-height:0;display:flex;align-items:center;justify-content:center;margin:0;padding:42px 12px 6px}
+.mountain-classic .mountain-bag img{height:100%;min-height:0;max-width:70%;object-fit:contain;filter:drop-shadow(0 5px 5px #163f3b40)}
 .mountain-classic .mountain-stations{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 .mountain-classic .mountain-stations .button,.mountain-classic .mountain-record{min-height:48px;font-size:18px;line-height:1.3}
 .mountain-classic .mountain-stations [aria-pressed=true]{background:#d8eee5;color:#174e46;border-color:#487f70}
 .mountain-classic .mountain-comparison{display:flex;flex-direction:column;justify-content:center;gap:10px}
 .mountain-classic .mountain-predict h2{font-size:24px;line-height:1.3;margin:0 0 10px}
-.mountain-classic .mountain-predict p,.mountain-classic .mountain-prediction-note{font-size:18px;line-height:1.4;margin:0 0 10px;color:#294f48}
+.mountain-classic .mountain-prediction-note{font-size:var(--text-small);line-height:1.3;padding:var(--space-2);border-radius:var(--radius-small);background:var(--cream-50);color:var(--teal-950)}
 .mountain-classic .mountain-predict .choice{min-height:48px}
 .mountain-classic .transfer-slot{flex:0}
 .mountain-classic .mountain-prediction-note{margin:0}
@@ -119,6 +161,5 @@
  .mountain-classic .mountain-observer,.mountain-classic .mountain-comparison{gap:6px}
  .mountain-classic .mountain-bag{padding-top:48px}
  .mountain-classic .mountain-predict h2{font-size:21px;margin-bottom:6px}
- .mountain-classic .mountain-predict p{margin-bottom:6px}
  .mountain-classic .volume-record,.mountain-classic .transfer-question h3,.mountain-classic .choice{font-size:18px}
 }

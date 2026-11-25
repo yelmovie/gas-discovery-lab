@@ -60,6 +60,7 @@ export function mountNarrationControl(host, id, narration, { autoplay = true } =
   const button = document.createElement('button'); button.type = 'button'; button.className = 'button secondary';
   const status = document.createElement('span'); status.setAttribute('role', 'status'); status.style.cssText = 'line-height:1.4;';
   row.append(button, status); host.append(row);
+  let requested = false;
   const unsubscribe = narration.subscribe(state => {
     const active = state.id === id && state.status === 'playing';
     row.dataset.state = state.id === id ? state.status : 'idle';
@@ -67,9 +68,13 @@ export function mountNarrationControl(host, id, narration, { autoplay = true } =
     button.textContent = active ? '음성 멈추기' : '다시 듣기';
     button.setAttribute('aria-label', `${line.speaker} 대사 ${active ? '멈추기' : '다시 듣기'}`);
     button.setAttribute('aria-pressed', String(active));
-    status.textContent = state.id !== id ? '' : state.status === 'muted' ? '소리를 켜면 들을 수 있어요.' : state.status === 'error' ? '음성을 재생하지 못했어요. 글을 읽고 계속할 수 있어요.' : '';
+    status.textContent = !requested || state.id !== id ? '' : state.status === 'muted' ? '소리를 켜면 들을 수 있어요.' : state.status === 'error' ? '음성을 재생하지 못했어요.' : '';
   });
-  button.addEventListener('click', () => narration.state.id === id && narration.state.status === 'playing' ? narration.stop() : narration.play(id));
+  button.addEventListener('click', () => {
+    requested = true;
+    if (narration.state.id === id && narration.state.status === 'playing') narration.stop();
+    else narration.play(id);
+  });
   if (autoplay) narration.play(id);
   return () => { unsubscribe(); row.remove(); };
 }

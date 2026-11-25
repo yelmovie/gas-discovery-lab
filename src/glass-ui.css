@@ -184,19 +184,11 @@ html body #app .map-screen .map-next-card {
 .stage-start>.play-mission-entry{flex:0 0 auto;border-radius:18px}
 
 /* 완료 순간: 화면 가운데에 잠깐 떠올랐다 사라지는 도장(조작을 막지 않는다). */
-.success-burst{position:fixed;inset:0;display:grid;place-items:center;pointer-events:none;z-index:60}
-.success-stamp{display:grid;justify-items:center;gap:6px;padding:22px 34px;border-radius:28px;background:radial-gradient(circle at 50% 0,#fffbe9,#fff1c6);border:3px solid #f5c95b;box-shadow:0 18px 50px #6b4a1a40,0 0 0 10px #fff3cf66;color:#5b3d07;animation:success-stamp 2.1s cubic-bezier(.2,1.3,.5,1) forwards}
-.success-stamp .icon{width:54px;height:54px;color:#f0a81e;animation:success-spin 1.2s ease-out}
-.success-stamp strong{font-size:clamp(26px,3.2vw,40px);line-height:1.1}
-.success-stamp span{font-size:16px;font-weight:700;color:#7a5a1a}
-@keyframes success-stamp{0%{opacity:0;transform:scale(.4) rotate(-8deg)}14%{opacity:1;transform:scale(1.06) rotate(1deg)}22%{transform:scale(1) rotate(0)}78%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(.92) translateY(-18px)}}
-@keyframes success-spin{from{transform:rotate(-140deg) scale(.4)}to{transform:none}}
-.success-next{animation:success-next 1.6s ease-in-out 1.4s 3}
+.success-next{animation:success-next .75s ease-out 1}
 @keyframes success-next{50%{transform:scale(1.05);box-shadow:0 0 0 6px #ffd76a80}}
-.reduce-motion .success-stamp,.reduce-motion .success-stamp .icon,.reduce-motion .success-next{animation:none}
-.reduce-motion .success-burst{display:none}
-@media(prefers-reduced-motion:reduce){.success-stamp,.success-stamp .icon,.success-next{animation:none}.success-burst{display:none}}
-.success-stamp .icon{fill:#f7c23a;stroke:#d48a0c}
+
+.reduce-motion .success-next{animation:none}
+@media(prefers-reduced-motion:reduce){.success-next{animation:none}}
 
 /* 2026-11-17 활동 안내: 시설 캐릭터가 말풍선으로 지금 할 일을 알려 준다. */
 .activity-screen .mission-guide{grid-template-columns:auto auto minmax(0,1fr);align-items:center;gap:10px}

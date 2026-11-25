@@ -41,11 +41,18 @@ export function renderCertificate(host,navigate){
     <p class="cert-note">인쇄한 뒤 학교·반·번호·이름을 직접 적어요.</p>
     <div class="certificate-actions"></div><p class="cert-error" role="status" aria-live="polite"></p>
    </div>
-   <aside class="lab-panel certificate-options"><div class="eyebrow">내가 발견한 힘</div><h2>이제 무엇을 <br>할 수 있나요?</h2><div class="ability-options"></div></aside>
+   <aside class="lab-panel certificate-options"><h2>나의 탐구 역량</h2><div class="ability-options"></div></aside>
   </div>`;
- host.querySelector('.ability-options').append(choices(['실험 기록을 비교해 설명할 수 있어요.','조건을 바꾸고 부피 변화를 관찰할 수 있어요.','공기의 성질로 장치를 만들 수 있어요.'],value=>{
+ const abilities=[
+  {value:'실험 기록을 비교해 설명할 수 있어요.',label:'실험 기록 비교'},
+  {value:'조건을 바꾸고 부피 변화를 관찰할 수 있어요.',label:'부피 변화 관찰'},
+  {value:'공기의 성질로 장치를 만들 수 있어요.',label:'공기 장치 제작'}
+ ];
+ const abilityGroup=choices(abilities,value=>{
   store.save.ability=value;persist();host.querySelector('.certificate-ability').textContent='탐구 역량: '+certificateAbility(value);
- },{selected:store.save.ability}));
+ },{selected:store.save.ability,group:'나의 탐구 역량'});
+ [...abilityGroup.children].forEach((choice,index)=>choice.setAttribute('aria-label',abilities[index].value));
+ host.querySelector('.ability-options').append(abilityGroup);
  const actions=host.querySelector('.certificate-actions'),paper=host.querySelector('.cert-paper'),message=host.querySelector('.cert-error');
  mountCertificateWax(paper,{label:'공기 코어\n복구 인증',reduced:store.save.settings.reduceMotion,onImpact:()=>void cue('hit')});
  actions.append(button('인증서 인쇄 / PDF 저장',()=>window.print()));

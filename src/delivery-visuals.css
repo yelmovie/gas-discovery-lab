@@ -1,118 +1,203 @@
-/* Observation and choices share the viewport; no fixed-height illustration stacks. */
-.delivery-layout .research-panel{display:grid;grid-template-rows:clamp(48px,9dvh,112px) minmax(0,1fr) auto;gap:clamp(6px,1.2dvh,14px);height:100%;min-height:0;justify-content:stretch}
-.delivery-layout .gas-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(5px,.8vw,12px);height:100%;min-height:0;align-items:stretch}
-.delivery-layout .gas-card{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:minmax(0,1fr);align-items:center;justify-content:center;min-width:0;min-height:44px;gap:clamp(4px,.8vw,12px);padding:6px;border:2px solid #b7bba4;border-radius:13px;background:linear-gradient(#fffef6,#f5f2de);box-shadow:0 3px 0 #b0b59c;position:relative}
-.delivery-layout .gas-card strong{font:clamp(18px,1.7vw,28px)/1.2 var(--font-display);word-break:keep-all;overflow-wrap:anywhere;text-align:center;min-width:0}
-.delivery-layout .gas-card.selected{border-color:#367967;box-shadow:0 3px 0 #356956,inset 0 0 0 1px #367967;background:#e2f0e1}
-.delivery-layout .gas-card.is-observing{outline:3px dashed #bc8b38;outline-offset:-5px}
-.delivery-layout .gas-read-state{display:none}
-.delivery-layout .gas-orb{display:grid;place-items:center;flex:none;width:auto;min-width:clamp(26px,6dvh,68px);padding:0 .18em;height:clamp(26px,6dvh,68px);border:3px solid #ffffffab;box-shadow:inset 0 -4px 0 #173a2e26,0 2px 5px #283e3420;font:clamp(18px,1.8vw,29px)/1 var(--font-display)}
-.delivery-layout .gas-color-note{font-size:clamp(18px,1.1vw,20px);line-height:1.2;color:#4a564b;margin:0;text-align:center}
-.delivery-layout .gas-information{padding:clamp(7px,1vw,18px);height:100%;min-width:0;min-height:0;background:linear-gradient(135deg,#f0f5e8,#e6efdf);border:1px solid #becdb8;border-radius:16px}
-.delivery-layout .gas-use-card,.delivery-layout .gas-use-result{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.3fr);align-items:center;gap:clamp(7px,1.2vw,20px);height:100%;min-width:0;min-height:0}
-.delivery-layout .gas-use-visual{height:100%;min-width:0;min-height:0;display:grid;grid-template-rows:minmax(0,1fr) auto;gap:4px;justify-items:center}
-.delivery-layout .gas-use-visual>span{font:clamp(18px,1.2vw,22px)/1.2 var(--font-display);color:#3d6657;word-break:keep-all;text-align:center;max-width:100%}
-.delivery-layout .gas-use-image{display:block;width:100%;height:100%;min-width:0;min-height:0;object-fit:contain;pointer-events:none;user-select:none;filter:drop-shadow(0 4px 3px #184d4b12)}
-.delivery-layout .awaiting-gas{grid-template-columns:minmax(0,1fr)}
-.delivery-layout .awaiting-gas .gas-use-copy{display:none}
-.delivery-layout .gas-use-copy{min-width:0;min-height:0;text-align:left;overflow-wrap:anywhere;word-break:keep-all}
-.delivery-layout .gas-information .gas-use-copy h3{font-size:clamp(18px,1.8vw,32px);line-height:1.2;margin:0 0 clamp(5px,1dvh,12px);color:#285e50}
-.delivery-layout .gas-use-copy p,.delivery-layout .gas-information .gas-use-copy ul{font-size:clamp(18px,1.45vw,26px);line-height:1.35;margin:0;color:var(--teal-800)}
-.delivery-layout .gas-information .gas-use-copy ul{padding-left:1em}
-.delivery-layout .gas-information .gas-use-copy li+li{margin-top:clamp(4px,1dvh,14px)}
-.delivery-layout .gas-use-complete{display:flex;align-items:center;gap:6px;color:var(--teal-800);font:clamp(18px,1.2vw,22px)/1.2 var(--font-display);margin-bottom:8px}
-.delivery-layout .gas-use-complete .icon,.delivery-layout .gas-use-link .icon{flex:none;width:clamp(18px,1.5vw,26px);height:clamp(18px,1.5vw,26px)}
-.delivery-layout .gas-use-link{display:flex;align-items:center;gap:7px;margin-top:clamp(6px,1.2dvh,16px);padding-top:clamp(5px,1dvh,12px);border-top:1px solid #b7cdb3;color:#2c6251;font:clamp(18px,1.4vw,25px)/1.25 var(--font-display)}
-.delivery-layout .gas-use-link strong{font-weight:400;min-width:0}
-.delivery-layout .facility-panel{display:grid;grid-template-rows:auto minmax(0,1fr) auto;align-content:stretch;justify-content:stretch;gap:clamp(6px,1dvh,14px);height:100%;min-height:0}
-/* 시설의 부탁(무엇이 필요한지)을 성질 고르기 위에 늘 보여 준다. */
-.delivery-layout .facility-request{min-width:0;padding:clamp(6px,1dvh,14px) clamp(10px,1.2vw,18px);background:#eef5ec;border:2px solid #b9d1bc;border-radius:14px;color:var(--teal-800)}
-.delivery-layout .facility-request p{margin:0;font-size:clamp(18px,1.4vw,25px);line-height:1.35;word-break:keep-all;overflow-wrap:anywhere}
-.activity-complete .delivery-layout .facility-request{display:none}
-.delivery-layout .reason-slot,.delivery-layout .reason-slot .choice-group{height:100%;min-height:0;min-width:0}
-.delivery-layout .reason-slot .choice-group{display:grid;grid-template-rows:repeat(3,minmax(44px,1fr));gap:clamp(6px,1dvh,14px)}
-.delivery-layout .reason-slot .choice{display:flex;align-items:center;min-width:0;min-height:44px;white-space:normal;word-break:keep-all;overflow-wrap:anywhere;font-size:clamp(18px,1.5vw,27px);line-height:1.3;padding:clamp(6px,1vw,15px);text-align:left}
-.delivery-layout .reason-slot .radio-dot{flex:0 0 clamp(18px,1.6vw,25px);width:clamp(18px,1.6vw,25px);height:clamp(18px,1.6vw,25px)}
-.delivery-layout .supply-port{display:flex;align-items:center;justify-content:center;gap:8px;min-width:0;min-height:0;padding:7px 10px;margin:0;background:#edf3e8;border:2px dashed #91ad95;border-radius:12px;font:clamp(18px,1.3vw,23px)/1.2 var(--font-display)}
-.delivery-layout .supply-port>.icon{width:clamp(18px,1.6vw,28px);height:clamp(18px,1.6vw,28px);flex:none}
-.delivery-layout .supply-port>span{min-width:0;word-break:keep-all;overflow-wrap:anywhere}
-.delivery-layout .supply-port.ready{border-style:solid;border-color:#6f9a80;background:#e1ecde}
-.delivery-layout .supply-port.connected{border-color:#639455;background:#deedcf}
-@media(max-height:440px){
- .delivery-layout .supply-port{display:none}
- .delivery-layout .facility-panel{grid-template-rows:auto minmax(0,1fr)}
- .delivery-layout .facility-request{padding:4px 8px}
- .delivery-layout .facility-request p{font-size:14px}
- .delivery-layout .gas-color-note{display:none}
- .delivery-layout .gas-information .gas-use-copy h3{font-size:16px;margin-bottom:4px}
- .delivery-layout .gas-use-complete{margin-bottom:4px}
- .delivery-layout .gas-use-link{margin-top:5px;padding-top:4px}
-}
-@media(min-width:1500px) and (min-height:850px){
- .delivery-layout .gas-card strong{font-size:28px}
- .delivery-layout .gas-color-note{font-size:20px}
- .delivery-layout .gas-use-visual>span,.delivery-layout .gas-use-complete{font-size:22px}
+.delivery-layout [hidden] { display: none !important; }
+
+#app .activity-screen .activity-host > .delivery-layout {
+  align-items: center;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: clamp(var(--space-4), 3vw, var(--space-6));
 }
 
-/* 2026-11-16 배송소: 시설 그림이 있는 부탁 카드, 고르기 전에는 정답 쓰임을 숨김, 이유 선택지는 내용만큼만 */
-.delivery-layout .facility-request{display:grid;grid-template-columns:clamp(72px,9vw,128px) minmax(0,1fr);align-items:center;gap:clamp(8px,1vw,14px);background:#fffaf0;border-color:#f1d9a6;box-shadow:0 6px 16px #6b4a1a1a}
-.delivery-layout .facility-art{width:100%;aspect-ratio:1;object-fit:cover;border-radius:14px;border:2px solid #fff;box-shadow:0 4px 12px #2a3b3326}
-.delivery-layout .facility-copy{display:grid;gap:2px;min-width:0}
-.delivery-layout .facility-copy strong{font-size:clamp(18px,1.2vw,20px);color:#8a5a0c}
-.delivery-layout .reason-slot,.delivery-layout .reason-slot .choice-group{height:auto}
-.delivery-layout .reason-slot .choice-group{grid-template-rows:none;grid-auto-rows:minmax(56px,auto);align-content:start}
-.delivery-layout .reason-slot .choice{border-radius:16px}
-.delivery-layout .gas-awaiting{display:grid;place-items:center;align-content:center;gap:16px;min-height:100%;text-align:center;color:#2f5e57;font-weight:800;font-size:clamp(18px,1.5vw,24px);line-height:1.4}
-.delivery-layout .gas-awaiting p{margin:0}
-.delivery-layout .gas-awaiting-orbs{display:flex;gap:14px}
-.delivery-layout .gas-awaiting-orbs .gas-orb{width:clamp(48px,5vw,72px);height:clamp(48px,5vw,72px);font-size:clamp(18px,1.4vw,20px);animation:gas-bob 2.4s ease-in-out infinite}
-.delivery-layout .gas-awaiting-orbs .gas-orb:nth-child(2){animation-delay:.3s}.delivery-layout .gas-awaiting-orbs .gas-orb:nth-child(3){animation-delay:.6s}
-@keyframes gas-bob{50%{transform:translateY(-8px)}}
-.reduce-motion .delivery-layout .gas-awaiting-orbs .gas-orb{animation:none}
-@media(prefers-reduced-motion:reduce){.delivery-layout .gas-awaiting-orbs .gas-orb{animation:none}}
-@media(max-height:560px){.delivery-layout .facility-request{grid-template-columns:56px minmax(0,1fr)}.delivery-layout .reason-slot .choice-group{grid-auto-rows:minmax(44px,auto)}}
-
-/* 2026-11-17 배송관: 기체 카드를 끌어 넣는 곳(누르기로 골라도 같은 판정) */
-.delivery-layout .supply-port{min-height:64px;border-radius:18px;border-width:3px;background:repeating-linear-gradient(45deg,#f3f8ef 0 10px,#e8f1e2 10px 20px);font-weight:800;color:#2f5e57}
-.delivery-layout .supply-port.ready{background:#e1ecde}
-.delivery-layout .supply-port.touch-drop-ready{outline:4px solid #f0a81e!important;background:#fff0c9!important}
-.delivery-layout .supply-port.just-loaded{animation:port-load .6s cubic-bezier(.3,1.5,.6,1)}
-.delivery-layout .gas-card{cursor:grab;touch-action:none}
-.delivery-layout .gas-card.touch-dragging{opacity:.4}
-@keyframes port-load{0%{transform:scale(.94)}50%{transform:scale(1.04);box-shadow:0 0 0 8px #ffd76a66}100%{transform:none}}
-.reduce-motion .delivery-layout .supply-port.just-loaded{animation:none}
-@media(max-height:440px){.delivery-layout .supply-port{display:flex;min-height:44px;padding:4px 8px;font-size:13px}}
-@media(max-height:440px){
- .delivery-layout .facility-request{grid-template-columns:1fr;padding:4px 8px}
- .delivery-layout .facility-art,.delivery-layout .facility-copy strong{display:none}
- .delivery-layout .reason-slot .choice-group{grid-auto-rows:minmax(40px,auto);gap:4px}
- .delivery-layout .reason-slot .choice{min-height:40px;padding:4px 10px;font-size:14px}
- .delivery-layout .supply-port{min-height:40px}
+#app .activity-screen .delivery-layout > :is(.research-panel, .facility-panel) {
+  display: grid;
+  align-self: center;
+  grid-template-rows: none;
+  align-content: center;
+  gap: var(--space-3);
+  min-height: 0;
+  height: auto;
+  padding: 0;
+  border: 0;
+  background: none !important;
+  box-shadow: none;
+  backdrop-filter: none;
+  overflow: visible;
 }
-/* 시설 카드 = 끌어 넣는 곳. 상태 줄은 카드 안 아래에 붙는다(따로 칸을 차지하지 않음). */
-.delivery-layout .facility-request{cursor:copy;transition:outline-color .2s,background .2s}
-.delivery-layout .facility-request.touch-drop-ready,.delivery-layout .facility-request.drag-over{outline:4px solid #f0a81e;outline-offset:2px;background:#fff0c9}
-.delivery-layout .facility-request .supply-port{grid-column:1/-1;display:flex;min-height:0;margin:2px 0 0;padding:5px 10px;border-width:2px;border-radius:12px;font-size:var(--ui-text-label)}
-.delivery-layout .facility-request .supply-port.just-loaded{animation:port-load .6s cubic-bezier(.3,1.5,.6,1)}
-@media(max-height:440px){.delivery-layout .facility-request .supply-port{font-size:14px;padding:3px 8px}}
-@media(max-width:480px){
- .delivery-layout .facility-request{grid-template-columns:1fr;padding:6px 10px}
- .delivery-layout .facility-art,.delivery-layout .facility-copy strong{display:none}
- .delivery-layout .facility-request .supply-port{font-size:14px;padding:3px 8px}
- .delivery-layout .reason-slot .choice-group{grid-auto-rows:minmax(44px,auto);gap:4px}
- .delivery-layout .reason-slot .choice{min-height:44px;padding:4px 10px;font-size:15px}
- .delivery-layout .gas-awaiting{gap:8px}
- .delivery-layout .gas-awaiting-orbs .gas-orb{width:40px;height:40px}
-}
-/* 2026-11-17 기체 카드: CSS 동그라미 대신 그린 기체통 + 화학식 배지 */
-.delivery-layout .gas-orb.gas-tank{position:relative;display:block;width:clamp(40px,8dvh,76px);min-width:0;height:clamp(44px,9dvh,84px);padding:0;border:0;border-radius:0;background:none;box-shadow:none}
-.delivery-layout .gas-orb.gas-tank img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 4px 6px #1d3b4a33)}
-.delivery-layout .gas-orb.gas-tank b{position:absolute;right:-6px;bottom:-2px;padding:1px 7px;border-radius:999px;background:var(--gas-color);color:#fff;font-size:14px;font-weight:700;line-height:1.4;border:2px solid #fff}
-.delivery-layout .gas-awaiting-orbs .gas-orb.gas-tank{width:clamp(56px,7vw,84px);height:clamp(64px,8vw,96px)}
-.delivery-layout .gas-awaiting-hand{width:clamp(48px,6vw,80px);height:auto;filter:drop-shadow(0 4px 6px #0003);animation:gas-bob 2.4s ease-in-out infinite}
-.reduce-motion .delivery-layout .gas-awaiting-hand{animation:none}
-@media(prefers-reduced-motion:reduce){.delivery-layout .gas-awaiting-hand{animation:none}}
-@media(min-width:1600px){.delivery-layout .gas-orb.gas-tank b{font-size:18px}}
 
-/* 4번 안전 시설(2026-11-21, 3-3b): 기체는 공급관으로 끌어 넣는다. 키보드 사용자는 시설 카드에 초점을 두고 Enter. */
-.delivery-layout .facility-request[role="button"]:focus-visible{outline:3px solid #a8771f;outline-offset:3px}
+.delivery-layout .gas-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+
+.delivery-layout :is(.gas-cards, .reason-slot .choice-group) { border-radius: var(--radius-small); }
+
+.delivery-layout .gas-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  min-width: 0;
+  min-height: clamp(56px, 11dvh, 104px);
+  gap: var(--space-2);
+  padding: var(--space-2);
+  border: 2px solid #b7bba4;
+  border-radius: var(--radius-small);
+  background: var(--cream-50);
+  box-shadow: 0 3px 0 #b0b59c;
+  cursor: grab;
+  touch-action: none;
+}
+
+.delivery-layout .gas-card strong {
+  min-width: 0;
+  font: var(--text-small) / 1.25 var(--font-display);
+  overflow-wrap: anywhere;
+  text-align: center;
+}
+
+.delivery-layout .gas-card.selected {
+  border-color: var(--teal-600);
+  background: var(--teal-100);
+  box-shadow: 0 3px 0 var(--teal-800);
+}
+
+.delivery-layout .gas-card.is-observing { outline: 3px dashed var(--brass-500); outline-offset: -5px; }
+.delivery-layout .gas-card.touch-dragging { opacity: .5; }
+
+.delivery-layout .gas-orb.gas-tank {
+  position: relative;
+  display: block;
+  width: clamp(39px, 8dvh, 74px);
+  height: clamp(48px, 10dvh, 90px);
+  padding: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+}
+
+.delivery-layout .gas-tank img { width: 100%; height: 100%; object-fit: contain; }
+.delivery-layout .gas-tank b {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  padding: 1px 5px;
+  border: 1px solid white;
+  border-radius: 999px;
+  background: var(--gas-color);
+  color: white;
+  font: 700 var(--text-small)/1.15 var(--font-display);
+}
+
+.delivery-layout .gas-information {
+  min-width: 0;
+  min-height: 0;
+  padding: clamp(var(--space-3), 1.4vw, var(--space-5));
+  border: 1px solid var(--line);
+  border-radius: var(--radius-small);
+  background: var(--cream-50);
+  box-shadow: var(--shadow);
+}
+
+.delivery-layout .gas-information ul {
+  margin: 0;
+  padding-left: 1.15em;
+  color: var(--teal-950);
+  font-size: var(--text-small);
+  line-height: 1.45;
+}
+
+.delivery-layout .gas-information li + li { margin-top: var(--space-1); }
+
+.delivery-layout .facility-request {
+  display: grid;
+  grid-template-columns: clamp(60px, 9vw, 128px) minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+  padding: var(--space-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-small);
+  background: var(--cream-50);
+  color: var(--teal-950);
+  box-shadow: var(--shadow);
+}
+
+.delivery-layout .facility-art {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: calc(var(--radius-small) - 3px);
+}
+
+.delivery-layout .facility-request .facility-copy {
+  display: block;
+  margin: 0;
+  font-size: var(--text-small);
+  line-height: 1.4;
+}
+
+.delivery-layout .facility-request .supply-port {
+  display: none;
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  padding: var(--space-1);
+  border: 2px dashed var(--teal-600);
+  border-radius: var(--radius-small);
+  background: var(--teal-100);
+}
+
+.delivery-layout .supply-port > .icon { width: 20px; height: 20px; }
+.delivery-layout .supply-port.ready { border-style: solid; }
+.delivery-layout .facility-request[role="button"] { cursor: copy; }
+.delivery-layout .facility-request[role="button"] .supply-port { display: flex; grid-column: 1 / -1; }
+.delivery-layout .facility-request[role="button"]:focus-visible,
+.delivery-layout .facility-request.touch-drop-ready {
+  outline: 3px solid var(--brass-500);
+  outline-offset: 3px;
+}
+
+.delivery-layout .reason-slot .choice-group { display: grid; height: auto; gap: var(--space-2); }
+#app .activity-screen .delivery-layout .reason-slot .choice {
+  min-height: 48px;
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--text-small);
+  line-height: 1.3;
+  text-align: left;
+}
+
+.delivery-layout .delivery-complete .gas-information {
+  padding: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+}
+
+.delivery-layout .gas-use-image {
+  display: block;
+  width: 100%;
+  height: clamp(120px, 40dvh, 360px);
+  object-fit: contain;
+  filter: drop-shadow(0 10px 18px #122e48a3);
+}
+
+.activity-complete .delivery-layout .research-panel .gas-cards { display: none; }
+.activity-complete .delivery-layout .facility-request { display: none; }
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .delivery-layout .facility-request { grid-template-columns: 58px minmax(0, 1fr); gap: var(--space-2); }
+  .delivery-layout .facility-request[role="button"] { grid-template-columns: 52px minmax(0, 1fr) auto; }
+  .delivery-layout .facility-request[role="button"] .supply-port { grid-column: auto; }
+  #app .activity-screen .delivery-layout .reason-slot .choice { min-height: 44px; padding: 3px var(--space-2); }
+  .delivery-layout .reason-slot .choice-group { gap: var(--space-1); }
+}
+
+@media (max-width: 600px) and (orientation: portrait) {
+  #app .activity-screen .activity-host > .delivery-layout,
+  #app .activity-screen .activity-host > .delivery-layout > :is(.research-panel, .facility-panel) { gap: var(--space-2); }
+  #app .activity-screen .activity-host > .delivery-layout { grid-template-columns: minmax(0, 1fr); }
+  .delivery-layout .gas-card { grid-template-columns: minmax(0, 1fr); justify-items: center; gap: var(--space-1); padding: var(--space-1); }
+  .delivery-layout .facility-request[role="button"] { grid-template-columns: 55px minmax(0, 1fr) auto; }
+  .delivery-layout .facility-request[role="button"] .supply-port { grid-column: auto; }
+}

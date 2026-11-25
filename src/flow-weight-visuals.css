@@ -1,38 +1,129 @@
-/* The apparatus fills the available experiment area; controls stay in one row. */
-.flow-layout .pipe-panel{display:grid;grid-template-rows:minmax(0,1fr);height:100%;min-height:0;gap:0}
-.flow-layout .pipe-station{display:grid;container-type:size;grid-template-columns:minmax(44px,.22fr) minmax(0,1fr) minmax(44px,.22fr);height:100%;min-height:0;width:100%;gap:clamp(4px,1vw,14px);padding:0;align-items:center}
-.flow-layout .pipe-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(3,minmax(0,1fr));width:min(100%,calc(100cqh / 1.16));height:auto;aspect-ratio:1 / 1.16;max-height:100%;min-width:0;max-width:none;justify-self:center;gap:4px;padding:5px;background:linear-gradient(135deg,#d9e8de,#eaf0e3);border:2px solid #9db8aa;border-radius:14px;box-shadow:inset 0 2px 6px #45644a20,0 3px 0 #b8cbbc}
-.flow-layout .pipe-cell{display:grid;grid-template-rows:16px minmax(0,1fr);gap:1px;aspect-ratio:auto;width:100%;height:100%;padding:2px;overflow:hidden;border:1px solid #b6c3ad;background:#fffdf1;border-radius:8px;min-height:44px;box-shadow:0 2px 0 #b7b99e}
-.flow-layout .pipe-cell .pipe-number{position:static;justify-self:start;z-index:auto;padding:1px 5px;border:1px solid #cbd6c4;border-radius:4px;background:#edf2e7;color:#476454;font:18px/1 var(--font-display);display:flex;align-items:center;min-width:20px;justify-content:center}
-.flow-layout .pipe-cell .pipe-figure{height:100%;min-height:0;aspect-ratio:auto;align-self:stretch}
-.flow-layout .pipe-cell.has-flow .pipe-number{background:#1c706c;border-color:#1c706c;color:white}
-.flow-layout .pipe-cell.flow-stopped{border:3px solid #b4772b;background:#fff0d0!important;padding:0;box-shadow:0 0 0 2px #f2d69a}
-.flow-layout .pipe-cell.flow-stopped .pipe-number{background:#79551f;border-color:#79551f;color:#fff}
-.flow-layout .pipe-cell.playback-observed{box-shadow:inset 0 0 0 3px #358a78;background:#d2f0dc}
-.flow-layout .pipe-end{display:flex;flex-direction:column;gap:6px;align-items:center;justify-content:center;min-width:0;text-align:center;font-size:clamp(18px,1.2vw,22px)}
-.flow-layout .source-end{align-self:start}
-.flow-layout .target-end{align-self:end}
-.flow-layout .pipe-end>.prop,.flow-layout .pipe-end>.illustrated-fan{width:100%;height:clamp(44px,24cqh,160px);object-fit:contain}
-.flow-layout .pipe-port-label{display:flex;align-items:center;justify-content:center;gap:3px;align-self:stretch;white-space:nowrap;border-radius:7px;padding:5px 2px;background:#f6edd5;border:1px solid #cfbd8d;font-size:clamp(18px,1.2vw,21px);line-height:1.15}
-.flow-layout .pipe-port-label .icon{width:16px;height:16px}
-.flow-layout .is-supplying .source-end .pipe-port-label,.flow-layout .flow-arrived{background:#e3f2e8;border-color:#78aa92}
-.flow-layout .experiment-side{display:flex;flex-direction:column;justify-content:center;gap:clamp(8px,1.5vh,22px);height:100%;min-height:0}
-.flow-layout .flow-observation{padding:clamp(8px,1.2vw,20px);border:1px solid #c1cebc;border-radius:14px;background:#f0f4e9;display:grid;gap:clamp(8px,1.5vh,20px)}
-.flow-layout .flow-observation .section-label{font-size:clamp(18px,1.3vw,23px);line-height:1.3}
-.flow-layout .flow-route{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px;min-width:0;font-size:clamp(18px,1.4vw,24px);line-height:1.35}
-.flow-layout .flow-route>.icon{width:16px;height:16px;flex:none;color:#6d8a7c}
-.flow-layout .flow-route-step{display:grid;place-items:center;min-width:28px;min-height:28px;padding:3px;border:1px solid #7cac98;border-radius:8px;background:#e2f1e5;color:#27634e;font-family:var(--font-display)}
-.flow-layout .flow-count{font-size:clamp(18px,1.2vw,22px);line-height:1.35;color:#4f675a;text-align:center}
-.flow-layout .supply-slot .button{width:100%;min-height:44px}
-.flow-layout .supply-slot .button:disabled{display:none}
-.flow-layout .activity-feedback,.weight-layout .activity-feedback{display:none}
+/* Flow is drawn on the pipes. The stage illustration stays visible around the rig. */
+.activity-screen[data-stage=flow] .activity-host > .flow-layout:has(.evidence-slot:empty) {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+}
 
-.weight-layout .scale-panel{display:grid;grid-template-rows:auto minmax(0,1fr);height:100%;min-height:0;gap:8px}
-.weight-layout .scale-readiness{display:flex;flex-wrap:wrap;gap:5px;min-width:0}
-.weight-layout .scale-readiness>span{display:inline-flex;align-items:center;gap:4px;padding:4px 6px;border:1px solid #d2c6a5;border-radius:7px;background:#f5efdd;font-size:clamp(18px,1.1vw,21px);line-height:1.2;color:#6b5939;white-space:nowrap}
-.weight-layout .scale-readiness .icon{width:16px;height:16px}
-.weight-layout .scale-readiness .is-ready,.weight-layout .scale-readiness .same-container{border-color:#90b7a1;background:#e7f3e8;color:#2b6548}
-.weight-layout .scale-scene{--scale-size:min(76cqw,78cqh);position:relative;container-type:size;isolation:isolate;width:100%;height:100%;min-height:0;flex:none;border:1px solid #d4dfd0;border-radius:14px;overflow:hidden;background:linear-gradient(180deg,#eef6f0 0 76%,#dce8d9 76% 78%,#e9eee2 78%);box-shadow:inset 0 1px 6px #49695310}
+.flow-layout .pipe-panel {
+  display: grid;
+  height: 100%;
+  min-height: 0;
+  container-type: size;
+  place-items: center;
+}
+
+.flow-layout .pipe-station {
+  --pipe-gap: clamp(4px, 1vw, 14px);
+  --pipe-end-size: clamp(56px, min(17cqh, 15cqw), 112px);
+  --pipe-board-size: min(79cqh, calc(100cqw - 2 * var(--pipe-end-size) - 2 * var(--pipe-gap)), 500px);
+  display: grid;
+  grid-template-columns: var(--pipe-end-size) var(--pipe-board-size) var(--pipe-end-size);
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  width: max-content;
+  height: var(--pipe-board-size);
+  min-height: 0;
+  column-gap: var(--pipe-gap);
+}
+
+.flow-layout .pipe-grid {
+  display: grid;
+  grid-column: 2;
+  grid-row: 1 / -1;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: 100%;
+  aspect-ratio: 1;
+  place-self: center;
+  padding: var(--space-1);
+  gap: var(--space-1);
+  background: #214e52cc;
+  border: 2px solid var(--teal-100);
+  border-radius: 14px;
+  box-shadow: 0 6px 16px #10374252;
+}
+
+.flow-layout .pipe-cell {
+  display: grid;
+  grid-template: minmax(0, 1fr) / minmax(0, 1fr);
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 2px;
+  overflow: hidden;
+  aspect-ratio: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fffdf5ed;
+}
+
+.flow-layout .pipe-cell .pipe-figure {
+  height: 100%;
+  min-height: 0;
+  aspect-ratio: auto;
+}
+
+.flow-layout .pipe-cell.has-flow {
+  background: #dff4e9;
+  border-color: var(--teal-600);
+}
+
+.flow-layout .pipe-cell.playback-observed {
+  box-shadow: inset 0 0 0 3px var(--teal-600);
+}
+
+.flow-layout .pipe-end {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  align-self: stretch;
+  min-width: 0;
+  gap: var(--space-1);
+}
+
+.flow-layout .source-end { grid-area: 1 / 1; }
+.flow-layout .target-end { grid-area: 3 / 3; }
+
+.flow-layout .pipe-end > :is(.prop, .illustrated-fan) {
+  width: min(100%, 19cqh, 132px);
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 4px #092f36b0);
+}
+
+.flow-layout .pipe-port-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  white-space: nowrap;
+  padding: 3px 6px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--cream-50);
+  color: var(--teal-950);
+  font-size: var(--text-small);
+  line-height: 1.2;
+}
+
+.flow-layout .pipe-port-label .icon { width: 17px; height: 17px; }
+.flow-layout > .evidence-slot { align-self: center; }
+
+@media (max-height: 520px) {
+  .flow-layout .pipe-port-label { padding: 3px 4px; }
+  .flow-layout .pipe-end > :is(.prop, .illustrated-fan) { width: min(100%, 18cqh); }
+}
+
+@media (max-width: 600px) and (orientation: portrait) {
+  .flow-layout .pipe-end > :is(.prop,.illustrated-fan) { width: min(100%, 56px); }
+}
+
+.weight-layout .scale-panel{display:grid;grid-template-rows:minmax(0,1fr) auto;height:100%;min-width:0;min-height:0;gap:var(--space-2)}
+.weight-layout .scale-scene{--scale-size:min(76cqw,78cqh);position:relative;container-type:size;isolation:isolate;width:100%;height:100%;min-height:0;flex:none;overflow:hidden;background:linear-gradient(180deg,transparent 72%,#143f4380)}
 .weight-layout .scale-art{position:absolute;bottom:4%;left:64%;transform:translateX(-50%);width:var(--scale-size);height:var(--scale-size);object-fit:contain;z-index:1;pointer-events:none}
 .weight-layout .scale-jar{position:absolute;width:calc(var(--scale-size) * .62);height:calc(var(--scale-size) * .62);min-width:44px;min-height:44px;bottom:calc(4% + var(--scale-size) * .46);left:64%;transform:translateX(-50%);transition:left .22s ease-out,bottom .22s ease-out;z-index:3;touch-action:none;border-radius:12px;display:flex;justify-content:center;align-items:center;cursor:grab}
 .weight-layout .scale-jar:focus-visible{outline:3px solid #bc8c35;outline-offset:2px}
@@ -40,10 +131,8 @@
 .weight-layout .scale-jar .prop{width:100%;height:100%;object-fit:contain;pointer-events:none}
 .weight-layout .scale-jar.off-scale{width:min(36cqw,calc(var(--scale-size) * .62));height:min(36cqw,calc(var(--scale-size) * .62));left:19%;bottom:18%;transform:translateX(-50%);opacity:1}
 .weight-layout .scale-jar.off-scale::after{content:none}
-.weight-layout .jar-action-label{display:none}
-.weight-layout .off-scale .jar-action-label{display:block;position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:0;width:max-content;max-width:145%;padding:3px 4px;border:1px solid #a7c3b1;border-radius:6px;background:#fffdf4;color:#245f58;text-align:center;font:clamp(18px,1.2vw,21px)/1.2 var(--font-display);pointer-events:none}
 .weight-layout .scale-readout{position:absolute;z-index:4;left:calc(64% - var(--scale-size) * .08);bottom:calc(4% + var(--scale-size) * .25 - .5em - 5px);transform:translateX(-50%);font:clamp(18px,calc(var(--scale-size) * .12),34px)/1 var(--font-display);font-variant-numeric:tabular-nums;white-space:nowrap;min-width:76px;width:max(calc(var(--scale-size) * .36),7.4ch);padding:4px 2px;border:1px solid #a3b9a9;border-radius:5px;background:#21433f;color:#e9ffe6;box-shadow:inset 0 1px 4px #102a2860}
-.weight-layout .records-panel{display:flex;flex-direction:column;justify-content:center;height:100%;min-height:0;gap:8px}
+.weight-layout .records-panel{display:flex;flex-direction:column;justify-content:flex-start;align-self:center;height:auto;min-height:0;gap:var(--space-3)}
 .weight-layout .weight-actions{display:grid;gap:6px;flex:none}
 .weight-layout .level-row{display:grid;grid-template-columns:auto minmax(40px,1fr) auto;gap:7px;font-size:clamp(18px,1.1vw,21px);min-height:44px}
 .weight-layout .level-row .button{min-height:44px}
@@ -62,34 +151,23 @@
 .weight-layout .pump-actions .button{flex:1;min-height:44px;padding:6px 4px;font-size:clamp(18px,1.2vw,22px);line-height:1.2;gap:4px}
 .weight-layout .pump-actions .button .icon{width:18px;height:18px;flex:none}
 .weight-layout .record-button{width:auto}
-.weight-layout .weight-record-heading{display:flex;align-items:center;justify-content:space-between;gap:6px;min-height:20px;font:clamp(18px,1.1vw,21px)/1.2 var(--font-display);color:#405850;flex:none}
-.weight-layout .record-pagination{display:flex;align-items:center;gap:4px;min-width:0}
+.weight-layout .record-pagination{display:flex;align-items:center;justify-content:end;gap:var(--space-1);min-width:0}
 .weight-layout .record-page{display:grid;place-items:center;min-width:44px;min-height:44px;border:1px solid #a6bca9;border-radius:8px;background:#edf5e9;color:#2a6556;padding:6px}
 .weight-layout .record-page .icon{width:20px;height:20px}
-.weight-layout .record-page-count{font-size:14px;font-family:var(--font-body);font-variant-numeric:tabular-nums}
+.weight-layout .record-page-count{font-size:var(--text-small);font-family:var(--font-body);font-variant-numeric:tabular-nums;color:var(--cream-50);text-shadow:0 1px 3px var(--teal-950)}
 .weight-layout .measurement-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));flex:none;min-height:0;max-height:none;overflow:visible;margin:0;padding:0;gap:7px}
 .weight-layout .measurement-card{display:grid;grid-template-columns:minmax(0,1fr);justify-items:center;text-align:center;gap:4px;min-height:70px;padding:7px 4px;position:relative}
 .weight-layout .measurement-card strong{font-size:clamp(22px,2vw,36px);line-height:1.05;white-space:nowrap}
 .weight-layout .measurement-card>span:last-child{grid-column:1;font-size:clamp(18px,1.1vw,21px);line-height:1.25}
 .weight-layout .measurement-card .record-order{display:none}
 .weight-layout .measurement-card.selected{border-color:#367e6d;background:#e7f3e8;box-shadow:inset 0 -3px 0 #367e6d}
-.weight-layout .empty-record{grid-column:1 / -1;padding:12px 5px;font-size:clamp(18px,1.2vw,22px);line-height:1.3}
 .weight-layout .weight-comparison{display:flex;align-items:center;justify-content:space-between;gap:5px;padding:8px 10px;border-radius:10px;background:#e5f1e7;border:1px solid #98bfa5;color:#2b644b;text-align:center;font-size:clamp(18px,1.1vw,20px);line-height:1.2;flex-wrap:wrap;flex:none}
 .weight-layout .weight-comparison strong{font:clamp(23px,2vw,36px)/1.1 var(--font-display);font-variant-numeric:tabular-nums}
-.weight-layout .weight-comparison>span:last-child{font-size:clamp(18px,1vw,18px)}
-.weight-layout .weight-comparison .icon{height:16px;width:16px;margin:0 2px}
-.activity-complete .weight-layout .pump-actions,.activity-complete .weight-layout .weight-record-heading,.activity-complete .weight-layout .record-pagination{display:none}
 .activity-complete .weight-layout .measurement-list{grid-template-columns:repeat(2,minmax(0,1fr));max-height:none;margin:0;gap:8px}
 .activity-complete .weight-layout .measurement-card{display:grid;grid-template-columns:1fr;gap:4px}
 .activity-complete .weight-layout .measurement-card>span:last-child{grid-column:1}
-.activity-complete .weight-layout .scale-readiness{display:flex}
 
 @media(min-width:1600px) and (min-height:850px){
- .flow-layout .pipe-grid{gap:7px;padding:8px}
- .flow-layout .pipe-cell{grid-template-rows:23px minmax(0,1fr);padding:4px}
- .flow-layout .pipe-cell .pipe-number{font-size:19px;min-width:26px}
- .flow-layout .flow-route-step{min-width:40px;min-height:40px;font-size:24px}
- .flow-layout .flow-route>.icon{width:22px;height:22px}
  .weight-layout .records-panel{gap:16px}
  .weight-layout .measurement-card{min-height:105px;padding:12px 8px}
  .weight-layout .pump-actions .button{min-height:54px}
@@ -99,62 +177,34 @@
  .weight-layout .record-page-count{font-size:18px}
 }
 @media(max-height:480px){
- .flow-layout .pipe-grid{gap:3px;padding:4px}
- .flow-layout .pipe-cell{grid-template-rows:14px minmax(0,1fr);padding:1px}
- .flow-layout .flow-observation{gap:7px;padding:8px}
- .flow-layout .flow-route{gap:4px}
- .flow-layout .flow-route-step{min-width:23px;min-height:23px}
- .flow-layout .flow-route>.icon{width:13px;height:13px}
  .weight-layout .records-panel{gap:5px}
  .weight-layout .scale-panel{gap:5px}
- .weight-layout .scale-readiness>span{padding:3px 4px;font-size:14px}
  .weight-layout .measurement-card{min-height:60px;gap:3px;padding:5px 3px}
  .weight-layout .weight-comparison{padding:5px 7px;gap:4px}
- .weight-layout .weight-comparison>span:last-child{display:none}
 }
 @media(max-width:600px){
- .flow-layout .pipe-station{grid-template-columns:44px minmax(0,1fr) 44px;gap:5px}
- .flow-layout .pipe-port-label{font-size:14px;gap:1px;padding:4px 0}
- .flow-layout .pipe-port-label .icon{width:12px;height:12px}
- .flow-layout .pipe-end>.prop,.flow-layout .pipe-end>.illustrated-fan{height:60px}
- .flow-layout .experiment-side{gap:8px}
- .flow-layout .flow-observation{padding:10px;gap:8px}
- .weight-layout .scale-readiness{justify-content:center}
  .weight-layout .measurement-card{min-height:66px}
- .weight-layout .weight-comparison>span:last-child{display:none}
  .weight-layout .scale-jar.off-scale{left:20%}
 }
 @media(prefers-reduced-motion:reduce){
- .flow-layout .has-flow .pipe-water,.weight-layout .pump-stroke>.prop{animation:none}
+ .weight-layout .pump-stroke>.prop{animation:none}
  .weight-layout .scale-jar{transition:none}
 }
-/* 2026-11-16: 바람은 처음부터 흐른다. 공기 보내기 버튼 대신 상태 표시 */
-.flow-layout .supply-live{display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:8px 14px;border-radius:999px;background:#e3f2e8;border:2px solid #78aa92;color:#1d5a4a;font-weight:800;text-align:center}
-.flow-layout .supply-live svg{width:18px;height:18px;animation:flow-live-nudge 1.2s ease-in-out infinite}
-@keyframes flow-live-nudge{50%{transform:translateX(4px)}}
-.reduce-motion .flow-layout .supply-live svg{animation:none}
-.flow-layout .pipe-cell.flow-stopped{animation:flow-stop-pulse 1.4s ease-in-out infinite}
-@keyframes flow-stop-pulse{50%{box-shadow:0 0 0 6px #f2d69a}}
-.reduce-motion .flow-layout .pipe-cell.flow-stopped{animation:none}
 /* 2026-11-16: 저울 조작은 저울 아래 한 줄, 오른쪽은 기록만 */
-.weight-layout .scale-panel{grid-template-rows:auto minmax(0,1fr) auto}
-.weight-layout .scale-panel>.weight-actions{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;padding:8px;border-radius:16px;background:#fffaf0e6;border:1px solid #e3d6b4}
+.weight-layout .scale-panel>.weight-actions{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;padding:8px;border-radius:16px;background:var(--cream-50);border:1px solid var(--line)}
 .weight-layout .scale-panel>.weight-actions>*{flex:1 1 auto}
 .weight-layout .scale-panel>.weight-actions [hidden]{display:none!important}
-.weight-layout .scale-panel .level-row{grid-template-columns:auto minmax(80px,140px) auto;align-items:center}
+.weight-layout .scale-panel .level-row{grid-template-columns:minmax(68px,140px) auto;align-items:center}
 .weight-layout .scale-panel .pump-row{grid-template-columns:auto minmax(80px,1fr);align-items:center;column-gap:10px}
 .weight-layout .scale-panel .pump-row .pump-actions{grid-column:1 / -1}
 .weight-layout .scale-art{transform:translateX(-50%) rotate(var(--tilt,0deg));transition:transform .35s ease}
 .weight-layout .scale-jar:not(.off-scale){transform:translateX(-50%) rotate(var(--tilt,0deg))}
-.weight-layout .records-panel{justify-content:flex-start;gap:12px}
-.weight-layout .records-panel .measurement-card strong{font-size:clamp(26px,2.6vw,44px)}
-.weight-layout .empty-record{border:2px dashed #cfd9c6;border-radius:16px;background:#fbfdf7;color:#4c6a5e;padding:22px 12px}
+.weight-layout .records-panel .measurement-card strong{font-size:clamp(25px,2.6vw,40px)}
 .weight-layout .weight-comparison{border-radius:16px;padding:12px 14px}
 .reduce-motion .weight-layout .scale-art{transition:none}
 .activity-complete .weight-layout .scale-panel>.weight-actions{display:none}
 .weight-layout .record-tag{font-style:normal;font-weight:800;font-size:max(18px,min(1.15vw,20px));padding:2px 10px;border-radius:999px;background:#fdf0cf;color:#7a5418;border:1px solid #e6c886}
 .weight-layout .measurement-card.selected .record-tag{background:#d8efe1;color:#245a47;border-color:#8fc0a4}
-.weight-layout .scale-scene{background:url('/assets/visuals/weight-bench-v1.jpg') center bottom/cover no-repeat}
 /* 2026-11-17: 펌프는 꾹 누르기, 용기는 저울 위로 끌어 올리기 */
 .weight-layout .hold-pump{position:relative;overflow:hidden;isolation:isolate}
 .weight-layout .hold-pump .hold-fill{position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,#bfe3d3,#8fcab4);transform:scaleX(0);transform-origin:left center;border-radius:inherit}
@@ -163,27 +213,52 @@
 @keyframes hold-pump-fill{to{transform:scaleX(1)}}
 .reduce-motion .weight-layout .hold-pump.is-holding .hold-fill{animation:none;transform:scaleX(1)}
 .weight-layout .scale-jar.off-scale{cursor:grab;touch-action:none}
-.weight-layout .scale-jar.off-scale.is-next-action .jar-action-label{animation:jar-nudge 1.6s ease-in-out infinite}
-@keyframes jar-nudge{50%{translate:8px -4px}}
-.reduce-motion .weight-layout .scale-jar.off-scale.is-next-action .jar-action-label{animation:none}
-.weight-layout .off-scale .jar-action-label{font-weight:800;background:#fff4d8;border-color:#e2b65f;color:#6a4708}
-.weight-layout .scale-scene.touch-drop-ready{outline-offset:-6px;background:url('/assets/visuals/weight-bench-v1.jpg') center bottom/cover no-repeat!important}
+.weight-layout .scale-scene.touch-drop-ready{outline-offset:-6px;background:#e4fff13d!important}
 /* 2026-11-17: 낮은 화면에서는 조작 칸을 저울 오른쪽으로 옮겨 저울 장면을 키운다 */
 .weight-layout .scale-jar{min-width:52px;min-height:52px}
-.weight-layout .off-scale .jar-action-label{top:auto;bottom:100%;margin:0 0 4px;font-size:max(18px,min(1.1vw,20px))}
 @media (max-height:520px){
- .weight-layout .scale-panel{grid-template-columns:minmax(0,1fr) minmax(160px,38%);grid-template-rows:minmax(0,1fr)}
- .weight-layout .scale-readiness{display:none}
+ .weight-layout .scale-panel{grid-template-columns:minmax(0,1fr) minmax(158px,36%);grid-template-rows:minmax(0,1fr)}
  .weight-layout .scale-panel>.scale-scene{grid-column:1;grid-row:1}
  .weight-layout .scale-panel>.weight-actions{grid-column:2;grid-row:1;flex-direction:column;flex-wrap:nowrap;align-items:stretch;justify-content:center;padding:6px;gap:6px}
+ .weight-layout .scale-panel>.weight-actions{align-self:center}
  .weight-layout .scale-panel>.weight-actions>*{flex:0 0 auto}
  .weight-layout .scale-panel .level-row{grid-template-columns:minmax(60px,1fr);justify-items:stretch}
- .weight-layout .scale-panel .level-row>span{display:none}
  .weight-layout .scale-panel .preparation-actions{flex-direction:column}
  .weight-layout .scale-panel .pump-row{grid-template-columns:1fr}
  .weight-layout .scale-panel .pump-row .air-amount-meter{display:none}
  .weight-layout .scale-panel .pump-actions{flex-direction:column}
- .weight-layout .scale-readout{font-size:max(14px,calc(var(--scale-size) * .12))!important}
+ .weight-layout .scale-readout{font-size:clamp(18px,calc(var(--scale-size) * .12),34px)!important}
 }
 .weight-layout .scale-panel:has(>.weight-actions>.level-row[hidden]):has(>.weight-actions>.preparation-actions[hidden]):has(>.weight-actions>.pump-row[hidden])>.weight-actions{display:none}
 @media (max-height:520px){.weight-layout .scale-panel:has(>.weight-actions>.level-row[hidden]):has(>.weight-actions>.preparation-actions[hidden]):has(>.weight-actions>.pump-row[hidden]){grid-template-columns:minmax(0,1fr)}}
+
+/* Only the controls, measurements, and utensil illustration need a reading surface. */
+.weight-layout .scale-jar, .weight-layout .scale-art {
+  filter: drop-shadow(0 5px 5px #092f36a3);
+}
+
+.weight-layout .jar-lift-cue { display: none; }
+.weight-layout .scale-jar.off-scale.is-next-action .jar-lift-cue {
+  position: absolute;
+  inset: auto 0 0 auto;
+  display: inline-flex;
+  gap: 2px;
+  align-items: center;
+  padding: 4px;
+  background: var(--cream-50);
+  border: 1px solid var(--brass-500);
+  border-radius: 8px;
+  color: var(--teal-950);
+  pointer-events: none;
+}
+.weight-layout .jar-lift-cue .icon { width: 22px; height: 22px; }
+
+.weight-layout :is(.records-panel, .record-pagination)[hidden] { display: none; }
+.activity-screen .activity-host>.weight-layout>.records-panel { align-self: center; }
+.weight-layout .measurement-list:has(> :only-child) { grid-template-columns: 1fr; }
+.weight-layout .measurement-list:has(> :only-child) .measurement-card { justify-self: start; width: min(100%, 210px); }
+.weight-layout .measurement-card:disabled { opacity: 1; color: var(--teal-950); }
+
+@media (max-height: 520px) and (orientation: landscape) {
+  .weight-layout .pump-actions .button { white-space: nowrap; }
+}

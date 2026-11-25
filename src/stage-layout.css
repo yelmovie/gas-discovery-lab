@@ -454,3 +454,212 @@ html body #app .has-film :is(.story-card,.ending-copy) :is(h1,p){text-wrap:balan
 .story-film-video{width:100%;height:100%;object-fit:contain;background:#000}
 .story-film .film-skip.button{position:absolute;top:max(16px,env(safe-area-inset-top));right:max(16px,env(safe-area-inset-right));min-width:120px;min-height:52px;font-size:22px;background:#143f43!important;color:#fff4d9!important;border:2px solid #d5aa58!important;border-radius:999px;padding:8px 22px;box-shadow:0 4px 12px #0007}
 .certificate-date{margin:12px 0 0;font-size:16px;color:#6d5e3d;letter-spacing:.04em}
+
+/* Student routes: keep the scene visible around the current task. */
+#app :is(.stage-screen,.finale-screen,.certificate-screen) > .scene-shade {
+ background:linear-gradient(0deg,#102e376b,transparent 48%),radial-gradient(ellipse at 76% 57%,#102e3752,transparent 66%);
+}
+
+#app .activity-screen > .activity-shade {
+ background:linear-gradient(180deg,#103942b8,transparent 22%,transparent 82%,#10394280);
+}
+
+#app .activity-screen .mission-rail {
+ justify-content:space-between;
+ min-height:var(--touch);
+ padding:0;
+ border:0;
+ background:none;
+ box-shadow:none;
+}
+
+#app .activity-complete .mission-rail {justify-content:flex-end}
+#app .activity-screen .mission-guide[hidden] {display:none}
+
+#app .activity-screen .mission-guide {
+ grid-template-columns:auto minmax(0,1fr);
+ gap:var(--space-2);
+ align-items:center;
+}
+
+#app .activity-screen .mission-npc {
+ width:var(--touch);
+ height:var(--touch);
+ margin:0;
+ border:2px solid var(--cream-100);
+ box-shadow:0 2px 8px #102e3752;
+ animation:none;
+}
+
+#app .activity-screen .mission-guide .mission-direction {
+ justify-self:start;
+ min-height:44px;
+ padding:var(--space-2) var(--space-3);
+ background:var(--cream-50);
+ font-size:var(--text-small);
+}
+
+#app .activity-screen .mission-guide .mission-direction::before {background:var(--cream-50)}
+
+#app .activity-screen .mission-guide .mission-direction:empty,
+#app .activity-screen .mission-guide:has(.mission-direction:empty) {display:none}
+
+#app .activity-screen .playback-speed select {
+ width:auto;
+ min-width:56px;
+ font-size:var(--text-small);
+}
+
+#app .activity-screen .completed-actions .button {font-size:var(--text-small)}
+#app .activity-screen .completed-actions .npc-dialogue-voice {order:2}
+#app .activity-screen .discovery-result {
+ padding:var(--space-2) var(--space-3);
+ border:1px solid var(--line);
+ border-radius:var(--radius-small);
+ background:var(--cream-50);
+}
+#app .activity-screen .discovery-result .discovery-label {font-size:var(--text-small)}
+#app .activity-screen .discovery-result > p {
+ padding:0;
+ border:0;
+ background:none;
+ color:var(--ink);
+ font-size:var(--text-small);
+}
+
+#app :is(.stage-brief,.finale-panel,.story-card,.ending-copy).lab-panel {
+ background:#fffdf5ed !important;
+ backdrop-filter:none;
+}
+
+#app :is(.stage-screen .stage-brief,.finale-screen .finale-panel) {
+ width:min(100%,640px);
+ justify-self:end;
+ padding:clamp(var(--space-3),2.1vw,var(--space-6));
+}
+
+#app :is(.stage-brief,.finale-panel) h1 {
+ margin:0 0 var(--space-2);
+ font-size:clamp(26px,min(3.2vw,6.1dvh),46px);
+}
+
+#app .stage-brief .facility-name {
+ margin:0 0 var(--space-1);
+ color:var(--teal-800);
+ font-size:var(--text-small);
+ font-weight:700;
+}
+
+#app .stage-brief .stage-description,
+#app .finale-panel :is(.finale-body > p,.final-status) {
+ font-size:var(--text-body);
+ line-height:1.45;
+}
+
+#app :is(.stage-brief .stage-start,.finale-panel .final-action) {
+ position:static;
+ margin:0;
+ padding-top:var(--space-2);
+ background:none;
+}
+
+#app .stage-brief .stage-start {flex-wrap:wrap}
+#app .stage-brief .stage-start > .button {flex:0 1 auto;width:auto}
+#app .stage-brief .play-mission-entry {min-height:44px;font-size:var(--text-small)}
+
+#app :is(.stage-plan,.final-records) {
+ margin-top:var(--space-4);
+ border-top:1px solid var(--line);
+}
+
+#app :is(.stage-plan,.final-records)>summary {
+ display:flex;
+ align-items:center;
+ gap:var(--space-2);
+ min-height:48px;
+ padding:var(--space-1) 0;
+ font-size:var(--text-small);
+ font-weight:700;
+ color:var(--teal-950);
+ cursor:pointer;
+ list-style:none;
+}
+
+#app :is(.stage-plan,.final-records)>summary::-webkit-details-marker {display:none}
+
+#app :is(.stage-plan,.final-records)>summary::after {
+ content:"";
+ width:8px;
+ height:8px;
+ margin-inline-start:auto;
+ border:solid currentColor;
+ border-width:0 2px 2px 0;
+ transform:rotate(45deg);
+}
+
+#app :is(.stage-plan,.final-records)[open]>summary::after {transform:rotate(225deg)}
+
+#app .stage-brief .stage-task {
+ grid-template-columns:36px minmax(0,1fr);
+ min-height:48px;
+ font-size:var(--text-small);
+ text-align:left;
+ white-space:normal;
+}
+
+#app .stage-brief .stage-task .task-marker {display:grid;place-items:center}
+#app .stage-brief .stage-task > span:nth-child(2) {overflow:visible;text-overflow:clip;white-space:normal}
+#app .stage-brief .concept-revisit {margin-top:var(--space-2);font-size:var(--text-small)}
+#app .finale-panel .evidence-review {grid-template-columns:auto minmax(0,1fr)}
+#app .finale-panel .final-status:empty {display:none}
+#app .finale-panel .final-supply {display:flex;justify-content:flex-start;margin-top:var(--space-2)}
+
+#app .has-film .scene-shade {
+ background:linear-gradient(0deg,#0b1d2480,transparent 49%);
+}
+
+#app .has-film :is(.story-card,.ending-copy) {
+ width:min(780px,100%);
+ padding:clamp(var(--space-3),1.5vw,var(--space-5));
+}
+
+#app .has-film .ending-copy {width:min(780px,calc(100% - var(--space-6)))}
+
+#app .has-film :is(.story-card,.ending-copy) h1 {
+ font-size:clamp(22px,min(2.5vw,6dvh),34px);
+ line-height:1.25;
+}
+
+#app .has-film :is(.story-actions,.ending-actions) .button {min-height:48px;font-size:var(--text-small)}
+.portrait-display #app:has(.story-screen,.ending-screen,.certificate-screen)::after {display:none}
+
+@media (max-width:900px), (max-height:540px) {
+ #app .activity-screen .mission-npc {width:44px;height:44px}
+ #app .activity-screen .mission-guide .mission-direction {padding:var(--space-1) var(--space-2)}
+ #app .activity-screen .mission-guide:has(.mission-direction .npc-dialogue-voice) .mission-npc {display:none}
+ #app .activity-screen .mission-guide:has(.mission-direction .npc-dialogue-voice) {grid-template-columns:minmax(0,1fr)}
+ #app .activity-screen .mission-guide:has(.mission-direction .npc-dialogue-voice) .mission-direction::before {display:none}
+ #app .stage-brief .stage-description {font-size:var(--text-small)}
+ #app :is(.stage-screen .stage-brief,.finale-screen .finale-panel) {width:min(100%,520px)}
+}
+
+@media (max-width:600px) {
+ #app .activity-complete .mission-rail {flex-direction:row;justify-content:stretch}
+ #app .activity-complete .activity-actions {width:100%}
+ #app .activity-complete .completed-actions {grid-template-columns:1fr 1fr}
+ #app .activity-complete .completed-actions .button {max-width:none}
+ #app .activity-complete .completed-actions .bridge-voice {
+  display:flex!important;
+  grid-column:1/-1;
+  width:max-content;
+  max-width:100%;
+  justify-self:end;
+ }
+ #app .activity-complete .completed-actions .bridge-voice .button {min-height:44px;padding:4px 8px}
+}
+
+@media (max-width:380px) {
+ #app .activity-screen .mission-guide {grid-template-columns:minmax(0,1fr)}
+ #app .activity-screen .mission-guide .mission-npc,
+ #app .activity-screen .mission-guide .mission-direction::before {display:none}
+}

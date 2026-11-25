@@ -12,7 +12,7 @@ function layoutSpeech(host, entries){
  const sx=bounds.width/w,sy=bounds.height/h;
  const rect=r=>({l:(r.left-bounds.left)/sx,t:(r.top-bounds.top)/sy,r:(r.right-bounds.left)/sx,b:(r.bottom-bounds.top)/sy});
  const occupied=[];
- const selectors='button,summary,a[href],.map-encounter-body,.map-encounter-prop,.map-encounter-meter,.villain-line,.village-sprite,.map-walker,.expedition-player,.expedition-companion,[data-map-resident],[data-hub-resident],.npc-bubble,.companion-bubble,[role="status"],.map-resident,.world-pin,.map-label,.map-node,.building-label,.map-encounter-reaction';
+ const selectors='button,summary,a[href],.map-speech,.map-encounter-body,.map-encounter-prop,.map-encounter-meter,.villain-line,.village-sprite,.map-walker,.expedition-player,.expedition-companion,[data-map-resident],[data-hub-resident],.npc-bubble,.companion-bubble,[role="status"],.map-resident,.world-pin,.map-label,.map-node,.building-label,.map-encounter-reaction';
  for(const part of host.ownerDocument.querySelectorAll(selectors)){
   if(visible.some(({el})=>el===part||part.contains(el))||part.closest('[hidden],[aria-hidden="true"][inert]'))continue;
   const box=part.getBoundingClientRect();
@@ -257,7 +257,11 @@ export function mountMapEncounters({
       callback.hidden=now>=clearUntil;
     }
     if(finaleAt&&now>=finaleAt&&!stop){finaleAt=0;openMapFinale(host,"/assets/map-encounters/map-finale.mp4");}
-    current=nearest;
+    if(current!==nearest){
+      current?.el.removeAttribute('data-near');
+      nearest?.el.setAttribute('data-near','');
+      current=nearest;
+    }
     if(current&&current!==lastNear&&current.saidUntil<=now&&now-lastHit>REPEAT&&now>=clearUntil){
       const message=current.say[current.sayIndex++%current.say.length]??'다가왔구나!';
       speak(current,message,now+2200);
@@ -290,8 +294,9 @@ const STYLES=`
 .map-encounter-layer[data-encounter-effect='trend'] .map-encounter-fx{border:0;background:var(--encounter-color);clip-path:polygon(0 77%,29% 52%,53% 58%,86% 19%,76% 20%,100% 0,100% 29%,94% 21%,55% 69%,32% 63%,0 93%)}
 .map-encounter-layer [hidden],.map-encounter-attack[hidden]{display:none!important}
 .map-encounter-foe{position:absolute;left:0;top:0;width:0;height:0;pointer-events:none}
+.map-encounter-foe[data-near]::before{content:"";position:absolute;left:0;bottom:4px;translate:-50% 0;width:calc(var(--encounter-size)*.76);height:calc(var(--encounter-size)*.22);border:2px solid #fff6de;border-radius:50%;background:#6039814d;box-shadow:0 0 0 2px #4e316d87}
 .map-encounter-body{position:absolute;bottom:0;width:var(--encounter-size);height:var(--encounter-size);left:calc(-.5 * var(--encounter-size));background-repeat:no-repeat;background-position:center;background-size:contain;transform:scaleX(var(--encounter-face,1));transform-origin:50% 90%;filter:drop-shadow(0 2px 2px #17132985)}
-.map-encounter-meter{position:absolute;left:0;bottom:calc(var(--encounter-size) + 2px);transform:translateX(-50%);color:#fff;background:#251833ec;border:1px solid #ffffffa8;border-radius:9px;padding:1px 7px;font:inherit;font-size:18px;font-weight:700;line-height:1.3;letter-spacing:1px;white-space:nowrap}
+.map-encounter-meter{position:absolute;left:0;top:4px;transform:translateX(-50%);color:#fff;background:#251833ec;border:1px solid #ffffffa8;border-radius:9px;padding:1px 7px;font:inherit;font-size:18px;font-weight:700;line-height:1.3;letter-spacing:1px;white-space:nowrap}
 .map-encounter-foe[data-pose="exit"][data-exited="true"] > :not(.map-encounter-say){visibility:hidden}
 .map-encounter-clear{position:absolute;top:12px;left:50%;width:max-content;max-width:min(440px,calc(100% - 24px));transform:translateX(-50%);z-index:3;margin:0;padding:9px 13px;border:2px solid var(--encounter-color);border-radius:12px;background:#282138;color:white;box-shadow:0 2px 8px #16102477;text-align:center;pointer-events:none;font:700 18px/1.4 NanumSquareNeo,system-ui;word-break:keep-all}
 .map-encounter-say{position:absolute;left:0;bottom:calc(var(--encounter-size) + 30px);transform:translateX(-50%);width:max-content;max-width:260px;word-break:keep-all;background:#fff;color:#292137;border:1px solid #514364;border-radius:9px;padding:6px 10px;text-align:center;font:inherit;font-size:18px;font-weight:700;line-height:1.3;box-shadow:0 2px 5px #15111950}

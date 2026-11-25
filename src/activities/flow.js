@@ -1,5 +1,5 @@
 import { createPipePuzzle, tracePipe, ports } from '../model.js';
-import { button, message, prop } from '../ui.js';
+import { button, prop } from '../ui.js';
 import {icon} from '../icons.js';
 import {sound} from '../audio.js';
 import {pipeArtwork} from '../pipe-art.js';
@@ -8,34 +8,55 @@ export function mountFlow(host,task,ctx){
  const draft=ctx.draft||{},initial=createPipePuzzle(task.pattern);
  const cells=Array.isArray(draft.cells)&&draft.cells.length===9&&draft.cells.every((c,i)=>c?.type===initial[i].type&&Number.isInteger(c.rotation))?draft.cells.map(c=>({...c,rotation:((c.rotation%4)+4)%4})):initial;
  let solved=false,testing=true,attempts=Number.isFinite(draft.attempts)?Math.max(0,draft.attempts):0,turns=Number.isFinite(draft.turns)?Math.max(0,draft.turns):0,completionTimer=0;
- host.innerHTML=`<div class="flow-layout"><section class="lab-panel pipe-panel" aria-label="관을 눌러 연결하는 바람길"><div class="pipe-station"><div class="pipe-end source-end"><span class="pipe-port-label">입구 ${icon('arrow')}</span>${prop('pump','', '공기를 보내는 펌프')}</div><div class="pipe-grid" role="group" aria-label="3행 3열 관 연결, 누르면 90도 회전"></div><div class="pipe-end target-end">${fanArtwork('fan-target')}<span class="pipe-port-label">${icon('arrow')} 출구</span></div></div></section><aside class="lab-panel experiment-side"><div class="flow-observation"><span class="section-label">바람이 지나는 순서</span><div class="flow-route" aria-live="polite"><span>입구에서 시작해요</span></div><span class="flow-count">공기 흐르는 중</span></div><div class="supply-slot"><span class="supply-live" role="status">${icon('arrow')} 펌프가 계속 공기를 보내요</span></div><div class="activity-feedback"></div><div class="evidence-slot"></div></aside></div>`;
- const grid=host.querySelector('.pipe-grid'),feedback=host.querySelector('.activity-feedback'),route=host.querySelector('.flow-route');
- const supply=host.querySelector('.supply-live');attempts=Math.max(1,attempts);
+ host.innerHTML=`<div class="flow-layout">
+  <section class="pipe-panel" aria-label="관을 눌러 연결하는 바람길">
+   <div class="pipe-station">
+    <div class="pipe-end source-end">${prop('pump','', '공기를 보내는 펌프')}<span class="pipe-port-label">입구 ${icon('arrow')}</span></div>
+    <div class="pipe-grid" role="group" aria-label="3행 3열 관 연결, 누르면 90도 회전"></div>
+    <div class="pipe-end target-end">${fanArtwork('fan-target')}<span class="pipe-port-label">${icon('arrow')} 출구</span></div>
+   </div>
+   <p class="sr-only flow-status" role="status"></p>
+  </section>
+  <div class="evidence-slot"></div>
+ </div>`;
+ const grid=host.querySelector('.pipe-grid'),status=host.querySelector('.flow-status');
+ attempts=Math.max(1,attempts);
+ const guide=()=>{
+  ctx.nextAction?.('.pipe-grid');
+  ctx.guide?.('바람길 연결','관을 눌러 돌려 펌프와 팬을 이어요.',[
+   '입구에서 들어온 파란 바람을 따라가 봐요.',
+   '서로 마주 보는 관 끝이 연결되면 그쪽으로 공기가 흘러요.',
+   '펌프부터 팬까지 끊김 없이 이어지는지 살펴봐요.'
+  ]);
+ };
  function save(){ctx.saveDraft({cells,testing,attempts,turns});}
- function paintCell(b,cell,i){b.innerHTML=`<span class="pipe-number">${i+1}</span>${pipeArtwork(cell.type,cell.rotation,{flow:true})}`;b.setAttribute('aria-label',`${Math.floor(i/3)+1}행 ${i%3+1}열 ${cell.type==='elbow'?'굽은 관':'일자 관'}, ${ports(cell.type,cell.rotation).map(p=>['위','오른쪽','아래','왼쪽'][p]).join('·')} 연결, 눌러 돌리기`);}
- cells.forEach((cell,i)=>{const b=button('',()=>{if(solved||ctx.signal.aborted)return;cell.rotation=(cell.rotation+1)%4;turns++;if(testing)attempts++;paintCell(b,cell,i);sound('rotate');save();updateFlow();},'pipe-cell');paintCell(b,cell,i);grid.append(b);});
+ function paintCell(b,cell){b.innerHTML=pipeArtwork(cell.type,cell.rotation,{flow:true});}
+ cells.forEach(cell=>{const b=button('',()=>{if(solved||ctx.signal.aborted)return;cell.rotation=(cell.rotation+1)%4;turns++;if(testing)attempts++;paintCell(b,cell);sound('rotate');save();updateFlow();},'pipe-cell');paintCell(b,cell);grid.append(b);});
  function updateFlow(){
   if(!testing||solved||ctx.signal.aborted)return;
   const result=tracePipe(cells);
-  route.innerHTML=result.path.length?result.path.map((i,j)=>`${j?icon('arrow'):''}<span class="flow-route-step" data-cell="${i}">${i+1}</span>`).join(''):'<span>입구에서 멈췄어요</span>';
-  host.querySelector('.flow-count').textContent=result.ok?'출구 연결 · 팬이 돌아요':`${result.path.length}개 관 통과 · ${result.stop+1}번에서 멈춤`;
-  host.querySelector('.flow-observation').classList.toggle('flow-arrived',result.ok);
-  host.querySelector('.pipe-station').classList.add('is-supplying');
-  [...grid.children].forEach((b,i)=>{b.classList.toggle('has-flow',result.path.includes(i));b.classList.toggle('flow-stopped',!result.ok&&i===result.stop);b.disabled=result.ok;});
-  if(!result.ok){ctx.nextAction?.(`.pipe-cell:nth-child(${result.stop+1})`);message(feedback,`${result.stop+1}번 관에서 멈췄어요. 관을 돌리면 바람길이 바로 바뀌어요.`);ctx.guide?.('바람길 연결',`테두리가 반짝이는 ${result.stop+1}번 관을 눌러 돌려요. 바람이 바로 따라가요.`);return;}
-  solved=true;ctx.nextAction?.([]);supply.textContent='팬까지 바람이 도착했어요';host.querySelector('.fan-target').classList.add('device-powered');message(feedback,task.why,'success');sound('success');ctx.guide?.('바람길 완성','팬이 돌아요! 작동 기록은 자동으로 남아요.');
+  const flow=new Set(result.path);
+  [...grid.children].forEach((b,i)=>{
+   const cell=cells[i];
+   const directions=ports(cell.type,cell.rotation).map(p=>['위','오른쪽','아래','왼쪽'][p]).join('·');
+   b.classList.toggle('has-flow',flow.has(i));
+   b.setAttribute('aria-label',`${Math.floor(i/3)+1}행 ${i%3+1}열 ${cell.type==='elbow'?'굽은 관':'일자 관'}, ${directions} 연결${flow.has(i)?', 공기가 지나가요':''}, 눌러 돌리기`);
+   b.disabled=result.ok;
+  });
+  if(!result.ok)return;
+  solved=true;ctx.nextAction?.([]);status.textContent='팬까지 바람이 도착했어요.';host.querySelector('.fan-target').classList.add('device-powered');sound('success');
   completionTimer=setTimeout(()=>{if(!ctx.signal.aborted)ctx.complete(task.why,{path:result.path,rotations:cells.map(c=>c.rotation),attempts,turns,firstTry:attempts===1});},650/(ctx.getPlaybackSpeed?.()||1));
  }
  ctx.playback?.({steps:()=>{
   if(solved)return [];
   const result=tracePipe(cells),steps=[];
   steps.push({label:'지금 연결한 길을 따라가요.',target:'.source-end',run:()=>{},wait:600});
-  for(const i of result.path)steps.push({label:`공기가 ${i+1}번 관을 지나가요.`,target:`.pipe-cell:nth-child(${i+1})`,run:()=>{grid.querySelectorAll('.playback-observed').forEach(el=>el.classList.remove('playback-observed'));grid.children[i]?.classList.add('playback-observed');},wait:650});
-  if(!result.ok)steps.push({label:`${result.stop+1}번 관을 직접 돌려 다음 길을 이어요.`,target:`.pipe-cell:nth-child(${result.stop+1})`,run:()=>{grid.querySelectorAll('.playback-observed').forEach(el=>el.classList.remove('playback-observed'));updateFlow();},wait:900});
+  for(const i of result.path)steps.push({label:'공기가 밝게 표시된 관을 지나가요.',target:`.pipe-cell:nth-child(${i+1})`,run:()=>{grid.querySelectorAll('.playback-observed').forEach(el=>el.classList.remove('playback-observed'));grid.children[i]?.classList.add('playback-observed');},wait:650});
+  if(!result.ok)steps.push({label:'관을 직접 돌려 끊긴 바람길을 이어요.',target:'.pipe-grid',run:()=>false,wait:900});
   return steps;
- },onStop:()=>{grid.querySelectorAll('.playback-observed').forEach(el=>el.classList.remove('playback-observed'));if(!solved)updateFlow();}});
+ },onStop:()=>{grid.querySelectorAll('.playback-observed').forEach(el=>el.classList.remove('playback-observed'));if(!solved)guide();}});
  ctx.signal.addEventListener('abort' ,()=>clearTimeout(completionTimer),{once:true});
- ctx.guide?.('바람길 연결','관을 눌러 돌려 팬까지 바람길을 이어요.',['파란 바람이 지나간 관을 눈으로 따라가 봐요.','관의 끝이 이웃 관의 끝과 맞아야 해요.','테두리가 반짝이는 관이 바람이 멈춘 곳이에요. 그 관을 돌려 봐요.']);
+ guide();
  updateFlow();
 }
 

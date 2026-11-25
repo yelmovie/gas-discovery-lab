@@ -43,7 +43,7 @@ function navigate(route,{replace=false,fromHistory=false}={}){
  quietAudio(false);setScreenMusic(['ending','certificate'].includes(current.screen)?'finale':'main');
  if(current.screen==='home')showHome(screen);else if(current.screen==='story')showStory(screen,current.index||0);else if(current.screen==='map')showMap(screen,abort.signal);else if(current.screen==='stage')showStage(screen,stageById(current.stageId));else if(current.screen==='activity')enterActivity(screen,stageById(current.stageId),current.index||0,abort.signal);else if(current.screen==='finale')showFinale(screen);else if(current.screen==='ending')showEnding(screen,current.index||0);else if(current.screen==='certificate')renderCertificate(screen);
  if(current.screen==='story')attachVoice(screen.querySelector('.story-card'),`story-${(current.index||0)+1}`,abort.signal);
- else if(current.screen==='stage')attachVoice(screen.querySelector('.stage-brief > p'),`brief-${current.stageId}`,abort.signal);
+ else if(current.screen==='stage')attachVoice(screen.querySelector('.stage-description'),`brief-${current.stageId}`,abort.signal);
  else if(current.screen==='ending')attachVoice(screen.querySelector('.ending-copy'),`ending-${(current.index||0)+1}`,abort.signal);
  else if(current.screen==='certificate')attachVoice(screen.querySelector('.certificate-options'),'certificate',abort.signal);
  if(store.save.settings.adminUnlockAll&&TEACHER_SCREENS.includes(current.screen)&&current.screen!=='activity'){
@@ -174,12 +174,16 @@ function showNpcConversations(){
  dialog.classList.add('npc-hub-dialog');
  const tabs=dialog.querySelector('.npc-conversation-tabs'),body=dialog.querySelector('.npc-dialogue-grid');
  let picked=0,topic=0,releaseVoice=()=>{};
- conversationFriends.forEach(([,name],i)=>tabs.append(button(name,()=>{picked=i;topic=0;show(true,true);},'npc-tab')));
+ conversationFriends.forEach(([,name],i)=>{
+  const tab=button(name.split(' ').at(-1),()=>{picked=i;topic=0;show(true,true);},'npc-tab');
+  tab.setAttribute('aria-label',name);
+  tabs.append(tab);
+ });
  function show(autoplay,keepTab=false){
   releaseVoice();narration.stop();
   const [sprite,name,topics]=conversationFriends[picked],line=voiceLines.find(item=>item.id===topics[topic][1]);
   [...tabs.children].forEach((b,i)=>b.setAttribute('aria-pressed',String(i===picked)));
-  body.innerHTML=`${conversationPortrait(sprite)}<div class="npc-dialogue-copy"><h3>${name}</h3><p>${escapeHTML(line.text)}</p><div class="npc-conversation-topics" role="group" aria-label="이야기 주제"></div><div class="npc-conversation-voice"></div></div>`;
+  body.innerHTML=`${conversationPortrait(sprite)}<div class="npc-dialogue-copy" role="region" aria-label="${escapeHTML(name)}"><p>${escapeHTML(line.text)}</p><div class="npc-conversation-topics" role="group" aria-label="이야기 주제"></div><div class="npc-conversation-voice"></div></div>`;
   const topicGroup=body.querySelector('.npc-conversation-topics');
   topics.forEach(([label],i)=>{
    const b=button(label,()=>{topic=i;show(true);},'npc-topic');
@@ -240,24 +244,66 @@ const stillMode=()=>store.save.settings.reduceMotion===true||matchMedia('(prefer
 function filmLines(ids){return ids.map(id=>voiceLines.find(l=>l.id===id)).filter(Boolean).map(l=>`${l.speaker}: ${l.text}`).join(' ');}
 function tryFilm(host,name,label,ids,route,onEnd){if(filmFailed[name]||stillMode())return false;playStoryFilm(host,{name,label,transcript:filmLines(ids),voiceOff:store.save.settings.voice===false,signal:abort.signal,onEnd,onFail:()=>{filmFailed[name]=true;navigate(route,{replace:true});}});return true;}
 function startFilm(host,fallback){host.classList.add('has-film');const v=host.querySelector('video.scene-film');if(!v)return;v.muted=true;v.addEventListener('error',()=>{const img=document.createElement('img');img.className='scene-background';img.src=fallback;img.alt='';v.replaceWith(img);host.classList.remove('has-film');},{once:true});v.play().catch(()=>{});}
-function showStory(host,index){if(index===0&&tryFilm(host,'intro','이야기 영상: 기체 도시 대작전',['story-1','story-2','story-3','film-invite'],{screen:'story',index:0},()=>{store.save.introSeen=true;persist();const target=storyReturn||{screen:'map'};storyReturn=null;navigate(target);}))return;const shot=STORY[index];host.innerHTML=`${filmMarkup(`intro-${index+1}`)}<div class="scene-shade"></div><div class="story-layout">${conversationPortrait(shot.npc)}<div class="story-card lab-panel"><div class="eyebrow">${npcNames[shot.npc]}의 편지</div><h1 tabindex="-1">${shot.title}</h1><p>${shot.text}</p><div class="story-actions"></div></div></div>`;host.querySelector('.story-actions').append(button(index<2?`다음 이야기 ${icon('arrow')}`:`마을로 출발 ${icon('arrow')}`,()=>{if(index<2)navigate({screen:'story',index:index+1});else{store.save.introSeen=true;persist();const target=storyReturn||{screen:'map'};storyReturn=null;navigate(target);}}));startFilm(host,`/assets/${shot.image}.webp`);}
-function showStage(host,stage){const records=store.save.evidence[stage.id],done=completeStage(store.save,stage.id),nextIndex=stage.tasks.findIndex(t=>!records.some(e=>e.taskId===t.id));host.innerHTML=`<img class="scene-background" src="/assets/${stage.id}.webp" alt=""><div class="scene-shade"></div><div class="stage-intro"><div class="stage-character">${conversationPortrait(stage.npc)}<span>${npcNames[stage.npc]}</span></div><section class="stage-brief lab-panel"><div class="eyebrow">${stage.name}</div><h1 tabindex="-1">${stage.chapter}</h1><p>${emphasizeConcept(stage.description,stage.keyTerms)}</p><div class="stage-tasks"></div><div class="stage-reward-note">${icon('star')} ${stage.reward}</div><div class="stage-start"></div></section></div>`;
- if(records.length){const replay=button('발견한 개념 다시 보기',()=>{const learned=stage.tasks.filter(t=>records.some(e=>e.taskId===t.id));const menu=html('<div class="concept-library"></div>');const d=openDialog('나의 개념 영상',menu);for(const t of learned)menu.append(button(t.title,()=>{d.close();openConcept(stage,t,{signal:abort.signal});},'button secondary'));},'button secondary concept-revisit');host.querySelector('.stage-reward-note').replaceWith(replay);}
- const list=host.querySelector('.stage-tasks');stage.tasks.forEach((t,i)=>{const completed=records.some(e=>e.taskId===t.id),open=store.save.settings.adminUnlockAll||i===0||records.some(e=>e.taskId===stage.tasks[i-1].id);const teacher=store.save.settings.adminUnlockAll,current=!completed&&i===nextIndex;
-  // 같은 일을 하는 버튼을 겹치지 않게: 다음 의뢰는 아래 '의뢰 시작' 하나로만 들어가고, 목록은 진행 상태를 보여 준다. 끝낸 의뢰만 다시 열 수 있다.
-  if(completed||teacher){const b=button(`<span class="task-marker">${completed?icon('check'):String(i+1).padStart(2,'0')}</span><span>${t.title}</span>${completed?'<span class="task-again">다시</span>':icon('arrow')}`,()=>navigate({screen:'activity',stageId:stage.id,index:i}),`stage-task ${completed?'done':''}`);list.append(b);}
-  else list.append(html(`<div class="stage-task ${current?'current':'locked'}"><span class="task-marker">${String(i+1).padStart(2,'0')}</span><span>${escapeHTML(t.title)}</span>${current?'<span class="task-now">지금</span>':icon('lock')}</div>`));});host.querySelector('.stage-start').append(button(`${done?'다른 방법으로 다시 탐구':'의뢰 시작'} ${icon('arrow')}`,()=>navigate({screen:'activity',stageId:stage.id,index:done?0:Math.max(0,nextIndex)})));if(['flow','engineering'].includes(stage.id))host.querySelector('.stage-start').append(missionEntry());}
+function showStory(host,index){if(index===0&&tryFilm(host,'intro','이야기 영상: 기체 도시 대작전',['story-1','story-2','story-3','film-invite'],{screen:'story',index:0},()=>{store.save.introSeen=true;persist();const target=storyReturn||{screen:'map'};storyReturn=null;navigate(target);}))return;const shot=STORY[index];host.innerHTML=`${filmMarkup(`intro-${index+1}`)}<div class="scene-shade"></div><div class="story-layout">${conversationPortrait(shot.npc)}<div class="story-card lab-panel"><h1 tabindex="-1">${shot.title}</h1><p>${shot.text}</p><div class="story-actions"></div></div></div>`;host.querySelector('.story-actions').append(button(index<2?`다음 이야기 ${icon('arrow')}`:`마을로 출발 ${icon('arrow')}`,()=>{if(index<2)navigate({screen:'story',index:index+1});else{store.save.introSeen=true;persist();const target=storyReturn||{screen:'map'};storyReturn=null;navigate(target);}}));startFilm(host,`/assets/${shot.image}.webp`);}
+function showStage(host,stage){
+ const records=store.save.evidence[stage.id],teacher=store.save.settings.adminUnlockAll;
+ const finished=completeStage(store.save,stage.id);
+ const isRecorded=task=>records.some(record=>record.taskId===task.id);
+ const nextIndex=stage.tasks.findIndex(task=>!isRecorded(task));
+ const enter=index=>navigate({screen:'activity',stageId:stage.id,index});
+ host.innerHTML=`<img class="scene-background" src="/assets/${stage.id}.webp" alt=""><div class="scene-shade"></div>
+  <div class="stage-intro">
+   <div class="stage-character">${conversationPortrait(stage.npc)}</div>
+   <section class="stage-brief lab-panel">
+    <p class="facility-name">${stage.name}</p>
+    <h1 tabindex="-1">${stage.chapter}</h1>
+    <p class="stage-description">${emphasizeConcept(stage.description,stage.keyTerms)}</p>
+    <div class="stage-start"></div>
+    <details class="stage-plan"><summary>${icon('book')} 의뢰 목록</summary><div class="stage-tasks"></div></details>
+   </section>
+  </div>`;
+ const actions=host.querySelector('.stage-start');
+ actions.append(button(`${finished?'다시 탐구하기':'의뢰 시작'} ${icon('arrow')}`,()=>enter(Math.max(0,nextIndex))));
+ if(['flow','engineering'].includes(stage.id))actions.append(missionEntry());
+ const list=host.querySelector('.stage-tasks');
+ for(const [index,task] of stage.tasks.entries()){
+  const recorded=isRecorded(task),current=index===nextIndex;
+  const content=`<span class="task-marker">${icon(recorded?'check':current?'arrow':'lock')}</span><span>${task.title}</span>`;
+  if(recorded||teacher){
+   const item=button(content,()=>enter(index),`stage-task ${recorded?'done':''}`);
+   if(recorded)item.setAttribute('aria-label',`${task.title} 다시 탐구하기`);
+   list.append(item);
+  }else{
+   list.append(html(`<div class="stage-task ${current?'current':'locked'}"${current?' aria-current="step"':''}>${content}</div>`));
+  }
+ }
+ if(records.length){
+  const replay=button('개념 영상 다시 보기',()=>{
+   const menu=html('<div class="concept-library"></div>'),dialog=openDialog('나의 개념 영상',menu);
+   for(const task of stage.tasks.filter(isRecorded)){
+    menu.append(button(task.title,()=>{dialog.close();openConcept(stage,task,{signal:abort.signal});},'button secondary'));
+   }
+  },'button secondary concept-revisit');
+  host.querySelector('.stage-plan').append(replay);
+ }
+}
 function showActivity(host,stage,index,{mount,mountPlayer}){
  const task=stage.tasks[index];host.classList.add('activity-screen');host.dataset.stage=stage.id;
- host.innerHTML=`<img class="scene-background" src="/assets/${stage.id}.webp" alt=""><div class="activity-shade"></div><header class="mission-heading"><div class="eyebrow">${stage.name} · ${index+1} / 4${store.demo?' · 교사 시연':''}</div><h1 tabindex="-1">${task.title}</h1></header><div class="activity-host"></div><footer class="mission-rail"><div class="mission-guide"><img class="mission-npc" src="/assets/${stage.npc}-portrait.webp" alt="${npcNames[stage.npc]}" draggable="false"><span class="mission-step">다음</span><span class="mission-direction" id="next-action-guide">${task.goal}</span></div><div class="activity-actions"><div class="playback-controls"></div><div class="utility-tools"></div></div></footer>`;
- let completing=false,hints=[task.goal,'한 조건씩 바꾸고, 달라진 모습을 살펴봐요.','결과가 예상과 달라도 괜찮아요. 바꾼 조건을 다시 확인해요.'];
+ host.innerHTML=`<img class="scene-background" src="/assets/${stage.id}.webp" alt=""><div class="activity-shade"></div>
+  <header class="mission-heading"><div class="eyebrow">${stage.name}</div><h1 tabindex="-1">${task.title}</h1></header>
+  <div class="activity-host"></div>
+  <footer class="mission-rail">
+   <div class="mission-guide"><img class="mission-npc" src="/assets/${stage.npc}-portrait.webp" alt="" draggable="false"><span class="mission-direction" id="next-action-guide"></span></div>
+   <div class="activity-actions"><div class="playback-controls"></div><div class="utility-tools"></div></div>
+  </footer>`;
+ let completing=false,hints=['조작 도구를 찾고, 한 조건씩 바꾸어 살펴봐요.','관찰하고 처음 상태와 비교해요.'];
  const direction=host.querySelector('.mission-direction');
  const nextAction=selectors=>{host.querySelectorAll('.is-next-action').forEach(el=>el.classList.remove('is-next-action'));for(const selector of Array.isArray(selectors)?selectors:[selectors])if(selector)host.querySelectorAll(selector).forEach(el=>el.classList.add('is-next-action'));};
  const player=mountPlayer(host,{signal:abort.signal,onInstruction:text=>{narration.stop();direction.textContent=text;},onTargets:nextAction});
  const context={signal:abort.signal,terms:stage.keyTerms,draft:store.save.drafts[task.id],
   playback:spec=>player.configure(spec),nextAction,getPlaybackSpeed:()=>player.speed,
   saveDraft:draft=>{if(completing||context.signal.aborted)return;store.save.drafts[task.id]=draft;persist();},
-  guide:(step,text,newHints)=>{host.dataset.step=step;if(player.state!=='running'){host.querySelector('.mission-step').textContent=/^\d/.test(step)?step[0]+'단계':'다음';direction.innerHTML=emphasizeConcept(text,stage.keyTerms);voiceForText(direction,text,abort.signal);}if(newHints)hints=newHints;},
+  guide:(step,text,newHints)=>{host.dataset.step=step;if(player.state!=='running'){direction.innerHTML=emphasizeConcept(text,stage.keyTerms);voiceForText(direction,text,abort.signal);}if(newHints)hints=newHints;},
   complete:(summary,details)=>{if(completing||context.signal.aborted)return;completing=true;narration.stop();player.complete();nextAction([]);const alreadyComplete=completeStage(store.save,stage.id);award(stage,task,summary,details);sound('award');
    const finished=completeStage(store.save,stage.id);
    if(finished&&!alreadyComplete&&!store.demo)pendingRestoration.add(stage.id);
@@ -265,51 +311,115 @@ function showActivity(host,stage,index,{mount,mountPlayer}){
    delete store.save.drafts[task.id];store.save.last=nextIndex>=0?{screen:'activity',stageId:stage.id,index:nextIndex}:{screen:'map'};persist();
    const nextLabel=nextIndex>=0?'다음 의뢰 시작':'마을 변화 보러 가기';
    let proceeding=false;const proceed=()=>{if(proceeding||context.signal.aborted)return;proceeding=true;if(nextIndex>=0)navigate({screen:'activity',stageId:stage.id,index:nextIndex});else{returnFrom=stage.id;navigate({screen:'map'});}};
-   const review=()=>openConcept(stage,task,{signal:context.signal,reward:`${finished?stage.badge:'탐구 증거 저장 완료'} · ${store.save.evidence[stage.id].length} / 4`,nextLabel,onNext:proceed});
+   const review=()=>openConcept(stage,task,{signal:context.signal,reward:finished?stage.badge:'탐구 완료',nextLabel,onNext:proceed});
    const slot=host.querySelector('.evidence-slot')||host.querySelector('.transfer-slot');
-   const result=html(`<section class="discovery-result" aria-label="탐구 완료"><div class="discovery-label">${icon(finished?'star':'check')} ${finished?escapeHTML(stage.badge):details?.firstTry===false?'다시 살펴보고 찾았어요!':'발견 성공!'} · ${store.save.evidence[stage.id].length} / 4${details?.firstTry===true?`<span class="first-try-mark">${icon('star')} 한 번에 찾았어요!</span>`:''}</div><p>${emphasizeConcept(summary,stage.keyTerms)}</p><div class="completed-actions"></div></section>`);
-   const actions=result.querySelector('.completed-actions');actions.append(button(`${nextLabel} ${icon('arrow')}`,proceed),button('개념 영상 보기',review,'button secondary'));
+   const result=html(`<section class="discovery-result" aria-label="탐구 결과">
+    <div class="discovery-label">${icon(finished?'star':'check')} ${finished?escapeHTML(stage.badge):'탐구 완료'}</div>
+    <p>${emphasizeConcept(summary,stage.keyTerms)}</p>
+   </section>`);
+   const actions=html('<div class="completed-actions"></div>');
+   actions.append(button(`${nextLabel} ${icon('arrow')}`,proceed,'button primary is-next-action success-next'),
+    button('개념 영상 보기',review,'button secondary'));
    if(slot)slot.replaceChildren(result);else host.querySelector('.activity-host').append(result);
    host.querySelector('.playback-controls').replaceWith(actions);
-   host.classList.add('activity-complete');host.querySelectorAll('.activity-feedback').forEach(el=>el.hidden=true);
-   host.querySelector('.mission-step').textContent='완료';host.querySelector('.mission-direction').textContent=nextIndex>=0?stage.tasks[nextIndex].title:stage.bridge;
-   if(nextIndex<0)attachVoice(actions,`bridge-${stage.id}`,abort.signal);
-   hints=[summary,finished?stage.reward:'발견한 증거가 연구 가방에 남았어요. 다음 의뢰에서도 활용해 봐요.'];
-   host.querySelectorAll('.mission-progress i')[index]?.classList.add('done');result.tabIndex=-1;result.focus({preventScroll:true});announce(`발견 성공! ${summary}`);
-    actions.firstElementChild?.classList.add('is-next-action','success-next');
-    const burst=html(`<div class="success-burst" aria-hidden="true"><div class="success-stamp">${icon('star')}<strong>${finished?'시설 복구!':'발견 성공!'}</strong><span>${escapeHTML(stage.evidence)} ${store.save.evidence[stage.id].length} / 4</span></div></div>`);
-    host.append(burst);setTimeout(()=>burst.remove(),2100);
+   host.classList.add('activity-complete');
+   host.querySelector('.mission-guide').hidden=true;
+   host.querySelector('.utility-tools .buddy')?.remove();
+   host.querySelectorAll('.activity-feedback').forEach(element=>element.hidden=true);
+   if(nextIndex<0){
+    const replay=attachVoice(actions,`bridge-${stage.id}`,abort.signal);
+    if(replay)actions.querySelector('.npc-dialogue-voice').classList.add('bridge-voice');
+   }
+   result.tabIndex=-1;
+   result.focus({preventScroll:true});
+   announce(summary);
   }};
  try{mount(host.querySelector('.activity-host'),task,context);}catch(error){host.querySelector('.activity-host').replaceChildren(html('<div class="lab-panel load-error"><h2>활동을 다시 준비할게요</h2><p>탐구 기록은 그대로예요.</p></div>'));host.querySelector('.load-error').append(button('의뢰 다시 열기',()=>navigate({...current},{replace:true})));console.error(error);}
+ if(!direction.textContent)direction.textContent=task.goal;
  const feedbackObserver=new MutationObserver(records=>{if(completing||player.state==='running')return;const changed=records.filter(r=>r.target.nodeType===1&&(r.target.matches?.('.activity-feedback')||r.target.closest?.('.activity-feedback')));if(changed.length){const text=host.querySelector('.activity-feedback:not(:empty)')?.textContent.trim();if(text)direction.textContent=text;}});
  feedbackObserver.observe(host.querySelector('.activity-host'),{childList:true,subtree:true,characterData:true});
  context.signal.addEventListener('abort',()=>feedbackObserver.disconnect(),{once:true});
  const hint=buddy('soli',()=>hints,(el,text)=>voiceForText(el,text,abort.signal));hint.querySelector('.buddy-label').textContent='힌트';host.querySelector('.utility-tools').append(hint);
 }
-function showResearch(){const body=html(`<div class="research-book">${STAGES.map(stage=>`<section><h3>${stage.name}</h3><p class="microcopy">${stage.evidence} · ${store.save.evidence[stage.id].length} / 4</p>${store.save.evidence[stage.id].length?store.save.evidence[stage.id].map(e=>`<details><summary>${stage.tasks.find(t=>t.id===e.taskId).title}</summary><p>${emphasizeConcept(e.summary,stage.keyTerms)}</p>${e.firstObservation&&e.firstObservation.date!==e.date?`<p class="microcopy">첫 탐구: ${escapeHTML(e.firstObservation.summary)}</p>`:''}${e.details.before?`<p>처음 ${Number(e.details.before.mass).toFixed(2)} g → 바꾼 뒤 ${Number(e.details.after.mass).toFixed(2)} g</p>`:''}</details>`).join(''):'<p>탐구를 마치면 내 기록이 여기에 남아요.</p>'}</section>`).join('')}</div>`);const footer=html('<div></div>');const dialog=openDialog('나의 연구 가방',body,{wide:true,footer});footer.append(button('기록 내려받기',async()=>{try{(await loadSettings()).exportResearch();}catch{announce('연구 기록을 내려받지 못했어요. 다시 눌러 주세요.');}},'button secondary'));}
-function showFinale(host){loadConceptVisuals().catch(()=>{});const demo=store.demo===true;host.innerHTML=`<img class="scene-background" src="/assets/ending.webp" alt=""><div class="scene-shade"></div><div class="finale-layout"><div class="core-visual"><img class="core-apparatus" src="/assets/visuals/air-core.webp" alt="여러 시설로 공기를 나누어 보내는 중앙 공기 코어"></div><section class="lab-panel finale-panel"><div class="eyebrow">마지막 의뢰 ${demo?'· 시연':''}</div><h1 tabindex="-1">공기 코어를 <br>다시 움직여요</h1><div class="finale-body"></div></section></div>`;
- const contextSignal=abort.signal,body=host.querySelector('.finale-body');if(!allComplete()&&!demo){body.innerHTML='<p>다섯 연구시설의 의뢰를 마치고 탐구 증거를 모아 주세요.</p>';body.append(button('마을로 돌아가기',()=>navigate({screen:'map'})));return;}
- body.innerHTML=`<p>${demo?'시연용 예시 자료예요. 학생의 완료 기록이나 인증서는 만들지 않아요.':'다섯 증거가 모였어요! 내 장치로 코어를 움직여요.'}</p><div class="final-evidence"></div><div class="final-action"></div>`;
- if(!demo)attachVoice(body.querySelector('p'),'finale-ready',abort.signal);
- STAGES.forEach(stage=>{const evidence=store.save.evidence[stage.id];body.querySelector('.final-evidence').append(html(`<details class="evidence-detail"><summary class="evidence-review checked">${icon('check')}<span>${stage.evidence}</span>${icon('book')}</summary><p>${escapeHTML(evidence.at(-1)?.summary||'시연용 예시: 조건을 바꾸어 관찰하고 증거를 확인했어요.')}</p></details>`));});
- body.querySelector('.final-action').append(button(`내 장치 연결하기 ${icon('arrow')}`,()=>repair(),'button gold begin-repair'));
+function showResearch(){
+ const recorded=STAGES.filter(stage=>store.save.evidence[stage.id].length);
+ const body=html(`<div class="research-book">${recorded.length?recorded.map(stage=>`
+  <section><h3>${stage.name}</h3>${store.save.evidence[stage.id].map(entry=>`
+   <details><summary>${stage.tasks.find(task=>task.id===entry.taskId).title}</summary>
+    <p>${emphasizeConcept(entry.summary,stage.keyTerms)}</p>
+    ${entry.firstObservation&&entry.firstObservation.date!==entry.date?`<p>첫 탐구: ${escapeHTML(entry.firstObservation.summary)}</p>`:''}
+    ${entry.details.before?`<p>처음 ${Number(entry.details.before.mass).toFixed(2)} g → 바꾼 뒤 ${Number(entry.details.after.mass).toFixed(2)} g</p>`:''}
+   </details>`).join('')}</section>`).join(''):'<p>탐구를 마치면 이 가방에 기록이 남아요.</p>'}</div>`);
+ const footer=html('<div></div>');
+ footer.append(button('기록 내려받기',async()=>{
+  try{(await loadSettings()).exportResearch();}catch{announce('연구 기록을 내려받지 못했어요. 다시 눌러 주세요.');}
+ },'button secondary'));
+ openDialog('나의 연구 가방',body,{footer});
+}
+function showFinale(host){
+ loadConceptVisuals().catch(()=>{});
+ const demo=store.demo===true,signal=abort.signal;
+ host.innerHTML=`<img class="scene-background" src="/assets/ending.webp" alt=""><div class="scene-shade"></div>
+  <div class="finale-layout">
+   <div class="core-visual"><img class="core-apparatus" src="/assets/visuals/air-core.webp" alt="여러 시설로 공기를 나누어 보내는 중앙 공기 코어"></div>
+   <section class="lab-panel finale-panel"><h1 tabindex="-1">공기 코어를 다시 움직여요</h1><div class="finale-body"></div></section>
+  </div>`;
+ const body=host.querySelector('.finale-body');
+ if(!allComplete()&&!demo){
+  body.innerHTML='<p>다섯 연구시설의 의뢰를 마치고 탐구 증거를 모아 주세요.</p>';
+  body.append(button('마을로 돌아가기',()=>navigate({screen:'map'})));
+  return;
+ }
+ body.innerHTML=`<p>${demo?'시연용 예시 자료예요. 학생의 완료 기록이나 인증서는 만들지 않아요.':'다섯 증거가 모였어요! 내 장치로 코어를 움직여요.'}</p>
+  <div class="final-action"></div>
+  <details class="final-records"><summary>${icon('book')} 모은 탐구 증거</summary><div class="final-evidence"></div></details>`;
+ if(!demo)attachVoice(body.querySelector('p'),'finale-ready',signal);
+ for(const stage of STAGES){
+  const evidence=store.save.evidence[stage.id];
+  body.querySelector('.final-evidence').append(html(`<details class="evidence-detail"><summary class="evidence-review checked">${icon('check')}<span>${stage.evidence}</span></summary>
+   <p>${escapeHTML(evidence.at(-1)?.summary||'시연용 예시: 조건을 바꾸어 관찰하고 증거를 확인했어요.')}</p></details>`));
+ }
+ body.querySelector('.final-action').append(button(`내 장치 연결하기 ${icon('arrow')}`,repair,'button gold begin-repair'));
+
  function repair(){
   narration.stop();
-  const design=store.save.evidence.engineering.find(e=>e.taskId==='engineering-4')?.details?.design;
-  body.innerHTML=`<p>${demo?'예시 장치를 연결했어요.':'공기 공작소에서 만든 내 장치를 연결했어요.'}</p><div class="final-design">${prop(design?.source==='pump'?'pump':'balloon')}${icon('arrow')}${prop('nozzle')}${icon('arrow')}<img class="prop" src="/assets/visuals/air-core.webp" alt="중앙 공기 코어"></div><div class="final-supply"></div><div class="air-gauge"><i></i></div><div class="final-status" role="status">버튼을 꾹 누르고 있으면 공기가 코어까지 모여요.</div><div class="final-lever"></div>`;
-  const gauge=body.querySelector('.air-gauge i'),status=body.querySelector('.final-status');
-  let charged=false,restored=false;
-  const supply=button('꾹 눌러 공기 보내기',()=>{},'button primary final-pump');body.querySelector('.final-supply').append(supply);
-  
-  holdButton(supply,p=>{gauge.style.width=`${p*100}%`;},()=>{
-   if(charged||contextSignal.aborted)return;charged=true;supply.disabled=true;supply.textContent='공기 공급 완료';host.querySelector('.core-apparatus').classList.add('core-active');status.textContent='코어까지 공기가 도착했어요! 마지막 레버를 당겨요.';attachVoice(status,'finale-charged',abort.signal);sound('success');
-   body.querySelector('.final-lever').append(button(`복구 레버 당기기 ${icon('arrow')}`,()=>{if(restored||contextSignal.aborted)return;restored=true;if(!demo){if(!store.save.finaleCompleted)pendingRestoration.add('core');completeFinale();}sound('award');if(demo)openDialog('시연이 끝났어요','<p>예시 장치가 코어를 움직였어요. 실제 탐구 기록은 바뀌지 않았어요.</p>');else navigate({screen:'ending',index:0});},'button gold repair-lever'));
-  },contextSignal);
+  const design=store.save.evidence.engineering.find(entry=>entry.taskId==='engineering-4')?.details?.design;
+  const source=design?.source==='pump'?prop('pump','','공기 펌프'):prop('balloon','','풍선');
+  body.innerHTML=`<div class="final-design">${source}${icon('arrow')}${prop('nozzle','','노즐')}${icon('arrow')}<img class="prop" src="/assets/visuals/air-core.webp" alt="중앙 공기 코어"></div>
+   <div class="air-gauge" role="progressbar" aria-label="코어의 공기" aria-valuenow="0"><i></i></div><div class="final-status" role="status"></div><div class="final-supply"></div>`;
+  const gauge=body.querySelector('.air-gauge'),fill=gauge.firstElementChild,status=body.querySelector('.final-status');
+  let restored=false;
+  const supply=button('꾹 눌러 공기 보내기',()=>{},'button primary final-pump');
+  body.querySelector('.final-supply').append(supply);
+  supply.focus({preventScroll:true});
+  holdButton(supply,progress=>{
+   fill.style.width=`${progress*100}%`;
+   gauge.setAttribute('aria-valuenow',String(Math.round(progress*100)));
+  },()=>{
+   if(signal.aborted)return;
+   host.querySelector('.core-apparatus').classList.add('core-active');
+   status.textContent='코어까지 공기가 도착했어요!';
+   attachVoice(status,'finale-charged',signal);
+   sound('success');
+   const lever=button(`복구 레버 당기기 ${icon('arrow')}`,()=>{
+    if(restored||signal.aborted)return;
+    restored=true;
+    if(!demo){
+     if(!store.save.finaleCompleted)pendingRestoration.add('core');
+     completeFinale();
+    }
+    sound('award');
+    if(demo)openDialog('시연이 끝났어요','<p>예시 장치가 코어를 움직였어요.</p>');
+    else navigate({screen:'ending',index:0});
+   },'button gold repair-lever');
+   const hadFocus=document.activeElement===supply;
+   supply.replaceWith(lever);
+   if(hadFocus)lever.focus({preventScroll:true});
+  },signal);
  }
-
 }
 const ENDING=[{title:'바람이 다시 흐르기 시작했어요',text:'직접 이은 관을 따라 공기가 흐르고, 멈췄던 시설이 다시 움직여요.'},{title:'내 증거가 마을을 바꾸었어요',text:'무게를 재고, 부피를 비교하고, 기체의 쓰임을 찾았어요. 다섯 연구시설이 모두 빛나요.'},{title:'이제 나는 공기 엔지니어!',text:'예측하고, 해 보고, 결과를 바꾸어 보았어요. 새로운 문제도 근거를 찾아 해결할 수 있어요.'}];
-function showEnding(host,index){if(!store.save.finaleCompleted){navigate({screen:'map'},{replace:true});return;}if(index===0&&tryFilm(host,'final','마무리 영상: 우리가 해냈어요',['ending-1','ending-2','ending-3','film-cheer'],{screen:'ending',index:0},showCertificate))return;const shot=ENDING[index];host.innerHTML=`${filmMarkup(`final-${index+1}`)}<div class="ending-glow"></div><div class="ending-copy lab-panel"><div class="eyebrow">우리의 마을이 살아났어요</div><h1 tabindex="-1">${shot.title}</h1><p>${shot.text}</p><div class="ending-actions"></div></div><div class="ending-friends">${portrait('air')}${portrait('lumi')}${portrait('popo')}</div>`;host.querySelector('.ending-actions').append(button(index<2?'다음 장면':'나의 인증서 만들기',()=>index<2?navigate({screen:'ending',index:index+1}):showCertificate()));startFilm(host,'/assets/ending.webp');}
+function showEnding(host,index){if(!store.save.finaleCompleted){navigate({screen:'map'},{replace:true});return;}if(index===0&&tryFilm(host,'final','마무리 영상: 우리가 해냈어요',['ending-1','ending-2','ending-3','film-cheer'],{screen:'ending',index:0},showCertificate))return;const shot=ENDING[index];host.innerHTML=`${filmMarkup(`final-${index+1}`)}<div class="ending-glow"></div><div class="ending-copy lab-panel"><h1 tabindex="-1">${shot.title}</h1><p>${shot.text}</p><div class="ending-actions"></div></div><div class="ending-friends">${portrait('air')}${portrait('lumi')}${portrait('popo')}</div>`;host.querySelector('.ending-actions').append(button(index<2?'다음 장면':'나의 인증서 만들기',()=>index<2?navigate({screen:'ending',index:index+1}):showCertificate()));startFilm(host,'/assets/ending.webp');}
 function showCertificate(){if(!store.save.finaleCompleted)return;navigate({screen:'certificate'});}
 function renderCertificate(host){certificateScreen(host,navigate);}
 window.addEventListener('popstate',()=>{if(pendingRoute){const route=pendingRoute;pendingRoute=null;navigate(route,{replace:true});return;}navigate(parseHash(),{fromHistory:true});});

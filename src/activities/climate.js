@@ -3,8 +3,6 @@ import {supportsRun} from '../run-stage/mountain-rules.js';
 import {mountMountainClassic} from '../run-stage/mountain-classic.js';
 import {prop,choices,escapeHTML,announce,shuffle} from '../ui.js';
 import {sound} from '../audio.js';
-// 받침 유무로 '이에요/예요'를 고른다(예: 보통 온도예요, 보통 압력이에요).
-const iyeyo=word=>{const code=word.charCodeAt(word.length-1)-0xAC00;return code>=0&&code<11172&&code%28?'이에요':'예요';};
 // 「높은 산의 과자 봉지」는 3D 산길을 먼저 열고, 쓸 수 없으면 같은 봉지를 비교하는 2D 화면으로 진행한다.
 function canRun3D(){
  if(document.documentElement.classList.contains('reduce-motion')||matchMedia('(prefers-reduced-motion: reduce)').matches)return false;
@@ -21,7 +19,7 @@ export function mountClimate(host,task,ctx){
   mountMountainClassic(host,task,{...ctx,draft,playback:value=>{spec=value;ctx.playback?.(value);}});
   return spec;
  }
- host.innerHTML='<div class="map-loading"><span class="boot-orbit" aria-hidden="true"></span><p role="status">산길을 준비해요…</p></div>';
+ host.innerHTML='<div class="map-loading" aria-hidden="true"><span class="boot-orbit"></span></div>';
  ctx.guide?.('1 · 준비','산길을 준비하고 있어요.');
  // 준비하는 동안 자동재생을 누르면 기존 화면으로 바로 진행한다.
  ctx.playback?.({steps:()=>toClassic()?.steps?.()||[]});
@@ -38,12 +36,30 @@ function mountClassic(host,task,ctx){
  // A drag is committed on release; resume from a recorded condition after an interrupted gesture.
  if(!records.some(r=>r.condition===condition))condition=records.at(-1).condition;
  const temperature=task.mode==='temperature',labels=temperature?['차가운 곳','보통 온도','따뜻한 곳']:['낮은 압력','보통 압력','높은 압력'];
- host.innerHTML=`<div class="climate-layout"><section class="lab-panel climate-panel" aria-label="온도와 압력에 따른 부피 실험"><div class="climate-scene ${temperature?'temperature':'pressure'}"><div class="climate-scene-head"><span class="condition-pill"></span><span class="climate-constants">${temperature?'공기 양·바깥 압력 일정':'공기 양·온도 일정'}</span></div><div class="volume-visual"></div></div><div class="climate-controls"><div class="drag-cue ${temperature?'drag-cue-x':'drag-cue-y'}" aria-hidden="true"><img class="drag-cue-hand" src="/assets/visuals/hand-point-v1.webp" alt="" draggable="false"><span>${temperature?'병을 옆으로 끌어 온도를 바꿔요':'피스톤을 위아래로 끌어 눌러요'}</span></div><div class="range-labels">${labels.map((x,i)=>`<span data-condition="${i}">${x}</span>`).join('')}</div><input class="condition-slider" type="range" min="0" max="2" step="1" value="${condition}" aria-label="${temperature?'온도':'압력'} 조건 바꾸기"></div></section><aside class="lab-panel comparison-panel" aria-label="부피 비교와 새 상황에 적용"><div class="volume-records" role="group" aria-label="같은 기준으로 비교한 공기의 부피"></div><div class="transfer-slot"><p class="climate-awaiting">조건을 바꿔 처음과 비교해요.</p></div><div class="activity-feedback"></div></aside></div>`;
+ host.innerHTML=`<div class="climate-layout climate-simulation">
+  <section class="lab-panel climate-panel" aria-label="온도와 압력에 따른 부피 실험">
+   <div class="climate-scene ${temperature?'temperature':'pressure'}">
+    <div class="climate-scene-head"><span class="climate-constants">${temperature?'공기 양·바깥 압력 일정':'공기 양·온도 일정'}</span></div>
+    <div class="volume-visual"></div>
+    <span class="drag-cue ${temperature?'drag-cue-x':'drag-cue-y'}" aria-hidden="true"><span>${temperature?'↔':'↕'}</span><img class="drag-cue-hand" src="/assets/visuals/hand-point-v1.webp" alt="" draggable="false"></span>
+   </div>
+   <div class="climate-controls">
+    <div class="range-labels">${labels.map((label,i)=>`<span data-condition="${i}">${label}</span>`).join('')}</div>
+    <input class="condition-slider" type="range" min="0" max="2" step="1" value="${condition}" aria-label="${temperature?'온도':'압력'} 조건 바꾸기">
+   </div>
+  </section>
+  <aside class="lab-panel comparison-panel" aria-label="부피 비교와 새 상황에 적용">
+   <div class="volume-records" role="group" aria-label="같은 기준으로 비교한 공기의 부피"></div>
+   <div class="transfer-slot" hidden></div>
+   <div class="activity-feedback"></div>
+  </aside>
+ </div>`;
  const visual=host.querySelector('.volume-visual'),feedback=host.querySelector('.activity-feedback'),slider=host.querySelector('.condition-slider'),scene=host.querySelector('.climate-scene');
  function update(){
   const ratio=volumeFor(task.mode,condition),both=validVolumePair(records,task);
-  ctx.guide?.(both?'2 · 새 상황에 적용':'1 · 조건 바꾸기',both?'두 모습을 비교하고, 새로운 상황을 골라요.':`처음은 ${labels[baseline]}${iyeyo(labels[baseline])}. ${labels[task.target]}으로 바꿔 보아요.`,[temperature?'기체의 양과 바깥 압력은 같게 두고 온도만 바꿔요.':'기체의 양과 온도는 같게 두고 바깥 압력만 바꿔요.','한 조건만 바꾸고 처음과 나중을 비교해요.','기체가 사라졌는지, 차지하는 공간이 달라졌는지 생각해 봐요.']);
-  host.querySelector('.condition-pill').textContent=labels[condition];scene.dataset.condition=String(condition);scene.setAttribute('aria-valuenow',String(condition));scene.setAttribute('aria-valuetext',labels[condition]);slider.setAttribute('aria-valuetext',labels[condition]);
+  const operation=temperature?`병을 ${labels[task.target]}으로 밀어요.`:'피스톤을 아래로 밀어요.';
+  ctx.guide?.(both?'새 상황에 적용':'조건 바꾸기',both?'두 막대를 비교하고 보기를 골라요.':operation,[temperature?'기체의 양과 바깥 압력은 같게 두고 온도만 바꿔요.':'기체의 양과 온도는 같게 두고 바깥 압력만 바꿔요.','한 조건만 바꾸고 처음과 나중을 비교해요.','막대 길이는 공기가 차지하는 공간을 나타내요.']);
+  scene.dataset.condition=String(condition);scene.setAttribute('aria-valuenow',String(condition));scene.setAttribute('aria-valuetext',labels[condition]);slider.setAttribute('aria-valuetext',labels[condition]);
   scene.style.setProperty('--climate-motion',`${350/(ctx.getPlaybackSpeed?.()||1)}ms`);
   host.querySelectorAll('.range-labels span').forEach((label,i)=>{label.classList.toggle('active',i===condition);if(i===condition)label.setAttribute('aria-current','true');else label.removeAttribute('aria-current');});
   if(temperature){
@@ -62,7 +78,7 @@ function mountClassic(host,task,ctx){
    apparatus.setAttribute('aria-label',`공기는 그대로 있고, 차지하는 부피가 ${condition===2?'줄어든':condition===0?'늘어난':'보통인'} 밀폐 피스톤`);
   }
   ctx.saveDraft({condition,records,...(misses?{misses}:{})});renderRecords();
-  if(!completed)ctx.nextAction?.(both?'.transfer-slot .choice':'.condition-slider');
+  if(!completed)ctx.nextAction?.(both?'.transfer-slot .choice-group':'.climate-scene');
  }
  function renderRecords(){
   const area=host.querySelector('.volume-records'),before=records.find(r=>r.condition===baseline),after=records.find(r=>r.condition===task.target);
@@ -71,12 +87,12 @@ function mountClassic(host,task,ctx){
    return `<div class="volume-record ${record?'recorded':'awaiting'}" data-condition="${record?.condition??'pending'}"><div class="record-stage">${title}</div><strong class="record-condition">${record?labels[record.condition]:'기록 전'}</strong><div class="comparison-track" aria-hidden="true"><span class="comparison-baseline" style="left:${initialRatio/1.35*100}%"></span><i style="width:${ratio/1.35*100}%"></i></div></div>`;
   }).join('');
   if(validVolumePair(records,task)&&!host.querySelector('.transfer-question')){
-   const slot=host.querySelector('.transfer-slot');host.querySelector('.comparison-panel').classList.add('has-transfer');slot.innerHTML=`<div class="transfer-question"><h3>${escapeHTML(task.transfer)}</h3></div>`;
+   const slot=host.querySelector('.transfer-slot');slot.hidden=false;host.querySelector('.comparison-panel').classList.add('has-transfer');slot.innerHTML=`<div class="transfer-question"><h3>${escapeHTML(task.transfer)}</h3></div>`;
    slot.append(choices(shuffle(task.choices),value=>{
     if(completed)return;
     if(value===task.answer){
      completed=true;slider.disabled=true;scene.setAttribute('aria-disabled','true');host.querySelector('.comparison-panel').classList.add('answered');feedback.replaceChildren();ctx.guide?.('3 · 발견 완료','같은 공기가 차지하는 공간의 변화를 발견했어요.');sound('success');ctx.complete(task.why,{mode:task.mode,records,transfer:value,attempts:misses+1,firstTry:misses===0});
-    }else{misses++;ctx.saveDraft({condition,records,...(misses?{misses}:{})});const retry=task.retry||'두 부피 막대를 다시 비교해 보아요.';feedback.replaceChildren();ctx.guide?.('2 · 다시 생각해요',retry);announce(retry);sound('retry');}
+    }else{misses++;ctx.saveDraft({condition,records,...(misses?{misses}:{})});const retry='바꾸기 전과 뒤의 부피 막대를 다시 비교해요.';ctx.guide?.('다시 생각해요',retry);announce(retry);sound('retry');}
    },{terms:ctx.terms}));
   }
  }

@@ -58,7 +58,7 @@ await p.goto(QA+'/#finale');assert.equal(await p.locator('.begin-repair').isVisi
 await p.getByRole('button',{name:'내 장치 연결하기'}).click();await press('.final-pump');await p.getByRole('button',{name:'복구 레버 당기기'}).click();
 // 2026-11-21: 파이널은 전체 화면 한 편 영상(자막 포함) → 끝나거나 건너뛰면 인증서.
 await p.locator('.story-film video').waitFor();await p.waitForFunction(()=>{const v=document.querySelector('.story-film video');return v&&v.readyState>=2&&v.videoWidth>0;});await p.locator('.story-film .film-skip').click();
-await p.locator('.certificate').waitFor();await p.screenshot({path:'.tmp/qa/certificate.png'});await bounds('certificate');
+await p.locator('.cert-paper').waitFor();await p.screenshot({path:'.tmp/qa/certificate.png'});await bounds('certificate');
 // Reopening a completed task starts a new experiment, without auto-awarding stale drafts.
 for(const stage of STAGES){
  const date=await p.evaluate(async id=>(await import('/src/state.js')).store.save.evidence[id][0].date,stage.id);

@@ -10,7 +10,7 @@ export const CONTENT_REVIEW = {needsReview:true,reviewer:null,reviewedAt:null,so
 export const STAGES = [
  {id:'flow',name:'바람 동력소',chapter:'끊어진 공기 길',short:'공기를 보내요',npc:'air',color:'teal',evidence:'공기 흐름 기록',badge:'바람길 개척자',description:'공기는 이동하며 물체를 밀 수 있어요. 관을 이어 팬에 공기를 보내요.',keyTerms:['공기','이동','밀'],bridge:'다음은 공기의 무게를 비교해요.',reward:'멈춘 풍차가 다시 돌아가요.',standard:'4과15-04',tasks:[
   {id:'flow-1',title:'멈춘 환기팬을 돌려요',goal:'관을 돌려 공기 길을 이어요.',pattern:0,why:'공기가 관을 따라 이동해 팬을 밀었어요.'},
-  {id:'flow-2',title:'아래쪽 길도 이어 볼까요?',goal:'굽은 관을 이용해 아래로 돌아가요.',pattern:1,why:'굽은 관을 지나도 공기는 이동해요.'},
+  {id:'flow-2',title:'아래쪽 길도 이어 볼까요?',goal:'관을 이어 아래쪽 길을 시험해요.',pattern:1,why:'굽은 관을 지나도 공기는 이동해요.'},
   {id:'flow-3',title:'중간에서 새는 바람을 찾아요',goal:'입구와 출구가 맞도록 관을 돌려요.',pattern:2,why:'관이 끊기면 팬까지 공기를 보낼 수 없어요.'},
   {id:'flow-4',title:'온실의 바람길까지 복구해요',goal:'지금까지 찾은 방법으로 새 길을 이어요.',pattern:3,why:'공기를 보낼 길이 이어져야 장치를 움직여요.'}
  ]},
@@ -33,9 +33,9 @@ export const STAGES = [
   {id:'delivery-4',title:'안전 시설의 마지막 부탁',goal:'일부 소화기에 쓰이는 기체와 성질을 찾아요.',facility:'마을 안전 시설',prop:'toolbox',gas:'carbon',reason:'불이 타는 것을 돕지 않아요.',why:'이산화 탄소는 불이 타는 것을 돕지 않아 일부 소화기에 이용돼요. 실제 소화기 사용 실험은 하지 않아요.'}
  ]},
  {id:'engineering',name:'공기 공작소',chapter:'나만의 복구 장치',short:'조립하고 시험해요',npc:'air',color:'teal',evidence:'공기 장치 설계도',badge:'공기 엔지니어',description:'설계는 부품과 연결 방법을 정하는 일이에요. 공기로 움직이는 장치를 만들고 고쳐요.',keyTerms:['공기','공급부','관','노즐','밸브','방향','설계'],bridge:'이제 탐구 증거와 장치로 코어를 복구해요.',reward:'중앙 공기 코어의 연결부가 열려요.',standard:'4과15-04',tasks:[
-  {id:'engineering-1',title:'공기로 작은 팬을 돌려요',goal:'공급부 → 관 → 노즐을 연결해 팬에 공기를 보내요.',target:'fan',nozzle:'forward',why:'공기를 모아 관으로 보내면 팬을 움직일 수 있어요.'},
-  {id:'engineering-2',title:'다른 길로 풍차를 돌려요',goal:'굽은 관을 써서 공기를 풍차까지 보내요.',target:'windmill',nozzle:'forward',requireElbow:true,why:'공기 길은 여러 모양으로 만들 수 있어요. 연결과 방향이 중요해요.'},
-  {id:'engineering-3',title:'풍선 자동차가 나아가게 해요',goal:'풍선에 모은 공기를 뒤로 내보내는 장치를 설계해요.',target:'car',requireSource:'balloon',nozzle:'backward',why:'공기가 뒤로 나가면서 풍선 자동차가 앞으로 움직여요.'},
+  {id:'engineering-1',title:'공기로 작은 팬을 돌려요',goal:'부품을 연결해 팬까지 공기를 보내요.',target:'fan',nozzle:'forward',why:'공기를 모아 관으로 보내면 팬을 움직일 수 있어요.'},
+  {id:'engineering-2',title:'다른 길로 풍차를 돌려요',goal:'장치를 조립하고 풍차까지 공기를 보내요.',target:'windmill',nozzle:'forward',requireElbow:true,why:'공기 길은 여러 모양으로 만들 수 있어요. 연결과 방향이 중요해요.'},
+  {id:'engineering-3',title:'자동차가 나아가게 해요',goal:'공기를 이용해 자동차를 움직이는 장치를 설계해요.',target:'car',requireSource:'balloon',nozzle:'backward',why:'공기가 뒤로 나가면서 풍선 자동차가 앞으로 움직여요.'},
   {id:'engineering-4',title:'중앙 코어의 복구 장치',goal:'공기를 코어 쪽으로 보내는 장치를 완성해요.',target:'core',nozzle:'forward',why:'공기의 이동을 이용한 내 장치로 중앙 코어를 다시 움직일 수 있어요.'}
  ]}
 ];

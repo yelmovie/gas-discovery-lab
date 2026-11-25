@@ -1,27 +1,106 @@
 // Map restoration is a separate reward interaction, never a learning assessment.
 import {icon} from './icons.js';
-export function mountRepair(host,{state,save,kind,available,preview=false,signal}) {
+
+export function mountRepair(host,{state,save,available,preview=false,signal}) {
+ if(!available.length)return;
  if(preview)state={...state,mapRepairs:[...(state.mapRepairs||[])]};
- const panel=document.createElement('details'); panel.className='map-repair';
- panel.innerHTML=`<summary>${icon('map')}<span>지도 복구 작업대</span></summary><div class="repair-body"><h3></h3><label>복구할 구역 <select aria-label="복구할 구역"></select></label><div class="repair-work"></div><p class="repair-status" role="status" aria-live="polite"></p></div>`;
+
+ const panel=document.createElement('details');
+ panel.className='map-repair';
+ panel.innerHTML=`
+  <summary aria-label="지도 복구 작업대" title="지도 복구 작업대">
+   ${icon('map')}<span>지도 복구 작업대</span><span class="repair-close">${icon('close')}</span>
+  </summary>
+  <div class="repair-body">
+   <select aria-label="복구할 시설"></select>
+   <p class="repair-status" role="status"></p>
+   <div class="repair-work"></div>
+  </div>`;
  host.append(panel);
- // Sit in the top control row (left of sound/settings) instead of over the map, where it hid facility labels.
- const place=()=>{if(!panel.isConnected){removeEventListener('resize',place);return;}const row=document.querySelector('.global-controls .controls-right')?.getBoundingClientRect();if(!row?.width)return;panel.style.setProperty('--repair-top',Math.round(row.top+Math.max(0,(row.height-54)/2))+'px');panel.style.setProperty('--repair-right',Math.round(innerWidth-row.left+10)+'px');};
- addEventListener('resize',place,signal?{signal}:undefined);requestAnimationFrame(place);place();
- if(!document.getElementById('map-repair-style')){const style=document.createElement('style');style.id='map-repair-style';style.textContent=`
- .map-repair{position:fixed;right:var(--repair-right,16px);top:var(--repair-top,85px);z-index:40;width:max-content;max-width:calc(100vw - 32px);max-height:calc(100dvh - var(--repair-top,85px) - 12px);overflow:auto;background:#fcfff4;color:#173e3c;border:3px solid #86c6af;border-radius:20px;box-shadow:0 8px 22px #1235;font-size:16px;line-height:1.5}.map-repair[open]{width:min(350px,calc(100vw - 32px))}.map-repair summary{position:sticky;top:0;z-index:2;display:flex;align-items:center;gap:8px;min-height:48px;box-sizing:border-box;background:#fcfff4;padding:8px 14px;cursor:pointer;font-weight:800;list-style:none}.map-repair summary::-webkit-details-marker{display:none}.map-repair summary .icon{width:22px;height:22px;color:#246d69}.repair-scene .icon{width:44px;height:44px}.repair-body{padding:0 16px 16px}.repair-body h3{font-size:20px;margin:6px 0}.repair-body button,.repair-body select{min-height:48px;padding:8px;border:2px solid #638e82;border-radius:12px;background:#fff;color:#173e3c;font:inherit;cursor:pointer}.repair-body button:disabled{opacity:.55;cursor:default}.repair-body button[aria-pressed=true]{background:#b6f1c7;outline:3px solid #27674c}.repair-body input{width:100%;min-height:48px;accent-color:#246d69}.repair-work{display:grid;gap:10px;margin-top:12px}.repair-scene{height:116px;border-radius:16px;background:linear-gradient(145deg,#10334d,#246c64);display:flex;align-items:center;justify-content:space-evenly;color:#fff;font-size:44px;overflow:hidden}.repair-status{font-weight:700;margin-bottom:0}.repair-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.repair-grid button{font-size:22px}.repair-photo{font-size:56px;letter-spacing:12px}.repair-piston{width:60px;height:70px;background:#fbc960;border:5px solid #d7f5ed;border-radius:10px;transform-origin:bottom}.repair-body :focus-visible{outline:4px solid #ed9b26;outline-offset:2px}@media(max-height:560px){.repair-body h3{font-size:18px;margin:2px 0}.repair-scene{height:64px}.repair-scene svg{width:56px;height:56px}.repair-piston{height:44px}.repair-work{gap:6px;margin-top:6px}}`;
- document.head.append(style);}
- panel.addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Escape'){panel.open=false;panel.querySelector('summary').focus();}});
- const select=panel.querySelector('select'),work=panel.querySelector('.repair-work'),status=panel.querySelector('.repair-status');
- panel.querySelector('h3').textContent='공기 장치에 힘을 보내요';
- if(!available.length){select.disabled=true;work.textContent='구역의 탐구를 마치면 여기서 직접 복구할 수 있어요.';return;}
- available.forEach(x=>select.add(new Option(x.label,String(x.id))));
- function finish(){const id=Number(select.value);if(!(state.mapRepairs||[]).includes(id))state.mapRepairs=[...(state.mapRepairs||[]),id];if(!preview)save();status.textContent=preview?'시연 복구 완료! 학생 기록은 바뀌지 않아요.':'복구 완료! 지도에 네 손길이 남았어요.';panel.querySelector('summary span').textContent='지도 복구 · '+state.mapRepairs.length+'곳 완료';work.querySelectorAll('button,input').forEach(x=>{x.disabled=true;if(x.tagName==='BUTTON')x.hidden=true;});work.querySelectorAll('p,output').forEach(x=>x.textContent='밸브로 공기 모형 장치를 가동했어요.');const back=document.createElement('button');back.textContent='지도 계속 보기';back.onclick=()=>{panel.open=false;panel.querySelector('summary').focus();};work.append(back);status.scrollIntoView({block:'nearest'});}
- function render(){status.textContent='';work.replaceChildren();if((state.mapRepairs||[]).includes(Number(select.value))){work.innerHTML=`<div class="repair-scene" role="img" aria-label="복구를 마친 구역">${icon('check')}</div>`;status.textContent='이 구역은 직접 복구했어요. 다른 구역도 살펴봐요.';return;}
+ const summary=panel.querySelector('summary');
+ const select=panel.querySelector('select');
+ const work=panel.querySelector('.repair-work');
+ const status=panel.querySelector('.repair-status');
 
- let targets=[30,70,50],step=0;work.innerHTML='<div class="repair-scene"><svg class="repair-valve" viewBox="0 0 100 100" width="90" height="90" aria-label="회전하는 밸브"><circle cx="50" cy="50" r="39" fill="#2e9291" stroke="#dcf8ef" stroke-width="9"/><path d="M50 11v78M11 50h78" stroke="#dcf8ef" stroke-width="9"/><circle cx="50" cy="50" r="12" fill="#edb749"/></svg><div class="repair-piston"></div></div><label>밸브 열기 <input aria-label="공기 밸브" type="range" min="0" max="100" value="0"></label><output></output><button disabled>이 눈금으로 가동</button>';
- const input=work.querySelector('input'),button=work.querySelector('button'),out=work.querySelector('output'),piston=work.querySelector('.repair-piston');const update=()=>{work.querySelector('.repair-valve').style.transform=`rotate(${Number(input.value)*2.7}deg)`;piston.style.transform=`translateY(${30-Number(input.value)*.5}px)`;out.textContent=`${step+1}/3 가동 · 모형 밸브 목표 ${targets[step]} · 현재 ${input.value}`;button.disabled=Math.abs(Number(input.value)-targets[step])>4;};input.oninput=update;button.onclick=()=>{if(++step===3){finish();return;}status.textContent='공기의 힘으로 피스톤이 움직였어요! 다음 눈금으로 조절해요.';update();};update();
+ // Align the collapsed control with the top row while letting the workbench open toward the scenery.
+ const place=()=>{
+  const row=host.parentElement?.querySelector('.global-controls .controls-right')?.getBoundingClientRect();
+  if(!row?.width)return;
+  panel.style.setProperty('--repair-top',Math.round(row.top+Math.max(0,(row.height-48)/2))+'px');
+  panel.style.setProperty('--repair-right',Math.round(innerWidth-row.left+8)+'px');
+ };
+ addEventListener('resize',place,{signal});
+ document.addEventListener('pointerdown',event=>{
+  if(panel.open&&!panel.contains(event.target))panel.open=false;
+ },{signal});
+ place();
+ panel.addEventListener('keydown',e=>{
+  e.stopPropagation();
+  if(e.key==='Escape'&&panel.open){panel.open=false;summary.focus();}
+ });
 
+ for(const facility of available)select.add(new Option(facility.label,String(facility.id)));
+ select.value=String((available.find(({id})=>!state.mapRepairs?.includes(id))??available[0]).id);
+ select.onchange=render;
+ render();
+
+ function finish(){
+  const id=Number(select.value);
+  if(!state.mapRepairs?.includes(id))state.mapRepairs=[...(state.mapRepairs||[]),id];
+  if(!preview)save();
+  render();
+  select.focus({preventScroll:true});
  }
- select.onchange=render;render();
+
+ function render(){
+  status.removeAttribute('data-pressure');
+  if(state.mapRepairs?.includes(Number(select.value))){
+   work.innerHTML=`<div class="repair-scene" aria-hidden="true">${icon('check')}</div>`;
+   status.textContent=preview?'시연에서 복구했어요.':'이 시설을 복구했어요.';
+   return;
+  }
+
+  const targets=[30,70,50];
+  let step=0;
+  work.innerHTML=`
+   <div class="repair-scene" aria-hidden="true">
+    <svg class="repair-valve" viewBox="0 0 100 100" width="90" height="90">
+     <circle cx="50" cy="50" r="39" fill="#2e9291" stroke="#dcf8ef" stroke-width="9"/>
+     <path d="M50 11v78M11 50h78" stroke="#dcf8ef" stroke-width="9"/>
+     <circle cx="50" cy="50" r="12" fill="#edb749"/>
+    </svg>
+    <div class="repair-piston"></div>
+    <div class="repair-steps"><i></i><i></i><i></i></div>
+   </div>
+   <input aria-label="공기 밸브" type="range" min="0" max="100" value="0">
+   <button type="button" disabled>가동하기</button>`;
+  const valve=work.querySelector('.repair-valve');
+  const piston=work.querySelector('.repair-piston');
+  const steps=work.querySelectorAll('.repair-steps i');
+  const input=work.querySelector('input');
+  const activate=work.querySelector('button');
+  const pressure={low:'압력이 낮아요.',high:'압력이 높아요.',ready:'가동할 수 있어요.'};
+
+  function update(){
+   const value=Number(input.value);
+   const difference=value-targets[step];
+   const state=Math.abs(difference)<=4?'ready':difference<0?'low':'high';
+   valve.style.rotate=`${value*2.7}deg`;
+   piston.style.translate=`0 ${18-value*.34}px`;
+   activate.disabled=state!=='ready';
+   if(status.dataset.pressure!==state){
+    status.dataset.pressure=state;
+    status.textContent=pressure[state];
+   }
+  }
+  input.oninput=update;
+  status.textContent='밸브를 움직여 압력을 맞춰요.';
+  piston.style.translate='0 18px';
+  activate.onclick=()=>{
+   steps[step].classList.add('done');
+   if(++step===targets.length){finish();return;}
+   update();
+   input.focus({preventScroll:true});
+  };
+ }
 }

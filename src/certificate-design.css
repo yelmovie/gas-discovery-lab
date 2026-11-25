@@ -56,3 +56,24 @@
 #app .cert-layout .certificate-options { display:block; }
 #app .cert-layout .certificate-options .npc-dialogue-voice { min-width:100%; align-items:stretch!important; flex-wrap:nowrap!important; }
 #app .cert-layout .certificate-options .npc-dialogue-voice .button { width:100%!important; }
+
+@media screen {
+ #app .cert-layout .cert-note {font-size:var(--text-small)}
+ #app .cert-layout .certificate-actions {flex-wrap:wrap}
+ #app .cert-layout .certificate-actions .button {font-size:var(--text-small)}
+ #app .cert-layout .certificate-options {width:clamp(204px,23vw,280px);padding:var(--space-3)}
+ #app .cert-layout .certificate-options h2 {margin:0 0 var(--space-2);font-size:var(--text-body)}
+ #app .cert-layout .ability-options .choice {font-size:var(--text-small);min-height:52px}
+ #app .cert-layout .certificate-options .npc-dialogue-voice .button {font-size:var(--text-small)}
+}
+
+@media screen and (max-width:699px) and (orientation:portrait) {
+ #app .cert-layout {
+  height:100%;padding:72px var(--space-3) var(--space-4);
+  flex-direction:column;justify-content:flex-start;overflow:auto;
+ }
+ #app .cert-layout .cert-main {width:100%;flex:none}
+ #app .cert-layout .cert-paper {width:min(100%,68dvh)}
+ #app .cert-layout .certificate-options {width:min(100%,480px);max-height:none}
+ #app .cert-layout .cert-note {text-align:center}
+}

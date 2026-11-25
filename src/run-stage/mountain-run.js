@@ -1,7 +1,7 @@
 // 「높은 산의 과자 봉지」 3D 산길. 무대·캐릭터·입력·겹침 화면을 맡고, 기록과 완료는 mountain-rules와 기존 ctx로 넘긴다.
 // 봉지 크기는 걸은 높이에 따라 보이기만 하고, 저장되는 값은 두 관측 지점의 모형 값뿐이다.
 import * as THREE from '/assets/vendor/three/three.module.min.js';
-import {COURSE,PREDICTIONS,PRESSURE_LABELS,MOUNTAIN_HINTS,runEvidence,restoreRun,recordStation,readyToCompare,runDraft,bagRatio,observedChange,createRunner,advanceRunner,stationAt,heightFraction,patrolX,touchPatrol,groundAt,obstacleAhead} from './mountain-rules.js';
+import {COURSE,PREDICTIONS,PRESSURE_LABELS,MOUNTAIN_HINTS,runEvidence,restoreRun,recordStation,readyToCompare,runDraft,bagRatio,createRunner,advanceRunner,stationAt,heightFraction,patrolX,touchPatrol,groundAt,obstacleAhead} from './mountain-rules.js';
 import {volumeFor} from '../model.js';
 import {bindDirectionPad,mapKeyDirection,MAP_VECTORS} from '../map-controls.js';
 import {choices,escapeHTML,announce,shuffle} from '../ui.js';
@@ -36,11 +36,11 @@ export function mountMountainRun(host,task,ctx,textures,{toClassic}){
   <canvas class="run-canvas" tabindex="0" aria-label="관측소에서 산꼭대기까지 이어진 산길. 방향 버튼이나 WASD·방향키로 걷고, 점프 버튼이나 스페이스로 뛰어요."></canvas>
   <div class="run-labels" aria-hidden="true"><span class="run-label" data-station="base">산 아래 관측 지점</span><span class="run-label" data-station="summit">산꼭대기 관측 지점</span></div>
   <div class="run-top"><span class="run-place"></span><span class="climate-constants">공기 양·온도 일정</span><button type="button" class="button secondary run-classic">기존 방식으로 하기</button></div>
-  <figure class="run-bag" aria-label="손에 든 과자 봉지"><div class="run-bag-art"><img class="run-bag-normal" src="${ART}bag-normal.webp" alt="" draggable="false"><img class="run-bag-puffed" src="${ART}bag-puffed.webp" alt="" draggable="false"></div><figcaption>밀봉한 과자 봉지</figcaption></figure>
+  <figure class="run-bag" aria-label="손에 든 밀봉 과자 봉지"><div class="run-bag-art"><img class="run-bag-normal" src="${ART}bag-normal.webp" alt="" draggable="false"><img class="run-bag-puffed" src="${ART}bag-puffed.webp" alt="" draggable="false"></div></figure>
   <p class="run-speech" role="status" hidden></p>
   <div class="run-pad" role="group" aria-label="이동 방향"><button type="button" data-run-dir="up" aria-label="앞으로 걷기">${icon('arrow')}</button><button type="button" data-run-dir="left" aria-label="왼쪽으로 걷기">${icon('arrow')}</button><button type="button" data-run-dir="down" aria-label="뒤로 걷기">${icon('arrow')}</button><button type="button" data-run-dir="right" aria-label="오른쪽으로 걷기">${icon('arrow')}</button></div>
   <div class="run-actions"><button type="button" class="run-record" aria-label="봉지 크기 기록하기" disabled>${icon('check')}<span>기록</span></button><button type="button" class="run-jump" aria-label="점프">${icon('arrow')}<span>점프</span></button></div>
-  <section class="run-panel run-predict lab-panel" aria-label="출발 전 예상"><h2>산꼭대기에 가면 봉지는 어떻게 될까요?</h2><p>밀봉한 과자 봉지를 들고 산길을 올라요. 고르면 바로 출발해요.</p><div class="run-predict-choices"></div></section>
+  <section class="run-panel run-predict lab-panel" aria-label="출발 전 예상"><h2>산꼭대기에 가면 봉지는 어떻게 될까요?</h2><div class="run-predict-choices"></div></section>
   <aside class="run-panel run-compare lab-panel" aria-label="부피 비교와 새 상황에 적용"><div class="volume-records" role="group" aria-label="같은 기준으로 비교한 공기의 부피"></div><p class="run-prediction-note"></p><div class="transfer-slot"></div><div class="activity-feedback"></div></aside>
  </div>`;
  const root=host.firstElementChild,canvas=root.querySelector('.run-canvas'),speech=root.querySelector('.run-speech'),place=root.querySelector('.run-place'),recordButton=root.querySelector('.run-record'),jumpButton=root.querySelector('.run-jump'),feedback=root.querySelector('.activity-feedback');
@@ -158,19 +158,19 @@ export function mountMountainRun(host,task,ctx,textures,{toClassic}){
  function setPhase(next){phase=next;root.dataset.phase=next;held.clear();jumpQueued=false;guide();}
  function guide(){
   if(completed)return;
-  if(phase==='predict'){ctx.guide?.('1 · 예상하기','산꼭대기에 가면 과자 봉지가 어떻게 될지 골라요.',HINTS);ctx.nextAction?.('.run-predict .choice');}
-  else if(phase==='run'){ctx.guide?.('2 · 산꼭대기로 가기',`처음은 ${LABELS[baseline]}이에요. 산꼭대기 관측 지점까지 올라가 기록해요.`,HINTS);ctx.nextAction?.(recordButton.disabled?[]:'.run-record');}
-  else{ctx.guide?.('3 · 새 상황에 적용','두 모습을 비교하고, 새로운 상황을 골라요.',HINTS);ctx.nextAction?.('.transfer-slot .choice');}
+  if(phase==='predict'){ctx.guide?.('예상하기','봉지가 어떻게 변할지 골라요.',HINTS);ctx.nextAction?.('.run-predict .choice-group');}
+  else if(phase==='run'){ctx.guide?.('산꼭대기로 가기',recordButton.disabled?'방향 버튼으로 산길을 올라요.':'기록 버튼을 눌러 봉지 크기를 남겨요.',HINTS);ctx.nextAction?.(recordButton.disabled?'.run-pad':'.run-record');}
+  else{ctx.guide?.('새 상황에 적용','두 막대를 비교하고 보기를 골라요.',HINTS);ctx.nextAction?.('.transfer-slot .choice-group');}
  }
  function renderCompare(){
   const initial=volumeFor(task.mode,baseline);
   root.querySelector('.volume-records').innerHTML=[['처음',baseline],['바꾼 뒤',task.target]].map(([title,condition])=>{
    const record=state.records.find(r=>r.condition===condition),ratio=record?volumeFor(task.mode,record.condition):0;
-   return `<div class="volume-record ${record?'recorded':'awaiting'}" data-condition="${record?.condition??'pending'}"><div class="record-stage">${title}</div><strong class="record-condition">${record?LABELS[record.condition]:'기록 전'}</strong><div class="comparison-track" aria-hidden="true"><span class="comparison-baseline" style="left:${initial/1.35*100}%"></span><i style="width:${ratio/1.35*100}%"></i></div></div>`;
+   return `<div class="volume-record ${record?'recorded':'awaiting'}" data-condition="${record?.condition??'pending'}"><div class="record-stage">${title}</div><strong class="record-condition">${record?LABELS[record.condition]:'기록 전'}</strong><div class="comparison-track" role="img" aria-label="${record?`처음 부피가 1일 때 모형 부피 ${ratio}`:'기록 전'}"><span class="comparison-baseline" style="left:${initial/1.35*100}%"></span><i style="width:${ratio/1.35*100}%"></i></div></div>`;
   }).join('');
   const note=root.querySelector('.run-prediction-note'),picked=PREDICTIONS.find(p=>p.value===state.prediction);
   note.hidden=!picked;
-  if(picked)note.textContent=`내 예상: ${picked.label} → ${picked.value===observedChange(task)?'기록과 같아요.':'기록과 달라요. 두 막대를 다시 봐요.'}`;
+  if(picked)note.textContent=`내 예상: ${picked.label}`;
   const slot=root.querySelector('.transfer-slot');
   if(slot.childElementCount)return;
   slot.innerHTML=`<div class="transfer-question"><h3>${escapeHTML(task.transfer)}</h3></div>`;
@@ -180,12 +180,12 @@ export function mountMountainRun(host,task,ctx,textures,{toClassic}){
    if(evidence){
     completed=true;feedback.replaceChildren();root.classList.add('answered');ctx.guide?.('3 · 발견 완료','같은 공기가 차지하는 공간의 변화를 발견했어요.');sound('success');
     ctx.complete(task.why,evidence);
-   }else{misses++;save();const retry=task.retry||'두 부피 막대를 다시 비교해 보아요.';feedback.replaceChildren();ctx.guide?.('2 · 다시 생각해요',retry);announce(retry);sound('retry');}
+   }else{misses++;save();const retry='산 아래와 산꼭대기의 막대 길이를 다시 비교해요.';ctx.guide?.('다시 생각해요',retry);announce(retry);sound('retry');}
   },{terms:ctx.terms}));
  }
  root.querySelector('.run-predict-choices').append(choices(PREDICTIONS,value=>{
   if(phase!=='predict')return;
-  state.prediction=value;save();sound();preloadFootsteps();setPhase('run');say('출발! 위쪽 방향 버튼으로 산길을 올라요.',4200);canvas.focus({preventScroll:true});
+  state.prediction=value;save();sound();preloadFootsteps();setPhase('run');canvas.focus({preventScroll:true});
  },{group:'예상 고르기'}));
  function record(){
   if(completed||phase!=='run'||signal.aborted||stationAt(runner)!=='summit')return;
@@ -286,7 +286,7 @@ export function mountMountainRun(host,task,ctx,textures,{toClassic}){
   river.map.offset.x=(clock*.03)%1;
   // 조작 상태
   const station=stationAt(runner),summit=station==='summit'&&phase==='run';
-  if(summit!==atSummit){atSummit=summit;recordButton.disabled=!summit;if(summit){say('산꼭대기 관측 지점이에요. 기록 버튼을 눌러요.');sound('hint');}else if(phase==='run')say('');guide();}
+  if(summit!==atSummit){atSummit=summit;recordButton.disabled=!summit;if(summit)sound('hint');if(phase==='run')say('');guide();}
   const text=phase==='compare'?`산꼭대기 · ${LABELS[task.target]}`:station==='base'?`산 아래 · ${LABELS[baseline]}`:station==='summit'?`산꼭대기 · ${LABELS[task.target]}`:'산길 · 바깥 압력이 낮아지는 중';
   if(text!==placeText){placeText=text;place.textContent=text;}
   root.dataset.checkpoint=String(runner.checkpoint);root.dataset.falls=String(runner.falls);

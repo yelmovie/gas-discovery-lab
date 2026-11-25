@@ -2,7 +2,7 @@
 import {volumeFor} from '../model.js';
 import {choices,escapeHTML,announce,shuffle} from '../ui.js';
 import {sound} from '../audio.js';
-import {COURSE,PREDICTIONS,PRESSURE_LABELS,MOUNTAIN_HINTS,restoreRun,recordStation,readyToCompare,runDraft,runEvidence,observedChange} from './mountain-rules.js';
+import {COURSE,PREDICTIONS,PRESSURE_LABELS,MOUNTAIN_HINTS,restoreRun,recordStation,readyToCompare,runDraft,runEvidence} from './mountain-rules.js';
 
 const ART='/assets/run-stage/';
 export function mountMountainClassic(host,task,ctx){
@@ -16,7 +16,7 @@ export function mountMountainClassic(host,task,ctx){
    <div class="mountain-scene" role="img">
     <img class="mountain-backdrop" src="${ART}mountain-backdrop.webp" alt="">
     <strong class="mountain-place"></strong>
-    <figure class="mountain-bag"><img src="${ART}bag-normal.webp" alt="" draggable="false"><figcaption>밀봉한 과자 봉지</figcaption></figure>
+    <figure class="mountain-bag"><img src="${ART}bag-normal.webp" alt="" draggable="false"></figure>
    </div>
    <div class="mountain-stations" role="group" aria-label="관측 지점 고르기">
     <button class="button secondary" data-station="base">산 아래 · 보통 압력</button>
@@ -25,7 +25,7 @@ export function mountMountainClassic(host,task,ctx){
    <button class="button primary mountain-record">봉지 크기 기록하기</button>
   </section>
   <aside class="lab-panel mountain-comparison comparison-panel" aria-label="봉지의 예상과 관찰 비교">
-   <section class="mountain-predict"><h2>산꼭대기에 가면 봉지는 어떻게 될까요?</h2><p>같은 봉지를 산꼭대기로 옮겨 관찰해요. 먼저 예상해 보아요.</p><div class="mountain-predict-choices"></div></section>
+   <section class="mountain-predict"><h2>산꼭대기에 가면 봉지는 어떻게 될까요?</h2><div class="mountain-predict-choices"></div></section>
    <div class="volume-records" role="group" aria-label="같은 기준으로 비교한 공기의 부피"></div>
    <p class="mountain-prediction-note"></p>
    <div class="transfer-slot"></div><div class="activity-feedback"></div>
@@ -36,9 +36,9 @@ export function mountMountainClassic(host,task,ctx){
  const save=()=>ctx.saveDraft(draft());
  function guide(){
   if(completed)return;
-  if(phase==='predict'){ctx.guide?.('1 · 예상하기','산꼭대기에 가면 과자 봉지가 어떻게 될지 골라요.',MOUNTAIN_HINTS);ctx.nextAction?.('.mountain-predict .choice');}
-  else if(phase==='observe'){ctx.guide?.('2 · 봉지 관찰',station==='summit'?'산꼭대기에서 봉지가 달라진 모습을 기록해요.':'산꼭대기 · 낮은 압력을 눌러 같은 봉지를 옮겨요.',MOUNTAIN_HINTS);ctx.nextAction?.(station==='summit'?'.mountain-record':'.mountain-stations [data-station="summit"]');}
-  else{ctx.guide?.('3 · 새 상황에 적용','두 모습을 비교하고, 새로운 상황을 골라요.',MOUNTAIN_HINTS);ctx.nextAction?.('.transfer-slot .choice');}
+  if(phase==='predict'){ctx.guide?.('예상하기','봉지가 어떻게 변할지 골라요.',MOUNTAIN_HINTS);ctx.nextAction?.('.mountain-predict .choice-group');}
+  else if(phase==='observe'){ctx.guide?.('봉지 관찰',station==='summit'?'봉지 크기 기록하기를 눌러요.':'산꼭대기 · 낮은 압력을 눌러요.',MOUNTAIN_HINTS);ctx.nextAction?.(station==='summit'?'.mountain-record':'.mountain-stations [data-station="summit"]');}
+  else{ctx.guide?.('새 상황에 적용','두 막대를 비교하고 보기를 골라요.',MOUNTAIN_HINTS);ctx.nextAction?.('.transfer-slot .choice-group');}
  }
  function render(){
   root.dataset.phase=completed?'complete':phase;
@@ -47,12 +47,12 @@ export function mountMountainClassic(host,task,ctx){
   root.querySelector('.mountain-scene').setAttribute('aria-label',`${label}, 밀봉한 봉지의 부피가 ${station==='summit'?'처음보다 커졌어요':'처음 크기예요'}`);
   root.querySelector('.mountain-scene').dataset.station=station;
   root.querySelector('.mountain-bag img').src=ART+(station==='summit'?'bag-puffed.webp':'bag-normal.webp');
+  root.querySelector('.mountain-stations').hidden=phase==='predict';
   root.querySelectorAll('.mountain-stations [data-station]').forEach(button=>{button.disabled=phase==='predict'||completed;button.setAttribute('aria-pressed',String(button.dataset.station===station));});
   recordButton.hidden=phase!=='observe';recordButton.disabled=station!=='summit'||completed;
   predict.hidden=phase!=='predict';
   records.hidden=phase!=='compare';note.hidden=phase!=='compare'||!state.prediction;
-  slot.hidden=phase==='predict';
-  if(phase==='observe')slot.innerHTML='<p class="climate-awaiting"> 산 아래와 산꼭대기에서 같은 봉지를 살펴보고 기록해요.</p>';
+  slot.hidden=phase!=='compare';
   if(phase==='compare')renderCompare();
   guide();
  }
@@ -77,22 +77,22 @@ export function mountMountainClassic(host,task,ctx){
   const initial=volumeFor(task.mode,baseline);
   records.innerHTML=[['처음',baseline],['바꾼 뒤',task.target]].map(([title,condition])=>{
    const record=state.records.find(r=>r.condition===condition),ratio=record?volumeFor(task.mode,condition):0;
-   return `<div class="volume-record ${record?'recorded':'awaiting'}"><div class="record-stage">${title}</div><strong class="record-condition">${record?PRESSURE_LABELS[condition]:'기록 전'}</strong><div class="comparison-track" aria-hidden="true"><span class="comparison-baseline" style="left:${initial/1.35*100}%"></span><i style="width:${ratio/1.35*100}%"></i></div></div>`;
+   return `<div class="volume-record ${record?'recorded':'awaiting'}"><div class="record-stage">${title}</div><strong class="record-condition">${record?PRESSURE_LABELS[condition]:'기록 전'}</strong><div class="comparison-track" role="img" aria-label="${record?`처음 부피가 1일 때 모형 부피 ${ratio}`:'기록 전'}"><span class="comparison-baseline" style="left:${initial/1.35*100}%"></span><i style="width:${ratio/1.35*100}%"></i></div></div>`;
   }).join('');
   const picked=PREDICTIONS.find(p=>p.value===state.prediction);
-  if(picked)note.textContent=`내 예상: ${picked.label} → ${picked.value===observedChange(task)?'기록과 같아요.':'기록과 달라요. 두 막대를 다시 봐요.'}`;
+  if(picked)note.textContent=`내 예상: ${picked.label}`;
   if(slot.querySelector('.transfer-question'))return;
   slot.innerHTML=`<div class="transfer-question"><h3>${escapeHTML(task.transfer)}</h3></div>`;
   slot.append(choices(shuffle(task.choices),value=>{
    if(completed)return;
    const evidence=runEvidence(state,task,value,misses);
    if(evidence){completed=true;render();ctx.nextAction?.([]);sound('success');ctx.complete(task.why,evidence);}
-   else{misses++;save();const retry=task.retry||'두 부피 막대를 다시 비교해 보아요.';ctx.guide?.('2 · 다시 생각해요',retry);announce(retry);sound('retry');}
+   else{misses++;save();const retry='산 아래와 산꼭대기의 막대 길이를 다시 비교해요.';ctx.guide?.('다시 생각해요',retry);announce(retry);sound('retry');}
   },{terms:ctx.terms}));
  }
  ctx.playback?.({steps:()=>{
   if(completed||phase==='compare')return [];
-  if(phase==='predict')return [{label:'먼저 봉지의 변화를 예상해 골라요.',target:'.mountain-predict .choice',run:()=>false}];
+  if(phase==='predict')return [{label:'먼저 봉지의 변화를 예상해 골라요.',target:'.mountain-predict .choice-group',run:()=>false}];
   return [
    {label:'산 아래, 보통 압력의 봉지를 살펴봐요.',target:'.mountain-scene',run:()=>visit('base'),wait:900},
    {label:'공기 양과 온도는 같게 두고 산꼭대기의 낮은 압력에서 관찰해요.',target:'.mountain-scene',run:()=>visit('summit'),wait:900},

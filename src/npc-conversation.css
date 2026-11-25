@@ -66,11 +66,12 @@ html:is(.reduced-motion,.reduce-motion) .npc-art-frame { animation: none !import
   .npc-dialogue-grid { grid-template-columns: minmax(90px, 34%) minmax(0, 1fr); gap: 8px; }
   .npc-dialogue-grid .npc-dialogue-copy { padding: 10px; }
 }
-.dialog.npc-hub-dialog { width: min(880px,calc(100vw - 30px)); }
+.dialog.npc-hub-dialog { width: min(740px,calc(100vw - 24px)); }
 .npc-hub-dialog .dialog-body { padding: clamp(10px, 2vw, 22px); }
 .npc-hub-dialog .npc-dialogue-copy { background: linear-gradient(135deg,#fffaf0,#eaf6f0); border-color:#b9ccc6; }
 .npc-hub-dialog .npc-dialogue-grid > .npc-art-frame { max-width: min(335px, 44dvh); }
 .story-layout > .npc-art-frame { max-width: min(100%, 56dvh); justify-self: center; align-self: end; }
 .stage-intro .stage-character .npc-art-frame { max-width: min(100%, 54dvh); align-self: center; margin: 0 auto; }
 .npc-hub-dialog .dialog-foot { display: none; }
-body:has(.npc-hub-dialog[open]) .title-characters { visibility: hidden; }
+.dialog.npc-hub-dialog .npc-dialogue-copy { margin-top:0; padding:var(--space-3); box-shadow:none; }
+.npc-hub-dialog .npc-dialogue-copy > p {margin-top:0;}
