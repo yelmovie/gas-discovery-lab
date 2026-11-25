@@ -51,7 +51,7 @@ export function renderCertificate(host,navigate){
  const abilityGroup=choices(abilities,value=>{
   store.save.ability=value;persist();host.querySelector('.certificate-ability').textContent='탐구 역량: '+certificateAbility(value);
  },{selected:store.save.ability,group:'나의 탐구 역량'});
- [...abilityGroup.children].forEach((choice,index)=>choice.setAttribute('aria-label',abilities[index].value));
+ [...abilityGroup.children].forEach((choice,index)=>choice.setAttribute('aria-description',abilities[index].value));
  host.querySelector('.ability-options').append(abilityGroup);
  const actions=host.querySelector('.certificate-actions'),paper=host.querySelector('.cert-paper'),message=host.querySelector('.cert-error');
  mountCertificateWax(paper,{label:'공기 코어\n복구 인증',reduced:store.save.settings.reduceMotion,onImpact:()=>void cue('hit')});
