@@ -1,42 +1,161 @@
 /* 2026-10-30 · 메인 키아트, 지도 조작 패널, 교사용 빠른 이동 */
 
-/* ── 메인 화면 ─────────────────────────────── */
-.title-v2 .title-backdrop{background:url('/assets/title.webp') 62% center/cover;animation:title-drift 26s ease-in-out infinite alternate}
-.title-v2 .title-vignette{background:linear-gradient(90deg,#0c3134f0 0,#14444acc 27%,#1a4b5060 50%,#1a4b5000 68%),linear-gradient(0deg,#0f343a8c 0,#0f343a00 34%),linear-gradient(180deg,#0f343a66 0,#0f343a00 18%)}
-.title-v2 .title-copy{left:6.5%;top:13%;width:50%}
-.npc-welcome-voice{max-width:520px;margin:12px 0;padding:12px 16px;border-radius:14px;background:var(--cream-50);color:var(--ink);text-align:left;position:relative;z-index:2}
-.npc-welcome-voice small{display:block;font-size:18px;line-height:1.4;color:var(--teal-800)}
-.npc-welcome-voice p{margin:6px 0 8px;font-size:18px;line-height:1.5;word-break:keep-all}
-.npc-welcome-voice .npc-dialogue-voice .button{min-height:48px;padding:8px 16px;font-size:18px}
-.title-v2 .title-kicker{display:inline-flex;align-items:center;gap:8px;margin:0 0 14px 4px;padding:7px 16px 7px 12px;border-radius:999px;background:#0b2f3399;border:1px solid #f5daa166;color:var(--brass-200);font-size:clamp(18px,1.45vw,22px);letter-spacing:.06em;backdrop-filter:blur(3px)}
-.title-v2 .title-kicker .icon{width:20px;height:20px;color:#bfe39a}
-.title-v2 .game-logo{width:min(100%,640px);filter:drop-shadow(0 10px 0 #0a2c3055) drop-shadow(0 18px 18px #04202566);animation:logo-in .7s cubic-bezier(.2,1.3,.4,1) both}
-.title-v2 .title-tagline{margin:18px 0 8px 6px;font-size:clamp(28px,2.7vw,42px);line-height:1.3;color:#fff4cf;text-shadow:0 3px 0 #0c3134,0 6px 14px #0c313499}
-.title-v2 .title-lead{margin:0 0 28px 8px;max-width:30em;font-size:clamp(18px,1.45vw,22px);line-height:1.55;color:#e6f2e6;text-shadow:0 2px 6px #0c3134cc}
-.title-v2 .start-button{min-width:240px;min-height:70px;border-radius:20px;font-size:clamp(25px,2vw,30px);background:linear-gradient(#ffeab0,#f3c56a)!important;color:#173f3d!important;border:2px solid #b8873c;box-shadow:0 6px 0 #9c6f2e,0 14px 24px #0b2e3366}
-@media(hover:hover) and (pointer:fine){.title-v2 .start-button:hover:not(:disabled){background:linear-gradient(#fff1c8,#f7cf7c)!important}}
-.title-v2 .start-button .icon{transition:transform .2s}@media(hover:hover) and (pointer:fine){.title-v2 .start-button:hover .icon{transform:translateX(4px)}}
-.title-v2 .title-actions .button.secondary{min-height:70px;border-radius:20px;background:#fffdf3e6;backdrop-filter:blur(4px)}
-.title-v2 .title-save-hint{display:inline-flex;align-items:center;margin:22px 0 0 6px;padding:6px 14px;border-radius:999px;background:#0b2f3373;color:#e6f0e3}
-/* 제작·저작권 표기: 시작 화면 우측 하단에 작게. 조작 요소가 아니다. */
-.title-v2 .title-credit{position:absolute;right:calc(clamp(12px,1.9vw,32px) + env(safe-area-inset-right,0px));bottom:calc(clamp(8px,1.5vh,16px) + env(safe-area-inset-bottom,0px));margin:0;padding:3px 9px;border-radius:999px;background:#0b2f33b8;color:#f2f7ea;font-size:clamp(10px,calc(5px + .5vw),13px);font-weight:700;line-height:1.4;letter-spacing:0;white-space:nowrap;pointer-events:none;user-select:none}
-.title-v2 .title-characters{right:5%;bottom:1.5%;width:34%;height:84%}
-.title-v2 .title-air{left:auto;right:0;bottom:0;height:100%;max-width:100%;filter:drop-shadow(0 18px 14px #0b2d2a66);transform-origin:50% 100%;animation:hero-in .8s .1s cubic-bezier(.2,1.2,.4,1) both,hero-breathe 4.5s 1s ease-in-out infinite}
-.title-v2 .title-soli{position:absolute;left:0;top:18%;width:30%;max-width:150px;filter:drop-shadow(0 10px 10px #0b2d2a55);animation:soli-float 3.6s ease-in-out infinite}
-.title-v2 .title-buddy{right:31%;top:13%;max-width:24%;border-color:#c9a964;border-radius:20px;background:#fffdf3f2}
-.title-v2 .title-buddy:after{right:22px}
-.title-bubbles{position:absolute;inset:0;pointer-events:none;z-index:-1;overflow:hidden}
-.title-bubbles i{position:absolute;bottom:-40px;width:var(--s,18px);height:var(--s,18px);border-radius:50%;background:radial-gradient(circle at 32% 30%,#ffffffd9 0 14%,#bfeaf466 34%,#7cc9db26 70%);border:1px solid #e8fbff8c;animation:bubble-rise var(--t,14s) linear var(--d,0s) infinite}
-.title-bubbles i:nth-child(1){left:52%;--s:22px;--t:15s}.title-bubbles i:nth-child(2){left:58%;--s:12px;--t:11s;--d:-4s}.title-bubbles i:nth-child(3){left:64%;--s:30px;--t:18s;--d:-9s}.title-bubbles i:nth-child(4){left:70%;--s:16px;--t:13s;--d:-2s}.title-bubbles i:nth-child(5){left:76%;--s:24px;--t:16s;--d:-11s}.title-bubbles i:nth-child(6){left:83%;--s:10px;--t:10s;--d:-6s}.title-bubbles i:nth-child(7){left:89%;--s:20px;--t:17s;--d:-13s}.title-bubbles i:nth-child(8){left:46%;--s:14px;--t:12s;--d:-8s}.title-bubbles i:nth-child(9){left:94%;--s:26px;--t:19s;--d:-15s}
-@keyframes title-drift{from{transform:scale(1.02) translateX(0)}to{transform:scale(1.07) translateX(-1.2%)}}
-@keyframes logo-in{from{opacity:0;transform:translateY(-14px) scale(.94)}to{opacity:1;transform:none}}
-@keyframes hero-in{from{opacity:0;transform:translateY(24px) scale(.96)}to{opacity:1;transform:none}}
-@keyframes hero-breathe{0%,100%{scale:1 1}50%{scale:1.006 1.012}}
-@keyframes soli-float{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-14px) rotate(3deg)}}
-@keyframes bubble-rise{0%{transform:translate(0,0);opacity:0}10%{opacity:.9}50%{transform:translate(14px,-55vh)}90%{opacity:.7}100%{transform:translate(-8px,-110vh);opacity:0}}
-@media(max-width:1050px){.title-v2 .title-copy{left:5%;width:58%;top:15%}.title-v2 .title-characters{right:2%;width:38%;height:76%}.title-v2 .title-buddy{right:30%;top:11%;max-width:none;white-space:nowrap;font-size:18px;padding:10px 16px}}
-@media(max-height:680px){.title-v2 .title-copy{top:12%}.title-v2 .game-logo{width:min(100%,520px)}.title-v2 .title-tagline{margin-top:10px}.title-v2 .title-lead{margin-bottom:18px;font-size:17px}.title-v2 .start-button,.title-v2 .title-actions .button.secondary{min-height:58px}.title-v2 .title-save-hint{margin-top:12px}}
-@media(max-width:760px){.title-v2 .title-copy{width:64%}.title-v2 .title-lead{display:none}.title-v2 .title-characters{right:-3%;width:42%}.title-v2 .title-soli{width:26%}}
+/* 시작 화면 */
+.home-screen {
+  --title-gap: clamp(var(--space-3), 3.4dvh, var(--space-6));
+  --title-button-size: clamp(19px, min(2.2vw, 5.8dvh), 30px);
+  --title-button-height: clamp(52px, 9dvh, 78px);
+  --title-edge: max(var(--space-2), 1.6vw);
+  isolation: isolate;
+  background: var(--teal-950) url('/assets/title.webp') center / cover no-repeat;
+}
+
+.home-screen::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse at 50% 51%, #103843b8 0, #123d496e 32%, transparent 66%),
+    linear-gradient(180deg, #102e4142, transparent 22%, transparent 70%, #102f4094);
+}
+
+.home-screen .title-characters {
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+}
+
+.title-characters img {
+  position: absolute;
+  display: block;
+  height: auto;
+  object-fit: contain;
+  object-position: bottom;
+  filter: drop-shadow(0 12px 12px #092b3b67);
+}
+
+.home-soli {
+  left: var(--title-edge);
+  bottom: 8%;
+  width: min(27%, 55dvh, 510px);
+}
+
+.home-air {
+  right: var(--title-edge);
+  bottom: 1.5%;
+  width: min(30%, 49dvh, 570px);
+  max-height: 84%;
+}
+
+.title-menu {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: center;
+  justify-items: center;
+  gap: var(--title-gap);
+  width: min(57%, 940px, 137dvh);
+  height: 100%;
+  margin-inline: auto;
+  padding-block: var(--space-5);
+  pointer-events: none;
+}
+
+.title-menu .title-logo {
+  width: 100%;
+  line-height: 0;
+}
+
+.title-logo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 6px 1px #0a364870) drop-shadow(0 12px 18px #0a273698);
+}
+
+.title-menu .title-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(var(--space-2), 1.4vw, var(--space-5));
+  width: min(100%, 522px, 118dvh);
+  font-size: var(--title-button-size);
+  pointer-events: auto;
+}
+
+.title-buttons .button {
+  min-height: var(--title-button-height);
+  min-width: 0;
+  padding: var(--space-2);
+  border-radius: var(--radius);
+  font-size: inherit;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.title-buttons .button.gold {
+  background: linear-gradient(var(--cream-100), var(--brass-500));
+  border-color: var(--brass-500);
+  box-shadow: 0 4px 0 #8c672f, 0 8px 18px #0b303b73;
+}
+
+.title-buttons .button.secondary {
+  background: var(--cream-50) !important;
+  color: var(--teal-950);
+  border-color: var(--line);
+}
+
+.title-buttons .button:disabled {
+  opacity: 1;
+  color: var(--ink-soft);
+  background: var(--teal-100) !important;
+  cursor: default;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .title-buttons .button.gold:hover { background: var(--cream-100); }
+  .title-buttons .button.secondary:hover:not(:disabled) { background: var(--teal-100) !important; }
+}
+
+.home-screen .title-buttons .button:active:not(:disabled) { box-shadow: none; }
+
+.home-screen .title-credit {
+  position: absolute;
+  right: max(var(--title-edge), env(safe-area-inset-right));
+  bottom: max(var(--space-2), env(safe-area-inset-bottom));
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-small);
+  background: #0b2f33bd;
+  color: var(--cream-50);
+  font-size: clamp(11px, 1vw, 14px);
+  line-height: 1.5;
+  pointer-events: none;
+}
+
+.home-screen ~ .global-controls .controls-left { visibility: hidden; }
+
+.portrait-display #app:has(.home-screen, .story-film)::after { display: none; }
+
+@media (max-width: 699px) and (orientation: portrait) {
+  .home-screen { background-position: 56% center; }
+  .title-menu {
+    width: min(calc(100% - var(--space-6)), 540px);
+    height: 70%;
+    padding-top: var(--space-6);
+  }
+  .home-air {
+    right: 0;
+    bottom: 4%;
+    width: 51%;
+    max-height: 48%;
+  }
+  .home-soli {
+    left: 0;
+    bottom: 8%;
+    width: 48%;
+  }
+}
 
 /* ── 지도: 조작 패널과 다음 목적지 ─────────── */
 .map-canvas.hand-on{cursor:grab}.map-screen.grabbing .map-canvas{cursor:grabbing}
@@ -92,31 +211,13 @@
 @media(max-width:1000px){.teacher-legend{display:none}.teacher-pad{padding:6px}.activity-screen~.teacher-dock .teacher-pad{left:calc(2% + 132px)}.teacher-keys{grid-template-columns:repeat(3,38px);grid-template-rows:repeat(2,38px)}.teacher-skip-actions .button.secondary{display:none}.teacher-mode .mission-rail{left:calc(2% + 270px);right:calc(2% + 190px)}}
 @media(max-height:680px){.teacher-pad,.teacher-skip{bottom:10px}.teacher-skip-actions .button{min-height:46px}.teacher-mode .stage-intro,.teacher-mode .finale-layout{bottom:96px}}
 
-@media(prefers-reduced-motion:reduce){.title-v2 .title-backdrop,.title-v2 .game-logo,.title-v2 .title-air,.title-v2 .title-soli,.title-bubbles i{animation:none}.title-bubbles{display:none}}
-@media print{.teacher-dock,.title-bubbles{display:none}}
+@media print{.teacher-dock{display:none}}
 
 .save-status{position:fixed;z-index:45;top:76px;left:50%;transform:translateX(-50%);max-width:80vw;padding:8px 16px;border-radius:14px;background:#fff7d9;color:#493915;font-size:15px;box-shadow:0 2px 12px #0002;pointer-events:none}
 @media(max-height:620px){.stage-brief .stage-tasks{gap:2px}.stage-brief .stage-reward-note{margin:6px 0}.save-status{top:70px;font-size:14px;padding:5px 12px}}
-/* Leave room for the optional, captioned welcome voice on tablet-height screens. */
-@media(max-height:800px){.title-v2 .title-copy:has(.npc-welcome-voice) .game-logo{width:min(100%,360px)}.title-v2 .title-copy:has(.npc-welcome-voice) .title-save-hint{margin-top:10px}.title-v2 .title-copy:has(.npc-welcome-voice) .title-lead{margin-bottom:16px}}
-@media(max-height:640px){.title-v2 .title-copy:has(.npc-welcome-voice) .game-logo{width:min(100%,260px)}.title-v2 .title-copy:has(.npc-welcome-voice) .title-tagline{margin-top:8px}.title-v2 .title-copy:has(.npc-welcome-voice) .title-kicker{margin-bottom:6px}}
-/* 폰 가로(높이 500px 이하)에서는 소개 문장을 줄여 안내 음성 버튼과 자막이 화면 안에 들어오게 한다. */
-@media(max-height:500px){.title-v2 .title-copy:has(.npc-welcome-voice) :is(.title-lead,.title-save-hint){display:none}.title-v2 .title-copy:has(.npc-welcome-voice) .game-logo{width:min(100%,220px)}.title-v2 .title-copy .npc-welcome-voice{margin:8px 0 0!important;padding:6px 10px!important}.title-v2 .title-kicker{display:none}}
-
-/* Three entry actions and narration must remain reachable after a saved visit. */
-.title-v2 .title-copy{max-height:calc(100% - 15%);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;padding:4px 8px 12px 0}
-.title-v2 .title-actions{flex-wrap:wrap;gap:12px}
-@media(max-height:640px){
- .title-v2 .title-copy:has(.npc-welcome-voice) :is(.title-lead,.title-save-hint){display:none}
- .title-v2 .title-copy:has(.npc-welcome-voice) .game-logo{width:min(100%,220px)}
- .title-v2 .title-actions .button{min-height:48px;font-size:20px}
- .npc-welcome-voice p{font-size:14px}
-}
-@media(min-width:1600px){.npc-welcome-voice :is(small,p){font-size:18px}}
-
 .map-tools .map-tool{width:48px;min-width:48px;height:48px;min-height:48px;padding:0;justify-content:center}.map-tools .map-tool:focus-visible{outline:3px solid #d5a628;outline-offset:3px}
 /* backdrop-filter를 못 쓰는 브라우저에서는 반투명 판을 거의 불투명하게 바꿔 글자 대비를 지킨다. */
-@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.title-v2 .title-kicker{background:#0b2f33f2}.title-v2 .title-actions .button.secondary{background:#fffdf3}.map-controls,.map-next-card{background:#fffbef}.dialog::backdrop{background:#10343cd9}}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.map-controls,.map-next-card{background:#fffbef}.dialog::backdrop{background:#10343cd9}}
 
 /* Classroom focus preference: stop decorative CSS motion without hiding science states. */
 html.reduce-motion *, html.reduce-motion *::before, html.reduce-motion *::after {
@@ -126,23 +227,7 @@ html.reduce-motion *, html.reduce-motion *::before, html.reduce-motion *::after 
   transition-duration: 0.01ms !important;
   scroll-behavior: auto !important;
 }
-html.reduce-motion .title-bubbles { display: none; }
 
 .building-label[data-map-label-covered]:not(:focus-visible){opacity:0;pointer-events:none}
 
 .map-screen .map-labels .building-label{touch-action:none}
-
-/* 첫 화면 우당탕 양식(2026-11-22): 가운데 위 로고(원본 1000px을 넘기지 않음), 아래 가운데 버튼 두 개, 에어는 오른쪽 아래·솔이는 왼쪽 아래. */
-.home-screen ~ .global-controls .controls-left{visibility:hidden}
-#app .title-simple .title-credit{z-index:5}
-#app .title-simple .title-vignette{background:linear-gradient(180deg,#0f343a8c 0,#0f343a00 34%),linear-gradient(0deg,#0f343a99 0,#0f343a00 32%)}
-#app .title-simple .title-logo{position:absolute;left:50%;top:clamp(48px,8vh,96px);transform:translateX(-50%);z-index:3;margin:0;width:min(52vw,700px,calc((100dvh - 230px)*3));line-height:0;pointer-events:none}
-#app .title-simple .title-logo .game-logo{display:block;width:100%;height:auto;max-width:none}
-#app .title-simple .title-characters{inset:0;width:auto;height:auto;right:0;bottom:0;z-index:2}
-#app .title-simple .title-air{left:auto;right:2%;bottom:0;height:70%;width:auto;max-width:none}
-#app .title-simple .title-soli{left:7%;right:auto;top:auto;bottom:16%;width:clamp(110px,13vw,190px);max-width:none}
-#app .title-simple .title-buttons{position:absolute;left:50%;bottom:clamp(28px,7vh,72px);transform:translateX(-50%);z-index:4;display:flex;gap:20px;margin:0}
-#app .title-simple .title-buttons .button{min-width:200px;min-height:64px;padding:12px 34px;border-radius:20px;font-size:24px;white-space:nowrap}
-#app .title-simple .title-buttons .continue-button{background:#fffdf3e6;backdrop-filter:blur(4px)}
-#app .title-simple .title-buttons .continue-button:disabled{opacity:.6;cursor:not-allowed}
-@media(max-height:500px){#app .title-simple .title-buttons .button{min-width:170px;min-height:56px;font-size:22px;padding:10px 26px}}

@@ -1,7 +1,6 @@
 import {emphasizeConcept} from './concept-focus.js';
 import { narration, attachVoice, voiceForText } from './game-voices.js';
 import { voiceLines } from './voice-lines.js';
-let welcomeCleanup = () => {};
 import {APP,STAGES,STORY,stageById} from './data.js';
 import {playStoryFilm} from './story-film.js';
 import {store,persist,award,allComplete,completeFinale,resetProgress} from './state.js';
@@ -31,7 +30,7 @@ function parseHash(){const parts=location.hash.slice(1).split('/');if(parts[0]==
 const historyDepth=route=>route.screen==='home'?0:['map','story'].includes(route.screen)?1:2;
 let pendingRoute=null;
 function navigate(route,{replace=false,fromHistory=false}={}){
-  narration.stop(); welcomeCleanup(); welcomeCleanup = () => {};
+ narration.stop();
  if(route.stageId){const index=STAGES.findIndex(s=>s.id===route.stageId);if(index<0||!isStageOpen(store.save,index))route={screen:'map'};else if(route.screen==='activity'&&!store.save.settings.adminUnlockAll){const first=STAGES[index].tasks.findIndex(t=>!store.save.evidence[route.stageId].some(e=>e.taskId===t.id));if(first>=0&&route.index>first)route.index=first;}}
  const depth=historyDepth(route),at=Number.isInteger(history.state?.depth)?history.state.depth:0;
  if(!fromHistory&&depth<at){pendingRoute=route;history.go(depth-at);return;}
@@ -193,9 +192,45 @@ function showNpcConversations(){
  dialog.addEventListener('close',()=>{releaseVoice();narration.stop();},{once:true});
  show(true,true);
 }
-// 첫 화면(2026-11-22, 우당탕 양식): 그림·가운데 위 로고·아래 가운데 버튼 두 개(시작하기/새로 시작 + 이어 하기)만 둔다.
-// 친구들 이야기·안내 목소리·공기 장치 미션은 설정으로 옮겼다. 저장 키와 저장 구조는 그대로다.
-function showHome(host){host.classList.add('title-v2','title-simple');host.innerHTML=`<div class="title-backdrop"></div><div class="title-vignette"></div><div class="title-bubbles" aria-hidden="true">${'<i></i>'.repeat(9)}</div><div class="title-characters"><img class="title-air" src="/assets/air-portrait.webp" alt="여우 발명가 에어"><img class="title-soli" src="${SOLI_IMAGE}" alt="바람여우 솔이"></div><h1 class="title-logo"><img class="game-logo" src="/assets/logo.webp" alt="기체 도시 대작전" width="1000" height="333"></h1><div class="title-buttons"></div><p class="title-credit">기획·제작: 옐샘 & ⓒ 아이스크림미디어</p>`;const actions=host.querySelector('.title-buttons');const hasSave=STAGES.some(s=>store.save.evidence[s.id].length)||store.save.introSeen;const startStory=()=>{storyReturn=null;navigate({screen:'story',index:0});};actions.append(button(hasSave?'새로 시작':'시작하기',()=>{if(!hasSave){startStory();return;}const buttons=html('<div class="confirm-buttons"></div>');const confirm=openDialog('기존 탐구 기록을 지우고 새로 시작할까요?',html('<div><p>별명·진행·배지·탐구 기록이 이 브라우저에서 지워져요. 소리 설정은 남아요.</p></div>'),{footer:buttons});const cancel=button('취소',()=>confirm.close(),'button secondary');buttons.append(cancel,button('기록 지우고 시작',()=>{if(!resetProgress()){announce(store.problem);openDialog('기록을 지우지 않았어요',`<p>${escapeHTML(store.problem)}</p>`);return;}confirm.close();startStory();},'button danger'));requestAnimationFrame(()=>cancel.focus());},'button primary start-button'));const resume=button('이어 하기',()=>navigate(store.save.last?.screen?store.save.last:{screen:'map'}),'button secondary continue-button');resume.disabled=!hasSave;actions.append(resume);if(store.problem)openDialog('탐구 기록 안내',`<p>${escapeHTML(store.problem)}</p>`);}
+function showHome(host){
+ host.innerHTML=`<div class="title-characters" aria-hidden="true">
+   <img class="home-soli" src="${SOLI_IMAGE}" alt="" width="600" height="600" draggable="false">
+   <img class="home-air" src="/assets/air-portrait.webp" alt="" width="641" height="1100" draggable="false">
+  </div>
+  <div class="title-menu">
+   <h1 class="title-logo"><img src="/assets/logo.webp" alt="${APP.name}" width="1000" height="333" fetchpriority="high" draggable="false"></h1>
+   <div class="title-buttons"></div>
+  </div>
+  <p class="title-credit">기획·제작: 옐샘 &amp; ⓒ 아이스크림미디어</p>`;
+
+ const {last,introSeen,evidence,drafts,mapHits,mapRepairs}=store.save;
+ const hasSave=Boolean(last||introSeen||Object.keys(drafts).length||Object.keys(mapHits).length||mapRepairs.length||STAGES.some(stage=>evidence[stage.id].length));
+ const startStory=()=>{
+  storyReturn=null;
+  navigate({screen:'story',index:0});
+ };
+ const start=button('시작하기',()=>{
+  if(!hasSave){startStory();return;}
+  const buttons=html('<div class="confirm-buttons"></div>');
+  const confirm=openDialog('기존 탐구 기록을 지우고 새로 시작할까요?',
+   '<p>별명·진행·배지·탐구 기록이 이 브라우저에서 지워져요. 소리 설정은 남아요.</p>',{footer:buttons});
+  const cancel=button('취소',()=>confirm.close(),'button secondary');
+  buttons.append(cancel,button('기록 지우고 시작',()=>{
+   confirm.close();
+   if(!resetProgress()){
+    announce(store.problem);
+    openDialog('기록을 지우지 않았어요',`<p>${escapeHTML(store.problem)}</p>`);
+    return;
+   }
+   startStory();
+  },'button danger'));
+  cancel.focus();
+ },`button start-button ${hasSave?'secondary':'gold'}`);
+ const resume=button('이어하기',()=>navigate(last??{screen:'map'}),`button continue-button ${hasSave?'gold':'secondary'}`);
+ resume.disabled=!hasSave;
+ host.querySelector('.title-buttons').append(start,resume);
+ if(store.problem)openDialog('탐구 기록 안내',`<p>${escapeHTML(store.problem)}</p>`);
+}
 // 인트로·파이널 장면 영상(2026-11-21): Google Flow(Veo)로 만든 8초 장면을 배경으로 틀고, 글(자막)과 목소리는 지금처럼 앱이 맡는다.
 // 영상은 소리 없이 한 번 재생하고 마지막 장면에서 멈춘다. 움직임 줄이기면 마지막 장면 그림만, 영상을 못 열면 예전 그림으로 돌아간다.
 function filmMarkup(name){return `<img class="scene-background scene-film" src="/assets/films-story/${name}-end.jpg" alt="">`;}
